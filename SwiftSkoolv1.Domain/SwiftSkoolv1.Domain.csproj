@@ -47,11 +47,73 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountViewModels.cs" />
+    <Compile Include="Affective.cs" />
+    <Compile Include="AppointmentDiary.cs" />
+    <Compile Include="AssignedClass.cs" />
+    <Compile Include="AssignSubject.cs" />
+    <Compile Include="AssignTeacherToClass.cs" />
+    <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Book.cs" />
+    <Compile Include="BookIssue.cs" />
+    <Compile Include="Calender\Event.cs" />
+    <Compile Include="CaList.cs" />
+    <Compile Include="CaSetUp.cs" />
+    <Compile Include="CBT\ExamLog.cs" />
+    <Compile Include="CBT\ExamRule.cs" />
+    <Compile Include="CBT\ExamSetting.cs" />
+    <Compile Include="CBT\ExamType.cs" />
+    <Compile Include="CBT\QuestionAnswer.cs" />
+    <Compile Include="CBT\ResultDivision.cs" />
+    <Compile Include="CBT\StudentQuestion.cs" />
+    <Compile Include="Charts\DataPoint.cs" />
+    <Compile Include="Class.cs" />
+    <Compile Include="ClassAssignments.cs" />
+    <Compile Include="ClassRoom\Classroom.cs" />
+    <Compile Include="ContinuousAssessment.cs" />
+    <Compile Include="DownloadFileInformation.cs" />
+    <Compile Include="Duration.cs" />
+    <Compile Include="FeeCategory.cs" />
+    <Compile Include="FeePayment.cs" />
+    <Compile Include="FeeType.cs" />
+    <Compile Include="GeneralSchool.cs" />
+    <Compile Include="Grade.cs" />
+    <Compile Include="GradeRemark.cs" />
+    <Compile Include="Guardian.cs" />
+    <Compile Include="HomePageSetUp.cs" />
+    <Compile Include="IdentityModels.cs" />
+    <Compile Include="ManageViewModels.cs" />
+    <Compile Include="Objects\Administrator.cs" />
+    <Compile Include="Objects\Comment.cs" />
+    <Compile Include="Objects\Post.cs" />
+    <Compile Include="Objects\Tag.cs" />
+    <Compile Include="PopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportSetting.cs" />
+    <Compile Include="ReportSummary.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="RoleName.cs" />
+    <Compile Include="School.cs" />
+    <Compile Include="SchoolClass.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SessionSubjectTotal.cs" />
+    <Compile Include="SMS.cs" />
+    <Compile Include="Staff.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentStaffChart.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="SubjectRegistration.cs" />
+    <Compile Include="Term.cs" />
+    <Compile Include="TimeTable.cs" />
+    <Compile Include="Validation\CaValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Context\" />
+    <Folder Include="Student\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
