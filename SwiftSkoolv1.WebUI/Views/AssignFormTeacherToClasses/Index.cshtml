@@ -1,36 +1,36 @@
-﻿@model IEnumerable<SwiftSkool.Models.AssignFormTeacherToClass>
+﻿@model IEnumerable<SwiftSkoolv1.Domain.AssignFormTeacherToClass>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
     @*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ClassName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                <span>
-                    <a href="@Url.Action("Edit", new {id = item.Id, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
-                </span> |
-                <span>
-                    <a href="@Url.Action("Delete", new {id = item.Id, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
-                </span>
-                @*Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClassName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Username)
+                </th>
+                <th></th>
+            </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    <span>
+                        <a href="@Url.Action("Edit", new {id = item.Id, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
+                    </span> |
+                    <span>
+                        <a href="@Url.Action("Delete", new {id = item.Id, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                    </span>
+                    @*Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
                 @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
                 @*@Html.ActionLink("Delete" , "Delete", new { id=item.Id })*@
            @* </td>

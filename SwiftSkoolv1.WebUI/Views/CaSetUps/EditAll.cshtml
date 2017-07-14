@@ -1,4 +1,4 @@
-﻿@model List<SwiftSkool.Models.CaSetUp>
+﻿@model List<SwiftSkoolv1.Domain.CaSetUp>
 @{
     ViewBag.Title = "EditAll";
 }
@@ -55,8 +55,8 @@
                     @Html.EditorFor(model => Model[i].CaOrder, new {htmlAttributes = new {@class = "form-control"}})
                 </td>
                 <td>
-                    @Html.EditorFor(model => Model[i].CACaption, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => Model[i].CACaption, "", new {@class = "text-danger"})
+                    @Html.EditorFor(model => Model[i].CaCaption, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => Model[i].CaCaption, "", new {@class = "text-danger"})
 
                 </td>
                 <td>

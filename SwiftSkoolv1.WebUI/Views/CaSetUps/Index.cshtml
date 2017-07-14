@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SwiftSkool.Models.CaSetUp>
+﻿@model IEnumerable<SwiftSkoolv1.Domain.CaSetUp>
 
 @{
     ViewBag.Title = "Index";
@@ -61,7 +61,7 @@
             @Html.DisplayNameFor(model => model.CaOrder)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CACaption)
+            @Html.DisplayNameFor(model => model.CaCaption)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MaximumScore)
@@ -84,7 +84,7 @@
             @Html.DisplayFor(modelItem => item.CaOrder)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CACaption)
+            @Html.DisplayFor(modelItem => item.CaCaption)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MaximumScore)

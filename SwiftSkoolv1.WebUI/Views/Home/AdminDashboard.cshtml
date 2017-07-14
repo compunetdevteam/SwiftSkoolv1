@@ -1,4 +1,5 @@
-﻿@using HopeAcademySMS.Models.Charts
+﻿@using SwiftSkool.Services
+@using SwiftSkoolv1.Domain.Charts
 
 
 @{
@@ -6,6 +7,7 @@
 }
 
 <h2>Dashboard</h2>
+<a href="~/Views/Home/AdminDashboard.cshtml">~/Views/Home/AdminDashboard.cshtml</a>
 @{
     List<DataPoint> myModel = (List<DataPoint>)ViewBag.PiePoints;
 }
