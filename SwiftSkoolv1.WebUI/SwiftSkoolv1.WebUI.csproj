@@ -118,6 +118,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -290,11 +293,37 @@
     <Compile Include="Services\SmsServiceTemp.cs" />
     <Compile Include="Services\Utils.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AffectiveViewModel.cs" />
+    <Compile Include="ViewModels\AssignedClassesViewModel.cs" />
+    <Compile Include="ViewModels\AssignSubjectTeacherVM.cs" />
+    <Compile Include="ViewModels\AssignSubjectViewModel.cs" />
     <Compile Include="ViewModels\CaListVm.cs" />
     <Compile Include="ViewModels\CaSetUpVm.cs" />
+    <Compile Include="ViewModels\CBTE\DisplayQuestionViewModel.cs" />
+    <Compile Include="ViewModels\CBTE\SelectSubjectViewModel.cs" />
+    <Compile Include="ViewModels\ChartVM.cs" />
+    <Compile Include="ViewModels\ContinuousAssesmentViewModel.cs" />
     <Compile Include="ViewModels\CreateFeeCategoryVM.cs" />
+    <Compile Include="ViewModels\FormDataViewModel.cs" />
+    <Compile Include="ViewModels\GradeViewModel.cs" />
+    <Compile Include="ViewModels\GuardianEditViewModel.cs" />
+    <Compile Include="ViewModels\GuardianViewModel.cs" />
     <Compile Include="ViewModels\ReportCardVm.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\RestViewModel.cs" />
+    <Compile Include="ViewModels\ResultSummaryViewModel.cs" />
+    <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\SchoolVm.cs" />
+    <Compile Include="ViewModels\SetUpVm.cs" />
+    <Compile Include="ViewModels\Sms\SendToAllViewModel.cs" />
+    <Compile Include="ViewModels\Sms\SendToStaffViewModel.cs" />
+    <Compile Include="ViewModels\Sms\SmsViewModel.cs" />
+    <Compile Include="ViewModels\StaffViewModel.cs" />
+    <Compile Include="ViewModels\StudentDashboardVm.cs" />
+    <Compile Include="ViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\SummaryReportViewModel.cs" />
+    <Compile Include="ViewModels\SummaryScoreViewModel.cs" />
+    <Compile Include="ViewModels\SummaryViewModel.cs" />
     <Compile Include="ViewModels\ValidateFile.cs" />
   </ItemGroup>
   <ItemGroup>
