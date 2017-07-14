@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.ViewModel.Sms
+namespace SwiftSkoolv1.WebUI.ViewModels.Sms
 {
     public class SmsViewModel
     {

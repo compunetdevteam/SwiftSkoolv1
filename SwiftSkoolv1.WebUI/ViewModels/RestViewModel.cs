@@ -1,4 +1,4 @@
-﻿namespace HopeAcademySMS.ViewModel
+﻿namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class RestViewModel
     {

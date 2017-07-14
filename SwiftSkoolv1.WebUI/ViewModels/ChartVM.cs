@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
 
-namespace HopeAcademySMS.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class ChartVM
     {

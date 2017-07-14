@@ -1,5 +1,4 @@
-﻿using HopeAcademySMS.ViewModel;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using PagedList;
 using SwiftSkool.Models;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkool.Controllers
 {

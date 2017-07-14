@@ -1,5 +1,4 @@
 ﻿using HopeAcademySMS.Models.Charts;
-using HopeAcademySMS.ViewModel;
 using SwiftSkool.ViewModel;
 using System;
 using System.Collections;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using SwiftSkoolv1.WebUI.ViewModels;
 
 
 namespace SwiftSkool.Controllers

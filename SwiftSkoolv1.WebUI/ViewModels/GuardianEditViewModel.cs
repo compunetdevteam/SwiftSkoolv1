@@ -1,7 +1,6 @@
-﻿using SwiftSkool.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class GuardianEditViewModel
     {

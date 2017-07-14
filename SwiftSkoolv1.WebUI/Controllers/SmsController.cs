@@ -1,10 +1,10 @@
 ﻿using SwiftSkool.Models;
 using SwiftSkool.Services;
-using SwiftSkool.ViewModel.Sms;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SwiftSkoolv1.WebUI.ViewModels.Sms;
 
 namespace SwiftSkool.Controllers
 {

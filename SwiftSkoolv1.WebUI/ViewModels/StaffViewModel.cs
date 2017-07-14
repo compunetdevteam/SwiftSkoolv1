@@ -1,12 +1,11 @@
-﻿using SwiftSkool.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Web;
 
-namespace SwiftSkool.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class StaffViewModel
     {
@@ -89,7 +88,7 @@ namespace SwiftSkool.ViewModel
         public string Username => $"{this.FirstName}_{this.LastName}";
 
         [Display(Name = "Upload A Passport/Picture")]
-        [ValidateFile(ErrorMessage = "Please select a PNG/JPEG image smaller than 1MB")]
+        [SwiftSkool.ViewModel.ValidateFile(ErrorMessage = "Please select a PNG/JPEG image smaller than 1MB")]
         [NotMapped]
         public HttpPostedFileBase File
         {

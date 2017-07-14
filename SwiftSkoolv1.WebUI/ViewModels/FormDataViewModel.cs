@@ -1,7 +1,6 @@
-﻿using SwiftSkool.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SwiftSkool.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class FormDataViewModel
     {

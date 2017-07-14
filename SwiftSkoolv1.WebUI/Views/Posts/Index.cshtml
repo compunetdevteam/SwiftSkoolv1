@@ -3,7 +3,7 @@
     Layout = ViewBag.Layout;
 }
 
-@model IEnumerable<SwiftSkool.Models.Objects.Post>
+@model IEnumerable<SwiftSkoolv1.Domain.Objects.Post>
 
 @{
     ViewBag.Title = "HAS";
@@ -16,7 +16,7 @@
 
     <div class="row">
         <div class="col-md-8">         
-            @foreach (SwiftSkool.Models.Objects.Post post in Model)
+            @foreach (SwiftSkoolv1.Domain.Objects.Post post in Model)
             {
                 @PosthelperIndex.Render(post, Html, isAdmin, false)
                 @*@post.Title <br />*@

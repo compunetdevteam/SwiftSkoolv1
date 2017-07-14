@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using SwiftSkoolv1.Domain;
+
 //using static SwiftSkoolv1.Domain.PopUp;
 
-namespace SwiftSkool.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class AffectiveViewModel
     {

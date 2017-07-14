@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HopeAcademySMS.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class AssignSubjectTeacherVM
     {

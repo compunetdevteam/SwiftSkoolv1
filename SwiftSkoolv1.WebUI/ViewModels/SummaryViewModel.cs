@@ -1,7 +1,7 @@
-﻿using SwiftSkool.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SwiftSkoolv1.Domain;
 
-namespace SwiftSkool.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class SummaryViewModel
     {

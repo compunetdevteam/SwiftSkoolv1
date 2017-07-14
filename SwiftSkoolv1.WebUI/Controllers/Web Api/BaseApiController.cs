@@ -1,10 +1,10 @@
-﻿using HopeAcademySMS.ViewModel;
-using SwiftSkool.BusinessLogic;
+﻿using SwiftSkool.BusinessLogic;
 using SwiftSkool.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace HopeAcademySMS.Controllers.Web_Api
 {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using SwiftSkool.Models;
 
-namespace HopeAcademySMS.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class StudentDashboardVm
     {

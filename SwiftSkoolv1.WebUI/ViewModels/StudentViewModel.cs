@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
@@ -7,7 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Web;
 
-namespace SwiftSkool.ViewModel
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class StudentViewModel
     {
