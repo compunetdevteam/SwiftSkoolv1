@@ -1,20 +1,19 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class PsychomotorsController : Controller
+    public class PsychomotorsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+
 
         // GET: Psychomotors
         public async Task<ActionResult> Index()
         {
-            return View(await db.Psychomotors.ToListAsync());
+            return View(await Db.Psychomotors.ToListAsync());
         }
 
         // GET: Psychomotors/Details/5
@@ -24,7 +23,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Psychomotor psychomotor = await db.Psychomotors.FindAsync(id);
+            Psychomotor psychomotor = await Db.Psychomotors.FindAsync(id);
             if (psychomotor == null)
             {
                 return HttpNotFound();
@@ -35,9 +34,9 @@ namespace HopeAcademySMS.Controllers
         public PartialViewResult AddPsycomotor(string studentId)
         {
             ViewBag.StudentId = studentId;
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.ClassName = new SelectList(db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.ClassName = new SelectList(Db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
             return PartialView("PartialPsycomotor");
         }
 
@@ -69,8 +68,8 @@ namespace HopeAcademySMS.Controllers
                     ManualDuty = model.ManualDuty.ToString(),
                     LevelOfCommitment = model.LevelOfCommitment.ToString()
                 };
-                db.Psychomotors.Add(psychomotor);
-                await db.SaveChangesAsync();
+                Db.Psychomotors.Add(psychomotor);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("FormTeacher", "Classes");
             }
 
@@ -84,7 +83,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Psychomotor psychomotor = await db.Psychomotors.FindAsync(id);
+            Psychomotor psychomotor = await Db.Psychomotors.FindAsync(id);
             if (psychomotor == null)
             {
                 return HttpNotFound();
@@ -101,8 +100,8 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(psychomotor).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(psychomotor).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(psychomotor);
@@ -115,7 +114,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Psychomotor psychomotor = await db.Psychomotors.FindAsync(id);
+            Psychomotor psychomotor = await Db.Psychomotors.FindAsync(id);
             if (psychomotor == null)
             {
                 return HttpNotFound();
@@ -128,9 +127,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Psychomotor psychomotor = await db.Psychomotors.FindAsync(id);
-            if (psychomotor != null) db.Psychomotors.Remove(psychomotor);
-            await db.SaveChangesAsync();
+            Psychomotor psychomotor = await Db.Psychomotors.FindAsync(id);
+            if (psychomotor != null) Db.Psychomotors.Remove(psychomotor);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -138,7 +137,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

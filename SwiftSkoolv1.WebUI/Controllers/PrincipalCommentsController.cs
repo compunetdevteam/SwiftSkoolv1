@@ -1,5 +1,5 @@
 ﻿using PagedList;
-using SwiftSkool.Models;
+using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -7,12 +7,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class PrincipalCommentsController : Controller
+    public class PrincipalCommentsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: PrincipalComments
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page,
            string ClassName)
@@ -29,7 +27,7 @@ namespace HopeAcademySMS.Controllers
                 search = currentFilter;
             }
             ViewBag.CurrentFilter = search;
-            var assignedList = from s in db.PrincipalComments select s;
+            var assignedList = from s in Db.PrincipalComments select s;
             if (!String.IsNullOrEmpty(search))
             {
                 assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(search.ToUpper()));
@@ -58,11 +56,11 @@ namespace HopeAcademySMS.Controllers
                     break;
             }
 
-            ViewBag.ClassName = new SelectList(db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
             int pageSize = count;
             int pageNumber = (page ?? 1);
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.ContinuousAssessments.ToListAsync());
+            //return View(await Db.ContinuousAssessments.ToListAsync());
         }
 
 
@@ -73,7 +71,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PrincipalComment principalComment = await db.PrincipalComments.FindAsync(id);
+            var principalComment = await Db.PrincipalComments.FindAsync(id);
             if (principalComment == null)
             {
                 return HttpNotFound();
@@ -84,7 +82,7 @@ namespace HopeAcademySMS.Controllers
         // GET: PrincipalComments/Create
         public ActionResult Create()
         {
-            ViewBag.ClassName = new SelectList(db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
             return View();
         }
 
@@ -99,7 +97,7 @@ namespace HopeAcademySMS.Controllers
             {
                 foreach (var item in model.ClassName)
                 {
-                    var myGrade = await db.PrincipalComments.CountAsync(x => x.MaximumGrade.Equals(model.MaximumGrade)
+                    var myGrade = await Db.PrincipalComments.CountAsync(x => x.MaximumGrade.Equals(model.MaximumGrade)
                                                                   && x.MinimumGrade.Equals(model.MinimumGrade)
                                                                   && x.ClassName.Equals(item));
 
@@ -107,7 +105,7 @@ namespace HopeAcademySMS.Controllers
                     {
                         TempData["UserMessage"] = "Principal Comment Already Exist in Database.";
                         TempData["Title"] = "Error.";
-                        ViewBag.ClassName = new SelectList(db.SchoolClasses, "ClassCode", "ClassCode");
+                        ViewBag.ClassName = new SelectList(Db.SchoolClasses, "ClassCode", "ClassCode");
                         return View(model);
                     }
                     var principalComment = new PrincipalComment()
@@ -117,10 +115,10 @@ namespace HopeAcademySMS.Controllers
                         Remark = model.Remark,
                         ClassName = item
                     };
-                    db.PrincipalComments.Add(principalComment);
+                    Db.PrincipalComments.Add(principalComment);
                 }
-                await db.SaveChangesAsync();
-                ViewBag.ClassName = new SelectList(db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+                await Db.SaveChangesAsync();
+                ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
                 TempData["UserMessage"] = "Principal Comment Added Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
@@ -135,12 +133,12 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PrincipalComment principalComment = await db.PrincipalComments.FindAsync(id);
+            PrincipalComment principalComment = await Db.PrincipalComments.FindAsync(id);
             if (principalComment == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassName = new SelectList(db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
             return View(principalComment);
         }
 
@@ -153,11 +151,11 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(principalComment).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(principalComment).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassName = new SelectList(db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
             return View(principalComment);
         }
 
@@ -168,7 +166,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PrincipalComment principalComment = await db.PrincipalComments.FindAsync(id);
+            PrincipalComment principalComment = await Db.PrincipalComments.FindAsync(id);
             if (principalComment == null)
             {
                 return HttpNotFound();
@@ -181,9 +179,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            PrincipalComment principalComment = await db.PrincipalComments.FindAsync(id);
-            if (principalComment != null) db.PrincipalComments.Remove(principalComment);
-            await db.SaveChangesAsync();
+            PrincipalComment principalComment = await Db.PrincipalComments.FindAsync(id);
+            if (principalComment != null) Db.PrincipalComments.Remove(principalComment);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -191,7 +189,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

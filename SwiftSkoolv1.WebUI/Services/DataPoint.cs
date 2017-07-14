@@ -12,6 +12,11 @@ namespace SwiftSkool.Services
         {
 
         }
+        public DataPoint(double y, string label, string label2)
+        {
+            this.Y = y;
+            this.Label = label;
+        }
         public DataPoint(double y, string label)
         {
             this.Y = y;

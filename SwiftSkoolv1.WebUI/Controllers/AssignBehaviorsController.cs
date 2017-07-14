@@ -1,5 +1,5 @@
 ﻿using PagedList;
-using SwiftSkool.Models;
+using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -11,8 +11,6 @@ namespace HopeAcademySMS.Controllers
 {
     public class AssignBehaviorsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: AssignBehaviors
         public ActionResult Index(string sortOrder, string currentFilter, string search, string StudentId,
                                          string SessionName, string TermName, int? page)
@@ -28,7 +26,7 @@ namespace HopeAcademySMS.Controllers
                 search = currentFilter;
             }
             ViewBag.CurrentFilter = search;
-            var assignedList = from s in db.AssignBehaviors select s;
+            var assignedList = from s in Db.AssignBehaviors select s;
             if (!String.IsNullOrEmpty(search))
             {
                 assignedList = assignedList.AsNoTracking().Where(s => s.StudentId.ToUpper().Contains(search.ToUpper())
@@ -58,15 +56,15 @@ namespace HopeAcademySMS.Controllers
             int pageSize = 15;
             int pageNumber = (page ?? 1);
 
-            ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(db.Students.AsNoTracking(), "StudentID", "FullName");
+            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
             //var count = assignedList.Count();
             //TempData["UserMessage"] = $"You Search result contains {count} Records ";
             //TempData["Title"] = "Success.";
             return View(assignedList.AsNoTracking().ToPagedList(pageNumber, pageSize));
-            //return View(await db.AssignedClasses.ToListAsync());
+            //return View(await Db.AssignedClasses.ToListAsync());
         }
 
         // GET: AssignBehaviors/Details/5
@@ -76,7 +74,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignBehavior assignBehavior = await db.AssignBehaviors.FindAsync(id);
+            AssignBehavior assignBehavior = await Db.AssignBehaviors.FindAsync(id);
             if (assignBehavior == null)
             {
                 return HttpNotFound();
@@ -87,10 +85,10 @@ namespace HopeAcademySMS.Controllers
         // GET: AssignBehaviors/Create
         public ActionResult Create()
         {
-            ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(db.Students.AsNoTracking(), "StudentID", "FullName");
+            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
             return View();
         }
 
@@ -112,16 +110,16 @@ namespace HopeAcademySMS.Controllers
                     //ViewBag.LineError = lineError;
                     TempData["UserMessage"] = lineError;
                     TempData["Title"] = "Error.";
-                    ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-                    ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-                    ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
-                    ViewBag.StudentId = new SelectList(db.Students.AsNoTracking(), "StudentID", "FullName");
+                    ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+                    ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+                    ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+                    ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
                     return View(model);
                 }
                 for (int i = 0; i < model.BehaviouralSkillId.Length; i++)
                 {
                     string my = model.BehaviouralSkillId[i];
-                    var behavioCategory = await db.BehaviouralSkills.Where(c => c.SkillName.Equals(my))
+                    var behavioCategory = await Db.BehaviouralSkills.Where(c => c.SkillName.Equals(my))
                                          .Select(x => x.BehaviorSkillCategoryId).FirstOrDefaultAsync();
                     AssignBehavior assignBehavior = new AssignBehavior()
                     {
@@ -136,19 +134,19 @@ namespace HopeAcademySMS.Controllers
                         Date = DateTime.Now
 
                     };
-                    db.AssignBehaviors.Add(assignBehavior);
+                    Db.AssignBehaviors.Add(assignBehavior);
                 }
 
-                await db.SaveChangesAsync();
+                await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "Behavior Added Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName", model.BehaviouralSkillId);
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(db.Students.AsNoTracking(), "StudentID", "FullName");
+            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName", model.BehaviouralSkillId);
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
             return View(model);
         }
 
@@ -159,7 +157,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignBehavior model = await db.AssignBehaviors.FindAsync(id);
+            AssignBehavior model = await Db.AssignBehaviors.FindAsync(id);
             if (model == null)
             {
                 return HttpNotFound();
@@ -176,10 +174,10 @@ namespace HopeAcademySMS.Controllers
                 Date = DateTime.Now
             };
 
-            //ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills, "BehaviouralSkillId", "SkillName", assignBehavior.BehaviouralSkillId);
-            ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
+            //ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills, "BehaviouralSkillId", "SkillName", assignBehavior.BehaviouralSkillId);
+            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View(assignBehavior);
         }
 
@@ -195,7 +193,7 @@ namespace HopeAcademySMS.Controllers
                 for (int i = 0; i < model.BehaviouralSkillId.Length; i++)
                 {
                     string my = model.BehaviouralSkillId[i];
-                    var behavioCategory = await db.BehaviouralSkills.Where(c => c.SkillName.Equals(my))
+                    var behavioCategory = await Db.BehaviouralSkills.Where(c => c.SkillName.Equals(my))
                             .Select(x => x.BehaviorSkillCategoryId).FirstOrDefaultAsync();
                     AssignBehavior assignBehavior = new AssignBehavior()
                     {
@@ -211,15 +209,15 @@ namespace HopeAcademySMS.Controllers
                         Date = DateTime.Now
 
                     };
-                    db.Entry(assignBehavior).State = EntityState.Modified;
+                    Db.Entry(assignBehavior).State = EntityState.Modified;
                 }
-                await db.SaveChangesAsync();
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BehaviouralSkillId = new MultiSelectList(db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View(model);
         }
 
@@ -230,7 +228,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignBehavior assignBehavior = await db.AssignBehaviors.FindAsync(id);
+            AssignBehavior assignBehavior = await Db.AssignBehaviors.FindAsync(id);
             if (assignBehavior == null)
             {
                 return HttpNotFound();
@@ -243,9 +241,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            AssignBehavior assignBehavior = await db.AssignBehaviors.FindAsync(id);
-            if (assignBehavior != null) db.AssignBehaviors.Remove(assignBehavior);
-            await db.SaveChangesAsync();
+            AssignBehavior assignBehavior = await Db.AssignBehaviors.FindAsync(id);
+            if (assignBehavior != null) Db.AssignBehaviors.Remove(assignBehavior);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -253,7 +251,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

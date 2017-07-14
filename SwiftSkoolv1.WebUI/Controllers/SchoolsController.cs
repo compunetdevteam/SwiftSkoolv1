@@ -1,11 +1,13 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.Services;
+﻿using SwiftSkool.Services;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     [CustomAuthorize(Roles = RoleName.SuperAdmin)]
     public class SchoolsController : BaseController

@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
-using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+﻿using Microsoft.AspNet.Identity;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Controllers;
+using SwiftSkoolv1.WebUI.ViewModels;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -48,7 +49,7 @@ namespace SwiftSkool.Controllers
             ViewBag.StudentId = new SelectList(Db.Students, "StudentID", "FullName");
             ViewBag.SessionName = new SelectList(Db.Sessions, "SessionName", "SessionName");
             ViewBag.ClassName = new SelectList(Db.Classes, "FullClassName", "FullClassName");
-            // return View(await db.Classes.ToListAsync());
+            // return View(await Db.Classes.ToListAsync());
             return View(myForm);
         }
 
@@ -184,8 +185,8 @@ namespace SwiftSkool.Controllers
                 TempData["UserMessage"] = "Class Added Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
-                //db.Classes.Add(@class);
-                //await db.SaveChangesAsync();
+                //Db.Classes.Add(@class);
+                //await Db.SaveChangesAsync();
                 //return RedirectToAction("Index");
             }
             ViewBag.SchoolName = new SelectList(Db.SchoolClasses, "ClassCode", "ClassCode");

@@ -14,18 +14,18 @@
 //    public class ResultsController : Controller
 //    {
 //        private readonly ResultCommandManager _resultCommand;
-//        private readonly ApplicationDbContext _db;
+//        private readonly SwiftSkoolDbContext _db;
 
 //        public ResultsController()
 //        {
 //            _resultCommand = new ResultCommandManager();
-//            _db = new ApplicationDbContext();
+//            _db = new SwiftSkoolDbContext();
 //        }
 
-//        //public ResultsController(IResultCommandManager resultCommand, ApplicationDbContext db)
+//        //public ResultsController(IResultCommandManager resultCommand, SwiftSkoolDbContext Db)
 //        //{
 //        //    ResultCommand = resultCommand;
-//        //    //_db = db;
+//        //    //_db = Db;
 //        //}
 
 
@@ -104,7 +104,7 @@
 //            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
 //            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
 //            return View(assignedList.ToPagedList(pageNumber, pageSize));
-//            //return View(await db.ContinuousAssessments.ToListAsync());
+//            //return View(await Db.ContinuousAssessments.ToListAsync());
 //        }
 
 //        //// GET: Results/Details/5
@@ -118,7 +118,7 @@
 //        {
 //            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
 //            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//            //ViewBag.StudentId = new SelectList(db.Students, "StudentId", "FullName");
+//            //ViewBag.StudentId = new SelectList(Db.Students, "StudentId", "FullName");
 //            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
 //            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
 //            return View();
@@ -151,7 +151,7 @@
 //                        TempData["Title"] = "Error.";
 //                        ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
 //                        ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//                        //ViewBag.StudentId = new SelectList(db.Students, "StudentId", "FullName");
+//                        //ViewBag.StudentId = new SelectList(Db.Students, "StudentId", "FullName");
 //                        ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
 //                        ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
 //                        return View(model);
@@ -187,7 +187,7 @@
 //                            TempData["Title"] = "Error.";
 //                            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
 //                            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//                            //ViewBag.StudentId = new SelectList(db.Students, "StudentId", "FullName");
+//                            //ViewBag.StudentId = new SelectList(Db.Students, "StudentId", "FullName");
 //                            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
 //                            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
 //                            return View(model);
@@ -221,7 +221,7 @@
 //                StudentId = result.StudentId
 //            };
 //            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
-//            //ViewBag.StudentId = new SelectList(db.Students, "StudentID", "FullName");
+//            //ViewBag.StudentId = new SelectList(Db.Students, "StudentID", "FullName");
 //            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
 //            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
 //            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");

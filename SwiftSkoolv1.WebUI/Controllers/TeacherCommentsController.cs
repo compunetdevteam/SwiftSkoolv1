@@ -1,20 +1,19 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class TeacherCommentsController : Controller
+    public class TeacherCommentsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+
 
         // GET: TeacherComments
         public async Task<ActionResult> Index()
         {
-            return View(await db.TeacherComments.ToListAsync());
+            return View(await Db.TeacherComments.ToListAsync());
         }
 
         // GET: TeacherComments/Details/5
@@ -24,7 +23,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TeacherComment teacherComment = await db.TeacherComments.FindAsync(id);
+            TeacherComment teacherComment = await Db.TeacherComments.FindAsync(id);
             if (teacherComment == null)
             {
                 return HttpNotFound();
@@ -35,8 +34,8 @@ namespace HopeAcademySMS.Controllers
         // GET: TeacherComments/Create
         public ActionResult Create()
         {
-            ViewBag.StudentId = new SelectList(db.Students, "StudentID", "FullName");
-            ViewBag.SessionName = new SelectList(db.Sessions, "SessionName", "SessionName");
+            ViewBag.StudentId = new SelectList(Db.Students, "StudentID", "FullName");
+            ViewBag.SessionName = new SelectList(Db.Sessions, "SessionName", "SessionName");
             return View();
         }
 
@@ -57,8 +56,8 @@ namespace HopeAcademySMS.Controllers
                     Remark = model.Remark,
                     Date = model.Date.Date
                 };
-                db.TeacherComments.Add(comment);
-                await db.SaveChangesAsync();
+                Db.TeacherComments.Add(comment);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +71,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TeacherComment teacherComment = await db.TeacherComments.FindAsync(id);
+            TeacherComment teacherComment = await Db.TeacherComments.FindAsync(id);
             if (teacherComment == null)
             {
                 return HttpNotFound();
@@ -89,8 +88,8 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(teacherComment).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(teacherComment).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(teacherComment);
@@ -103,7 +102,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TeacherComment teacherComment = await db.TeacherComments.FindAsync(id);
+            TeacherComment teacherComment = await Db.TeacherComments.FindAsync(id);
             if (teacherComment == null)
             {
                 return HttpNotFound();
@@ -116,9 +115,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            TeacherComment teacherComment = await db.TeacherComments.FindAsync(id);
-            db.TeacherComments.Remove(teacherComment);
-            await db.SaveChangesAsync();
+            TeacherComment teacherComment = await Db.TeacherComments.FindAsync(id);
+            Db.TeacherComments.Remove(teacherComment);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -126,7 +125,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

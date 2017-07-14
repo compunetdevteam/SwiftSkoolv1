@@ -1,15 +1,15 @@
 ﻿using HopeAcademySMS.Services;
-using HopeAcademySMS.ViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OfficeOpenXml;
 using PagedList;
 using Rotativa;
 using SwiftKampus.Services;
-using SwiftSkool.BusinessLogic;
-using SwiftSkool.Models;
 using SwiftSkool.Services;
-using SwiftSkool.ViewModel;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.BusinessLogic;
+using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,7 +21,7 @@ using System.Web.Mvc;
 
 //using Excel = Microsoft.Office.Interop.Excel;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class StudentsController : BaseController
     {
@@ -101,7 +101,7 @@ namespace SwiftSkool.Controllers
             //get the ID of the logged in Student
             var studentId = User.Identity.GetUserId();
 
-            //fetch the student info frm db
+            //fetch the student info frm Db
             Student student = Db.Students.FirstOrDefault(x => x.StudentId == studentId);
 
             var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
@@ -570,21 +570,21 @@ namespace SwiftSkool.Controllers
         //    return View();
 
         //}
-        public ActionResult PrintSummaryReport(string id, string sessionName)
-        {
-            var summary = new SummaryReportViewModel()
-            {
-                Results = Db.Results.Where(s => s.StudentId.Contains(id)
-                                        && s.SessionName.Contains(sessionName)).ToList(),
-                ReportSummaries = Db.ReportSummarys.Where(s => s.StudentId.Equals(id)
-                                                    && s.SessionName.Equals(sessionName)).ToList()
-            };
-            //foreach (var item in studentResults.Where(c => c.))
-            //{
+        //public ActionResult PrintSummaryReport(string id, string sessionName)
+        //{
+        //    var summary = new SummaryReportViewModel()
+        //    {
+        //        Results = Db.Results.Where(s => s.StudentId.Contains(id)
+        //                                && s.SessionName.Contains(sessionName)).ToList(),
+        //        ReportSummaries = Db.ReportSummarys.Where(s => s.StudentId.Equals(id)
+        //                                            && s.SessionName.Equals(sessionName)).ToList()
+        //    };
+        //    //foreach (var item in studentResults.Where(c => c.))
+        //    //{
 
-            //}
-            return View(summary);
-        }
+        //    //}
+        //    return View(summary);
+        //}
 
         public PartialViewResult ResultInfo(string studentNumber)
         {
@@ -593,14 +593,14 @@ namespace SwiftSkool.Controllers
         }
         //public PartialViewResult ResultRemplate(string studentNumber, string term, string sessionName)
         //{
-        //    var GuardianInfoes = db.ContinuousAssessments.Include(p => p.Student).Where(s => s.StudentId.Contains(studentNumber)
+        //    var GuardianInfoes = Db.ContinuousAssessments.Include(p => p.Student).Where(s => s.StudentId.Contains(studentNumber)
         //                                            && s.TermName.Contains(term) && s.SessionName.Contains(sessionName));
         //    return PartialView(GuardianInfoes);
         //}
 
         //public PartialViewResult RenderRemplate(string studentNumber, string term, string sessionName, string subjectcode)
         //{
-        //    var myResult = db.Results.Where(s => s.StudentId.Contains(studentNumber)
+        //    var myResult = Db.Results.Where(s => s.StudentId.Contains(studentNumber)
         //                                            && s.Term.Contains(term)
         //                                            && s.SessionName.Contains(sessionName)
         //                                            && s.SubjectName.Contains(subjectcode));
@@ -610,7 +610,7 @@ namespace SwiftSkool.Controllers
 
         //public ActionResult Pdf()
         //{
-        //    var pdf = db.Students.ToList();
+        //    var pdf = Db.Students.ToList();
         //    return new PdfResult(pdf, "Pdf");
         //}
 

@@ -11,7 +11,7 @@ namespace SwiftSkool.Services
         public static bool InitialiseDiary()
         {
             // init connection to database
-            using (ApplicationDbContext ent = new ApplicationDbContext())
+            using (SwifkSkoolContext ent = new SwifkSkoolContext())
             {
 
 

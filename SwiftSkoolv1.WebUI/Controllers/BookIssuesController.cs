@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkool.Models;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class BookIssuesController : Controller
+    public class BookIssuesController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: BookIssues
         public async Task<ActionResult> Index()
         {
-            return View(await db.BookIssues.ToListAsync());
+            return View(await Db.BookIssues.ToListAsync());
         }
 
         // GET: BookIssues/Details/5
@@ -28,7 +21,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookIssue bookIssue = await db.BookIssues.FindAsync(id);
+            var bookIssue = await Db.BookIssues.FindAsync(id);
             if (bookIssue == null)
             {
                 return HttpNotFound();
@@ -51,8 +44,8 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BookIssues.Add(bookIssue);
-                await db.SaveChangesAsync();
+                Db.BookIssues.Add(bookIssue);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +59,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookIssue bookIssue = await db.BookIssues.FindAsync(id);
+            BookIssue bookIssue = await Db.BookIssues.FindAsync(id);
             if (bookIssue == null)
             {
                 return HttpNotFound();
@@ -83,8 +76,8 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(bookIssue).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(bookIssue).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(bookIssue);
@@ -97,7 +90,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookIssue bookIssue = await db.BookIssues.FindAsync(id);
+            var bookIssue = await Db.BookIssues.FindAsync(id);
             if (bookIssue == null)
             {
                 return HttpNotFound();
@@ -110,9 +103,9 @@ namespace SwiftSkool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            BookIssue bookIssue = await db.BookIssues.FindAsync(id);
-            db.BookIssues.Remove(bookIssue);
-            await db.SaveChangesAsync();
+            var bookIssue = await Db.BookIssues.FindAsync(id);
+            if (bookIssue != null) Db.BookIssues.Remove(bookIssue);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +113,7 @@ namespace SwiftSkool.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

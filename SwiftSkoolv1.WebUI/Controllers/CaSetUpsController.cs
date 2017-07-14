@@ -1,4 +1,4 @@
-﻿using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class CaSetUpsController : BaseController
     {

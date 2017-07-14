@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using PagedList;
-using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class AssignedClassesController : BaseController
     {
@@ -37,7 +37,7 @@ namespace SwiftSkool.Controllers
             if (User.IsInRole("Teacher"))
             {
                 var name = User.Identity.GetUserName();
-                //var user = db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
+                //var user = Db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
                 assignedList = assignedList.AsNoTracking().Where(x => x.ClassName.Equals(name) && x.SchoolId.Equals(userSchool));
 
                 //return View(subjectName);
@@ -90,7 +90,7 @@ namespace SwiftSkool.Controllers
             TempData["Index"] = $"You Search result contains {count} Records ";
             TempData["Title"] = "Success.";
             return View(assignedList.AsNoTracking().ToPagedList(pageNumber, pageSize));
-            //return View(await db.AssignedClasses.ToListAsync());
+            //return View(await Db.AssignedClasses.ToListAsync());
         }
 
 
@@ -202,7 +202,7 @@ namespace SwiftSkool.Controllers
             }
             ViewBag.StudentId = new MultiSelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
             ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
-            // ViewBag.ClassName = new SelectList(db.Classes, "FullClassName", "FullClassName");
+            // ViewBag.ClassName = new SelectList(Db.Classes, "FullClassName", "FullClassName");
             ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
             return View();
         }

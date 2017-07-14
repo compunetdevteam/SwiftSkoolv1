@@ -28,7 +28,7 @@ namespace SwiftKampus.Services
 
             var fromDate = ConvertFromUnixTimestamp(start);
             var toDate = ConvertFromUnixTimestamp(end);
-            using (ApplicationDbContext ent = new ApplicationDbContext())
+            using (SwifkSkoolContext ent = new SwifkSkoolContext())
             {
                 // var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && System.Data.Objects.EntityFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
                 var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && s.DateTimeScheduled <= toDate);
@@ -60,7 +60,7 @@ namespace SwiftKampus.Services
 
             var fromDate = ConvertFromUnixTimestamp(start);
             var toDate = ConvertFromUnixTimestamp(end);
-            using (ApplicationDbContext ent = new ApplicationDbContext())
+            using (SwifkSkoolContext ent = new SwifkSkoolContext())
             {
                 var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && s.DateTimeScheduled <= toDate)
                                                         .GroupBy(s => s.DateTimeScheduled)
@@ -89,7 +89,7 @@ namespace SwiftKampus.Services
         public static void UpdateDiaryEvent(int id, string NewEventStart, string NewEventEnd)
         {
             // EventStart comes ISO 8601 format, eg:  "2000-01-10T10:00:00Z" - need to convert to DateTime
-            using (var ent = new ApplicationDbContext())
+            using (var ent = new SwifkSkoolContext())
             {
                 var rec = ent.AppointmentDiary.FirstOrDefault(s => s.ID == id);
                 if (rec != null)
@@ -119,7 +119,7 @@ namespace SwiftKampus.Services
         {
             try
             {
-                using (var ent = new ApplicationDbContext())
+                using (var ent = new SwifkSkoolContext())
                 {
                     var rec = new AppointmentDiary
                     {

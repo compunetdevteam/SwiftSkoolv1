@@ -1,19 +1,18 @@
-﻿using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class ReportCardsController : Controller
+    public class ReportCardsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: ReportCards
         public async Task<ActionResult> Index()
         {
-            return View(await db.ReportCards.ToListAsync());
+            return View(await Db.ReportCards.ToListAsync());
         }
 
         // GET: ReportCards/Details/5
@@ -23,7 +22,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReportCard reportCard = await db.ReportCards.FindAsync(id);
+            ReportCard reportCard = await Db.ReportCards.FindAsync(id);
             if (reportCard == null)
             {
                 return HttpNotFound();
@@ -34,8 +33,8 @@ namespace HopeAcademySMS.Controllers
         // GET: ReportCards/Create
         public ActionResult Create()
         {
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View();
         }
 
@@ -57,12 +56,12 @@ namespace HopeAcademySMS.Controllers
                     NextTermEnd = model.NextTermEnd.Date,
                     PrincipalSignature = model.PrincipalSignature
                 };
-                db.ReportCards.Add(reportCard);
-                await db.SaveChangesAsync();
+                Db.ReportCards.Add(reportCard);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View(model);
         }
 
@@ -73,7 +72,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReportCard model = await db.ReportCards.FindAsync(id);
+            ReportCard model = await Db.ReportCards.FindAsync(id);
             if (model == null)
             {
                 return HttpNotFound();
@@ -88,8 +87,8 @@ namespace HopeAcademySMS.Controllers
                 NextTermEnd = model.NextTermEnd.Date,
                 PrincipalSignature = model.PrincipalSignature
             };
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View(reportCard);
         }
 
@@ -112,12 +111,12 @@ namespace HopeAcademySMS.Controllers
                     NextTermEnd = model.NextTermEnd.Date,
                     PrincipalSignature = model.PrincipalSignature
                 };
-                db.Entry(reportCard).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(reportCard).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.SessionName = new SelectList(db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View(model);
         }
 
@@ -128,7 +127,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReportCard reportCard = await db.ReportCards.FindAsync(id);
+            ReportCard reportCard = await Db.ReportCards.FindAsync(id);
             if (reportCard == null)
             {
                 return HttpNotFound();
@@ -141,9 +140,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ReportCard reportCard = await db.ReportCards.FindAsync(id);
-            db.ReportCards.Remove(reportCard);
-            await db.SaveChangesAsync();
+            ReportCard reportCard = await Db.ReportCards.FindAsync(id);
+            Db.ReportCards.Remove(reportCard);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -151,7 +150,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

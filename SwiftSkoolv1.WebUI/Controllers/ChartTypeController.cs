@@ -1,10 +1,9 @@
-﻿using HopeAcademySMS.ViewModel;
-    using Newtonsoft.Json;
- 
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Mvc;
-using HopeAcademySMS.Models.Charts;
+﻿using Newtonsoft.Json;
+using SwiftSkoolv1.WebUI.Controllers;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using SwiftSkool.Services;
 
 namespace SwiftSkool.Controllers.Charts
 {

@@ -1,28 +1,28 @@
 ﻿using Microsoft.AspNet.Identity;
-using SwiftSkool.Models;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace SwiftSkool.BusinessLogic
+namespace SwiftSkoolv1.WebUI.BusinessLogic
 {
     public class QueryManager : IDisposable
     {
-        private readonly ApplicationDbContext _db;
+        private readonly SwiftSkoolDbContext _db;
 
         public QueryManager()
         {
-            _db = new ApplicationDbContext();
+            _db = new SwiftSkoolDbContext();
         }
 
 
-        //public static Func<ApplicationDbContext, IQueryable<Session>>
+        //public static Func<SwiftSkoolDbContext, IQueryable<Session>>
         //    CompliedQueryForSessionList = CompiledQuery.Compile(
-        //        (ApplicationDbContext context) =>
+        //        (SwiftSkoolDbContext context) =>
         //            from c in context.Sessions select c);
 
 

@@ -1,23 +1,23 @@
-﻿using HopeAcademySMS.ViewModel;
-using SwiftSkool.BusinessLogic;
-using SwiftSkool.Models;
+﻿using SwiftSkoolv1.WebUI.BusinessLogic;
+using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
-namespace HopeAcademySMS.Controllers.Web_Api
+namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 {
     public class BaseApiController : ApiController
     {
-        protected readonly ApplicationDbContext _db;
+        protected readonly SwiftSkoolDbContext _db;
         protected readonly QueryManager _qmgr;
         protected readonly ResultCommandManager _rcmg;
 
 
-        public BaseApiController(ApplicationDbContext db)
+        public BaseApiController(SwiftSkoolDbContext Db)
         {
-            _db = db;
+            _db = Db;
         }
 
 

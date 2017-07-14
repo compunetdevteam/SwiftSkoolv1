@@ -1,5 +1,5 @@
 ﻿using PagedList;
-using SwiftSkool.Models;
+using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class SubjectRegistrationsController : BaseController
     {
@@ -70,7 +70,7 @@ namespace SwiftSkool.Controllers
             //TempData["UserMessage"] = $"You Search result contains {count} Records ";
             //TempData["Title"] = "Success.";
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.AssignedClasses.ToListAsync());
+            //return View(await Db.AssignedClasses.ToListAsync());
         }
 
         // GET: SubjectRegistrations/Details/5

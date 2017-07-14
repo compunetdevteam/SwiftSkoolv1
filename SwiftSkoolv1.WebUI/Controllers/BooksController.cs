@@ -1,19 +1,17 @@
-﻿using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class BooksController : Controller
+    public class BooksController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: book
         public async Task<ActionResult> Index()
         {
-            var book = db.Books.Include(b => b.BookIssue);
+            var book = Db.Books.Include(b => b.BookIssue);
             return View(await book.ToListAsync());
         }
 
@@ -24,7 +22,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = await db.Books.FindAsync(id);
+            var book = await Db.Books.FindAsync(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -35,7 +33,7 @@ namespace SwiftSkool.Controllers
         // GET: book/Create
         public ActionResult Create()
         {
-           // ViewBag.BookId = new SelectList(db.BookIssues, "BookId", "StudentId");
+            // ViewBag.BookId = new SelectList(Db.BookIssues, "BookId", "StudentId");
             return View();
         }
 
@@ -48,12 +46,12 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
-                await db.SaveChangesAsync();
+                Db.Books.Add(book);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }/*C:\Users\DEV-PC\Source\Repos\SwiftSkool\HopeAcademySMS\Controllers\BooksController.cs*/
 
-            ViewBag.BookId = new SelectList(db.BookIssues, "BookId", "StudentId", book.BookId);
+            ViewBag.BookId = new SelectList(Db.BookIssues, "BookId", "StudentId", book.BookId);
             return View(book);
         }
 
@@ -64,12 +62,12 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = await db.Books.FindAsync(id);
+            var book = await Db.Books.FindAsync(id);
             if (book == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BookId = new SelectList(db.BookIssues, "BookId", "StudentId", book.BookId);
+            ViewBag.BookId = new SelectList(Db.BookIssues, "BookId", "StudentId", book.BookId);
             return View(book);
         }
 
@@ -82,11 +80,11 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(book).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.BookId = new SelectList(db.BookIssues, "BookId", "StudentId");
+            ViewBag.BookId = new SelectList(Db.BookIssues, "BookId", "StudentId");
             return View(book);
         }
 
@@ -97,7 +95,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = await db.Books.FindAsync(id);
+            var book = await Db.Books.FindAsync(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -110,9 +108,9 @@ namespace SwiftSkool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Book book = await db.Books.FindAsync(id);
-            db.Books.Remove(book);
-            await db.SaveChangesAsync();
+            var book = await Db.Books.FindAsync(id);
+            Db.Books.Remove(book);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +118,7 @@ namespace SwiftSkool.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

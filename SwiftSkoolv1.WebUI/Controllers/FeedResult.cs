@@ -1,9 +1,8 @@
-﻿using System;
-using System.ServiceModel.Syndication;
+﻿using System.ServiceModel.Syndication;
 using System.Web.Mvc;
 using System.Xml;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class FeedResult : ActionResult
     {

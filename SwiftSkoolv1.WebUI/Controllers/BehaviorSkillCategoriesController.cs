@@ -1,20 +1,18 @@
-﻿using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class BehaviorSkillCategoriesController : Controller
+    public class BehaviorSkillCategoriesController : BaseController
     {
-        private readonly ApplicationDbContext _db = new ApplicationDbContext();
-
         // GET: BehaviorSkillCategories
         public async Task<ActionResult> Index()
         {
-            return View(await _db.BehaviorSkillCategories.ToListAsync());
+            return View(await Db.BehaviorSkillCategories.ToListAsync());
         }
 
         // GET: BehaviorSkillCategories/Details/5
@@ -24,7 +22,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BehaviorSkillCategory behaviorSkillCategory = await _db.BehaviorSkillCategories.FindAsync(id);
+            var behaviorSkillCategory = await Db.BehaviorSkillCategories.FindAsync(id);
             if (behaviorSkillCategory == null)
             {
                 return HttpNotFound();
@@ -49,8 +47,8 @@ namespace HopeAcademySMS.Controllers
             {
                 try
                 {
-                    _db.BehaviorSkillCategories.Add(behaviorSkillCategory);
-                    await _db.SaveChangesAsync();
+                    Db.BehaviorSkillCategories.Add(behaviorSkillCategory);
+                    await Db.SaveChangesAsync();
                     TempData["UserMessage"] = "Behavioral Category created Successfully.";
                     TempData["Title"] = "Success.";
                     return RedirectToAction("Index");
@@ -75,7 +73,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BehaviorSkillCategory behaviorSkillCategory = await _db.BehaviorSkillCategories.FindAsync(id);
+            var behaviorSkillCategory = await Db.BehaviorSkillCategories.FindAsync(id);
             if (behaviorSkillCategory == null)
             {
                 return HttpNotFound();
@@ -92,8 +90,8 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Entry(behaviorSkillCategory).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
+                Db.Entry(behaviorSkillCategory).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "Behavioral Category Updated Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
@@ -110,7 +108,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BehaviorSkillCategory behaviorSkillCategory = await _db.BehaviorSkillCategories.FindAsync(id);
+            var behaviorSkillCategory = await Db.BehaviorSkillCategories.FindAsync(id);
             if (behaviorSkillCategory == null)
             {
                 return HttpNotFound();
@@ -123,9 +121,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            BehaviorSkillCategory behaviorSkillCategory = await _db.BehaviorSkillCategories.FindAsync(id);
-            if (behaviorSkillCategory != null) _db.BehaviorSkillCategories.Remove(behaviorSkillCategory);
-            await _db.SaveChangesAsync();
+            var behaviorSkillCategory = await Db.BehaviorSkillCategories.FindAsync(id);
+            if (behaviorSkillCategory != null) Db.BehaviorSkillCategories.Remove(behaviorSkillCategory);
+            await Db.SaveChangesAsync();
             TempData["UserMessage"] = "Behavioral Category has been Deleted Successful";
             TempData["Title"] = "Error.";
             return RedirectToAction("Index");
@@ -135,7 +133,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -1,7 +1,7 @@
-﻿using HopeAcademySMS.ViewModel;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using PagedList;
-using SwiftSkool.Models;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class AssignSubjectTeachersController : BaseController
     {
@@ -39,7 +39,7 @@ namespace SwiftSkool.Controllers
             if (User.IsInRole("Teacher"))
             {
                 string name = User.Identity.GetUserName();
-                //var user = db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
+                //var user = Db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
 
                 assignedList = assignedList.Where(x => x.StaffName.Equals(name));
 
@@ -83,7 +83,7 @@ namespace SwiftSkool.Controllers
             TempData["UserMessage"] = $"You Search result contains {count} Records ";
             TempData["Title"] = "Success.";
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.AssignSubjectTeachers.ToListAsync());
+            //return View(await Db.AssignSubjectTeachers.ToListAsync());
         }
 
         // GET: AssignSubjectTeachers/Details/5

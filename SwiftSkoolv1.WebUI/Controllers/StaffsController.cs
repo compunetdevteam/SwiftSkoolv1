@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
-using SwiftSkool.Models;
 using SwiftSkool.ViewModel;
+using SwiftSkoolv1.Domain;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,17 +8,15 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class StaffsController : Controller
+    public class StaffsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Staffs
         public async Task<ActionResult> Index()
         {
-            ViewData["ClassName"] = new SelectList(db.Classes, "FullClassName", "FullClassName");
-            return View(await db.Staffs.AsNoTracking().ToListAsync());
+            ViewData["ClassName"] = new SelectList(Db.Classes, "FullClassName", "FullClassName");
+            return View(await Db.Staffs.AsNoTracking().ToListAsync());
         }
 
         public async Task<ActionResult> StaffDashboard()
@@ -26,40 +24,41 @@ namespace SwiftSkool.Controllers
 
             StaffVM model = new StaffVM();
 
-            var term = await db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
-            var session = await db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
+            var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
+            var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
             //get the ID of the logged in Staff
 
 
             var staffName = User.Identity.GetUserName();
-            var TeacherAssignedClass = await db.AssignFormTeacherToClasses.AsNoTracking().Where(x => x.Username.Equals(staffName)).Select(x => x.ClassName).FirstOrDefaultAsync();
-            // var formTeacherAssignedClass = db.AssignFormTeacherToClasses.Where(x => x.Username.Equals(staffName));
+            var TeacherAssignedClass = await Db.AssignFormTeacherToClasses.AsNoTracking().Where(x => x.Username.Equals(staffName)).Select(x => x.ClassName).FirstOrDefaultAsync();
+            // var formTeacherAssignedClass = Db.AssignFormTeacherToClasses.Where(x => x.Username.Equals(staffName));
 
-            var classAssignedToStudent = db.AssignedClasses.Where(x => x.ClassName.Equals(TeacherAssignedClass)).Select(x => x.StudentId.Count());
+            var classAssignedToStudent = Db.AssignedClasses.Where(x => x.ClassName.Equals(TeacherAssignedClass)).Select(x => x.StudentId.Count());
 
 
             //number of male student in the class of the form Teacher
-            var male = db.AssignedClasses.AsNoTracking().Where(
+            var male = Db.AssignedClasses.AsNoTracking().Where(
                                 x => x.TermName.Equals(term) && x.SessionName.Equals(session)
                                      && x.ClassName.Equals(TeacherAssignedClass)).Count(x => x.Student.Gender.Equals("MALE"));
             //number of female student in the class of the form Teacher
-            var female = db.AssignedClasses.AsNoTracking().Where(
+            var female = Db.AssignedClasses.AsNoTracking().Where(
                                x => x.TermName.Equals(term) && x.SessionName.Equals(session)
                                     && x.ClassName.Equals(TeacherAssignedClass)).Count(x => x.Student.Gender.Equals("FEMALE"));
 
 
 
 
-            // var classIWasAssignedTo = db.
+            // var classIWasAssignedTo = Db.
 
             //get all the student in the class of a staff
-            var studentInMyClass = db.AssignedClasses.AsNoTracking().Where(x => x.ClassName.Equals(TeacherAssignedClass)).Select(x => x.StudentId).ToList()
-                ;
-            List<Student> mylist = new List<Student>();
+            var studentInMyClass = Db.AssignedClasses.AsNoTracking()
+                .Where(x => x.ClassName.Equals(TeacherAssignedClass))
+                .Select(x => x.StudentId).ToList();
+            var mylist = new List<Student>();
 
             foreach (var item in studentInMyClass)
             {
-                var student = await db.Students.Where(x => x.StudentId.Equals(item)).FirstOrDefaultAsync();
+                var student = await Db.Students.Where(x => x.StudentId.Equals(item)).FirstOrDefaultAsync();
                 mylist.Add(student);
             }
 
@@ -86,12 +85,12 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = await db.Staffs.FindAsync(id);
+            Staff staff = await Db.Staffs.FindAsync(id);
             if (staff == null)
             {
                 return HttpNotFound();
             }
-            ViewData["ClassName"] = new SelectList(db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
+            ViewData["ClassName"] = new SelectList(Db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
             return View(staff);
         }
 
@@ -104,7 +103,7 @@ namespace SwiftSkool.Controllers
         //    //    id = username;
         //    //}
 
-        //    Student student = await db.Students.FindAsync(id);
+        //    Student student = await Db.Students.FindAsync(id);
         //    if (student == null)
         //    {
         //        return HttpNotFound();
@@ -128,8 +127,8 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Staffs.Add(staff);
-                await db.SaveChangesAsync();
+                Db.Staffs.Add(staff);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -143,7 +142,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = await db.Staffs.FindAsync(id);
+            Staff staff = await Db.Staffs.FindAsync(id);
             if (staff == null)
             {
                 return HttpNotFound();
@@ -160,8 +159,8 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(staff).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(staff).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(staff);
@@ -174,7 +173,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = await db.Staffs.FindAsync(id);
+            Staff staff = await Db.Staffs.FindAsync(id);
             if (staff == null)
             {
                 return HttpNotFound();
@@ -187,15 +186,15 @@ namespace SwiftSkool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Staff staff = await db.Staffs.FindAsync(id);
-            if (staff != null) db.Staffs.Remove(staff);
-            await db.SaveChangesAsync();
+            Staff staff = await Db.Staffs.FindAsync(id);
+            if (staff != null) Db.Staffs.Remove(staff);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> RenderImage(string id)
         {
-            Staff staff = await db.Staffs.FindAsync(id);
+            Staff staff = await Db.Staffs.FindAsync(id);
 
             byte[] photoBack = staff.StaffPassport;
 
@@ -205,7 +204,7 @@ namespace SwiftSkool.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

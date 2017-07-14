@@ -4,9 +4,9 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class FileDownloadController : Controller
+    public class FileDownloadController : BaseController
     {
         // GET: /FileProcess/  
 

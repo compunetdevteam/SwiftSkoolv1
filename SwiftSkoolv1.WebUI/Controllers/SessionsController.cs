@@ -1,13 +1,10 @@
-﻿using DataTables.Mvc;
-using SwiftSkool.Models;
-using System;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class SessionsController : BaseController
     {
@@ -50,63 +47,63 @@ namespace SwiftSkool.Controllers
             return Json(new { data = await Db.Sessions.AsNoTracking().ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Get([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
-        {
-            IQueryable<Session> query = Db.Sessions;
-            var totalCount = query.Count();
+        //public ActionResult Get([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
+        //{
+        //    IQueryable<Session> query = Db.Sessions;
+        //    var totalCount = query.Count();
 
-            #region Filtering
-            // Apply filters for searching
-            if (requestModel.Search.Value != string.Empty)
-            {
-                var value = requestModel.Search.Value.Trim();
-                query = query.Where(p => p.SessionName.Contains(value) ||
-                                         p.ActiveSession.ToString().Equals(value)
-                //p.ModelNumber.Contains(value) ||
-                //p.Building.Contains(value)
-                );
-            }
+        //    #region Filtering
+        //    // Apply filters for searching
+        //    if (requestModel.Search.Value != string.Empty)
+        //    {
+        //        var value = requestModel.Search.Value.Trim();
+        //        query = query.Where(p => p.SessionName.Contains(value) ||
+        //                                 p.ActiveSession.ToString().Equals(value)
+        //        //p.ModelNumber.Contains(value) ||
+        //        //p.Building.Contains(value)
+        //        );
+        //    }
 
-            var filteredCount = query.Count();
+        //    var filteredCount = query.Count();
 
-            #endregion Filtering
+        //    #endregion Filtering
 
-            #region Sorting
-            // Sorting
-            var sortedColumns = requestModel.Columns.GetSortedColumns();
-            var orderByString = String.Empty;
+        //    #region Sorting
+        //    // Sorting
+        //    var sortedColumns = requestModel.Columns.GetSortedColumns();
+        //    var orderByString = String.Empty;
 
-            foreach (var column in sortedColumns)
-            {
-                orderByString += orderByString != String.Empty ? "," : "";
-                orderByString += (column.Data) +
-                                 (column.SortDirection ==
-                                  Column.OrderDirection.Ascendant ? " asc" : " desc");
-            }
+        //    foreach (var column in sortedColumns)
+        //    {
+        //        orderByString += orderByString != String.Empty ? "," : "";
+        //        orderByString += (column.Data) +
+        //                         (column.SortDirection ==
+        //                          Column.OrderDirection.Ascendant ? " asc" : " desc");
+        //    }
 
-            query = query.OrderBy(o => o.SessionName ==
-                                 string.Empty ? "BarCode asc" : orderByString);
+        //    query = query.OrderBy(o => o.SessionName ==
+        //                         string.Empty ? "BarCode asc" : orderByString);
 
-            #endregion Sorting
+        //    #endregion Sorting
 
-            // Paging
-            query = query.Skip(requestModel.Start).Take(requestModel.Length);
+        //    // Paging
+        //    query = query.Skip(requestModel.Start).Take(requestModel.Length);
 
-            var data = query.Select(asset => new
-            {
-                SessionName = asset.SessionName,
-                ActiveSession = asset.ActiveSession
-                //Manufacturer = asset.Manufacturer,
-                //ModelNumber = asset.ModelNumber,
-                //Building = asset.Building,
-                //RoomNo = asset.RoomNo,
-                //Quantity = asset.Quantity
-            }).ToList();
+        //    var data = query.Select(asset => new
+        //    {
+        //        SessionName = asset.SessionName,
+        //        ActiveSession = asset.ActiveSession
+        //        //Manufacturer = asset.Manufacturer,
+        //        //ModelNumber = asset.ModelNumber,
+        //        //Building = asset.Building,
+        //        //RoomNo = asset.RoomNo,
+        //        //Quantity = asset.Quantity
+        //    }).ToList();
 
-            return Json(new DataTablesResponse
-                    (requestModel.Draw, data, filteredCount, totalCount),
-                JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(new DataTablesResponse
+        //            (requestModel.Draw, data, filteredCount, totalCount),
+        //        JsonRequestBehavior.AllowGet);
+        //}
 
         // GET: Sessions/Details/5
         public async Task<ActionResult> Details(int? id)

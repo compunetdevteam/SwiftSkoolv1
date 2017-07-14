@@ -1,6 +1,6 @@
 ﻿using PagedList;
-using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class AssignSubjectsController : BaseController
     {
@@ -71,7 +71,7 @@ namespace SwiftSkool.Controllers
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
 
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.AssignSubjects.ToListAsync());
+            //return View(await Db.AssignSubjects.ToListAsync());
         }
 
 

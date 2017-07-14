@@ -1,7 +1,7 @@
 ﻿using HopeAcademySMS.Services;
 using OfficeOpenXml;
 using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class GuardiansController : BaseController
     {
@@ -161,7 +161,7 @@ namespace SwiftSkool.Controllers
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.StudentId = new SelectList( await _query.StudentListAsync(userSchool), "StudentId", "FullName", model.StudentId);
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentId", "FullName", model.StudentId);
             return View(model);
         }
 

@@ -1,6 +1,6 @@
 ﻿using PagedList;
-using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class GradesController : BaseController
     {
@@ -65,7 +65,7 @@ namespace SwiftSkool.Controllers
             int pageSize = count;
             int pageNumber = (page ?? 1);
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.ContinuousAssessments.ToListAsync());
+            //return View(await Db.ContinuousAssessments.ToListAsync());
         }
 
 
@@ -126,7 +126,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Grade grade = await Db.Grades.FindAsync(id);
+            var grade = await Db.Grades.FindAsync(id);
             if (grade == null)
             {
                 return HttpNotFound();
@@ -199,7 +199,7 @@ namespace SwiftSkool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Grade grade = await Db.Grades.FindAsync(id);
+            var grade = await Db.Grades.FindAsync(id);
             if (grade != null) Db.Grades.Remove(grade);
             await Db.SaveChangesAsync();
             TempData["UserMessage"] = "Class Has Been Deleted";

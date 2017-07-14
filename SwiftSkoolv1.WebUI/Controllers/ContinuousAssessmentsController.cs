@@ -2,8 +2,9 @@
 using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using PagedList;
-using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Controllers;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace SwiftSkool.Controllers
             if (User.IsInRole("Teacher"))
             {
                 string name = User.Identity.GetUserName();
-                //var user = db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
+                //var user = Db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
 
                 assignedList = assignedList.AsNoTracking().Where(x => x.StaffName.Equals(name));
 
@@ -96,7 +97,7 @@ namespace SwiftSkool.Controllers
                     assignedList = assignedList.AsNoTracking().OrderBy(s => s.ClassName);
                     break;
             }
-            // ViewBag.SubjectCode = new SelectList(db.Subjects, "CourseName", "CourseName");
+            // ViewBag.SubjectCode = new SelectList(Db.Subjects, "CourseName", "CourseName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
 
@@ -115,7 +116,7 @@ namespace SwiftSkool.Controllers
             int pageSize = count;
             int pageNumber = (page ?? 1);
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.ContinuousAssessments.ToListAsync());
+            //return View(await Db.ContinuousAssessments.ToListAsync());
         }
 
         public async Task<ActionResult> StudentIndex(string id, int? page)
@@ -137,7 +138,7 @@ namespace SwiftSkool.Controllers
             int pageSize = count;
             int pageNumber = (page ?? 1);
             return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await db.ContinuousAssessments.ToListAsync());
+            //return View(await Db.ContinuousAssessments.ToListAsync());
         }
 
 
@@ -186,12 +187,12 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var mysubjectCategory = db.Subjects.Where(x => x.CourseCode.Equals(model.SubjectCode))
+                //var mysubjectCategory = Db.Subjects.Where(x => x.CourseCode.Equals(model.SubjectCode))
                 //                        .Select(c => c.CategoriesId).FirstOrDefault();
 
-                //var subjectName = db.Subjects.Where(x => x.CourseCode.Equals(model.SubjectCode))
+                //var subjectName = Db.Subjects.Where(x => x.CourseCode.Equals(model.SubjectCode))
                 //                        .Select(c => c.CourseName).FirstOrDefault();
-                //var student = db.AssignedClasses.Where(x => x.ClassName.Equals(model.ClassName)
+                //var student = Db.AssignedClasses.Where(x => x.ClassName.Equals(model.ClassName)
                 //                                               && x.TermName.Contains(model.TermName.ToString())
                 //                                               && x.SessionName.Equals(model.SessionName));
                 var CA = Db.ContinuousAssessments.AsNoTracking().Where(x => x.ClassName.Equals(model.ClassName)
@@ -301,7 +302,7 @@ namespace SwiftSkool.Controllers
                     SchoolId = userSchool
                     //SubjectCategory = mysubjectCategory
                 };
-                // db.ContinuousAssessments.Add(myContinuousAssessment);
+                // Db.ContinuousAssessments.Add(myContinuousAssessment);
                 Db.Entry(myContinuousAssessment).State = EntityState.Modified;
                 await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "Continuous Assessment Updated Successfully.";
@@ -354,7 +355,7 @@ namespace SwiftSkool.Controllers
 
         public ActionResult UploadResult()
         {
-            //ViewBag.CourseName = new SelectList(db.Courses, "CourseName", "CourseName");
+            //ViewBag.CourseName = new SelectList(Db.Courses, "CourseName", "CourseName");
             return View();
         }
 

@@ -8,7 +8,7 @@ namespace SwiftSkoolv1.Domain
     public class Result : GeneralSchool
     {
         #region contructors and methods
-        // private ApplicationDbContext db = new ApplicationDbContext();
+        // private SwifkSkoolContext Db = new SwifkSkoolContext();
 
         //private Result()
         //{

@@ -1,17 +1,18 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SwiftSkool.BusinessLogic
+namespace SwiftSkoolv1.WebUI.BusinessLogic
 {
     public class ResultCommandManager : IDisposable
     {
 
-        private readonly ApplicationDbContext _db;
+        private readonly SwiftSkoolDbContext _db;
         private readonly string _studentId;
         private readonly IQueryable<AssignedClass> _mYclassName;
         public readonly string _className;
@@ -23,7 +24,7 @@ namespace SwiftSkool.BusinessLogic
 
         public ResultCommandManager(List<CaList> studentCa)
         {
-            _db = new ApplicationDbContext();
+            _db = new SwiftSkoolDbContext();
         }
         public ResultCommandManager(string studentId, string termName, string sessionName, string schoolId)
         {
@@ -32,7 +33,7 @@ namespace SwiftSkool.BusinessLogic
             _termName = termName.ToUpper().Trim();
             _sessionName = sessionName.Trim();
             _studentId = studentId.Trim();
-            _db = new ApplicationDbContext();
+            _db = new SwiftSkoolDbContext();
 
             _mYclassName = GetClassName();
             _className = GetClassName().Select(y => y.ClassName).FirstOrDefault();

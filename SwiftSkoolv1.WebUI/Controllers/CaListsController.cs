@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
-using SwiftSkool.Models;
 using SwiftSkool.Services;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,7 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class CaListsController : BaseController
     {
@@ -162,7 +163,7 @@ namespace SwiftSkool.Controllers
         [MultipleButton(Name = "action", Argument = "DownloadCa")]
         public async Task DownloadCa(CaSelectIndexVm model)
         {
-            //var facilityList = db.Communications.AsNoTracking().ToList();
+            //var facilityList = Db.Communications.AsNoTracking().ToList();
             var myCalist = await GenerateCaList(model);
             var setUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true) && x.SchoolId.Equals(userSchool));
             char c1 = 'A';
@@ -181,7 +182,7 @@ namespace SwiftSkool.Controllers
 
             foreach (var caitem in itemHeader)
             {
-                worksheet.Cells[$"{c1++}1"].Value = $"{caitem.CACaption}({caitem.MaximumScore})";
+                worksheet.Cells[$"{c1++}1"].Value = $"{caitem.CaCaption}({caitem.MaximumScore})";
             }
 
             int rowStart = 2;

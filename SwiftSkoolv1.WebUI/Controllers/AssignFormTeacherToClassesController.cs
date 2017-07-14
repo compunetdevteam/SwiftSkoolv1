@@ -1,12 +1,12 @@
-﻿using System;
-using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class AssignFormTeacherToClassesController : BaseController
     {
@@ -48,7 +48,7 @@ namespace SwiftSkool.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.AssignFormTeacherToClasses.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.Id,s.Username, s.ClassName }).ToList();
+            var v = Db.AssignFormTeacherToClasses.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.Id, s.Username, s.ClassName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);

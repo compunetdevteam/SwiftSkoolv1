@@ -1,15 +1,12 @@
-﻿using HopeAcademySMS.Models.Charts;
-using HopeAcademySMS.ViewModel;
-using SwiftSkool.ViewModel;
+﻿using SwiftSkool.Services;
+using SwiftSkoolv1.WebUI.Controllers;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
-using System.IO;
 using System.Threading.Tasks;
 using System.Web.Helpers;
-using System.Web.Hosting;
 using System.Web.Mvc;
 
 
@@ -18,14 +15,14 @@ namespace SwiftSkool.Controllers
 
     public class HomeController : BaseController
     {
-        ///private readonly ApplicationDbContext Db = new ApplicationDbContext();
+        ///private readonly SwiftSkoolDbContext Db = new SwiftSkoolDbContext();
 
         //public ActionResult Index()
         //{
-        //    int totalMaleStudent = db.Students.Count(s => s.Gender.Equals("Male"));
-        //    int totalFemaleStudent = db.Students.Count(s => s.Gender.Equals("Female"));
-        //    int totalStudent = db.Students.Count();
-        //    int totalStaff = db.Staffs.Count();
+        //    int totalMaleStudent = Db.Students.Count(s => s.Gender.Equals("Male"));
+        //    int totalFemaleStudent = Db.Students.Count(s => s.Gender.Equals("Female"));
+        //    int totalStudent = Db.Students.Count();
+        //    int totalStaff = Db.Staffs.Count();
 
         //    double val1 = totalMaleStudent * 100;
         //    double val2 = totalFemaleStudent * 100;
@@ -131,46 +128,46 @@ namespace SwiftSkool.Controllers
             return null;
         }
 
-        public ActionResult SchoolSetUp()
-        {
-            return View();
-        }
+        //public ActionResult SchoolSetUp()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult SchoolSetUp(SetUpVm model)
-        {
-            string _FileName = String.Empty;
-            if (model.File?.ContentLength > 0)
-            {
-                _FileName = Path.GetFileName(model.File.FileName);
-                string _path = HostingEnvironment.MapPath("~/Content/Images/") + _FileName;
-                var directory = new DirectoryInfo(HostingEnvironment.MapPath("~/Content/Images/"));
-                if (directory.Exists == false)
-                {
-                    directory.Create();
-                }
-                model.File.SaveAs(_path);
-            }
+        //[HttpPost]
+        //public ActionResult SchoolSetUp(SetUpVm model)
+        //{
+        //    string _FileName = String.Empty;
+        //    if (model.File?.ContentLength > 0)
+        //    {
+        //        _FileName = Path.GetFileName(model.File.FileName);
+        //        string _path = HostingEnvironment.MapPath("~/Content/Images/") + _FileName;
+        //        var directory = new DirectoryInfo(HostingEnvironment.MapPath("~/Content/Images/"));
+        //        if (directory.Exists == false)
+        //        {
+        //            directory.Create();
+        //        }
+        //        model.File.SaveAs(_path);
+        //    }
 
 
-            //ViewBag.Message = "File upload failed!!";
-            //return View(model);
+        //    //ViewBag.Message = "File upload failed!!";
+        //    //return View(model);
 
-            Configuration objConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-            AppSettingsSection objAppsettings = (AppSettingsSection)objConfig.GetSection("appSettings");
-            //Edit
-            if (objAppsettings != null)
-            {
-                objAppsettings.Settings["SchoolName"].Value = model.SchoolName;
-                objAppsettings.Settings["SchoolTheme"].Value = model.SchoolTheme.ToString();
-                if (!String.IsNullOrEmpty(_FileName))
-                {
-                    objAppsettings.Settings["SchoolImage"].Value = _FileName;
-                }
-                objConfig.Save();
-            }
-            return View("Index");
-        }
+        //    Configuration objConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+        //    AppSettingsSection objAppsettings = (AppSettingsSection)objConfig.GetSection("appSettings");
+        //    //Edit
+        //    if (objAppsettings != null)
+        //    {
+        //        objAppsettings.Settings["SchoolName"].Value = model.SchoolName;
+        //        objAppsettings.Settings["SchoolTheme"].Value = model.SchoolTheme.ToString();
+        //        if (!String.IsNullOrEmpty(_FileName))
+        //        {
+        //            objAppsettings.Settings["SchoolImage"].Value = _FileName;
+        //        }
+        //        objConfig.Save();
+        //    }
+        //    return View("Index");
+        //}
 
         public ActionResult Contact()
         {

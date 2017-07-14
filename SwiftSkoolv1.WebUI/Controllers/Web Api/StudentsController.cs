@@ -1,4 +1,5 @@
-﻿using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -7,29 +8,29 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace HopeAcademySMS.Controllers.Web_Api
+namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 {
     public class StudentsController : ApiController
     {
-        private ApplicationDbContext db;
+        private SwiftSkoolDbContext Db;
 
 
         public StudentsController()
         {
-            db = new ApplicationDbContext();
+            Db = new SwiftSkoolDbContext();
         }
 
         // GET: api/Students
         public IQueryable<Student> GetStudents()
         {
-            return db.Students;
+            return Db.Students;
         }
 
         // GET: api/Students/5
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> GetStudent(string id)
         {
-            Student student = await db.Students.FindAsync(id);
+            Student student = await Db.Students.FindAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -52,11 +53,11 @@ namespace HopeAcademySMS.Controllers.Web_Api
                 return BadRequest();
             }
 
-            db.Entry(student).State = EntityState.Modified;
+            Db.Entry(student).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                await Db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -82,11 +83,11 @@ namespace HopeAcademySMS.Controllers.Web_Api
                 return BadRequest(ModelState);
             }
 
-            db.Students.Add(student);
+            Db.Students.Add(student);
 
             try
             {
-                await db.SaveChangesAsync();
+                await Db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -107,14 +108,14 @@ namespace HopeAcademySMS.Controllers.Web_Api
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> DeleteStudent(string id)
         {
-            Student student = await db.Students.FindAsync(id);
+            Student student = await Db.Students.FindAsync(id);
             if (student == null)
             {
                 return NotFound();
             }
 
-            db.Students.Remove(student);
-            await db.SaveChangesAsync();
+            Db.Students.Remove(student);
+            await Db.SaveChangesAsync();
 
             return Ok(student);
         }
@@ -123,14 +124,14 @@ namespace HopeAcademySMS.Controllers.Web_Api
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool StudentExists(string id)
         {
-            return db.Students.Count(e => e.StudentId == id) > 0;
+            return Db.Students.Count(e => e.StudentId == id) > 0;
         }
     }
 }

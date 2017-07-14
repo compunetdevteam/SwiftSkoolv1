@@ -1,4 +1,4 @@
-﻿namespace SwiftSkool.BusinessLogic
+﻿namespace SwiftSkoolv1.WebUI.BusinessLogic
 {
     public interface IResultCommandManager
     {
@@ -7,7 +7,7 @@
         int NumberOfStudentPerClass(string className, string term, string session);
         int SubjectOfferedByStudent(string studentId, string term);
         double TotalScorePerStudent(string studentId, string className, string term, string session);
-       // double TotalScorePerSubject(string subject, string className, string term, string session);
+        // double TotalScorePerSubject(string subject, string className, string term, string session);
 
         double CalculateClassAverage(string className, string term, string sessionName, string subject);
 

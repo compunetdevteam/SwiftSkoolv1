@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using SwiftSkool.Models;
+using SwiftSkoolv1.WebUI.Models;
 using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     //[Authorize(Roles = "Admin")]
-    public class RolesAdminController : Controller
+    public class RolesAdminController : BaseController
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
@@ -23,7 +23,7 @@ namespace SwiftSkool.Controllers
         // GET: RolesAdmin
         public ActionResult Index()
         {
-            var roles = _context.Roles.ToList();
+            var roles = Db.Roles.ToList();
             return View(roles);
         }
 
@@ -47,11 +47,11 @@ namespace SwiftSkool.Controllers
         {
             try
             {
-                _context.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole()
+                Db.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole()
                 {
                     Name = collection["RoleName"]
                 });
-                _context.SaveChanges();
+                Db.SaveChanges();
                 //ViewBag.ResultMessage = "Role created successfully !";
 
                 // TempData["UserMessage"] = new { CssClassName = "alert-sucess", Title = "Success!", Message = "Roles Added Successfully." };
@@ -70,7 +70,7 @@ namespace SwiftSkool.Controllers
         // GET: RolesAdmin/Edit/5
         public ActionResult Edit(string roleName)
         {
-            var thisRole = _context.Roles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase));
+            var thisRole = Db.Roles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase));
             return View(thisRole);
         }
 
@@ -82,8 +82,8 @@ namespace SwiftSkool.Controllers
         {
             try
             {
-                _context.Entry(role).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
+                Db.Entry(role).State = System.Data.Entity.EntityState.Modified;
+                Db.SaveChanges();
                 TempData["UserMessage"] = "Role Updated Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
@@ -99,11 +99,11 @@ namespace SwiftSkool.Controllers
         public ActionResult ManageUserRoles()
         {
             // prepopulat roles for the view dropdown
-            //ViewBag.Roles = new SelectList(_context.Roles, "Name", "Name");
-            var role = _context.Roles.SingleOrDefault(m => m.Name == "Teacher");
+            //ViewBag.Roles = new SelectList(Db.Roles, "Name", "Name");
+            var role = Db.Roles.SingleOrDefault(m => m.Name == "Teacher");
             var staff = UserManager.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id)).ToList();
 
-            ViewBag.Roles = new SelectList(_context.Roles, "Name", "Name");
+            ViewBag.Roles = new SelectList(Db.Roles, "Name", "Name");
             ViewBag.Username = new SelectList(staff, "Username", "Username");
 
             return View();
@@ -113,18 +113,18 @@ namespace SwiftSkool.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(string UserName, string RoleName)
         {
-            ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
+            ApplicationUser user = Db.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
             //var account = new AccountController();
             UserManager.AddToRole(user.Id, RoleName);
 
             ViewBag.ResultMessage = "Role created successfully !";
 
             // prepopulat roles for the view dropdown
-            var role = _context.Roles.SingleOrDefault(m => m.Name == "Teacher" || m.Name == "Form-Teacher");
-            //var usersInRole = db.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id));
+            var role = Db.Roles.SingleOrDefault(m => m.Name == "Teacher" || m.Name == "Form-Teacher");
+            //var usersInRole = Db.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id));
             var staff = UserManager.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id)).ToList();
 
-            ViewBag.Roles = new SelectList(_context.Roles, "Name", "Name");
+            ViewBag.Roles = new SelectList(Db.Roles, "Name", "Name");
             ViewBag.Username = new SelectList(staff, "Username", "Username");
             return View("ManageUserRoles");
         }
@@ -135,14 +135,14 @@ namespace SwiftSkool.Controllers
         {
             if (!string.IsNullOrWhiteSpace(Username))
             {
-                var user = _context.Users.FirstOrDefault(c => c.UserName.Equals(Username));
-                //ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(Username.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                var user = Db.Users.FirstOrDefault(c => c.UserName.Equals(Username));
+                //ApplicationUser user = Db.Users.FirstOrDefault(u => u.UserName.Equals(Username.Trim(), StringComparison.CurrentCultureIgnoreCase));
                 if (user == null)
                 {
-                    var mlist = _context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-                    ViewBag.Roles = new SelectList(_context.Roles, "Name", "Name");
-                    ViewBag.Username = new SelectList(_context.Staffs, "Username", "Username");
-                    ViewBag.ClassName = new SelectList(_context.Classes, "FullClassName", "FullClassName");
+                    var mlist = Db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                    ViewBag.Roles = new SelectList(Db.Roles, "Name", "Name");
+                    ViewBag.Username = new SelectList(Db.Staffs, "Username", "Username");
+                    ViewBag.ClassName = new SelectList(Db.Classes, "FullClassName", "FullClassName");
                     TempData["UserMessage"] = "Couldn't Find User.";
                     TempData["Title"] = "Error.";
                     return View("ManageUserRoles");
@@ -150,10 +150,10 @@ namespace SwiftSkool.Controllers
                 //var account = new AccountController();
 
                 ViewBag.RolesForThisUser = UserManager.GetRoles(user.Id);
-                ViewBag.Username = new SelectList(_context.Users, "Username", "Username");
+                ViewBag.Username = new SelectList(Db.Users, "Username", "Username");
 
 
-                ViewBag.Roles = new SelectList(_context.Roles, "Name", "Name");
+                ViewBag.Roles = new SelectList(Db.Roles, "Name", "Name");
             }
 
             return View("ManageUserRoles");
@@ -162,9 +162,9 @@ namespace SwiftSkool.Controllers
         // GET: RolesAdmin/Delete/5
         public ActionResult Delete(string RoleName)
         {
-            var thisRole = _context.Roles.FirstOrDefault(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase));
-            _context.Roles.Remove(thisRole);
-            _context.SaveChanges();
+            var thisRole = Db.Roles.FirstOrDefault(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase));
+            Db.Roles.Remove(thisRole);
+            Db.SaveChanges();
             TempData["UserMessage"] = "Role deleted Successfully.";
             TempData["Title"] = "Delete.";
             return RedirectToAction("Index");
@@ -175,7 +175,7 @@ namespace SwiftSkool.Controllers
         public ActionResult DeleteRoleForUser(string UserName, string RoleName)
         {
             //var account = new AccountController();
-            ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
+            ApplicationUser user = Db.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
 
             if (user != null && UserManager.IsInRole(user.Id, RoleName))
             {
@@ -188,8 +188,8 @@ namespace SwiftSkool.Controllers
             }
 
 
-            ViewBag.Roles = new SelectList(_context.Roles, "Name", "Name");
-            ViewBag.Username = new SelectList(_context.Users, "Username", "Username");
+            ViewBag.Roles = new SelectList(Db.Roles, "Name", "Name");
+            ViewBag.Username = new SelectList(Db.Users, "Username", "Username");
             return View("ManageUserRoles");
         }
     }

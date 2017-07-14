@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkool.Calender;
-using SwiftSkool.Models;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class AppointmentDiariesController : Controller
+    public class AppointmentDiariesController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: AppointmentDiaries
         public async Task<ActionResult> Index()
         {
-            return View(await db.AppointmentDiary.ToListAsync());
+            return View(await Db.AppointmentDiary.ToListAsync());
         }
 
         // GET: AppointmentDiaries/Details/5
@@ -29,7 +21,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AppointmentDiary appointmentDiary = await db.AppointmentDiary.FindAsync(id);
+            var appointmentDiary = await Db.AppointmentDiary.FindAsync(id);
             if (appointmentDiary == null)
             {
                 return HttpNotFound();
@@ -52,8 +44,8 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.AppointmentDiary.Add(appointmentDiary);
-                await db.SaveChangesAsync();
+                Db.AppointmentDiary.Add(appointmentDiary);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -67,7 +59,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AppointmentDiary appointmentDiary = await db.AppointmentDiary.FindAsync(id);
+            var appointmentDiary = await Db.AppointmentDiary.FindAsync(id);
             if (appointmentDiary == null)
             {
                 return HttpNotFound();
@@ -84,8 +76,8 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(appointmentDiary).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(appointmentDiary).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(appointmentDiary);
@@ -98,7 +90,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AppointmentDiary appointmentDiary = await db.AppointmentDiary.FindAsync(id);
+            var appointmentDiary = await Db.AppointmentDiary.FindAsync(id);
             if (appointmentDiary == null)
             {
                 return HttpNotFound();
@@ -111,9 +103,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            AppointmentDiary appointmentDiary = await db.AppointmentDiary.FindAsync(id);
-            db.AppointmentDiary.Remove(appointmentDiary);
-            await db.SaveChangesAsync();
+            var appointmentDiary = await Db.AppointmentDiary.FindAsync(id);
+            Db.AppointmentDiary.Remove(appointmentDiary);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -121,7 +113,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

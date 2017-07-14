@@ -1,12 +1,11 @@
-﻿using SwiftSkool.Controllers;
-using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class FeeCategoriesController : BaseController
     {
@@ -51,7 +50,7 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateFeeCategoryVM feeCategory)
         {
-            if(Db.FeeCategories.Any(fc => fc.CategoryName.Equals(feeCategory.CategoryName)) )
+            if (Db.FeeCategories.Any(fc => fc.CategoryName.Equals(feeCategory.CategoryName)))
             {
                 ModelState.AddModelError("Error", "A Fee Category already exists with the name you have supplied or your or the name is blank! Please fill a valid name for the category!");
                 return View(feeCategory);
@@ -95,7 +94,7 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditFeeCategoryVM feeCategory)
         {
-            if(string.IsNullOrWhiteSpace(feeCategory.CategoryName) || string.IsNullOrEmpty(feeCategory.CategoryName))
+            if (string.IsNullOrWhiteSpace(feeCategory.CategoryName) || string.IsNullOrEmpty(feeCategory.CategoryName))
             {
                 ModelState.AddModelError("Error", "You cannot have blank categories in the application!");
                 return View(feeCategory);

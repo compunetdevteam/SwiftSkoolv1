@@ -1,5 +1,4 @@
-﻿using HopeAcademySMS.Models;
-using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.IO;
@@ -8,16 +7,16 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class HomePageSetUpsController : Controller
+    public class HomePageSetUpsController : BaseController
     {
-        private readonly ApplicationDbContext _db = new ApplicationDbContext();
+
 
         // GET: HomePageSetUps
         public async Task<ActionResult> Index()
         {
-            return View(await _db.HomePageSetUps.ToListAsync());
+            return View(await Db.HomePageSetUps.ToListAsync());
         }
 
         // GET: HomePageSetUps/Details/5
@@ -27,7 +26,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HomePageSetUp homePageSetUp = await _db.HomePageSetUps.FindAsync(id);
+            HomePageSetUp homePageSetUp = await Db.HomePageSetUps.FindAsync(id);
             if (homePageSetUp == null)
             {
                 return HttpNotFound();
@@ -68,12 +67,12 @@ namespace HopeAcademySMS.Controllers
                 catch
                 {
                     ViewBag.Message = "File upload failed!!";
-                    ViewBag.CourseId = new SelectList(_db.HomePageSetUps, "CourseId", "CourseCode");
+                    ViewBag.CourseId = new SelectList(Db.HomePageSetUps, "CourseId", "CourseCode");
                     return View(homePageSetUp);
                 }
                 homePageSetUp.FileLocation = _FileName;
-                _db.HomePageSetUps.Add(homePageSetUp);
-                await _db.SaveChangesAsync();
+                Db.HomePageSetUps.Add(homePageSetUp);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(homePageSetUp);
@@ -86,7 +85,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HomePageSetUp homePageSetUp = await _db.HomePageSetUps.FindAsync(id);
+            HomePageSetUp homePageSetUp = await Db.HomePageSetUps.FindAsync(id);
             if (homePageSetUp == null)
             {
                 return HttpNotFound();
@@ -103,8 +102,8 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Entry(homePageSetUp).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
+                Db.Entry(homePageSetUp).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(homePageSetUp);
@@ -117,7 +116,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HomePageSetUp homePageSetUp = await _db.HomePageSetUps.FindAsync(id);
+            HomePageSetUp homePageSetUp = await Db.HomePageSetUps.FindAsync(id);
             if (homePageSetUp == null)
             {
                 return HttpNotFound();
@@ -130,9 +129,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            HomePageSetUp homePageSetUp = await _db.HomePageSetUps.FindAsync(id);
-            _db.HomePageSetUps.Remove(homePageSetUp);
-            await _db.SaveChangesAsync();
+            HomePageSetUp homePageSetUp = await Db.HomePageSetUps.FindAsync(id);
+            Db.HomePageSetUps.Remove(homePageSetUp);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -140,7 +139,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

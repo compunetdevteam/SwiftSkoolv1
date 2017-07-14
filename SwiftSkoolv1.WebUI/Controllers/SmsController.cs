@@ -1,12 +1,12 @@
 ﻿using SwiftSkool.Models;
 using SwiftSkool.Services;
-using SwiftSkool.ViewModel.Sms;
+using SwiftSkoolv1.WebUI.ViewModels.Sms;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class SmsController : BaseController
     {

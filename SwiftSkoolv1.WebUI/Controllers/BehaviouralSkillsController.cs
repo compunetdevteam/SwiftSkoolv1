@@ -1,19 +1,18 @@
-﻿using SwiftSkool.Models;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class BehaviouralSkillsController : Controller
+    public class BehaviouralSkillsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+
 
         // GET: BehaviouralSkills
         public async Task<ActionResult> Index()
         {
-            var behaviouralSkills = db.BehaviouralSkills.AsNoTracking().Include(b => b.BehaviorSkillCategories);
+            var behaviouralSkills = Db.BehaviouralSkills.AsNoTracking().Include(b => b.BehaviorSkillCategories);
             return View(await behaviouralSkills.AsNoTracking().ToListAsync());
         }
 
@@ -24,7 +23,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BehaviouralSkill behaviouralSkill = await db.BehaviouralSkills.FindAsync(id);
+            var behaviouralSkill = await Db.BehaviouralSkills.FindAsync(id);
             if (behaviouralSkill == null)
             {
                 return HttpNotFound();
@@ -35,7 +34,7 @@ namespace HopeAcademySMS.Controllers
         // GET: BehaviouralSkills/Create
         public ActionResult Create()
         {
-            ViewBag.BehaviorSkillCategoryId = new SelectList(db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name");
+            ViewBag.BehaviorSkillCategoryId = new SelectList(Db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name");
             return View();
         }
 
@@ -48,15 +47,15 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BehaviouralSkills.Add(behaviouralSkill);
-                await db.SaveChangesAsync();
+                Db.BehaviouralSkills.Add(behaviouralSkill);
+                await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "Behavioral created Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
             }
             TempData["UserMessage"] = "Behavioral Not Created Successful";
             TempData["Title"] = "Error.";
-            ViewBag.BehaviorSkillCategoryId = new SelectList(db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name", behaviouralSkill.BehaviorSkillCategoryId);
+            ViewBag.BehaviorSkillCategoryId = new SelectList(Db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name", behaviouralSkill.BehaviorSkillCategoryId);
             return View(behaviouralSkill);
         }
 
@@ -67,13 +66,13 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BehaviouralSkill behaviouralSkill = await db.BehaviouralSkills.FindAsync(id);
+            var behaviouralSkill = await Db.BehaviouralSkills.FindAsync(id);
             if (behaviouralSkill == null)
             {
 
                 return HttpNotFound();
             }
-            ViewBag.BehaviorSkillCategoryId = new SelectList(db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name", behaviouralSkill.BehaviorSkillCategoryId);
+            ViewBag.BehaviorSkillCategoryId = new SelectList(Db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name", behaviouralSkill.BehaviorSkillCategoryId);
             return View(behaviouralSkill);
         }
 
@@ -86,15 +85,15 @@ namespace HopeAcademySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(behaviouralSkill).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(behaviouralSkill).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "Behavioral Updated Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
             }
             TempData["UserMessage"] = "Behavioral Not Updated Successful";
             TempData["Title"] = "Error.";
-            ViewBag.BehaviorSkillCategoryId = new SelectList(db.BehaviorSkillCategories.AsNoTracking(), "BehaviorSkillCategoryId", "Name", behaviouralSkill.BehaviorSkillCategoryId);
+            ViewBag.BehaviorSkillCategoryId = new SelectList(Db.BehaviorSkillCategories.AsNoTracking(), "BehaviorSkillCategoryId", "Name", behaviouralSkill.BehaviorSkillCategoryId);
             return View(behaviouralSkill);
         }
 
@@ -105,7 +104,7 @@ namespace HopeAcademySMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BehaviouralSkill behaviouralSkill = await db.BehaviouralSkills.FindAsync(id);
+            var behaviouralSkill = await Db.BehaviouralSkills.FindAsync(id);
             if (behaviouralSkill == null)
             {
                 return HttpNotFound();
@@ -118,9 +117,9 @@ namespace HopeAcademySMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            BehaviouralSkill behaviouralSkill = await db.BehaviouralSkills.FindAsync(id);
-            if (behaviouralSkill != null) db.BehaviouralSkills.Remove(behaviouralSkill);
-            await db.SaveChangesAsync();
+            var behaviouralSkill = await Db.BehaviouralSkills.FindAsync(id);
+            if (behaviouralSkill != null) Db.BehaviouralSkills.Remove(behaviouralSkill);
+            await Db.SaveChangesAsync();
             TempData["UserMessage"] = "Behavioral Deleted Successful";
             TempData["Title"] = "Error.";
             return RedirectToAction("Index");
@@ -130,7 +129,7 @@ namespace HopeAcademySMS.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

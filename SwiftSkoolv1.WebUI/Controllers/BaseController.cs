@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNet.Identity;
-using SwiftSkool.BusinessLogic;
-using SwiftSkool.Models;
+using SwiftSkoolv1.WebUI.BusinessLogic;
+using SwiftSkoolv1.WebUI.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class BaseController : Controller
     {
-        public ApplicationDbContext Db;
+        public SwiftSkoolDbContext Db;
         public QueryManager _query;
 
         public string userSchool;
 
         public BaseController()
         {
-            Db = new ApplicationDbContext();
+            Db = new SwiftSkoolDbContext();
             _query = new QueryManager();
             userSchool = _query.GetId();
         }

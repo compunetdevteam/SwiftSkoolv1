@@ -1,26 +1,23 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.Models.Calender;
+﻿using SwiftSkoolv1.Domain.Calender;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class EventsController : Controller
+    public class EventsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Events
         public async Task<ActionResult> Index()
         {
-            return View(await db.Events.ToListAsync());
+            return View(await Db.Events.ToListAsync());
         }
 
         public JsonResult GetEvents()
         {
-            var events = db.Events.ToList();
+            var events = Db.Events.ToList();
             return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -31,7 +28,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = await db.Events.FindAsync(id);
+            var @event = await Db.Events.FindAsync(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -54,8 +51,8 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
-                await db.SaveChangesAsync();
+                Db.Events.Add(@event);
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -69,7 +66,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = await db.Events.FindAsync(id);
+            var @event = await Db.Events.FindAsync(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -86,8 +83,8 @@ namespace SwiftSkool.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Db.Entry(@event).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(@event);
@@ -100,7 +97,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = await db.Events.FindAsync(id);
+            var @event = await Db.Events.FindAsync(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -113,9 +110,9 @@ namespace SwiftSkool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Event @event = await db.Events.FindAsync(id);
-            db.Events.Remove(@event);
-            await db.SaveChangesAsync();
+            Event @event = await Db.Events.FindAsync(id);
+            if (@event != null) Db.Events.Remove(@event);
+            await Db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -123,7 +120,7 @@ namespace SwiftSkool.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

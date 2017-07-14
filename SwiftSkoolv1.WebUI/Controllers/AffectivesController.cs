@@ -1,12 +1,12 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.ViewModel;
+﻿using SwiftSkool.Controllers;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
 using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class AffectivesController : BaseController
     {
@@ -27,7 +27,7 @@ namespace SwiftSkool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Affective affective = await Db.Affectives.FindAsync(id);
+            var affective = await Db.Affectives.FindAsync(id);
             if (affective == null)
             {
                 return HttpNotFound();
@@ -50,8 +50,8 @@ namespace SwiftSkool.Controllers
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        db.Affectives.Add(affective);
-        //        await db.SaveChangesAsync();
+        //        Db.Affectives.Add(affective);
+        //        await Db.SaveChangesAsync();
         //        return RedirectToAction("Index");
         //    }
 

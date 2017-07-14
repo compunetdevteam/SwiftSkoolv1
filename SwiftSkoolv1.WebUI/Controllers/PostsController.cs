@@ -1,5 +1,5 @@
-﻿using SwiftSkool.Models;
-using SwiftSkool.Models.Objects;
+﻿using SwiftSkoolv1.Domain.Objects;
+using SwiftSkoolv1.WebUI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +11,8 @@ namespace SwiftSkool.Controllers
 {
     public class PostsController : BaseController
     {
-        //private ApplicationDbContext _db = new BlogContext();
-        private ApplicationDbContext _db = new ApplicationDbContext();
+        //private SwiftSkoolDbContext Db = new BlogContext();
+
         private const int PostPerPage = 3;
         private const int PostPerFeed = 25;
 
@@ -20,7 +20,7 @@ namespace SwiftSkool.Controllers
         public ActionResult Index(int? id, string category)
         {
             int pageNumber = id ?? 0;
-            var items = (from post in _db.Posts
+            var items = (from post in Db.Posts
                          where post.Title.Contains(category.ToUpper())
                          select post);
 
@@ -30,7 +30,7 @@ namespace SwiftSkool.Controllers
             //}
             if (String.IsNullOrEmpty(category))
             {
-                IEnumerable<Post> posts = (from post in _db.Posts
+                IEnumerable<Post> posts = (from post in Db.Posts
                                            where post.DateTime < DateTime.Now
                                            orderby post.DateTime descending
                                            select post).Skip(pageNumber * PostPerPage)
@@ -72,21 +72,21 @@ namespace SwiftSkool.Controllers
 
             if (!id.HasValue)
             {
-                _db.Posts.Add(post);
-                //_db.AddToPost(post);
+                Db.Posts.Add(post);
+                //Db.AddToPost(post);
             }
-            _db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Details", new { id = post.ID });
         }
 
         private Tag GetTag(string tagName)
         {
-            return _db.Tags.FirstOrDefault(x => x.Name == tagName) ?? new Tag() { Name = tagName };
+            return Db.Tags.FirstOrDefault(x => x.Name == tagName) ?? new Tag() { Name = tagName };
         }
 
         private Post GetPost(int? id)
         {
-            return id.HasValue ? _db.Posts.First(x => x.ID == id) : new Post() { ID = -1 };
+            return id.HasValue ? Db.Posts.First(x => x.ID == id) : new Post() { ID = -1 };
         }
 
 
@@ -111,7 +111,7 @@ namespace SwiftSkool.Controllers
         {
             if (!String.IsNullOrEmpty(category))
             {
-                var items = from i in _db.Posts
+                var items = from i in Db.Posts
                             where i.Title.Contains(category.ToUpper())
                             select i;
                 return View(items);
@@ -136,8 +136,8 @@ namespace SwiftSkool.Controllers
             comment.Email = email;
             comment.Body = body;
 
-            _db.Comments.Add(comment);
-            _db.SaveChanges();
+            Db.Comments.Add(comment);
+            Db.SaveChanges();
 
             return RedirectToAction("Details", new { id = id });
         }
@@ -147,8 +147,8 @@ namespace SwiftSkool.Controllers
             //if (IsAdmin)
             //{
             Post post = GetPost(id);
-            _db.Posts.Remove(post);
-            _db.SaveChanges();
+            Db.Posts.Remove(post);
+            Db.SaveChanges();
             //}
 
             return RedirectToAction("Index");
@@ -158,10 +158,10 @@ namespace SwiftSkool.Controllers
         {
             if (IsAdmin)
             {
-                // Comment comment = _db.Comments.Where(x => x.ID == id).First();
-                Comment comment = _db.Comments.First(x => x.PostID == id);
-                _db.Comments.Remove(comment);
-                _db.SaveChanges();
+                // Comment comment = Db.Comments.Where(x => x.ID == id).First();
+                Comment comment = Db.Comments.First(x => x.PostID == id);
+                Db.Comments.Remove(comment);
+                Db.SaveChanges();
             }
 
             return RedirectToAction("Index");
@@ -177,7 +177,7 @@ namespace SwiftSkool.Controllers
         public ActionResult RSS()
         {
             IEnumerable<SyndicationItem> posts =
-                (from post in _db.Posts
+                (from post in Db.Posts
                  where post.DateTime < DateTime.Now
                  orderby post.DateTime descending
                  select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
@@ -228,16 +228,16 @@ namespace SwiftSkool.Controllers
 
             if (!id.HasValue)
             {
-                _db.Posts.Add(post);
-                //_db.AddToPost(post);
+                Db.Posts.Add(post);
+                //Db.AddToPost(post);
             }
-            _db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public PartialViewResult Menu()
         {
-            IEnumerable<string> categories = _db.Posts.Select(s => s.Title)
+            IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
                                                             .OrderBy(s => s)
                                                             .Take(5);
             return PartialView(categories);
@@ -245,7 +245,7 @@ namespace SwiftSkool.Controllers
 
         public PartialViewResult LatestNews()
         {
-            IEnumerable<string> categories = _db.Posts.Select(s => s.Title)
+            IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
                 .OrderBy(s => s)
                 .Take(5);
             return PartialView(categories);
@@ -254,12 +254,12 @@ namespace SwiftSkool.Controllers
 
         public PartialViewResult TagList()
         {
-            IEnumerable<string> categories = _db.Tags.Select(s => s.Name);
+            IEnumerable<string> categories = Db.Tags.Select(s => s.Name);
             return PartialView(categories);
         }
         public PartialViewResult LIstCategories()
         {
-            IEnumerable<string> categories = _db.Posts.Select(s => s.Title)
+            IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
                                                             .OrderBy(s => s)
                                                             .Take(5);
             return PartialView(categories);
