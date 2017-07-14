@@ -1,0 +1,42 @@
+﻿@model SwiftSkool.Models.Objects.Post
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<p>
+    The page uses the conditional values from the controller. You may have noticed the value from Controller, which is passed as a model (of type of the BlogPostModel). I have checked against that, to see if there are any posts in the data source. That is pretty much simple and straight-forward. The main thing to see,
+    if what happens if there is a new post in the data source. Consider the next section, please!
+</p>
+
+<form action="@Href("~/Posts/Update")" method="post" id="postForm">
+    @if (Model.ID != -1)
+    {
+        <input type="hidden" name="id" value="@Model.ID" />
+    }
+
+    @{ DateTime dateTime = Model.DateTime.Year > 2015 ? Model.DateTime : DateTime.Now;}
+
+    <label>Date</label>
+    <input class="input-lg form-control" style="" type="datetime" name="dateTime" value="@Model.DateTime" placeholder="The headline goes here..." /> <br />
+
+    <label>Title</label>
+    <input type="text" name="title" value="@Model.Title" class="input-lg form-control" placeholder="The Title goes here..." />  <br />
+
+    <label>Tags</label>
+    <input type="text" name="tag" value="@ViewBag.Tags" class="input-lg form-control" placeholder="The Tags goes here..." /> <br />
+
+    <label>Body</label>
+    <textarea class="form-control" id="editor1" name="body" style="height:200px;" placeholder="The Body goes here...">@Model.Body</textarea>
+    <script>
+        CKEDITOR.replace('editor1');
+    </script>
+    <br />
+    <br />
+
+    <input class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: auto; font-weight: 600;" />
+</form>
+
+
+

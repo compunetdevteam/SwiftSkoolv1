@@ -1,0 +1,66 @@
+﻿@model SwiftSkool.Models.CaSetUp
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CaSetUp</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Class.FullClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Class.FullClassName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Term.TermName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Term.TermName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CACaption)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CACaption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaximumScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTrue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTrue)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CaSetUpId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

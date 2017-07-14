@@ -1,44 +1,468 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+﻿@using Microsoft.AspNet.Identity
+@using SwiftSkool.Models
+@{
+    BaseViewModel Model = (BaseViewModel)ViewBag.LayoutViewModel;
 
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@Model.Alias</title>
+    <!-- Meta OG -->
+    <meta property="og:title" content="Premium Admin Templates Dashboard">
+    <meta property="og:description" content="Clear and intuitive data categorization coming along with unique and user friendly layout.">
+    <meta property="og:image" content="../../../../img/Live/MDB/dashboard-na-fb-share.jpg">
+    <meta property="og:url" content="analytics.html">
+    <meta property="og:site_name" content="mdbootstrap.com">
+    <!-- /Meta OG -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:description" content="Clear and intuitive data categorization coming along with unique and user friendly layout." />
+    <meta name="twitter:title" content="Premium Admin Templates Dashboard" />
+    @*<meta name="twitter:site" content="@MDBootstrap" />
+        <meta name="twitter:image" content="../../../../img/Live/MDB/dashboard-na-fb-share.jpg" />
+        <meta name="twitter:creator" content="@MDBootstrap" />*@
+    <!-- /Twitter Card -->
+    <!-- Font Awesome -->
+    <link href="~/Content/MdCss/font-awesome.min.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/MdCss/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="~/Content/MdCss/mdb.css" rel="stylesheet" />
+
+    <!-- Customizer -->
+    <link href="~/Content/MdCss/customizer.min.css" rel="stylesheet" />
+    <!-- Your custom styles (optional) -->
+    <link href="~/Content/MdCss/style.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+@{
+    string myColor = "white-skin";
+}
+<body class="fixed-sn @myColor">
+    <!-- Customizer -->
+    <div id="customizer" class="z-depth-1">
+        <a href="#" id="toggle" data-toggle="tooltip" data-placement="left" title="Customize your template!"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        <div class="inner">
+            <p class="text-center customizer-heading">Pick a skin color</p>
+            <ul class="skins-list">
+                <li><a href="#" data-skin-color="deep-purple-skin"><span class="color skin-deep-purple"></span></a></li>
+                <li><a href="#" data-skin-color="navy-blue-skin"><span class="color skin-navy-blue"></span></a></li>
+                <li><a href="#" data-skin-color="cyan-skin"><span class="color skin-cyan"></span></a></li>
+                <li><a href="#" data-skin-color="pink-skin"><span class="color skin-pink"></span></a></li>
+                <li><a href="#" data-skin-color="indigo-skin"><span class="color skin-indigo"></span></a></li>
+                <li><a href="#" data-skin-color="light-blue-skin"><span class="color skin-light-blue"></span></a></li>
+                <li><a href="#" data-skin-color="grey-skin"><span class="color skin-grey"></span></a></li>
+                <li><a href="#" data-skin-color="white-skin"><span class="color skin-white"></span></a></li>
+                <li><a href="#" data-skin-color="black-skin"><span class="color skin-black"></span></a></li>
+                <li><a href="#" data-skin-color="mdb-skin"><span class="color skin-mdb"></span></a></li>
+            </ul>
+            <p class="text-center customizer-heading">SideNav Background Type</p>
+            <form class="form-inline">
+                <fieldset class="form-group">
+                    <input name="group1" type="radio" id="radio11" value="flat">
+                    <label for="radio11">Flat</label>
+                </fieldset>
+                <fieldset class="form-group">
+                    <input name="group1" type="radio" id="radio21" value="gradient">
+                    <label for="radio21">Gradient</label>
+                </fieldset>
+                <fieldset class="form-group">
+                    <input name="group1" type="radio" id="radio31" value="background" checked="checked">
+                    <label for="radio31">Image</label>
+                </fieldset>
+            </form>
+            <div id="bg-option">
+                <p class="text-center customizer-heading">Background Image</p>
+                <div class="bg-img-preview">
+                    <label for="radio12"><img class="img-fluid" src="../../../../img/Others/sidenav1-min.jpg" alt="Option 1"></label>
+                    <label for="radio22"><img class="img-fluid" src="../../../../img/Others/sidenav2-min.jpg" alt="Option 2"></label>
+                    <label for="radio32"><img class="img-fluid" src="../../../../img/Others/sidenav3-min.jpg" alt="Option 3"></label>
+                    <label for="radio42"><img class="img-fluid" src="../../../../img/Others/sidenav4-min.jpg" alt="Option 4"></label>
+                </div>
+                <form class="form-inline bg-img-options">
+                    <fieldset class="form-group">
+                        <input name="group2" type="radio" id="radio12" value="1" checked="checked">
+                        <label for="radio12"></label>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input name="group2" type="radio" id="radio22" value="2">
+                        <label for="radio22"></label>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input name="group2" type="radio" id="radio32" value="3">
+                        <label for="radio32"></label>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input name="group2" type="radio" id="radio42" value="4">
+                        <label for="radio42"></label>
+                    </fieldset>
+                </form>
+                <p class="text-center customizer-heading">Mask opacity</p>
+                <form class="form-inline">
+                    <fieldset class="form-group">
+                        <input name="group3" type="radio" id="radio13" value="strong" checked="checked">
+                        <label for="radio13">Strong</label>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input name="group3" type="radio" id="radio23" value="light">
+                        <label for="radio23">Light</label>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input name="group3" type="radio" id="radio33" value="slight">
+                        <label for="radio33">Slight</label>
+                    </fieldset>
+                </form>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+            <div>
+                <p class="text-center customizer-heading d-inline">Fixed sidenav</p>
+                <div class="switch d-inline-block float-right">
+                    <label>
+                        Off
+                        <input type="checkbox" checked="checked">
+                        <span class="lever"></span> On
+                    </label>
+                </div>
             </div>
+            <a href="../../../../product/admin-theme/index.html" type="button" class="btn light-blue darken-2 btn-block">Buy now</a>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+    <!-- /.Customizer -->
+    <!--Double navigation-->
+    <header>
+        <!-- Sidebar navigation -->
+        @if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
+        {
+            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
+                <!-- Logo -->
+                <li>
+                    <div class="user-box">
+                        <img src="../../../../img/Photos/Avatars/avatar-5.jpg" class="img-fluid rounded-circle">
+                        <p class="user text-center black-text">@Model.Alias</p>
+                    </div>
+                </li>
+                <!--/. Logo -->
+                <!-- Side navigation links -->
+                <li>
+
+                    <ul class="collapsible collapsible-accordion">
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
+                                    <li>@Html.ActionLink("List Students", "Index", "Students")</li>
+                                    <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
+                                    @*<li>
+                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
+                                    </li>*@
+                                    @*<li>
+                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
+                                    </li>*@
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Manage Guardian<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>
+                                    <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
+                                    <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Class", "Create", "Classes")</li>
+                                    <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
+                                    <li>@Html.ActionLink("Assign Student to Class", "Create", "AssignedClasses")</li>
+                                    <li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>
+                                    <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>
+                                    <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
+                                
+                                    <li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>
+                                    <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
+                             
+                                    <li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>
+                                    <li>@Html.ActionLink("View Student Subjects", "Index", "SubjectRegistrations")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bar-chart"></i> Manage Teacher<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
+                                    <li>@Html.ActionLink("Teacher Master", "Index", "Staffs")</li>
+                                    @*<li>@Html.ActionLink("Edit Teacher", "Index", "Staffs")</li>*@
+                                    <li>@Html.ActionLink("Assign Subject Teacher", "Create", "AssignSubjectTeachers")</li>
+                                    @*<li>@Html.ActionLink("List Subject Teacher", "Create", "AssignSubjectTeachers")</li>*@
+                                    <li>@Html.ActionLink("List Form-Teacher", "Index", "AssignFormTeacherToClasses")</li>
+                                    <li>@Html.ActionLink("Teacher Excel Upload", "UploadTeacher", "Account")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> Manage fee<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Fees Type", "Create", "FeeTypes")</li>
+                                    <li>@Html.ActionLink("List Fees Types", "Index", "FeeTypes")</li>
+                                    <li>@Html.ActionLink("Fee Payment", "Create", "FeePayments")</li>
+                                    <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
+                                    <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="md md-assessment"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
+                                    <li>@Html.ActionLink("List  Behavioral Assesment", "Index", "AssignBehaviors")</li>
+                                    
+                                    <li>@Html.ActionLink("Add C A", "Create", "ContinuousAssessments")</li>
+                                    <li>@Html.ActionLink("List C A", "Index", "ContinuousAssessments")</li>
+                                    <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
+                                    <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                                    <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="invoice.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> Invoice</a>
+                        <li><a href="support.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i> Support</a>
+                        <li><a href="faq.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-question-circle" aria-hidden="true"></i> FAQ</a>
+                    </ul>
+
+                </li>
+                <!--/. Side navigation links -->
+                <div class="sidenav-bg mask-strong"></div>
+            </ul>
+    <!--/. Sidebar navigation -->
+        }
+
+        else if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("Teacher"))
+        {
+
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("Student"))
+        {
+
+        }
+
+        <!-- Navbar -->
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
+
+            <!-- SideNav slide-out button -->
+            <div class="float-left">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+
+            </div>
+
+            <!-- Breadcrumb-->
+            <ol class="breadcrumb hidden-lg-down">
+                <li class="breadcrumb-item active"><a href="#">Dashboards</a></li>
+                <li class="breadcrumb-item active">Dashboard V.1</li>
+            </ol>
+
+            <!--Navbar links-->
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+
+
+                <li class="nav-item">
+                    <a class="nav-link"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"><i class="fa fa-comments-o"></i> <span class="hidden-sm-down">Support</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user"></i> <span class="hidden-sm-down">Profile</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-ins dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">Log Out</a>
+                        <a class="dropdown-item" href="#">My account</a>
+                    </div>
+                </li>
+            </ul>
+            <!--/Navbar links-->
+
+        </nav>
+        <!-- /.Navbar -->
+
+    </header>
+    <!--/.Double navigation-->
+    <!--Main layout-->
+    <main class="">
+        <div class="container-fluid">
+
+
+            @RenderBody()
+
+
+        </div>
+    </main>
+    <!--/Main layout-->
+
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+            <i class="fa fa-pencil"></i>
+        </a>
+
+        <ul>
+            <li><a class="btn-floating red"><i class="fa fa-star"></i></a></li>
+            <li><a class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
+            <li><a class="btn-floating green"><i class="fa fa-envelope"></i></a></li>
+            <li><a class="btn-floating blue"><i class="fa fa-shopping-cart"></i></a></li>
+        </ul>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <!-- SCRIPTS -->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script src="~/Scripts/MdJs/jquery-3.1.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="~/Scripts/MdJs/tether.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Scripts/MdJs/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="~/Scripts/MdJs/mdb.min.js"></script>
+
+    <!-- Customizer -->
+    <script src="~/Scripts/MdJs/customizer.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(function () {
+            var data = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [{
+                    label: "My First dataset",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(0,0,0,.15)",
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    backgroundColor: "#4CAF50"
+                }, {
+                    label: "My Second dataset",
+                    fillColor: "rgba(255,255,255,.25)",
+                    strokeColor: "rgba(255,255,255,.75)",
+                    pointColor: "#fff",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(0,0,0,.15)",
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                }]
+            };
+
+
+            var dataPie = [{
+                value: 300,
+                color: "#F7464A",
+                highlight: "#FF5A5E",
+                label: "Red"
+            }, {
+                value: 50,
+                color: "#46BFBD",
+                highlight: "#5AD3D1",
+                label: "Green"
+            }, {
+                value: 100,
+                color: "#FDB45C",
+                highlight: "#FFC870",
+                label: "Yellow"
+            }]
+
+            var option = {
+                responsive: true,
+                // set font color
+                scaleFontColor: "#fff",
+                // font family
+                defaultFontFamily: "'Roboto', sans-serif",
+                // background grid lines color
+                scaleGridLineColor: "rgba(255,255,255,.1)",
+                // hide vertical lines
+                scaleShowVerticalLines: false,
+            };
+
+            // Get the context of the canvas element we want to select
+            var ctx = document.getElementById("sales").getContext('2d');
+            var myLineChart = new Chart(ctx).Line(data, option); //'Line' defines type of the chart.
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('.min-chart#chart-sales').easyPieChart({
+                barColor: "#4caf50",
+                onStep: function (from, to, percent) {
+                    $(this.el).find('.percent').text(Math.round(percent));
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Data Picker Initialization
+        $('.datepicker').pickadate();
+
+
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+        });
+
+        // Sidenav Initialization
+        $(".button-collapse").sideNav();
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#toggle').tooltip('show');
+        });
+    </script>
+
     @RenderSection("scripts", required: false)
+
 </body>
+
+
 </html>

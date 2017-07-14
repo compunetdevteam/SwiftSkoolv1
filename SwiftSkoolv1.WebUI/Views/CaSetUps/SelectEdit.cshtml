@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "SelectEdit";
+}
+
+<h2>SelectEdit</h2>
+
+@using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <!-- BEGIN INLINE FORM -->
+    <div class="row">
+        <div class="col-lg-7">
+            <article class="margin-bottom-xxl">
+                <p class="lead">
+                    Please use the box below to search
+                </p>
+            </article>
+        </div><!--end .col -->
+        <div class="col-lg-12">
+            <form class="form-inline">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "form-control" })
+                            <label for="ClassName">Class</label>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "form-control" })
+
+                            @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
+                            <label for="TermName">Term Name</label>
+                        </div>
+                        <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
+                    </div><!--end .card-body -->
+                </div><!--end .card -->
+
+            </form>
+        </div><!--end .col -->
+    </div>
+
+    <!--end .row -->
+    <!-- END INLINE FORM -->
+}

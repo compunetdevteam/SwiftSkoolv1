@@ -1,0 +1,134 @@
+﻿@*@model IEnumerable<SwiftSkool.Models.AssignedClass>*@
+@*@model PagedList.IPagedList<SwiftSkool.Models.AssignedClass>
+    @using PagedList.Mvc;
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
+
+
+@model SwiftSkool.ViewModel.FormDataViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>Index</h4>
+
+@using (Html.BeginForm("Index", "AssignedClasses", FormMethod.Get))
+{
+    <div class="form-group">
+        <input type="text" class="form-control" name="search" placeholder="Enter your keyword">
+    </div>
+    <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
+}
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.StudentId)*@
+            @Html.ActionLink("Student ID", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Class Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+            @*@Html.DisplayNameFor(model => model.ClassName)*@
+        </th>
+        <th>
+            Term Name
+        </th>
+        <th>
+            Session Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.AssignedClasses)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+                @{
+                    ViewBag.StudentName = item.StudentId;
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionName)
+            </td>
+            <td>
+                @ViewBag.StudentName
+            </td>
+            <td>
+
+                <button class="btn btn-success" onclick="AddAffective('@item.StudentId')">Add Affective</button>
+                <button class="btn btn-success" onclick="AddPsycomotor('@item.StudentId')">Add Psycho motor</button>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AssignedClassId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AssignedClassId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AssignedClassId })
+            </td>
+        </tr>
+                    }
+    <div id="result"></div>
+</table>
+<br />
+
+
+@*<div class="btn-group pull-right">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+    {
+        page,
+        sortOrder = ViewBag.CurrentSort,
+        currentFilter =
+        ViewBag.CurrentFilter
+    }))
+    </div>*@
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Assign Phycomotors</h4>
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+                @*@Html.Partial("PartialAffective", TempData["ClassName"])*@
+                @*@{Html.RenderPartial ("AddAffective", "Affectives");}*@
+                @*@Html.Partial("~/Views/Affectives/PartialAffective.cshtml")*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        window.alert(5 + 6);
+        function AddAffective(studentId) {
+            window.alert(5 + 6);
+            var url = "/Affectives/AddAffective?studentId=" + studentId;
+
+            $("#myModalBodyDiv1").load(url,
+                function() {
+                    $("#myModal").modal("show");
+
+                });
+        }
+
+        function AddPsycomotor(studentId) {
+            window.alert(5 + 6);
+            var url = "/Psychomotors/AddPsycomotor?studentId=" + studentId;
+
+            $("#myModalBodyDiv1").load(url,
+                function () {
+                    $("#myModal").modal("show");
+
+                });
+        }
+    </script>
+}

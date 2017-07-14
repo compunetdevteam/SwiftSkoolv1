@@ -1,0 +1,128 @@
+﻿@*@model IEnumerable<SwiftSkool.Models.ContinuousAssessment>*@
+@model PagedList.IPagedList<SwiftSkool.Models.ContinuousAssessment>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "List Of CA";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Student ID", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            Term
+        </th>
+        <th>
+            Session
+        </th>
+        <th>
+            Subject
+        </th>
+        <th>
+            Class Name
+        </th>
+        <th>
+           First Test
+        </th>
+        <th>
+            Second Test 
+        </th>
+        <th>
+           Third Test
+        </th>
+       
+        <th>
+            Exam Score
+        </th>
+        <th>
+            Staff Name
+        </th>
+        <th>
+            @Html.ActionLink("Total", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            Grading
+        </th>
+        <th>
+            Remark
+        </th>
+       
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTest)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+          
+            <td>
+                <span>
+                    <a href="@Url.Action("Edit", new {id = item.ContinuousAssessmentId, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
+                </span> |
+                <span>
+                    <a href="@Url.Action("Details", new {id = item.ContinuousAssessmentId, @class = "btn btn-success" })"><span class="md-mode-details"></span> Details</a>
+                </span> |
+                <span>
+                    <a href="@Url.Action("Delete", new {id = item.ContinuousAssessmentId, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                </span>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.ContinuousAssessmentId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ContinuousAssessmentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ContinuousAssessmentId })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<div class="btn-group pull-right">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+    {
+        page,
+        sortOrder = ViewBag.CurrentSort,
+        currentFilter =
+            ViewBag.CurrentFilter
+    }))
+</div>

@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Doughnut Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Desktop Search Engine Market Share, Jul-2016"
+            },
+            animationEnabled: true,
+            legend: {
+                fontSize: 20,
+                fontFamily: "Helvetica"
+            },
+            theme: "theme2",
+            data: [
+            {
+                type: "doughnut",
+                indexLabelFontFamily: "Garamond",
+                indexLabelFontSize: 20,
+                indexLabel: "{label} {y}%",
+                startAngle: -20,
+                showInLegend: true,
+                toolTipContent: "{legendText} {y}%",
+                dataPoints: [
+                    { y: 72.48, legendText: "Google", label: "Google" },
+                    { y: 10.39, legendText: "Bing", label: "Bing" },
+                    { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
+                    { y: 7.14, legendText: "Baidu", label: "Baidu" },
+                    { y: 0.22, legendText: "Ask", label: "Ask" },
+                    { y: 0.15, legendText: "AOL", label: "AOL" },
+                    { y: 1.84, legendText: "Others", label: "Others" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>

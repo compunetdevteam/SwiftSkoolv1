@@ -1,0 +1,157 @@
+﻿@model IEnumerable<SwiftSkool.Models.Session>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActiveSession)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActiveSession)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SessionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SessionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SessionId })
+        </td>
+    </tr>
+}
+
+</table>*@
+
+<h2>Jquery DataTables in ASP.NET MVC5</h2>
+<!--Add Jquery Datatable reference files-->
+
+
+<div style="width:90%;">
+    <table id="Jdatatable" class="table table-responsive table-bordered">
+        <thead>
+        <tr>
+            <th>Session Name</th>
+            <th>Active Session</th>
+            <th>Action</th>
+            
+        </tr>
+        </thead>
+    </table>
+</div>
+
+@*<div class="panel-body">
+    <table id="Jdatatable" class="table table-striped table-bordered" 
+
+           style="width:100%;">
+    </table>
+</div>*@
+@section scripts{
+
+    @*<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
+    @*<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            debugger;
+            //$("#Jdatatable").DataTable({
+            //    "processing": true, // for show progress bar while loading
+            //    "serverSide": true, // if it is true the preocess is done on server side
+            //    "filter": false, // disables search box
+            //    "orderMulti": false, // disable multiple column loading at once
+            //    "ajax": {
+            //        "url": "/Sessions/GetIndex",
+            //        "type": "POST",
+            //        "datatype": "json"
+            //    },
+            $("#Jdatatable").DataTable({
+                "ajax": {
+                    "url": "/Sessions/GetIndex",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "SessionName", "autoWidth": true },
+                    { "data": "ActiveSession", "autoWidth": true },
+                    { // fifth column (Edit link)
+                        "sName": "SessionId",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "mRender": function(data, type, full) {
+                            var id = full[0]; //row id in the first column
+                            return "<a href=' +'@Url.Action("Edit", "Sessions")?RoleId=' + data +'>Edit</a>";
+                        }
+                    }
+                    //{ "data": "EmailID", "autoWidth": true },
+                    //{ "data": "Phone", "autoWidth": true },
+                    //{ "data": "City", "autoWidth": true },
+                    //{ "data": "Salary", "autoWidth": true },
+                    //{"data":"State","autoWidth":true}
+                ]
+            });
+        });
+    </script>
+    
+    @*<script type="text/javascript">
+        var assetListVM;
+        $(function () {
+            assetListVM = {
+                dt: null,
+
+                init: function () {
+                    //dt = $('#assets-data-table').DataTable({
+                    dt = $('#Jdatatable').DataTable({
+                        "serverSide": true,
+                        "processing": true,
+                        "ajax": {
+                            "url":
+                                "@Url.Action("Get","Sessions")"
+                        },
+                        "columns": [
+                            { "title": "Session Name",
+                                "data": "SessionName",
+                                "searchable": true,
+                                "sortable": true
+                            },
+
+                            {
+                                "title": "Active Session", 
+                                "data": "ActiveSession", 
+                                "searchable": true }
+                            //{ "title": "Model", 
+                            //    "data": "ModelNumber", 
+                            //    "searchable": true },
+                            //{ "title": "Building", 
+                            //    "data": "Building", 
+                            //    "searchable": true },
+                            //{ "title": "Room No", 
+                            //    "data": "RoomNo" },
+                            //{ "title": "Quantity", 
+                            //    "data": "Quantity" }
+                        ],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    });
+                }
+            }
+
+            // initialize the datatables
+            assetListVM.init();
+        });
+
+    </script>*@    
+
+}

@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Spline Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Analysis of Pepper Export - India"
+            },
+            axisX: {
+                title: "Year"
+            },
+            axisY: {
+                title: "In Tonnes"
+            },
+
+            data: [
+            {
+                type: "spline",
+                dataPoints: [
+                { y: 17363, label: "2005-06" },
+                { y: 28726, label: "2006-07" },
+                { y: 35000, label: "2007-08" },
+                { y: 25250, label: "2008-09" },
+                { y: 19750, label: "2009-10" },
+                { y: 18850, label: "2010-11" },
+                { y: 26700, label: "2011-12" },
+                { y: 16000, label: "2012-13" },
+                { y: 19000, label: "2013-14" },
+                { y: 18000, label: "2014-15" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }
+            ]
+        });
+
+        chart.render();
+    });
+</script>

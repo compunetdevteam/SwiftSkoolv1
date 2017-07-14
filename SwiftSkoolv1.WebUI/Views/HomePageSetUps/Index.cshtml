@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HopeAcademySMS.Models.HomePageSetUp>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescriptiveText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileLocation)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescriptiveText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileLocation)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.HomePagesetUpId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.HomePagesetUpId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.HomePagesetUpId })
+        </td>
+    </tr>
+}
+
+</table>

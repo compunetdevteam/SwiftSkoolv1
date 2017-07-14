@@ -1,0 +1,34 @@
+﻿@model SwiftSkool.Models.SchoolClass
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SchoolClass</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SchoolClassId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

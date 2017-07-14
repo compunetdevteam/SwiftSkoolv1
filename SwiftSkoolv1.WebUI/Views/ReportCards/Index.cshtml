@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SwiftSkool.Models.ReportCard>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TermName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SchoolOpened)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextTermBegin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextTermEnd)
+        </th>
+      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TermName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchoolOpened)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextTermBegin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextTermEnd)
+        </td>
+      
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ReportCardId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ReportCardId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ReportCardId })
+        </td>
+    </tr>
+}
+
+</table>

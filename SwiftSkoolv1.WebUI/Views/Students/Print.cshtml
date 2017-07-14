@@ -1,0 +1,162 @@
+﻿@*@model SwiftSkool.Models.Student
+@{
+    ViewBag.Title = "Print Result";
+}
+
+<img src="~/Content/images/logo.PNG" width="900" />
+
+<div>
+    <hr />  
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-7">
+                    <table class="table">
+                        <tbody>
+                            <tr class="success">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.ID):</td>
+                                <td>@Html.DisplayFor(model => model.StudentId)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.FirstName):</td>
+                                <td>@Html.DisplayFor(model => model.FirstName)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.MiddleName):</td>
+                                <td>@Html.DisplayFor(model => model.MiddleName)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.LastName):</td>
+                                <td>@Html.DisplayFor(model => model.LastName)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.Class):</td>
+                                <td>@Html.DisplayFor(model => model.Class)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>               
+            </div>           
+        </div>  
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-1">
+
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <tbody>
+                            <tr class="success">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.Email):</td>
+                                <td>@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.PhoneNumber):</td>
+                                <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.Gender):</td>
+                                <td>@Html.DisplayFor(model => model.Gender)</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.Address):</td>
+                                <td>@Html.DisplayFor(model => model.Address)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-5">
+
+                </div>
+            </div>
+            
+        </div> 
+    </div>
+   
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Subject
+        </th>
+        <th>
+            Assignment
+        </th>
+        <th>
+            First ThirdTest
+        </th>
+        <th>
+            Second ThirdTest
+        </th>
+        <th>
+            Exam Score
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Grade
+        </th>
+        <th>
+            Remark
+        </th>
+        <th>
+            Subject Position
+        </th>    
+        <th>
+            Teacher
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.Grades.Where(s => s.StudentId == Model.StudentId))
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assignment)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstThirdTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondThirdTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectPosition)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@

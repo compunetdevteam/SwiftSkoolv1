@@ -1,0 +1,80 @@
+﻿@model SwiftSkool.Models.AssignBehavior
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AssignBehavior</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BehaviouralSkill.SkillName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BehaviouralSkill.SkillName)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.SkillName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SkillName)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SkillScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SkillScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TeacherComment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TeacherComment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TermName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SessionName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

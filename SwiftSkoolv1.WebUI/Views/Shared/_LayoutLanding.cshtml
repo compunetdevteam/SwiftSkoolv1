@@ -1,0 +1,236 @@
+﻿@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Material Admin - Locked</title>
+
+    <!-- BEGIN META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="your,keywords">
+    <meta name="description" content="Short explanation about this website">
+    <!-- END META -->
+
+    <!-- BEGIN STYLESHEETS -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300italic,400italic,300,400,500,700,900' rel='stylesheet' type='text/css'/>
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/bootstrap.css?1422792965" />
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/materialadmin.css?1425466319" />
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/font-awesome.min.css?1422529194" />
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/material-design-iconic-font.min.css?1421434286" />
+    <link href="~/Content/Md/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Md/css/mdb.min.css" rel="stylesheet" />
+    <link href="~/Content/Md/css/style.css" rel="stylesheet" />
+    <link href="~/Content/Md/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- END STYLESHEETS -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
+        <script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
+    <![endif]-->
+
+</head>
+<body class="light-blue-skin intro-page">
+
+@RenderBody()
+
+<!-- BEGIN JAVASCRIPT -->
+<script src="../../assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
+    <script src="~/Content/Md/js/jquery-3.1.1.min.js"></script>
+    <script src="~/Content/Md/js/tether.min.js"></script>
+    <script src="~/Content/Md/js/mdb.min.js"></script>
+<script src="../../assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
+<script src="../../assets/js/libs/bootstrap/bootstrap.min.js"></script>
+<script src="../../assets/js/libs/spin.js/spin.min.js"></script>
+<script src="../../assets/js/libs/autosize/jquery.autosize.min.js"></script>
+<script src="../../assets/js/libs/nanoscroller/jquery.nanoscroller.min.js"></script>
+<script src="../../assets/js/core/source/App.js"></script>
+<script src="../../assets/js/core/source/AppNavigation.js"></script>
+<script src="../../assets/js/core/source/AppOffcanvas.js"></script>
+<script src="../../assets/js/core/source/AppCard.js"></script>
+<script src="../../assets/js/core/source/AppForm.js"></script>
+<script src="../../assets/js/core/source/AppNavSearch.js"></script>
+<script src="../../assets/js/core/source/AppVendor.js"></script>
+<script src="../../assets/js/core/demo/Demo.js"></script>
+<!-- END JAVASCRIPT -->
+<script>
+    //Animation init
+    new WOW().init();
+        
+    //Modal
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+    })
+        
+    // Material Select Initialization
+    $(document).ready(function() {
+        $('.mdb-select').material_select();
+    });
+
+</script>
+@RenderSection("scripts", required: false)
+</body>
+</html>*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- BEGIN META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Swiftskool, benue Portal, compunet, swiftkampus">
+    <meta name="description" content="This is School Management system Designed for Secondary Schools in Benue State">
+ 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@System.Configuration.ConfigurationManager.AppSettings["SchoolName"]::</title>
+
+    <!-- Bootstrap -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300italic,400italic,300,400,500,700,900' rel='stylesheet' type='text/css'/>
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/bootstrap.css?1422792965"/>
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/materialadmin.css?1425466319"/>
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/font-awesome.min.css?1422529194"/>
+    <link type="text/css" rel="stylesheet" href="../../assets/css/theme-default/material-design-iconic-font.min.css?1421434286"/>
+    <link href="~/Content/Com/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/Com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/Com/css/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Com/css/isotope.css" media="screen"/>
+    <link rel="stylesheet" href="~/Content/Com/css/animate.css">
+    <link rel="stylesheet" href="~/Content/Com/js/fancybox/jquery.fancybox.css" type="text/css" media="screen"/>
+    <link href="~/Content/Com/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+<header>
+    <nav div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <ul class="social-network">
+                <li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-1x"></i></a></li>
+                <li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-1x"></i></a></li>
+                <li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-1x"></i></a></li>
+                <li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest fa-1x"></i></a></li>
+                <li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-1x"></i></a></li>
+            </ul>
+            <ul class="info">
+                <li><p><i class="fa fa-phone"></i>+092919296</p></li>
+                <li><a href="#"><i class="fa fa-envelope"></i>info@swiftskool.ng</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">
+                        @{
+                            var schoolImage = @System.Configuration.ConfigurationManager.AppSettings["SchoolImage"];
+                        }
+                        <a href="@Url.Action("Index", "Home")">
+                            
+                                <img class="img-responsive" src="~/Content/Images/@schoolImage" height="70" width="75" /></a>
+                                @*<a href="index.php"><span><img src="~/Content/Com/img/swiftskool.png"></span></a>*@
+                    </div>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <div class="menu">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation"><a href="@Url.Action("Index", "Home")" class="active">Home</a></li>
+                            <li role="presentation"><a href="@Url.Action("Login", "Account")">Login</a></li>
+
+                            <li role="presentation"><a href="@Url.Action("Index", "Posts")">News/Updates</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+@RenderBody()
+
+<footer>
+    <div class="inner-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 f-about">
+                    <a href=""><h1><span>Swift</span>Skool</h1></a>
+                    <p></p>
+
+                </div>
+                <div class="col-md-4 l-posts">
+                    <h3 class="widgetheading">Latest Posts</h3>
+                    
+                    @Html.Action("LatestNews", "Posts")
+                </div>
+                <div class="col-md-4 f-contact">
+                    <h3 class="widgetheading">Stay in touch</h3>
+                    <a href="#"><p><i class="fa fa-envelope"></i> support@swiftskool.ng</p></a>
+                    <p><i class="fa fa-phone"></i>  +092919296</p>
+                    <p><i class="fa fa-home"></i> Suite B1,B2, 2nd Floor 12 Rwang-Pam Street Jos,
+                        <br> Plateau, 930001 Nigeria</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <div class="last-div">
+        <div class="container">
+            <div class="row">
+                <div class="copyright">
+                    &copy; @DateTime.Now.Year SwiftSkool. All Rights Reserved
+
+
+                    <a href="http://compunetlimited.org">Designed by <span class="text-danger">Compunet Limited</span></a>
+
+                </div>
+                <nav class="foot-nav">
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                        <li><a href="@Url.Action("Contact", "Home")">News/Updates</a></li>
+                    </ul>
+                </nav>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+    </div>
+</footer>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="~/Content/Com/js/jquery-2.1.1.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="~/Content/Com/js/bootstrap.min.js"></script>
+<script src="~/Content/Com/js/wow.min.js"></script>
+<script src="~/Content/Com/js/fancybox/jquery.fancybox.pack.js"></script>
+<script src="~/Content/Com/js/jquery.isotope.min.js"></script>
+<script src="~/Content/Com/js/jquery.bxslider.min.js"></script>
+<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="~/Content/Com/js/functions.js"></script>
+<script>wow = new WOW({}).init();</script>
+<script src="~/Content/Com/contactform/contactform.js"></script>
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-55234356-4', 'auto');
+    ga('send', 'pageview');
+</script>
+    
+@Scripts.Render("~/bundles/jquery")
+ 
+@RenderSection("scripts", required: false)
+</body>
+
+
+</html>
+

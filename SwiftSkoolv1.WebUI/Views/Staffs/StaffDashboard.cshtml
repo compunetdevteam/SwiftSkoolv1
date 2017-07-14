@@ -1,0 +1,165 @@
+﻿@model SwiftSkool.ViewModel.StaffVM
+@{
+    ViewBag.Title = "StaffDashboard";
+}
+
+<h2>StaffDashboard</h2>
+
+<div class="row">
+
+    <!-- BEGIN ALERT - REVENUE -->
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body no-padding">
+                <div class="alert alert-callout alert-info no-margin">
+                   
+                    <strong class="text-xl">@Model.MaleStudent</strong><br />
+                    <span class="opacity-50">Male Student In @Model.ClassName</span>
+                    <div class="stick-bottom-left-right">
+                        <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+                    </div>
+                </div>
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+    </div><!--end .col -->
+    <!-- END ALERT - REVENUE -->
+    <!-- BEGIN ALERT - VISITS -->
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body no-padding">
+                <div class="alert alert-callout alert-warning no-margin">
+                   
+                    <strong class="text-xl">@Model.FemaleStudent</strong><br />
+                    <span class="opacity-50">Female Student In @Model.ClassName</span>
+                    <div class="stick-bottom-right">
+                        <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
+                    </div>
+                </div>
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+    </div><!--end .col -->
+    <!-- END ALERT - VISITS -->
+    <!-- BEGIN ALERT - BOUNCE RATES -->
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body no-padding">
+                <div class="alert alert-callout alert-danger no-margin">
+                   
+                    <strong class="text-xl">@Model.TotalStudentInClass</strong><br />
+                    <span class="opacity-50">Number Of Student In @Model.ClassName</span>
+                    <div class="stick-bottom-left-right">
+                        <div class="progress progress-hairline no-margin">
+                            <div class="progress-bar progress-bar-danger" style="width:43%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+    </div><!--end .col -->
+    <!-- END ALERT - BOUNCE RATES -->
+    <!-- BEGIN ALERT - TIME ON SITE -->
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body no-padding">
+                <div class="alert alert-callout alert-success no-margin">
+                    <h1 class="pull-right text-success"><i class="md md-timer"></i></h1>
+                    <strong class="text-xl">54 sec.</strong><br />
+                    <span class="opacity-50">Avg. time on site</span>
+                </div>
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+    </div><!--end .col -->
+    <!-- END ALERT - TIME ON SITE -->
+
+</div><!--end .row -->
+
+
+
+<div class="row">
+
+
+
+
+
+    <!-- BEGIN NEW REGISTRATIONS -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-head">
+                <header>New registrations</header>
+                <div class="tools hidden-md">
+                    <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                </div>
+            </div><!--end .card-head -->
+            <div class="card-body no-padding height-9 scroll">
+                <ul class="list divider-full-bleed">
+                   
+                        @foreach (var student in Model.StudentsInMyClass)
+                        {
+                            <li class="tile">
+                                <div class="tile-content">
+                                    <div class="tile-icon">
+                                        <img src="@Url.Action("RenderImage", new { studentId = student.StudentId })" width="100" height="100" />
+                                    </div>
+                                    <ul>
+                                        <li>@student.FullName</li>
+
+                                    </ul>
+
+                                </div>
+                                @*<a class="btn btn-flat ink-reaction">
+                                        <i class="md md-block text-default-light"></i>
+                                    </a>
+                                    @Html.ActionLink("", "Details", "Students", new { @id = student.StudentId},new { @id = "mydiv"})
+                                    @*<div id="mydiv" data-url="@Url.Action("", "Details","Student",new{ @id = student.StudentId},null,new { })"></div>*@
+                                @*<div id="loading"> loading... </div>*@
+                                
+                            </li>
+                        }
+                </ul>
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+    </div><!--end .col -->
+    <!-- END NEW REGISTRATIONS -->
+</div>
+
+
+@section scripts{
+
+<script>
+        $(function load() {
+            var myDiv = $('#mydiv');
+            $.ajax({
+                url: myDiv.data('url'),
+                type: 'GET',
+                cache: false,
+                context: myDiv,
+                success: function (result) {
+                    this.html(result);
+                }
+            });
+        });
+
+        $(document).ajaxStart(function () {
+            $("#loading").show();
+        });
+
+        $(document).ajaxComplete(function () {
+            $("#loading").hide();
+        });
+
+</script>
+
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById('studentDetails');
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+        }
+    </script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+}

@@ -1,0 +1,67 @@
+﻿@model SwiftSkool.Models.BehaviouralSkill
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<form id="myform">
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>BehaviouralSkill</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.SkillName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SkillName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SkillName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BehaviorSkillCategoryId, "BehaviorSkillCategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("BehaviorSkillCategoryId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BehaviorSkillCategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="reset" id="btnsubmit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //window.alert("ready");
+
+        $("#btnsubmit").click(function () {
+            // window.alert("ready");
+
+            $("#loaderDiv").show();
+
+            var data = $("#myform").serialize();
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/BehavioralSkills/Create",
+                data: data,
+                success: function (response) {
+                    $("#loaderDiv").hide();
+                    alertify.success('Behavioral Skills was Successfully');
+                }
+            });
+        });
+    })
+</script>

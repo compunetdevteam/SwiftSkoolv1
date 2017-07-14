@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "Stacked Area 100% Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "Global Mobile OS Market Share in Sales to End Users"
+            },
+            axisX: {
+                title: "Year",
+                valueFormatString: "####"
+            },
+            axisY: {
+                title: "Share of Global Sales to the end user",
+                titleFontSize: 16
+            },
+            toolTip: {
+                shared: true,
+                content: "<span style='\"'color: {color};'\"'>{name}</span> : {y}%"
+            },
+            data: [
+            {
+                type: "stackedArea100",
+                xValueFormatString: "####",
+                showInLegend: true,
+                name: "Android",
+                dataPoints: [
+                { x: 2009, y: 1.6 },
+                { x: 2010, y: 9.6 },
+                { x: 2011, y: 36.4 },
+                { x: 2012, y: 56.9 },
+                { x: 2013, y: 74.4 },
+                { x: 2014, y: 80.8 },
+                { x: 2015, y: 78.8 },
+                { x: 2016, y: 84.1 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            },
+            {
+                type: "stackedArea100",
+                xValueFormatString: "####",
+                showInLegend: true,
+                name: "iOS",
+                dataPoints: [
+                { x: 2009, y: 10.5 },
+                { x: 2010, y: 15.4 },
+                { x: 2011, y: 16.9 },
+                { x: 2012, y: 22.5 },
+                { x: 2013, y: 18.2 },
+                { x: 2014, y: 15.3 },
+                { x: 2015, y: 17.9 },
+                { x: 2016, y: 14.8 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            },
+            {
+                type: "stackedArea100",
+                xValueFormatString: "####",
+                showInLegend: true,
+                name: "Microsoft",
+                dataPoints: [
+                { x: 2009, y: 10.2 },
+                { x: 2010, y: 6.8 },
+                { x: 2011, y: 2.6 },
+                { x: 2012, y: 1.9 },
+                { x: 2013, y: 2.9 },
+                { x: 2014, y: 2.6 },
+                { x: 2015, y: 2.4 },
+                { x: 2016, y: 0.6 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            },
+            {
+                type: "stackedArea100",
+                xValueFormatString: "####",
+                showInLegend: true,
+                name: "RIM BlackBerry",
+                dataPoints: [
+                { x: 2009, y: 20.6 },
+                { x: 2010, y: 19.7 },
+                { x: 2011, y: 13 },
+                { x: 2012, y: 6.8 },
+                { x: 2013, y: 3 },
+                { x: 2014, y: 0.6 },
+                { x: 2015, y: 0.4 },
+                { x: 2016, y: 0.2 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            },
+            {
+                type: "stackedArea100",
+                xValueFormatString: "####",
+                showInLegend: true,
+                name: "Symbian",
+                dataPoints: [
+                { x: 2009, y: 48.8 },
+                { x: 2010, y: 44.2 },
+                { x: 2011, y: 27.7 },
+                { x: 2012, y: 8.5 },
+                { x: 2013, y: 0.6 },
+                { x: 2014, y: 0.6 },
+                { x: 2015, y: 0.4 },
+                { x: 2016, y: 0.2 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            },
+            {
+                type: "stackedArea100",
+                xValueFormatString: "####",
+                showInLegend: true,
+                name: "Others",
+                dataPoints: [
+                { x: 2009, y: 8.3 },
+                { x: 2010, y: 4.3 },
+                { x: 2011, y: 3.4 },
+                { x: 2012, y: 3.4 },
+                { x: 2013, y: 0.9 },
+                { x: 2014, y: 0.1 },
+                { x: 2015, y: 0.1 },
+                { x: 2016, y: 0.1 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }
+            ]
+        });
+
+        chart.render();
+    });
+</script>

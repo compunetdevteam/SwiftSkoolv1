@@ -1,0 +1,226 @@
+﻿@model SwiftSkool.ViewModel.SummaryReportViewModel
+@{
+    ViewBag.Title = "Print Result";
+}
+
+
+<img src="~/Content/images/logo.PNG" width="900" />
+
+<div>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-4">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Student ID</td>
+                        <td>@Html.DisplayFor(model => model.Student.StudentId)</td>
+                    </tr>
+                    <tr>
+                        <td>Student Name</td>
+                        <td>@Html.DisplayFor(model => model.Student.FullName)</td>
+                    </tr>
+                    <tr>
+                        <td>Class Teacher</td>
+                        <td>Dooley</td>
+                    </tr>
+                    <tr>
+                        <td>Next Term Begins</td>
+                        <td>Dooley</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Current Class</td>
+                        <td>@Html.DisplayNameFor(model => model.Student.StudentId)</td>
+                    </tr>
+                    <tr>
+                        <td>Sex</td>
+                        <td>@Html.DisplayFor(model => model.Student.Gender)</td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>@Html.DisplayFor(model => model.Student.Age)</td>
+                    </tr>
+                    <tr>
+                        <td>Term</td>
+                        <td>@ViewBag.Term</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Average</td>
+                        <td>@Html.DisplayNameFor(model => model.Student.StudentId)</td>
+                    </tr>
+                    <tr>
+                        <td>Aggregate Position</td>
+                        <td>@Html.DisplayFor(model => model.Student.Gender)</td>
+                    </tr>
+                    <tr>
+                        <td>No in Class</td>
+                        <td>@Html.DisplayFor(model => model.NoOfStudentPerClass)</td>
+                    </tr>
+                    <tr>
+                        <td>Session</td>
+                        <td>@ViewBag.Session</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            StudentID
+        </th>
+        <th>
+            Subject
+        </th>
+
+        <th>
+            1st Score
+        </th>
+        <th>
+            1st SP
+        </th>
+        <th>
+            1st SG
+        </th>
+        <th>
+            2nd Score
+        </th>
+        <th>
+            2nd SP
+        </th>
+        <th>
+            2nd SG
+        </th>
+        <th>
+            3rd Score
+        </th>
+        <th>
+            3rd SP
+        </th>
+        <th>
+            #rd SG
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Sum
+        </th>
+        <th>
+            Grade
+        </th>
+        <th>
+            Remark
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.SummaryRemark)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SummaryPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfSubjectOffered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfStudentPerClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SummaryAverage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassAverage)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ReportSummaries)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTermScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTermSubjectPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTermSubjectGrade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTermScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTermSubjectPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTermSubjectGrade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTermScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTermSubjectPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTermSubjectGrade)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.SummaryTotal)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightedScores)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SummaryGrading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SummaryRemark)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.SummaryPosition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfSubjectOffered)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfStudentPerClass)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SummaryAverage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassAverage)
+                </td>*@
+         
+        </tr>
+    }
+
+</table>
+
+
+
+
+

@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain
 {

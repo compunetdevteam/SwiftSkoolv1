@@ -1,0 +1,340 @@
+﻿@model SwiftSkool.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+
+    <h4>Student</h4>
+    <hr />
+<div class="tabbable tabs-right">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Student Basic Info</a></li>
+        <li><a href="#tab2" data-toggle="tab">Parent/Guardians Information</a></li>
+        <li><a href="#tab3" data-toggle="tab">School Account</a></li>
+        <li><a href="#tab4" data-toggle="tab">Results</a></li>
+    </ul>
+<div class="tab-content">
+<div class="tab-pane active" id="tab1">
+    <div class="jumbotron">
+        <dl class="dl-horizontal">
+            <dd>
+                <img src="@Url.Action("RenderImage", new { studentId = Model.StudentId})" width="100" height="100" />
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.StudentId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MiddleName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Age)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Age)
+            </dd>
+                    
+            <dt>
+                @Html.DisplayNameFor(model => model.AdmissionDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AdmissionDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt>
+
+
+            @Html.ActionLink("Print FirstTerm Result", "PrintSecondTerm", new { id = Model.StudentId,
+                term = "FIRST",
+                sessionName = "2016-2017",
+            })
+        </dl>
+    </div>
+</div>
+<div class="tab-pane" id="tab2">
+        
+ 
+    <table class="table">
+        <tr>
+            <th>
+                Salutation
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Relationship
+            </th>
+           
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Guardian.Where(s => s.StudentId == Model.StudentId))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salutation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Relationship)
+                </td>
+             
+
+            </tr>
+
+        }
+            </table>
+</div>
+<div class="tab-pane" id="tab3">
+    @*<table class="table">
+                <tr>
+                    <th>
+                        Fee Type
+                    </th>
+                    <th>
+                        Term
+                    </th>
+                    <th>
+                        Session
+                    </th>
+                    <th>
+                        Amount Paid
+                    </th>
+                    <th>
+                        Total Amount
+                    </th>                  
+                    <th>
+                        Payment Method
+                    </th>
+                    <th>
+                        Balance
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.FeePayments.Where(s => s.StudentId == Model.StudentID))
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FeeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Term)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Session)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaidFee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentMode)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remaining)
+                        </td>                  
+                    </tr>
+
+                }
+            </table>*@
+            
+</div>
+<div class="tab-pane" id="tab4">
+    @*@Html.Action("ResultInfo", "Students", new { studentNumber = Model.StudentId })*@
+    @*<table class="table">
+                <tr>
+                    <th>
+                        Subject
+                    </th>
+                    <th>
+                        Assignment
+                    </th>
+                    <th>
+                        First ThirdTest
+                    </th>
+                    <th>
+                        Second ThirdTest
+                    </th>
+                    <th>
+                        Exam Score
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th>
+                        Grade
+                    </th>
+                    <th>
+                        Remark
+                    </th>
+                    <th>
+                        Subject Position
+                    </th>
+                    <th>
+                        Aggregate Score
+                    </th>
+                    <th>
+                        Aggregate Position
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.Grades.Where(s => s.StudentId == Model.StudentId && s.TermName.Equals("First") && s.SessionName.Equals("2016-2017")))
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.CourseName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Assignment)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstThirdTest)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SecondThirdTest)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExamScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Grading)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remark)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubjectPosition)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AggretateScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AggregatePosition)
+                        </td>
+                        @{
+                            ViewBag.Position = @Html.DisplayFor(modelItem => item.AggregatePosition);
+                        }
+                    </tr>
+
+                            }
+
+            </table>*@
+
+    @*<p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId }) |
+                @Html.ActionLink("Print Second Term Result", "PrintSecondTerm", new { id = Model.StudentId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId }) |
+                @Html.ActionLink("Details", "Details", new { id = Model.StudentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.StudentId })
+            </p>*@
+</div>
+
+</div>
+@*<p>@Html.ActionLink("Subject Offered", "PrintThirdTest", new
+  {
+      id = Model.StudentId,
+      term = "SECOND",
+      sessionName = "2016-2017",
+  }) |</p>*@
+    
+
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+    
+    @*@Html.ActionLink("Subject Offered", "PrintThirdTest", new
+   {
+       id = Model.StudentId,
+       term = "First",
+       sessionName = "2016-2017",
+   }) |
+    
+@Html.ActionLink("Print FirstTerm Result", "PrintSecondTerm", new { id = Model.StudentId,
+    term = "First",
+    sessionName = "2016-2017",
+}) |
+    
+    @Html.ActionLink("Print Second Term Result", "PrintSecondTerm", new
+   {
+       id = Model.StudentId,
+       term = "Second",
+       sessionName = "2016-2017",
+   }) |
+    
+    @Html.ActionLink("Print third Term Result", "PrintSecondTerm", new
+   {
+       id = Model.StudentId,
+       term = "Third",
+       sessionName = "2016-2017",
+   }) | 
+@Html.ActionLink("Print Summary Result", "PrintSummaryReport", new
+   {
+       id = Model.StudentId,
+       term = "First",
+       sessionName = "2016-2017",
+   })*@
+    
+
+</div>

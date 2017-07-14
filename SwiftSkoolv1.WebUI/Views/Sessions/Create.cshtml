@@ -1,0 +1,89 @@
+﻿@model SwiftSkool.Models.Session
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Session</h2>
+
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-6">
+        @*@using (Html.BeginForm(new { id = "myform" }))
+        {*@
+        <form id = "myform">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SessionName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SessionName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ActiveSession, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.ActiveSession)
+                            @Html.ValidationMessageFor(model => model.ActiveSession, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="reset" id="btnsubmit" value="Create Session" class="btn btn-primary btn-raised" />
+                    </div>
+                </div>
+            </div>
+        @*}*@
+        </form>
+
+    </div>
+    <div class="col-md-5">
+        <div style="text-align: center;display:none" id="loaderDiv">
+            <img src="~/Content/Loader Images/Loading_icon.gif" width="150"/>
+        </div>
+      
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //window.alert("ready");
+
+        $("#btnsubmit").click(function() {
+           // window.alert("ready");
+          
+            $("#loaderDiv").show();
+
+            var data = $("#myform").serialize();
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/Sessions/Create",
+                data: data,
+                success: function(response) {
+                    $("#loaderDiv").hide();
+                    alertify.success('session Created Successfully');
+                }
+            });
+        });
+    })
+</script>

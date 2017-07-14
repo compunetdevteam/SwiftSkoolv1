@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Stacked Bar Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Cost Of Pancake Ingredients, 2011"
+            },
+            animationEnabled: true,
+            axisY2: {
+                valueFormatString: "$ 0",
+            },
+            toolTip: {
+                shared: true
+            },
+            legend: {
+                verticalAlign: "top",
+                horizontalAlign: "center"
+            },
+
+            data: [
+            {
+                type: "stackedBar",
+                showInLegend: true,
+                name: "Butter (500gms)",
+                axisYType: "secondary",
+                color: "#7E8F74",
+                dataPoints: [
+                    { y: 3, label: "India" },
+                    { y: 5, label: "US" },
+                    { y: 3, label: "Germany" },
+                    { y: 6, label: "Brazil" },
+                    { y: 7, label: "China" },
+                    { y: 5, label: "Australia" },
+                    { y: 5, label: "France" },
+                    { y: 7, label: "Italy" },
+                    { y: 9, label: "Singapore" },
+                    { y: 8, label: "Switzerland" },
+                    { y: 12, label: "Japan" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints1),
+            },
+            {
+                type: "stackedBar",
+                showInLegend: true,
+                name: "Flour (1kg)",
+                axisYType: "secondary",
+                color: "#F0E6A7",
+                dataPoints: [
+                    { y: .5, label: "India" },
+                    { y: 1.5, label: "US" },
+                    { y: 1, label: "Germany" },
+                    { y: 2, label: "Brazil" },
+                    { y: 2, label: "China" },
+                    { y: 2.5, label: "Australia" },
+                    { y: 1.5, label: "France" },
+                    { y: 1, label: "Italy" },
+                    { y: 2, label: "Singapore" },
+                    { y: 2, label: "Switzerland" },
+                    { y: 3, label: "Japan" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints2),
+            },
+            {
+                type: "stackedBar",
+                showInLegend: true,
+                name: "Milk (2l)",
+                axisYType: "secondary",
+                color: "#EBB88A",
+                dataPoints: [
+                    { y: 2, label: "India" },
+                    { y: 3, label: "US" },
+                    { y: 3, label: "Germany" },
+                    { y: 3, label: "Brazil" },
+                    { y: 4, label: "China" },
+                    { y: 3, label: "Australia" },
+                    { y: 4.5, label: "France" },
+                    { y: 4.5, label: "Italy" },
+                    { y: 6, label: "Singapore" },
+                    { y: 3, label: "Switzerland" },
+                    { y: 6, label: "Japan" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints3),
+            },
+            {
+                type: "stackedBar",
+                showInLegend: true,
+                name: "Eggs (20)",
+                axisYType: "secondary",
+                color: "#DB9079",
+                indexLabel: "$#total",
+                indexLabelPlacement: "outside",
+                dataPoints: [
+                    { y: 2, label: "India" },
+                    { y: 3, label: "US" },
+                    { y: 6, label: "Germany" },
+                    { y: 4, label: "Brazil" },
+                    { y: 4, label: "China" },
+                    { y: 8, label: "Australia" },
+                    { y: 8, label: "France" },
+                    { y: 8, label: "Italy" },
+                    { y: 4, label: "Singapore" },
+                    { y: 11, label: "Switzerland" },
+                    { y: 6, label: "Japan" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints4),
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>

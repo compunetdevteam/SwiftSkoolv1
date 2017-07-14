@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = ViewBag.Layout;
+}
+
+@model IEnumerable<SwiftSkool.Models.Objects.Post>
+
+@{
+    ViewBag.Title = "HAS";
+    bool isPreviousLinkVisible = ViewBag.IsPreviousLinkVisible ?? false;
+    bool isNextLinkVisible = ViewBag.IsNextLinkVisible ?? false;
+    bool isAdmin = ViewBag.IsAdmin ?? false;
+}
+<div class="container">
+    <h2>@System.Configuration.ConfigurationManager.AppSettings["SchoolName"] News/Articles</h2>
+
+    <div class="row">
+        <div class="col-md-8">         
+            @foreach (SwiftSkool.Models.Objects.Post post in Model)
+            {
+                @PosthelperIndex.Render(post, Html, isAdmin, false)
+                @*@post.Title <br />*@
+            }
+
+            <ul class="pager">
+                @if (isPreviousLinkVisible)
+                {
+                    <li class="previous">
+                        <a id="previousLink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber - 1))">&lt; Previous Page</a>
+                    </li>
+                }
+
+                @if (isNextLinkVisible)
+                {
+                    <li class="next">
+                        <a id="nextLink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber + 1))"> Next Page &gt;</a>
+                    </li>
+                }
+            </ul>
+        </div>
+       
+        <div class="col-md-4">
+            <!-- Subscribe to my feed widget -->
+            <div class="well text-center">
+                <p class="lead">
+                    Don't want to miss updates? Please click the below button!
+                </p>
+                <button class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("RSS","Posts")'">Subscribe to my feed</button>
+            </div>
+
+            <!-- Other widgets -->
+          
+                @Html.Action("Menu", "Posts")
+            
+                @Html.Action("TagList", "Posts")
+     
+            @*<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Tags</h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-inline">
+                        <li><a href="#">Aries</a></li>
+                        <li><a href="#">Fire</a></li>
+                        <li><a href="#">Mars</a></li>
+                        <li><a href="#">Taurus</a></li>
+                        <li><a href="#">Earth</a></li>
+                        <li><a href="#">Moon</a></li>
+                        <li><a href="#">Gemini</a></li>
+                        <li><a href="#">Air</a></li>
+                        <li><a href="#">Mercury</a></li>
+                        <li><a href="#">Cancer</a></li>
+                    </ul>
+                </div>
+            </div>*@
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div id="twitterHeader"><a href="http://www.twitter.com/kunlesymls">@System.Configuration.ConfigurationManager.AppSettings["SchoolName"] on Twitter</a></div>
+                </div>
+                <div id="tweets">
+                     
+                </div>
+            </div>
+        </div>
+        </div>
+    
+</div>
+
+    }

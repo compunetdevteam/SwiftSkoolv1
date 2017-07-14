@@ -1,0 +1,43 @@
+﻿@model IEnumerable<string>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4><a href="@Url.Action("Index", "Posts",
+                new
+                {
+                    category = "",
+                    page = 1
+
+                })">Latest Post</a></h4>
+    </div>
+   
+    
+        @foreach (var link in Model)
+            {
+            @*@Html.RouteLink(link, new
+                {
+                    controller = "Items",
+                    action = "Index",
+                    category = link,
+                    page = 1
+                },
+                    new {@class = "btn btn-block btn-default btn-lg"}
+                )*@
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="@Url.Action("Index", "Posts",
+                new
+                {
+                    category = link,
+                    page = 1
+
+                })">@link</a>
+            </li>
+            </ul>
+
+
+        }
+
+</div>
+

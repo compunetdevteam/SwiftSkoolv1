@@ -1,0 +1,66 @@
+﻿@model SwiftSkool.Models.ReportCard
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ReportCard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TermName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolOpened)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolOpened)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NextTermBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NextTermBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NextTermEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NextTermEnd)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.StudentPassport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentPassport)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReportCardId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

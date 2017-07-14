@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SwiftSkool.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<div class="container">
+    <div class="panel panel-info">
+        <table class="table">
+            <tr>
+                <th>
+                    <h3>@Html.DisplayNameFor(model => model.UserName)</h3>
+                </th>
+                <th>
+                    <h3>@Html.DisplayNameFor(model => model.Email)</h3>
+                </th>
+                @*<th>
+                    <h3>@Html.DisplayNameFor(model => model.PhoneNumber)</h3>
+                </th>*@
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>*@
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

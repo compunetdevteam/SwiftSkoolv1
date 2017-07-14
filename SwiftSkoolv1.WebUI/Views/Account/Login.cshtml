@@ -1,62 +1,207 @@
-﻿@using SwiftSkoolv1.WebUI.Models
-@model LoginViewModel
-@{
-    ViewBag.Title = "Log in";
+﻿@{
+    ViewBag.Title = "Contact Page";
+    //Layout = "~/Views/Shared/_LayoutSwiftSkool.cshtml";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+@using SwiftSkool.Models
+@model LoginViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-5 login-form mx-auto float-none">
+
+            <!--Form with header-->
+            <div class="card">
+                <div class="card-block">
+
+                    <!--Header-->
+                    <div class="form-header">
+                        <h3><img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left:38%;" />
+                            @*<i class="fa fa-lock"></i>*@ </h3>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+
+                    <!--Body-->
+                    <form action="@Href("~/Account/Login")" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="md-form">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="Email" name="Email" class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required.">
+                            <label for="Email">Your email</label>
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
                         </div>
-                    </div>
+
+                        <div class="md-form">
+                            <i class="fa fa-lock prefix"></i>
+                            <input type="password" id="Password" name="Password" class="form-control" data-val="true" data-val-Password="The Password field is required." data-val-required="The Password field is required.">
+                            <label for="Password">Your password</label>
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                        </div>
+
+                        <input type="checkbox" name="RememberMe" value="Bike"> Remember Me<br>
+
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary" value="Login" />
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
+
+
+                <!--Footer-->
+                <div class="modal-footer text-center">
+                    <a href="@Url.Action("ForgotPassword", "Account")">Forgot Password?</a>
                 </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
+            </div>
+            <!--/Form with header-->
+
+        </div>
     </div>
 </div>
+
+@*<!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>SWIFTSKOOL | LOGIN</title>
+        <!-- for-widget-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="Dual Roal Forms Widget Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+        <script type="application/x-javascript">
+            addEventListener("load", function() {
+                setTimeout(hideURLbar, 0);
+            }, false);
+
+            function hideURLbar() {
+                window.scrollTo(0, 1);
+            }
+        </script>
+        <!-- //for-widget-->
+        <link href="~/Content/css/user-login.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="icon" href="~/Content/images/swiftskool2.png" item-height="200" type="image/x-icon">
+        <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,300italic,600italic,700' rel='stylesheet' type='text/css'>
+    </head>
+
+    <body>
+    <div class="main">
+        <div class="agile-info_w3ls">
+            <div class="login-head">
+                <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left:38%;" /></a>
+                <h3>Welcome</h3>
+            </div>
+            <div class="agile-info_w3ls_grid second">
+                <form action="@Href("~/Account/Login")" method="post">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Email, new {placeholder = "Username/UserId"})
+                        @Html.ValidationMessageFor(m => m.Email, "", new {@class = "text-danger"})
+                    </div>
+                    <br />
+
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.Password, new {placeholder = "Password"})
+                        @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+                    </div>
+
+                    <div class="agile_remember">
+                        <div class="agile_remember_left" style="color: grey !important;">
+                            <div class="check">
+                                @Html.CheckBoxFor(m => m.RememberMe) <span>Remember me</span>
+                            </div>
+                        </div>
+                        <div class="agile_remember_right">
+                            <a href="Url.Action("ForgetPasssword" "Account")">Forgot Password?</a>
+                        </div>
+                        <div class="clear"> </div>
+                    </div>
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+
+        <div class="clear"> </div>
+    </div>
+    </body>
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    </html>*@
+
+@*<section class="section-account">
+
+
+        @*<div class="img-backdrop" style="background-image:url('../../Content/images/kingsqueen.jpeg');"></div>
+        <div class="card contain-sm style-transparent">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <br />
+                        <span class="text-lg text-bold text-primary">@System.Configuration.ConfigurationManager.AppSettings["SchoolName"]</span>
+                        <br /><br />
+                       @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @*<p class="help-block">Required*</p>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password)
+
+                            @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+                        @*<p class="help-block">Required*</p>
+                    </div>
+
+
+                            <br />
+                            <div class="row">
+                                <div class="col-xs-6 text-left">
+                                    <div class="checkbox checkbox-inline">
+                                        @Html.CheckBoxFor(m => m.RememberMe) <span>Remember me</span>
+
+                                    </div>
+
+                                    </div><!--end .col -->
+                                <div class="col-xs-6 text-right">
+                                    <button class="btn btn-primary btn-raised" type="submit">Login</button>
+                                </div><!--end .col -->
+                            </div><!--end .row -->
+
+    }
+                    </div><!--end .col -->
+                    <div class="col-sm-5 col-sm-offset-1 text-center">
+                        <br><br>
+                        <h3 class="text-light">
+                            No account yet? Contact The Adminsitrator
+                        </h3>
+                        <a class="btn btn-block btn-raised btn-primary" href="#">Sign up here</a>
+                        <br><br>
+                        @*<h3 class="text-light">
+                            or
+                        </h3>
+                        <p>
+                            <a href="#" class="btn btn-block btn-raised btn-info"><i class="fa fa-facebook pull-left"></i>Login with Facebook</a>
+                        </p>
+                        <p>
+                            <a href="#" class="btn btn-block btn-raised btn-info"><i class="fa fa-twitter pull-left"></i>Login with Twitter</a>
+                        </p>
+                    </div><!--end .col -->
+                </div><!--end .row -->
+            </div><!--end .card-body -->
+
+    </section>*@
+<!-- END LOGIN SECTION -->
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "UploadTeacher";
+}
+
+<h2>UploadTeacher</h2>
+
+@using (Html.BeginForm("UpLoadTeacher", "Account", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+{
+    @Html.Raw(ViewBag.Error)
+    <div class="form-group">
+        <input type="file" id="dataFile" name="excelfile" />
+    </div>
+
+    <div class="form-group">
+        <input id="btnsubmit" type="submit" value="Upload" class="btn btn-success" />
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#theform').submit(function () {
+            $("input[type='submit']", this)
+              .val("Uploading Please Wait...")
+              .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>

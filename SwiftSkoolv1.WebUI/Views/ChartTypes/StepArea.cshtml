@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Step Area Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+
+            animationEnabled: true,
+            zoomEnabled: true,
+            title: {
+                text: "Monthly Average Crude Oil Prices"
+            },
+            legend: {
+                verticalAlign: "bottom",
+                horizontalAlign: "center"
+            },
+            axisX: {
+                valueFormatString: "MMM YY"
+            },
+            axisY: {
+                includeZero: false,
+                prefix: "$",
+                title: "Inflation Adjusted Price",
+                maximum: 110
+            },
+            data: [
+            {
+                type: "stepArea",
+                markerSize: 0,
+                toolTipContent: "{x} : <strong>${y} <strong>",
+                dataPoints: [
+                { x: new Date(2011, 0), y: 89.28 },
+                { x: new Date(2011, 1), y: 85.53 },
+                { x: new Date(2011, 2), y: 98.66 },
+                { x: new Date(2011, 3), y: 105.72 },
+                { x: new Date(2011, 4), y: 95.72 },
+                { x: new Date(2011, 5), y: 90.67 },
+                { x: new Date(2011, 6), y: 91.51 },
+                { x: new Date(2011, 7), y: 79.86 },
+                { x: new Date(2011, 8), y: 79.31 },
+                { x: new Date(2011, 9), y: 80.19 },
+                { x: new Date(2011, 10), y: 91.34 },
+                { x: new Date(2011, 11), y: 93.14 },
+                { x: new Date(2012, 0), y: 94.18 },
+                { x: new Date(2012, 1), y: 96.17 },
+                { x: new Date(2012, 2), y: 99.49 },
+                { x: new Date(2012, 3), y: 96.22 },
+                { x: new Date(2012, 4), y: 87.31 },
+                { x: new Date(2012, 5), y: 75.40 },
+                { x: new Date(2012, 6), y: 80.93 },
+                { x: new Date(2012, 7), y: 88.04 },
+                { x: new Date(2012, 8), y: 88.41 },
+                { x: new Date(2012, 9), y: 83.06 },
+                { x: new Date(2012, 10), y: 80.55 },
+                { x: new Date(2012, 11), y: 82.35 },
+                { x: new Date(2013, 0), y: 88.60 },
+                { x: new Date(2013, 1), y: 86.48 },
+                { x: new Date(2013, 2), y: 87.50 }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>

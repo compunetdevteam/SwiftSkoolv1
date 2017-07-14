@@ -1,0 +1,124 @@
+﻿@model SwiftSkool.ViewModel.GradeViewModel
+@{
+	ViewBag.Title = "Create";
+}
+<script src="~/Scripts/chosen.jquery.js"></script>
+
+<h2>Create Grade</h2>
+<div class="row">
+	<div class="col-md-1">
+
+	</div>
+	<div class="col-md-6">
+		<form id="myform">
+			@Html.AntiForgeryToken()
+
+			<div class="form-horizontal">
+
+				<hr />
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				<div class="form-group">
+					@Html.LabelFor(model => model.GradeName, htmlAttributes: new { @class = "control-label col-md-3" })
+					<div class="col-md-9">
+						@Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.MinimumValue, htmlAttributes: new { @class = "control-label col-md-3" })
+					<div class="col-md-9">
+						@Html.EditorFor(model => model.MinimumValue, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.MinimumValue, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.MaximumValue, htmlAttributes: new { @class = "control-label col-md-3" })
+					<div class="col-md-9">
+						@Html.EditorFor(model => model.MaximumValue, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.MaximumValue, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				@*<div class="form-group">
+					@Html.LabelFor(model => model.GradePoint, htmlAttributes: new { @class = "control-label col-md-3" })
+					<div class="col-md-9">
+						@Html.EditorFor(model => model.GradePoint, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.GradePoint, "", new { @class = "text-danger" })
+					</div>
+				</div>*@
+				<div class="form-group">
+					@Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-3" })
+					<div class="col-md-9">
+						@Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				
+				@*<div class="form-group">
+					@Html.LabelFor(model => model.ClassName, "ClassName", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+						@Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+					</div>
+				</div>*@
+
+				@*<div class="form-group">
+					<div class="editor-label control-label col-md-2">
+						@Html.Label("Class Name")
+					</div>
+					<div class="col-md-10 editor-field">
+						@Html.ListBox("ClassName", (MultiSelectList)ViewBag.ClassName, new { size = 10, @class = "listbox" })
+					</div>
+				</div>*@
+
+					<div class="form-group">
+						<div class="col-md-offset-3 col-md-9">
+							<input type="reset" id="btnsubmit" value="Create Grade" class="btn btn-primary btn-raised" />
+						</div>
+					</div>
+				</div>
+		   
+		</form>
+	</div>
+	<div class="col-md-5">
+
+	</div>
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    //window.alert(5 + 6);
+    $('.chosen-select').chosen();
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //window.alert("ready");
+
+        $("#btnsubmit").click(function () {
+            // window.alert("ready");
+
+            $("#loaderDiv").show();
+
+            var data = $("#myform").serialize();
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/Grades/Create",
+                data: data,
+                success: function (response) {
+                    $("#loaderDiv").hide();
+                    alertify.success('Grades Created Successfully');
+                }
+            });
+        });
+    })
+</script>

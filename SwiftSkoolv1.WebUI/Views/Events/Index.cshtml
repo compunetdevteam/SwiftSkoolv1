@@ -1,0 +1,133 @@
+﻿@model IEnumerable<SwiftSkool.Models.Calender.Event>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsHoliday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCommonToAll)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThemeColor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFullDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartingDate)
+        </th>
+        <th></th>
+    </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsHoliday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCommonToAll)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFullDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
+            </td>
+        </tr>
+    }
+    
+</table>
+    
+<div id="calender"></div>
+
+<link href="~/Content/fullcalendar.min.css" rel="stylesheet" /> 
+<link href="~/Content/fullcalendar.print.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var events = [];
+        $.ajax({
+            type: "Get",
+            url: "Events/GetEvents",
+            success: function(data) {
+                $.each(data,
+                    function(i, v) {
+                        events.push({
+                            title: v.Subjects,
+                            description: v.Description,
+                            start: moment(v.StartingDate),
+                            color: v.ThemeColor,
+                            allDay: v.IsFullDay
+
+                        });
+                    });
+                GenerateCalender(events);
+
+            },
+            error: function(error) {
+                alert('Failed');
+            }
+
+        });
+
+        function GenerateCalender(events) {
+            $('#calender').fullcalender('destroy');
+            $('#calener').fullcalender({
+                contentHeight: 400,
+                defaultDate: new Date(),
+                timeFormat: 'h(:mm)a',
+                header: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicday,agenda',
+                },
+
+                eventLimit: true,
+                eventColor: '#378006',
+                events: events
+            });
+        }
+        });
+</script>
+</body>
+</html>

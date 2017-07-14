@@ -1,0 +1,59 @@
+﻿@model SwiftSkool.Models.Objects.Post
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Create New Article/News</h2>
+
+
+<form action="@Href("~/Posts/CreatePost")" method="post" id="postForm myform">
+    @if (Model.ID != -1)
+    {
+        <input type="hidden" name="id" value="@Model.ID" />
+    }
+    <div class="row">
+        <div class="col-md-3">
+            @*@{ DateTime dateTime = Model.DateTime.Year > 2015 ? Model.DateTime : DateTime.Now;}*@
+            <label>Date</label>
+            <input type="date" name="dateTime" value="@Model.DateTime" class="form-control" placeholder="The headline goes here..." /> <br />
+            <label>Title</label>
+            <input type="text" name="title" value="@Model.Title" class="form-control" placeholder="The Title goes here..." />  <br />
+            <label>Tags</label>
+            <input type="text" name="tag" value="@ViewBag.Tags" class="form-control" placeholder="The Tags goes here..." /> <br />
+        </div>
+    </div>
+   
+    <label>Body</label>
+    <textarea name="body" id="ckeditor" class="form-control control-12-rows" placeholder="Enter text ...">@Model.Body</textarea>
+    @*<script>
+        CKEDITOR.replace('editor1');
+    </script>*@
+    <br />
+    <input type="reset" id="btnsubmit" name="submit" value="Submit" style="width: auto; font-weight: 600;" />
+</form>
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //window.alert("ready");
+
+        $("#btnsubmit").click(function() {
+            // window.alert("ready");
+
+            $("#loaderDiv").show();
+
+            var data = $("#myform").serialize();
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/Posts/Create",
+                data: data,
+                success: function(response) {
+                    $("#loaderDiv").hide();
+                    alertify.success('session Created Successfully');
+                }
+            });
+        });
+    })
+</script>
