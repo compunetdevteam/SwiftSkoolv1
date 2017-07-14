@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SwiftSkool.Models;
+using SwiftSkoolv1.Domain.ClassRoom;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SwiftSkoolv1.Domain;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class Student : GeneralSchool
     {
@@ -58,12 +59,12 @@ namespace SwiftSkool.Models
 
         public bool Active { get; set; }
         public bool IsGraduated { get; set; }
-
+        public string ApplicationUserId { get; set; }
         public virtual ICollection<Guardian> Guardian { get; set; }
         public virtual ICollection<FeePayment> FeePayments { get; set; }
         public virtual ICollection<AssignedClass> AssignedClasses { get; set; }
         public virtual ICollection<SubjectRegistration> SubjectRegistrations { get; set; }
-
-        public ICollection<CaList> CaList { get; set; }
+        public virtual ICollection<CaList> CaList { get; set; }
+        public virtual ICollection<InviteStudent> InviteStudents { get; set; }
     }
 }

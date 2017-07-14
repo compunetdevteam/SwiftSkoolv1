@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class GeneralSchool
     {

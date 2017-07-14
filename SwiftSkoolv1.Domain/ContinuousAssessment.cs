@@ -2,11 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class ContinuousAssessment : GeneralSchool
     {
-        private readonly GradeRemark _myGradeRemark = new GradeRemark();
         public int ContinuousAssessmentId { get; set; }
 
         [Display(Name = "Student ID")]
@@ -16,17 +15,17 @@ namespace SwiftSkool.Models
         [Index]
         public string StudentId { get; set; }
 
-        [Display(Name = "Term")]
+        [Display(Name = "Term Name")]
         [Required(ErrorMessage = "Term is required")]
         [StringLength(15)]
         public string TermName { get; set; }
 
-        [Display(Name = "Session")]
+        [Display(Name = "Session Name")]
         [Required(ErrorMessage = "Session is required")]
         [StringLength(15)]
         public string SessionName { get; set; }
 
-        [Display(Name = "Subject")]
+        [Display(Name = "Subject Name")]
         [Required(ErrorMessage = "Subject is required")]
         public int SubjectId { get; set; }
 
@@ -68,52 +67,17 @@ namespace SwiftSkool.Models
         {
             get
             {
-                double sum = FirstTest + SecondTest + ThirdTest + ExamScore;
+                var sum = FirstTest + SecondTest + ThirdTest + ExamScore;
                 return sum;
             }
             private set { }
         }
 
-        public string Grading
-        {
+        public string Grading { get; set; }
 
-            get
-            {
-                return _myGradeRemark.Grading(Total, ClassName, SchoolId);
-            }
-            private set { }
+        public string Remark { get; set; }
 
-        }
-
-        public string Remark
-        {
-            #region Checking grade
-
-            get
-            {
-                return _myGradeRemark.Remark(Total, ClassName, SchoolId);
-            }
-            private set { }
-
-            #endregion
-        }
         public virtual Subject Subject { get; set; }
-        //public int GradePoint
-        //{
-        //    get
-        //    {
-        //        return _myGradeRemark.GradingPoint(Total, ClassName);
-        //    }
-        //    private set { }
-        //}
 
-        //public int QualityPoint
-        //{
-        //    get
-        //    {
-        //        return 2 * GradePoint;
-        //    }
-        //    private set { }
-        //}
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class Grade : GeneralSchool
     {
@@ -72,12 +72,12 @@ namespace SwiftSkool.Models
         public string StudentId { get; set; }
 
 
-        [Display(Name = "Term")]
+        [Display(Name = "Term Name")]
         [Required(ErrorMessage = "Term is required")]
         [StringLength(15)]
         public string TermName { get; set; }
 
-        [Display(Name = "Session")]
+        [Display(Name = "Session Name")]
         [Required(ErrorMessage = "Session is required")]
         public string SessionName { get; set; }
 

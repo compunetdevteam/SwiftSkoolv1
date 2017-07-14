@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using SwiftSkoolv1.Domain.CBT;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.Domain.CBT;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class Term
     {

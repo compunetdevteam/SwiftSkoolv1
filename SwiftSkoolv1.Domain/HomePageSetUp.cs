@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
 
-namespace HopeAcademySMS.Models
+namespace SwiftSkoolv1.Domain
 {
     public class HomePageSetUp
     {

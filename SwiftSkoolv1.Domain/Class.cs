@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using SwiftSkoolv1.Domain;
+﻿using SwiftSkool.Models;
 using SwiftSkoolv1.Domain.CBT;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class Class : GeneralSchool
     {
         public int ClassId { get; set; }
 
-        [Display(Name = "Class")]
+        [Display(Name = "Class Name")]
         [Required(ErrorMessage = "Class Name cannot be empty")]
         [StringLength(25)]
         public string SchoolName { get; set; }
@@ -28,7 +28,7 @@ namespace SwiftSkool.Models
         {
             get
             {
-                return $"{this.SchoolName.ToString()}{this.ClassLevel}";
+                return $"{SchoolName}{ClassLevel}";
             }
             set { }
         }
@@ -36,7 +36,7 @@ namespace SwiftSkool.Models
         {
             get
             {
-                return $"{this.ClassName.ToUpper()} {this.ClassType.ToUpper()}";
+                return $"{ClassName.ToUpper()} {ClassType.ToUpper()}";
             }
             set { }
         }
@@ -52,6 +52,7 @@ namespace SwiftSkool.Models
         public ICollection<ExamSetting> ExamSettings { get; set; }
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
         public ICollection<ResultDivision> ResultDivisions { get; set; }
+        public ICollection<TimeTable> TimeTable { get; set; }
         //public virtual ICollection<CaSetUp> AssignCas { get; set; }
     }
 }

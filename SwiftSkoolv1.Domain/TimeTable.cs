@@ -1,16 +1,18 @@
-﻿using HopeAcademySMS.Models;
+﻿using SwiftSkool.Models;
 using System;
-using System.Collections.Generic;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class TimeTable
     {
         public int TimeTableId { get; set; }
-        public List<Class> Classes { get; set; }
-        public List<Subject> Subjects { get; set; }
+        public int ClassId { get; set; }
+        public int SubjectId { get; set; }
         public DayOfWeek Days { get; set; }
         public Duration StartDuration { get; set; }
         public Duration EndDuration { get; set; }
+
+        public virtual Class Classes { get; set; }
+        public virtual Subject Subjects { get; set; }
     }
 }

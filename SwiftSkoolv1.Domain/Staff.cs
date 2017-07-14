@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SwiftSkoolv1.Domain.ClassRoom;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SwiftSkoolv1.Domain;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class Staff : GeneralSchool
     {
-        public string Id { get; set; }
+        [Key]
+        public string StaffId { get; set; }
         [StringLength(15)]
         public string Salutation { get; set; }
         [StringLength(35)]
@@ -33,9 +34,11 @@ namespace SwiftSkool.Models
         public string Qualifications { get; set; }
         public string Password { get; set; }
         public string Username => $"{this.FirstName} {this.LastName}";
-
+        public string ApplicationUserId { get; set; }
         public virtual ICollection<AssignedClass> AssignedClasses { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
+        public virtual ICollection<InviteTeacher> InviteTeacher { get; set; }
     }
+
 }

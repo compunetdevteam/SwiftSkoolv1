@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SwiftSkool.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SwiftSkoolv1.Domain;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class Result : GeneralSchool
     {
@@ -80,7 +80,7 @@ namespace SwiftSkool.Models
         public string Term { get; set; }
         [StringLength(15)]
         public string SessionName { get; set; }
-       // [StringLength(35)]
+        // [StringLength(35)]
         public int SubjectName { get; set; }
 
         public double SubjectHighest { get; set; }

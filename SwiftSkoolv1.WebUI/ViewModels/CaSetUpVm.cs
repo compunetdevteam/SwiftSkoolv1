@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-using SwiftSkool.Models;
 
 namespace SwiftSkoolv1.WebUI.ViewModels
 {
@@ -11,8 +9,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         public int CaOrder { get; set; }
         [StringLength(25)]
         public string CACaption { get; set; }
-
-        [Remote("MaximumValidation", "CaSetups", ErrorMessage = "Total Ca is greater than 100", AdditionalFields = "CaSetUpId,ClassId,TermId")]
+        //[Remote("MaximumValidation", "CaSetups", ErrorMessage = "Total Ca is greater than 100", AdditionalFields = "CaSetUpId,ClassId,TermId")]
         public double MaximumScore { get; set; }
 
         public double CaPercentage { get; set; }

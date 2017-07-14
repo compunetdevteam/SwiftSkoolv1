@@ -231,6 +231,10 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CaListVm.cs" />
     <Compile Include="ViewModels\CaSetUpVm.cs" />
+    <Compile Include="ViewModels\CreateFeeCategoryVM.cs" />
+    <Compile Include="ViewModels\ReportCardVm.cs" />
+    <Compile Include="ViewModels\SchoolVm.cs" />
+    <Compile Include="ViewModels\ValidateFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

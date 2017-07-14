@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain.CBT
 
@@ -53,14 +52,14 @@ namespace SwiftSkoolv1.Domain.CBT
         [Display(Name = "Question Hint")]
         public string QuestionHint { get; set; }
 
-        public PopUp.QuestionType QuestionType { get; set; }
+        public QuestionType QuestionType { get; set; }
 
         [Display(Name = "Fill in the Gap")]
         public bool IsFillInTheGag
         {
             get
             {
-                if (QuestionType.Equals(PopUp.QuestionType.BlankChoice))
+                if (QuestionType.Equals(QuestionType.BlankChoice))
                 {
                     return true;
                 }
@@ -74,7 +73,7 @@ namespace SwiftSkoolv1.Domain.CBT
         {
             get
             {
-                if (QuestionType.Equals(PopUp.QuestionType.MultiChoice))
+                if (QuestionType.Equals(QuestionType.MultiChoice))
                 {
                     return true;
                 }
@@ -86,7 +85,7 @@ namespace SwiftSkoolv1.Domain.CBT
         {
             get
             {
-                if (QuestionType.Equals(PopUp.QuestionType.SingleChoice))
+                if (QuestionType.Equals(QuestionType.SingleChoice))
                 {
                     return true;
                 }

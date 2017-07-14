@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
-namespace HopeAcademySMS.Models
+namespace SwiftSkoolv1.Domain
 {
     public class ClassAssignments
     {
@@ -12,6 +9,6 @@ namespace HopeAcademySMS.Models
         public bool DoneAssigment { get; set; }
         public bool NotDoneAssign { get; set; }
 
-    
-}
+
+    }
 }

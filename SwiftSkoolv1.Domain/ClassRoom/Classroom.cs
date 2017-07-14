@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace SwiftSkoolv1.Domain.ClassRoom
@@ -9,9 +8,9 @@ namespace SwiftSkoolv1.Domain.ClassRoom
         public string ClassRoomId { get; set; }
         public string ClassRoomName { get; set; }
         public string SubjectName { get; set; }
-        public string ApplicationUserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
-        public ICollection<JoinClassRoom> JoinClassRooms { get; set; }
+        public string CreatedBy { get; set; }
+        public ICollection<InviteStudent> InviteStudents { get; set; }
+        public ICollection<InviteTeacher> InviteTeachers { get; set; }
         public ICollection<ClassRoomTopic> ClassRoomTopics { get; set; }
         public ICollection<ClassroomMaterial> ClassroomMaterials { get; set; }
         public ICollection<ClassRoomAnouncement> ClassRoomAnouncements { get; set; }
@@ -20,12 +19,22 @@ namespace SwiftSkoolv1.Domain.ClassRoom
 
     }
 
-    public class JoinClassRoom
+    public class InviteStudent
     {
         public int JoinClassRoomId { get; set; }
         public string ClassRoomId { get; set; }
-        public string ApplicationUserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public string StudentId { get; set; }
+        public virtual Student Student { get; set; }
+        public ClassRoom ClassRoom { get; set; }
+
+    }
+
+    public class InviteTeacher
+    {
+        public int JoinClassRoomId { get; set; }
+        public string ClassRoomId { get; set; }
+        public string StaffId { get; set; }
+        public virtual Staff Staff { get; set; }
         public ClassRoom ClassRoom { get; set; }
 
     }

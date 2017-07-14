@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SwiftSkool.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class FeePayment : GeneralSchool
     {
@@ -37,7 +38,7 @@ namespace SwiftSkool.Models
 
 
         [Display(Name = "Payment Method")]
-        public PopUp.PMode PaymentMode { get; set; }
+        public PMode PaymentMode { get; set; }
 
         [Display(Name = "Date of Payment")]
         public DateTime Date { get; set; }

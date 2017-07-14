@@ -1,4 +1,4 @@
-﻿namespace SwiftSkool.Models
+﻿namespace SwiftSkoolv1.Domain
 {
     public class ReportSetting : GeneralSchool
     {

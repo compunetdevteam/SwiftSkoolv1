@@ -1,19 +1,9 @@
-﻿using SwiftSkool.Models;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain
 {
     public class CaList : GeneralSchool
     {
-        private readonly GradeRemark _myGradeRemark;
-
-        public CaList()
-        {
-            _myGradeRemark = new GradeRemark();
-        }
-
         public int CaListId { get; set; }
 
         public int SubjectId { get; set; }
@@ -40,45 +30,15 @@ namespace SwiftSkoolv1.Domain
         public double EightCa { get; set; }
         public double NinthtCa { get; set; }
         public double ExamCa { get; set; }
-        public double Total
-        {
-            get
-            {
-                double sum = FirstCa + SecondCa + ThirdCa + ForthCa + FifthCa + SixthCa + SeventhCa + EightCa + NinthtCa + ExamCa;
-                return sum;
-            }
-            private set { }
-        }
-        public string Grading
-        {
-
-            get
-            {
-                return _myGradeRemark.Grading(Total, ClassName, SchoolId);
-            }
-            private set { }
-
-        }
-
-        public string Remark
-        {
-            #region Checking grade
-
-            get
-            {
-                return _myGradeRemark.Remark(Total, ClassName, SchoolId);
-            }
-            private set { }
-
-            #endregion
-        }
-
+        public double Total { get; set; }
+        public string Grading { get; set; }
+        public string Remark { get; set; }
         public string StaffName { get; set; }
 
         public virtual Subject Subject { get; set; }
         public virtual Student Student { get; set; }
     }
 
-    
-   
+
+
 }

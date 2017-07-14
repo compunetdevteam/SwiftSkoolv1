@@ -8,7 +8,7 @@ namespace SwiftSkoolv1.Domain
         public int CaSetUpId { get; set; }
         public int CaOrder { get; set; }
         [StringLength(25)]
-        public string CACaption { get; set; }
+        public string CaCaption { get; set; }
         public double MaximumScore { get; set; }
 
         public double CaPercentage { get; set; }

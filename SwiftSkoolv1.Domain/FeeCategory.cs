@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SwiftSkool.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class FeeCategory : GeneralSchool
     {
@@ -13,22 +14,6 @@ namespace SwiftSkool.Models
     }
 
 
-    public class CreateFeeCategoryVM
-    {
-        [Required]
-        [StringLength(50)]
-        public string CategoryName { get; set; }
 
-        public string CategoryDescription { get; set; }
 
-    }
-
-    public class EditFeeCategoryVM
-    {
-        public string CategoryName { get; set; }
-
-        public string CategoryDescription { get; set; }
-
-        public int Id { get; set; }
-    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SwiftSkoolv1.Domain;
 
 namespace SwiftSkool.Models
 {

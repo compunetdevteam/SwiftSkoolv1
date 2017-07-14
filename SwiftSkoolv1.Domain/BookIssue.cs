@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +27,7 @@ namespace SwiftSkoolv1.Domain
         public DateTime DueDate { get; set; }
 
         [Display(Name = "Book Status")]
-        public PopUp.Status Status { get; set; }
+        public Status Status { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }
 
