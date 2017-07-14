@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SwiftSkool.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class AssignedClass : GeneralSchool
     {

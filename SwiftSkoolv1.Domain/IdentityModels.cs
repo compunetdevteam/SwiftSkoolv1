@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using SwiftSkool.Calender;
 using SwiftSkool.Models.Calender;
-using SwiftSkool.Models.ClassRoom;
-using SwiftSkool.Models.Objects;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.Domain.CBT;
+using SwiftSkoolv1.Domain.ClassRoom;
+using SwiftSkoolv1.Domain.Objects;
 
 namespace SwiftSkool.Models
 {
@@ -17,7 +17,7 @@ namespace SwiftSkool.Models
     {
         public string SchoolId { get; set; }
         public ICollection<JoinClassRoom> JoinClassRooms { get; set; }
-        public ICollection<ClassRoom.ClassRoom> ClassRooms { get; set; }
+        public ICollection<ClassRoom> ClassRooms { get; set; }
         // public ICollection<TopicSubmitAssignment> TopicSubmitAssignment { get; set; }
         public ApplicationUser()
         {
@@ -113,9 +113,9 @@ namespace SwiftSkool.Models
 
         public System.Data.Entity.DbSet<HopeAcademySMS.Models.HomePageSetUp> HomePageSetUps { get; set; }
 
-        public System.Data.Entity.DbSet<SwiftSkool.Models.CaSetUp> CaSetUps { get; set; }
+        public System.Data.Entity.DbSet<CaSetUp> CaSetUps { get; set; }
 
-        public System.Data.Entity.DbSet<SwiftSkool.Models.CaList> CaLists { get; set; }
+        public System.Data.Entity.DbSet<CaList> CaLists { get; set; }
 
         public System.Data.Entity.DbSet<SwiftSkool.Models.School> Schools { get; set; }
 

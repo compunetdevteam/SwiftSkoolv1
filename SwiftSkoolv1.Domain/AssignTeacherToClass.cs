@@ -1,4 +1,6 @@
-﻿namespace SwiftSkool.Models
+﻿using SwiftSkool.Models;
+
+namespace SwiftSkoolv1.Domain
 {
     public class AssignFormTeacherToClass : GeneralSchool
     {

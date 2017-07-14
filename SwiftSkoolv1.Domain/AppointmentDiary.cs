@@ -1,6 +1,6 @@
 ﻿using SwiftSkool.Models;
 
-namespace SwiftSkool.Calender
+namespace SwiftSkoolv1.Domain
 {
     public partial class AppointmentDiary : GeneralSchool
     {

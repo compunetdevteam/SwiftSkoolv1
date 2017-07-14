@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.Domain.CBT;
 
 namespace SwiftSkool.Models

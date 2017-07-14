@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SwiftSkool.Models.Objects
+namespace SwiftSkoolv1.Domain.Objects
 {
     public class Post
     {

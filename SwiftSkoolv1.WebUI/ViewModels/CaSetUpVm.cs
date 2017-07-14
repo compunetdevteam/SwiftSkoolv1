@@ -1,14 +1,18 @@
-﻿using SwiftSkool.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using SwiftSkool.Models;
 
-namespace SwiftSkoolv1.Domain
+namespace SwiftSkoolv1.WebUI.ViewModels
 {
-    public class CaSetUp : GeneralSchool
+
+    public class CaSetUpVm
     {
         public int CaSetUpId { get; set; }
         public int CaOrder { get; set; }
         [StringLength(25)]
         public string CACaption { get; set; }
+
+        [Remote("MaximumValidation", "CaSetups", ErrorMessage = "Total Ca is greater than 100", AdditionalFields = "CaSetUpId,ClassId,TermId")]
         public double MaximumScore { get; set; }
 
         public double CaPercentage { get; set; }
@@ -18,10 +22,8 @@ namespace SwiftSkoolv1.Domain
         public bool IsTrue { get; set; }
         public int ClassId { get; set; }
         public int TermId { get; set; }
-        public virtual Term Term { get; set; }
-        public virtual Class Class { get; set; }
+
+
 
     }
-
-
 }

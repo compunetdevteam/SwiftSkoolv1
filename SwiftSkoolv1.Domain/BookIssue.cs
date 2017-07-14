@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SwiftSkool.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkool.Models
+namespace SwiftSkoolv1.Domain
 {
     public class BookIssue : GeneralSchool
     {

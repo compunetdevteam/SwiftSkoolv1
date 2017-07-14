@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SwiftSkool.Models;
+using System;
 using System.Collections.Generic;
 
-namespace SwiftSkool.Models.ClassRoom
+namespace SwiftSkoolv1.Domain.ClassRoom
 {
     public class ClassRoom
     {

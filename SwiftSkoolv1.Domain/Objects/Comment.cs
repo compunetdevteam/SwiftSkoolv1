@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SwiftSkool.Models.Objects
+namespace SwiftSkoolv1.Domain.Objects
 {
     public class Comment
     {
