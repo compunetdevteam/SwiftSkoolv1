@@ -5,7 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Caching;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public class SmsServiceTemp
     {

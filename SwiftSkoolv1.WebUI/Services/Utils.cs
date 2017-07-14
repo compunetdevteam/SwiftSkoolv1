@@ -1,9 +1,9 @@
-﻿using SwiftSkool.Calender;
-using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
 using System;
 using System.Linq;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public class Utils
     {
@@ -11,7 +11,7 @@ namespace SwiftSkool.Services
         public static bool InitialiseDiary()
         {
             // init connection to database
-            using (SwifkSkoolContext ent = new SwifkSkoolContext())
+            using (SwiftSkoolDbContext ent = new SwiftSkoolDbContext())
             {
 
 

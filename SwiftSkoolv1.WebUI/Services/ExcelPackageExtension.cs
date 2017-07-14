@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public static class ExcelPackageExtension
     {

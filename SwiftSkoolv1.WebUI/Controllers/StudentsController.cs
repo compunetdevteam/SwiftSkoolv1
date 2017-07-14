@@ -4,11 +4,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using OfficeOpenXml;
 using PagedList;
 using Rotativa;
-using SwiftKampus.Services;
-using SwiftSkool.Services;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 //using Excel = Microsoft.Office.Interop.Excel;
 
@@ -660,24 +658,24 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return Json(rows, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetDiaryEvents(double start, double end)
-        {
-            var ApptListForDate = DiaryEvent.LoadAllAppointmentsInDateRange(start, end);
-            var eventList = from e in ApptListForDate
-                            select new
-                            {
-                                id = e.ID,
-                                title = e.Title,
-                                start = e.StartDateString,
-                                end = e.EndDateString,
-                                color = e.StatusColor,
-                                className = e.ClassName,
-                                someKey = e.SomeImportantKeyID,
-                                allDay = false
-                            };
-            var rows = eventList.ToArray();
-            return Json(rows, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult GetDiaryEvents(double start, double end)
+        //{
+        //    var ApptListForDate = DiaryEvent.LoadAllAppointmentsInDateRange(start, end);
+        //    var eventList = from e in ApptListForDate
+        //                    select new
+        //                    {
+        //                        id = e.ID,
+        //                        title = e.Title,
+        //                        start = e.StartDateString,
+        //                        end = e.EndDateString,
+        //                        color = e.StatusColor,
+        //                        className = e.ClassName,
+        //                        someKey = e.SomeImportantKeyID,
+        //                        allDay = false
+        //                    };
+        //    var rows = eventList.ToArray();
+        //    return Json(rows, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult UpLoadStudent()
         {

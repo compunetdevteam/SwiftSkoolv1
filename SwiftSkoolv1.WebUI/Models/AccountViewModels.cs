@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SwiftSkoolv1.Domain;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.WebUI.Models
@@ -67,7 +68,7 @@ namespace SwiftSkoolv1.WebUI.Models
         public int Id { get; set; }
 
         [Display(Name = "Salutation")]
-        public PopUp.Salutation Salutation { get; set; }
+        public Salutation Salutation { get; set; }
 
         [Display(Name = "Surname")]
         [Required(ErrorMessage = "Your Surname is required")]

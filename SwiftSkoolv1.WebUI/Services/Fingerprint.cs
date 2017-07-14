@@ -2,7 +2,7 @@
 using System.IO;
 using System.Web.Hosting;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public class Fingerprint
     {

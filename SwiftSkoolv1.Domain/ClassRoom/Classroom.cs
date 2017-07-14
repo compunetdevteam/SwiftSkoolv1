@@ -21,6 +21,7 @@ namespace SwiftSkoolv1.Domain.ClassRoom
 
     public class InviteStudent
     {
+        public int InviteStudentId { get; set; }
         public int JoinClassRoomId { get; set; }
         public string ClassRoomId { get; set; }
         public string StudentId { get; set; }
@@ -31,6 +32,7 @@ namespace SwiftSkoolv1.Domain.ClassRoom
 
     public class InviteTeacher
     {
+        public int InviteTeacherId { get; set; }
         public int JoinClassRoomId { get; set; }
         public string ClassRoomId { get; set; }
         public string StaffId { get; set; }

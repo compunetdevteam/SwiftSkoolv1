@@ -1,14 +1,13 @@
-﻿using System;
+﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using SwiftSkool;
-using SwiftSkool.Calender;
-using SwiftSkool.Models;
 
 // << dont forget to add this for converting dates to localtime
 
-namespace SwiftKampus.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public class DiaryEvent
     {
@@ -23,36 +22,36 @@ namespace SwiftKampus.Services
         public string ClassName;
 
 
-        public static List<DiaryEvent> LoadAllAppointmentsInDateRange(double start, double end)
-        {
+        //public static List<DiaryEvent> LoadAllAppointmentsInDateRange(double start, double end)
+        //{
 
-            var fromDate = ConvertFromUnixTimestamp(start);
-            var toDate = ConvertFromUnixTimestamp(end);
-            using (SwifkSkoolContext ent = new SwifkSkoolContext())
-            {
-                // var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && System.Data.Objects.EntityFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
-                var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && s.DateTimeScheduled <= toDate);
-                List<DiaryEvent> result = new List<DiaryEvent>();
-                foreach (var item in rslt)
-                {
-                    DiaryEvent rec = new DiaryEvent();
-                    rec.ID = item.ID;
-                    rec.SomeImportantKeyID = item.SomeImportantKey;
-                    rec.StartDateString = item.DateTimeScheduled.ToString("s"); // "s" is a preset format that outputs as: "2009-02-27T12:12:22"
-                    rec.EndDateString = item.DateTimeScheduled.AddMinutes(item.AppointmentLength).ToString("s"); // field AppointmentLength is in minutes
-                    rec.Title = item.Title + " - " + item.AppointmentLength.ToString() + " mins";
-                    rec.StatusString = Enums.GetName<AppointmentStatus>((AppointmentStatus)item.StatusENUM);
-                    rec.StatusColor = Enums.GetEnumDescription<AppointmentStatus>(rec.StatusString);
-                    string ColorCode = rec.StatusColor.Substring(0, rec.StatusColor.IndexOf(":"));
-                    rec.ClassName = rec.StatusColor.Substring(rec.StatusColor.IndexOf(":") + 1, rec.StatusColor.Length - ColorCode.Length - 1);
-                    rec.StatusColor = ColorCode;
-                    result.Add(rec);
-                }
+        //    var fromDate = ConvertFromUnixTimestamp(start);
+        //    var toDate = ConvertFromUnixTimestamp(end);
+        //    using (SwiftSkoolDbContext ent = new SwiftSkoolDbContext())
+        //    {
+        //        // var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && System.Data.Objects.EntityFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
+        //        var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && s.DateTimeScheduled <= toDate);
+        //        List<DiaryEvent> result = new List<DiaryEvent>();
+        //        foreach (var item in rslt)
+        //        {
+        //            DiaryEvent rec = new DiaryEvent();
+        //            rec.ID = item.ID;
+        //            rec.SomeImportantKeyID = item.SomeImportantKey;
+        //            rec.StartDateString = item.DateTimeScheduled.ToString("s"); // "s" is a preset format that outputs as: "2009-02-27T12:12:22"
+        //            rec.EndDateString = item.DateTimeScheduled.AddMinutes(item.AppointmentLength).ToString("s"); // field AppointmentLength is in minutes
+        //            rec.Title = item.Title + " - " + item.AppointmentLength.ToString() + " mins";
+        //            rec.StatusString = Enums.GetName<AppointmentStatus>((AppointmentStatus)item.StatusENUM);
+        //            rec.StatusColor = Enums.GetEnumDescription<AppointmentStatus>(rec.StatusString);
+        //            string ColorCode = rec.StatusColor.Substring(0, rec.StatusColor.IndexOf(":"));
+        //            rec.ClassName = rec.StatusColor.Substring(rec.StatusColor.IndexOf(":") + 1, rec.StatusColor.Length - ColorCode.Length - 1);
+        //            rec.StatusColor = ColorCode;
+        //            result.Add(rec);
+        //        }
 
-                return result;
-            }
+        //        return result;
+        //    }
 
-        }
+        //}
 
 
         public static List<DiaryEvent> LoadAppointmentSummaryInDateRange(double start, double end)
@@ -60,7 +59,7 @@ namespace SwiftKampus.Services
 
             var fromDate = ConvertFromUnixTimestamp(start);
             var toDate = ConvertFromUnixTimestamp(end);
-            using (SwifkSkoolContext ent = new SwifkSkoolContext())
+            using (SwiftSkoolDbContext ent = new SwiftSkoolDbContext())
             {
                 var rslt = ent.AppointmentDiary.Where(s => s.DateTimeScheduled >= fromDate && s.DateTimeScheduled <= toDate)
                                                         .GroupBy(s => s.DateTimeScheduled)
@@ -89,7 +88,7 @@ namespace SwiftKampus.Services
         public static void UpdateDiaryEvent(int id, string NewEventStart, string NewEventEnd)
         {
             // EventStart comes ISO 8601 format, eg:  "2000-01-10T10:00:00Z" - need to convert to DateTime
-            using (var ent = new SwifkSkoolContext())
+            using (var ent = new SwiftSkoolDbContext())
             {
                 var rec = ent.AppointmentDiary.FirstOrDefault(s => s.ID == id);
                 if (rec != null)
@@ -119,7 +118,7 @@ namespace SwiftKampus.Services
         {
             try
             {
-                using (var ent = new SwifkSkoolContext())
+                using (var ent = new SwiftSkoolDbContext())
                 {
                     var rec = new AppointmentDiary
                     {

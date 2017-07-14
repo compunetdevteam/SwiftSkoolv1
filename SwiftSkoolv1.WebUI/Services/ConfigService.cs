@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public class ConfigService
     {

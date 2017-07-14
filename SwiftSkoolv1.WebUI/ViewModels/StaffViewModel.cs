@@ -1,12 +1,11 @@
-﻿using SwiftSkool.Models;
+﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Web;
-using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkool.ViewModel
 {
@@ -14,7 +13,7 @@ namespace SwiftSkool.ViewModel
     {
 
         [Display(Name = "Salutation")]
-        public PopUp.Salutation Salutation { get; set; }
+        public Salutation Salutation { get; set; }
 
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "Your First Name is required")]
@@ -43,7 +42,7 @@ namespace SwiftSkool.ViewModel
         public string Email { get; set; }
 
         [Display(Name = "Gender")]
-        public PopUp.Gender Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [Display(Name = "Address")]
         [DataType(DataType.MultilineText)]
@@ -51,7 +50,7 @@ namespace SwiftSkool.ViewModel
         [StringLength(50, ErrorMessage = "Your Address name is too long")]
         public string Address { get; set; }
 
-        public PopUp.State StateOfOrigin { get; set; }
+        public State StateOfOrigin { get; set; }
 
         [Display(Name = "Designation")]
         // [Required(ErrorMessage = "Designation is required")]
@@ -64,11 +63,11 @@ namespace SwiftSkool.ViewModel
 
         [Display(Name = "Marital Status")]
         // [Required(ErrorMessage = "Marital Status is required")]
-        public PopUp.Maritalstatus MaritalStatus { get; set; }
+        public Maritalstatus MaritalStatus { get; set; }
 
         [Display(Name = "Highest Qualification")]
         //[Required(ErrorMessage = "Highest Qualification  is required")]
-        public PopUp.Qualifications Qualifications { get; set; }
+        public Qualifications Qualifications { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -82,7 +81,7 @@ namespace SwiftSkool.ViewModel
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Role")]
-       // [Required(ErrorMessage = "User Role is required")]
+        // [Required(ErrorMessage = "User Role is required")]
         public string Name { get; set; }
 
 
