@@ -71,13 +71,13 @@
                 <!-- Trigger the modal with a button -->
                 @*<button class="btn btn-success" onclick="AddAffective('@item.Username')">Add Form Teacher</button>*@
                 <span>
-                    <a href="@Url.Action("Edit", new {id = item.Id, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
+                    <a href="@Url.Action("Edit", new {id = item.StaffId, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
                 </span> |
                 <span>
-                    <a href="@Url.Action("Details", new {id = item.Id, @class = "btn btn-success" })"><span class="md-details"></span> Details</a>
+                    <a href="@Url.Action("Details", new {id = item.StaffId, @class = "btn btn-success" })"><span class="md-details"></span> Details</a>
                 </span>|
                 <span>
-                    <a href="@Url.Action("Delete", new {id = item.Id, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                    <a href="@Url.Action("Delete", new {id = item.StaffId, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
                 </span>
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |

@@ -1,4 +1,4 @@
-﻿using SwiftSkool.Models;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain
@@ -11,6 +11,12 @@ namespace SwiftSkoolv1.Domain
 
         [StringLength(45)]
         public string CategoryDescription { get; set; }
+    }
+
+    public class CreateFeeCategoryVM
+    {
+        public string CategoryName { get; set; }
+        public string CategoryDesption { get; set; }
     }
 
 

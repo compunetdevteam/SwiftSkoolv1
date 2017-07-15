@@ -1,4 +1,4 @@
-﻿@model List<SwiftSkoolv1.Domain.CaListVm>
+﻿@model List<SwiftSkoolv1.WebUI.ViewModels.CaListVm>
 @{
     ViewBag.Title = "CreateCa";
 }
@@ -25,7 +25,7 @@ Name:<input ng-model="name" type="text"/>
         @foreach (var caitem in item)
         {
             <th>
-               <strong>@caitem.CACaption (@caitem.MaximumScore)</strong>
+               <strong>@caitem.CaCaption (@caitem.MaximumScore)</strong>
             </th>
         }
      
