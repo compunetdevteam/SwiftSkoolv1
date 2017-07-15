@@ -512,7 +512,6 @@
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Content\images\swiftskool2.png" />
-    <Content Include="Content\materialadmin.css" />
     <Content Include="Content\MdCss\bootstrap.min.css" />
     <Content Include="Content\MdCss\customizer.min.css" />
     <Content Include="Content\MdCss\font-awesome.min.css" />
@@ -1050,11 +1049,6 @@
     <Content Include="Views\Terms\Edit.cshtml" />
     <Content Include="Views\Terms\Index.cshtml" />
     <Content Include="Views\Terms\TermsIndex.cshtml" />
-    <Content Include="Views\TimeTables\Create.cshtml" />
-    <Content Include="Views\TimeTables\Delete.cshtml" />
-    <Content Include="Views\TimeTables\Details.cshtml" />
-    <Content Include="Views\TimeTables\Edit.cshtml" />
-    <Content Include="Views\TimeTables\Index.cshtml" />
     <Content Include="Views\ChartTypes\ResultInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -76,13 +76,13 @@
             <!--Body-->
             <div class="modal-body">
 
-                <form class="myform">
+                <form id="myform">
                     
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        <h4>Subject</h4>
-                        <hr />
+                       
+                       
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @*@if(Model != null && Model.SubjectId > 0)
                 {
@@ -116,7 +116,9 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input id="submitForm" type="reset" value="Save" class="btn btn-default" />
+                                <input id="btnsubmit" type="reset" value="Save" class="btn btn-default" />
+
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -130,19 +132,37 @@
 </div>
 <!-- /.Modal-->
 
-@section scripts{
 
-    @*<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
-    @*<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>*@
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
-<script src="~/Scripts/jquery-3.1.0.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+@*<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true, // true/false
+            "debug": false, // true/false
+            "newestOnTop": false, // true/false
+            "progressBar": false, // true/false
+            "positionClass": "toast-bottom-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "preventDuplicates": false, //true/false
+            "onclick": null,
+            "showDuration": "300", // in milliseconds
+            "hideDuration": "1000", // in milliseconds
+            "timeOut": "5000", // in milliseconds
+            "extendedTimeOut": "1000", // in milliseconds
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+  
         //debugger;
         //$("#Jdatatable").DataTable({
         //    "processing": true, // for show progress bar while loading
@@ -195,6 +215,28 @@
             ]
         });
 
+        $("#btnsubmit").click(function () {
+            
+            // window.alert("ready");
+            // $('#actionsList').modal('hide');
+            var data = $("#myform").serialize();
+                
+            $.ajax({
+                type: "POST",
+                url: "/Subjects/Save",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+                        $("#loaderDiv").hide();
+                        oTable.ajax.reload();
+                        toastr["info"]("Subject Saved Successfully!");
+                    }
+                    toastr["danger"]("Subject not Successfully!");
+                }
+            });
+        });
+
         $('.tablecontainer').on('click',
             'a.popup',
             function(e) {
@@ -227,21 +269,7 @@
                     }
                 });
 
-            $("#submitForm").click(function() {
-                // window.alert("ready");
-                $('#actionsList').modal('hide');
-                var data = $("#myform").serialize();
-                debugger
-                $.ajax({
-                    type: "POST",
-                    url: "/Subjects/Save",
-                    data: data,
-                    success: function(response) {
-                        $("#loaderDiv").hide();
-                        alertify.success('Subject Created Successfully');
-                    }
-                });
-            });
+      
 
             $('.popupWindow').on('submit',
                 '#popupForm',
