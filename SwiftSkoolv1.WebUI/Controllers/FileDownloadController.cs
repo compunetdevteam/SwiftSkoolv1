@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
-using SwiftSkool.Services;
+using SwiftSkoolv1.WebUI.Services;
 using System;
 using System.Linq;
 using System.Web.Mvc;

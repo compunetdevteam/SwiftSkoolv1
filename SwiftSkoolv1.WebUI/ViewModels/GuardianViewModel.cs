@@ -31,7 +31,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         [Display(Name = "Gender")]
         [Required(ErrorMessage = "Your Gender is required")]
-        public PopUp.Gender Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [Display(Name = "Mobile Number")]
         [DataType(DataType.PhoneNumber)]
@@ -56,13 +56,13 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         [Display(Name = "Religion")]
         //[Required(ErrorMessage = "Your Religion is required")]
-        public PopUp.Religion Religion { get; set; }
+        public Religion Religion { get; set; }
 
         [Display(Name = "Local Government Area")]
         public string LGAOforigin { get; set; }
 
         [Display(Name = "State Of Origin")]
-        public PopUp.State StateOfOrigin { get; set; }
+        public State StateOfOrigin { get; set; }
 
         [Display(Name = "Mother's Name")]
         public string MotherName { get; set; }
@@ -72,7 +72,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         [Display(Name = "Relationship With Student")]
         //[Required(ErrorMessage = "Your Relationship is required")]
-        public PopUp.Relationship Relationship { get; set; }
+        public Relationship Relationship { get; set; }
 
         public string Username => FirstName + " " + LastName;
 

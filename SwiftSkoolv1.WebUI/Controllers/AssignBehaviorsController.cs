@@ -1,15 +1,15 @@
-﻿using PagedList;
-using SwiftSkoolv1.Domain;
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using PagedList;
+using SwiftSkoolv1.Domain;
 
-namespace HopeAcademySMS.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
-    public class AssignBehaviorsController : Controller
+    public class AssignBehaviorsController : BaseController
     {
         // GET: AssignBehaviors
         public ActionResult Index(string sortOrder, string currentFilter, string search, string StudentId,

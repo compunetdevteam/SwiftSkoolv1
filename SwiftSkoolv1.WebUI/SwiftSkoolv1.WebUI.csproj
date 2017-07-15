@@ -295,6 +295,7 @@
     <Compile Include="Services\CustomAuthorizeAttribute.cs" />
     <Compile Include="Services\DataPoint.cs" />
     <Compile Include="Services\DiaryEvents.cs" />
+    <Compile Include="Services\DownloadFileInformation.cs" />
     <Compile Include="Services\DownloadFiles.cs" />
     <Compile Include="Services\ExcelPackageExtension.cs" />
     <Compile Include="Services\ExcelValidation.cs" />
@@ -705,8 +706,6 @@
     <Content Include="Views\Subjects\Edit.cshtml" />
     <Content Include="Views\Subjects\Index.cshtml" />
     <Content Include="Views\Subjects\Save.cshtml" />
-    <Content Include="Views\SummaryScore\Create.cshtml" />
-    <Content Include="Views\SummaryScore\Index.cshtml" />
     <Content Include="Views\TeacherComments\Create.cshtml" />
     <Content Include="Views\TeacherComments\Delete.cshtml" />
     <Content Include="Views\TeacherComments\Details.cshtml" />

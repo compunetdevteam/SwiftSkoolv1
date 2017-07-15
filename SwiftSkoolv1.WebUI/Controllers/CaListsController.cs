@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
-using SwiftSkool.Services;
 using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;

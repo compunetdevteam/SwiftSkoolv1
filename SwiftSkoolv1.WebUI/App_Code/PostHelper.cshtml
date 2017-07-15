@@ -1,7 +1,8 @@
-﻿@model SwiftSkool.Models.Objects
+﻿@using SwiftSkoolv1.Domain.Objects
+@model SwiftSkool.Models.Objects
 using Microsoft.AspNet.Identity;
 
-@helper Render(SwiftSkool.Models.Objects.Post post, System.Web.Mvc.HtmlHelper html, bool isAdmin, bool showComments)
+@helper Render(Post post, System.Web.Mvc.HtmlHelper html, bool isAdmin, bool showComments)
 {
 
    
@@ -25,7 +26,7 @@ using Microsoft.AspNet.Identity;
             <hr>
             </p>
             <div class="taglist">
-                @foreach (SwiftSkool.Models.Objects.Tag tag in post.Tags)
+                @foreach (Tag tag in post.Tags)
                 {
                     <span class="tag"> <a href="@Href("~/Posts/Tags/" + tag.Name)">@tag.Name</a></span>
                 }
@@ -57,7 +58,7 @@ using Microsoft.AspNet.Identity;
     {
         <div>
             <a id="comments"></a>
-            @foreach (SwiftSkool.Models.Objects.Comment comment in post.Comments.OrderBy(x => x.DateTime))
+            @foreach (Comment comment in post.Comments.OrderBy(x => x.DateTime))
             {
 
                 <div class="comment">

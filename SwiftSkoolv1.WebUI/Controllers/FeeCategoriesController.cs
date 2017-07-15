@@ -1,4 +1,5 @@
 ﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -48,7 +49,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateFeeCategoryVM feeCategory)
+        public async Task<ActionResult> Create(FeeCategoryVm feeCategory)
         {
             if (Db.FeeCategories.Any(fc => fc.CategoryName.Equals(feeCategory.CategoryName)))
             {
@@ -92,7 +93,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditFeeCategoryVM feeCategory)
+        public async Task<ActionResult> Edit(FeeCategoryVm feeCategory)
         {
             if (string.IsNullOrWhiteSpace(feeCategory.CategoryName) || string.IsNullOrEmpty(feeCategory.CategoryName))
             {

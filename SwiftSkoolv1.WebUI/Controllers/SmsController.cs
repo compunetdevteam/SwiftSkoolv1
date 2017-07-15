@@ -1,5 +1,5 @@
 ﻿using SwiftSkool.Models;
-using SwiftSkool.Services;
+using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels.Sms;
 using System;
 using System.Linq;

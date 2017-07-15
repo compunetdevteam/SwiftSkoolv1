@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class MultipleButtonAttribute : ActionNameSelectorAttribute

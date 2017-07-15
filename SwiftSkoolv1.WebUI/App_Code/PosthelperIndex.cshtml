@@ -1,6 +1,7 @@
-﻿@model SwiftSkool.Models.Objects
+﻿@using SwiftSkoolv1.Domain.Objects
+@model SwiftSkool.Models.Objects
 
-@helper Render(SwiftSkool.Models.Objects.Post post, System.Web.Mvc.HtmlHelper html, bool isAdmin, bool showComments)
+@helper Render(Post post, System.Web.Mvc.HtmlHelper html, bool isAdmin, bool showComments)
 {
 
     <div class="well">
@@ -39,7 +40,7 @@
                     string encodedUrl = HttpUtility.UrlEncode(url);
                     string encodedTitle = HttpUtility.UrlEncode(post.Title);
                 }
-                <a href="http://reddit.com/submit?url=@encodedUrl&title=@encodedTitle"><image or link goes here></a>
+            <a href="http://reddit.com/submit?url=@encodedUrl&title=@encodedTitle"><image or link goes here></image></a>
                 <a href="http://digg.com/submit?url=@encodedUrl&amp;title=@encodedTitle"></a>
                 <a href="http://twitter.com/share" class="twitter-share-button" data-url="@encodedUrl" data-text="@encodedTitle" data-count="none">Tweet</a>
                 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
@@ -60,7 +61,7 @@
     {
         <div>
             <a id="comments"></a>
-            @foreach (SwiftSkool.Models.Objects.Comment comment in post.Comments.OrderBy(x => x.DateTime))
+            @foreach (Comment comment in post.Comments.OrderBy(x => x.DateTime))
             {
                 <div class="comment">
                     <div class="CommentName">

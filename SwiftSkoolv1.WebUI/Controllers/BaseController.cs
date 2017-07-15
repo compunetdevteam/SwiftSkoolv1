@@ -4,6 +4,7 @@ using SwiftSkoolv1.WebUI.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {

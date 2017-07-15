@@ -1,10 +1,9 @@
-﻿using SwiftSkool.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
 
-namespace SwiftSkool.Services
+namespace SwiftSkoolv1.WebUI.Services
 {
     public class DownloadFiles
     {
