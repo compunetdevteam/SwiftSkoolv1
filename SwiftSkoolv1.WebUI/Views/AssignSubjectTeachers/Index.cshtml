@@ -1,6 +1,4 @@
 ﻿@model SwiftSkoolv1.Domain.AssignSubjectTeacher
-@*@model PagedList.IPagedList<SwiftSkool.Models.AssignSubjectTeacher>
-@using PagedList.Mvc;*@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -23,98 +21,6 @@
             </thead>
         </table>
     </div>
-
-    @*using (Html.BeginForm("Index", "AssignSubjectTeachers", FormMethod.Get, new { @class = "form-inline" }))
-    {
-    <!-- BEGIN INLINE FORM -->
-        <div class="row">
-            <div class="col-lg-7">
-                <article class="margin-bottom-xxl">
-                    <p class="lead">
-                        Please use the following parameters to perform Query
-                    </p>
-                </article>
-            </div><!--end .col -->
-            <div class="col-lg-12">
-                <form class="form-inline">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
-                                <label for="ClassName">Class Name</label>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.DropDownList("SubjectId", (SelectList)ViewBag.SubjectId, "", new { @class = "form-control" })
-
-                                @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })
-                                <label for="SubjectName">Subject Name</label>
-                            </div>
-
-                            <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
-                        </div><!--end .card-body -->
-                    </div><!--end .card -->
-
-                </form>
-            </div><!--end .col -->
-        </div>
-
-    <!--end .row -->
-    <!-- END INLINE FORM -->
-    }
-}*@
-
-
-@*<table class="table">
-    <tr>
-        <th>
-            <h3>Subject Name</h3>
-           
-        </th>
-        <th>
-            <h3>Class Name</h3>
-           
-        </th>
-        <th>
-            <h3>Teacher's Name</h3>
-            
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClassName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StaffName)
-        </td>
-        <td>
-            @if (User.IsInRole("Admin"))
-            {
-                <span>
-                    <a href="@Url.Action("Edit", new {id = item.Id, @class = "btn btn-success"})"><span class="md-mode-edit"></span> Edit</a>
-                </span> <h5>|</h5>
-                <span>
-                 
-                    <a href="@Url.Action("Delete", new {id = item.Id, @class = "btn btn-success"})"><span class="md-delete"></span> Delete </a>
-            </span>
-            }
-
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>*@
-
-
 
 
 <script src="~/Scripts/jquery-3.1.0.min.js"></script>

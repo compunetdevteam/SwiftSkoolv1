@@ -12,6 +12,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         public string CategoryName { get; set; }
 
         public string CategoryDescription { get; set; }
+        public string SchoolId { get; set; }
 
     }
 }
