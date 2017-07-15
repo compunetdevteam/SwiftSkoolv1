@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SwiftSkoolv1.WebUI.ViewModels
+namespace SwiftSkoolv1.WebUI.ViewModels { 
     public class GradeViewModel
 {
 
