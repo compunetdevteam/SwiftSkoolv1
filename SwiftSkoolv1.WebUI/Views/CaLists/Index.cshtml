@@ -1,4 +1,4 @@
-﻿@model SwiftSkoolv1.Domain.CaListIndexVm
+﻿@model SwiftSkoolv1.WebUI.ViewModels.CaListIndexVm
 
 @{
     ViewBag.Title = "Index";
@@ -29,7 +29,7 @@
 @foreach (var item in Model.CaSetUp)
 {
     <th>
-        @item.CACaption (@item.MaximumScore)
+        @item.CaCaption (@item.MaximumScore)
     </th>
 }
     <tr>

@@ -1,5 +1,5 @@
 ﻿@*@model <SwiftSkoolv1.Domain.AssignedClass>*@
-@model PagedList.IPagedList<SwiftSkoolv1.Domain.AssignedClass>
+@model SwiftSkoolv1.Domain.AssignedClass
 @*@using PagedList.Mvc;*@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
@@ -30,7 +30,7 @@
     </table>
 </div>
 
-<div class="btn-group pull-right">
+@*<div class="btn-group pull-right">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("Index", new
 {
@@ -39,7 +39,7 @@
     currentFilter =
     ViewBag.CurrentFilter
 }))
-</div>
+</div>*@
 
 
 <script src="~/Scripts/jquery-3.1.0.min.js"></script>
