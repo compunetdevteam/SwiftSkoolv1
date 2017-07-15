@@ -4,7 +4,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OfficeOpenXml;
 using SwiftSkool.Services;
-using SwiftSkool.ViewModel;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
