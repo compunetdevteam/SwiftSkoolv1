@@ -740,7 +740,6 @@
     <Content Include="Scripts\MdJs\mdb.js" />
     <Content Include="Scripts\MdJs\mdb.min.js" />
     <Content Include="Scripts\MdJs\modernizr-2.8.3.js" />
-    <Content Include="Scripts\MdJs\renderChart.js" />
     <Content Include="Scripts\MdJs\tether.min.js" />
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-2.0.3.css" />
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-2.0.3.min.js" />
