@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using SwiftSkool.ViewModel;
 using SwiftSkoolv1.Domain;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -31,20 +30,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
             var staffName = User.Identity.GetUserName();
-            var TeacherAssignedClass = await Db.AssignFormTeacherToClasses.AsNoTracking().Where(x => x.Username.Equals(staffName)).Select(x => x.ClassName).FirstOrDefaultAsync();
+            var teacherAssignedClass = await Db.AssignFormTeacherToClasses.AsNoTracking().Where(x => x.Username.Equals(staffName)).Select(x => x.ClassName).FirstOrDefaultAsync();
             // var formTeacherAssignedClass = Db.AssignFormTeacherToClasses.Where(x => x.Username.Equals(staffName));
 
-            var classAssignedToStudent = Db.AssignedClasses.Where(x => x.ClassName.Equals(TeacherAssignedClass)).Select(x => x.StudentId.Count());
+            var classAssignedToStudent = Db.AssignedClasses.Where(x => x.ClassName.Equals(teacherAssignedClass)).Select(x => x.StudentId.Count());
 
 
             //number of male student in the class of the form Teacher
             var male = Db.AssignedClasses.AsNoTracking().Where(
                                 x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                     && x.ClassName.Equals(TeacherAssignedClass)).Count(x => x.Student.Gender.Equals("MALE"));
+                                     && x.ClassName.Equals(teacherAssignedClass)).Count(x => x.Student.Gender.Equals("MALE"));
             //number of female student in the class of the form Teacher
             var female = Db.AssignedClasses.AsNoTracking().Where(
                                x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                    && x.ClassName.Equals(TeacherAssignedClass)).Count(x => x.Student.Gender.Equals("FEMALE"));
+                                    && x.ClassName.Equals(teacherAssignedClass)).Count(x => x.Student.Gender.Equals("FEMALE"));
 
 
 
@@ -53,7 +52,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             //get all the student in the class of a staff
             var studentInMyClass = Db.AssignedClasses.AsNoTracking()
-                .Where(x => x.ClassName.Equals(TeacherAssignedClass))
+                .Where(x => x.ClassName.Equals(teacherAssignedClass))
                 .Select(x => x.StudentId).ToList();
             var mylist = new List<Student>();
 
@@ -64,7 +63,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             model.StudentsInMyClass = mylist;
-            model.ClassName = TeacherAssignedClass;
+            model.ClassName = teacherAssignedClass;
             model.MaleStudent = male;
             model.FemaleStudent = female;
             model.TotalStudentInClass = studentInMyClass.Count();

@@ -1,5 +1,5 @@
 ﻿@using SwiftSkool.Services
-@using SwiftSkoolv1.Domain.Charts
+
 
 
 @{
@@ -18,10 +18,7 @@
    
 
     <div class="col-md-6">
-      @*<span class="opacity-50">Total Boys</span>*@
-        @{
-           // Html.RenderAction("Pie", "ChartTypes", new {model = myModel, title="Population Analysis"});
-        }
+     
         
        
             @{
@@ -37,18 +34,7 @@
         <!-- BEGIN ALERT - REVENUE -->
 
         <div class="col-md-6">
-            @*<div class="card">
-                <div class="card-body no-padding">*@
-            @*<div class="alert alert-callout alert-info no-margin">
-
-                <strong class="pull-right text-success text-lg">@ViewBag.BoysPercentage %<i class="md md-swap-vert"></i></strong>
-                <strong class="text-xl">@ViewBag.MaleStudent</strong><br />
            
-            @*<i class="fa fa-male fa-2x pull-right"></i>
-                    <div class="stick-bottom-left-right">
-                        <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                    </div>
-                </div>*@
         </div><!--end .card-body -->
     
     <!-- END ALERT - REVENUE -->
@@ -105,129 +91,9 @@
 </div><!--end .row -->
 
 <div class="row">
-    @*@{Html.RenderPartial("_CalenderView");}*@
+   
     </ div>
-    @*<div class="row">
-
-        <!-- BEGIN ALERT - REVENUE -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-info no-margin">
-
-                        <strong class="pull-right text-success text-lg">@ViewBag.ActiveStudent %<i class="md md-swap-vert"></i></strong>
-                        <strong class="text-xl">@ViewBag.ActiveStudent</strong><br />
-                        <span class="opacity-50">Active Students</span>
-                        <i class="fa fa-male fa-2x pull-right"></i>
-                        <div class="stick-bottom-left-right">
-                            <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - REVENUE -->
-        <!-- BEGIN ALERT - VISITS -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-warning no-margin">
-                        <strong class="pull-right text-warning text-lg">@ViewBag.GraduatedStudent % <i class="md md-swap-vert"></i></strong>
-                        <strong class="text-xl">@ViewBag.GraduatedStudent</strong><br />
-                        <span class="opacity-50">GraduatedStudent</span>
-                        <i class="fa fa-female fa-2x pull-right"></i>
-                        <div class="stick-bottom-right">
-                            <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - VISITS -->
-        <!-- BEGIN ALERT - BOUNCE RATES -->
-        @*<div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-danger no-margin">
-                        <strong class="pull-right text-danger text-lg"> <i class="md md-swap-vert"></i></strong>
-                        <strong class="text-xl">@ViewBag.TotalStudent</strong><br />
-                        <span class="opacity-50">Total Student</span>
-                        <i class="fa fa-male fa-2x pull-right"></i>
-                        <i class="fa fa-plus fa-1x pull-right"></i>
-                        <i class="fa fa-female fa-2x pull-right"></i>
-                        <div class="stick-bottom-left-right">
-
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div>*@<!--end .col -->
-    <!-- END ALERT - BOUNCE RATES -->
-    <!-- BEGIN ALERT - TIME ON SITE -->
-    @*<div class="col-md-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body no-padding">
-                                <div class="alert alert-callout alert-success no-margin">
-                                    <h1 class="pull-right text-success"><i class="md md-timer"></i></h1>
-                                    <strong class="text-xl">@ViewBag.TotalStaff</strong><br />
-                                    <span class="opacity-50">Total Staff</span>
-                                </div>
-                            </div><!--end .card-body -->
-                        </div><!--end .card -->
-                    </div><!--end .col -->
-            <!-- END ALERT - TIME ON SITE -->
-
-        </div><!--end .row -->
-        @*<!-- BEGIN ALERT - VISITS -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body no-padding">
-                        <div class="alert alert-callout alert-warning no-margin">
-                            <strong class="pull-right text-warning text-lg">0,01% <i class="md md-swap-vert"></i></strong>
-                            <strong class="text-xl">432,901</strong><br />
-                            <span class="opacity-50">Visits</span>
-                            <div class="stick-bottom-right">
-                                <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
-                            </div>
-                        </div>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
-            </div><!--end .col -->
-            <!-- END ALERT - VISITS -->
-            <!-- BEGIN ALERT - BOUNCE RATES -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body no-padding">
-                        <div class="alert alert-callout alert-danger no-margin">
-                            <strong class="pull-right text-danger text-lg">0,18% <i class="md md-trending-down"></i></strong>
-                            <strong class="text-xl">42.90%</strong><br />
-                            <span class="opacity-50">Bounce rate</span>
-                            <div class="stick-bottom-left-right">
-                                <div class="progress progress-hairline no-margin">
-                                    <div class="progress-bar progress-bar-danger" style="width:43%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
-            </div><!--end .col -->
-            <!-- END ALERT - BOUNCE RATES -->
-            <!-- BEGIN ALERT - TIME ON SITE -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body no-padding">
-                        <div class="alert alert-callout alert-success no-margin">
-                            <h1 class="pull-right text-success"><i class="md md-timer"></i></h1>
-                            <strong class="text-xl">54 sec.</strong><br />
-                            <span class="opacity-50">Avg. time on site</span>
-                        </div>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
-            </div><!--end .col -->
-            <!-- END ALERT - TIME ON SITE -->
-
-        </div><!--end .row -->*@
-
+   
 
 
     <!-- BEGIN TODOS -->
@@ -325,7 +191,7 @@
     </div><!--end .col -->
     <!-- END REGISTRATION HISTORY -->*@
 
-
+        </div>
     </div><!--end .row -->
     <!-- BEGIN CALENDAR -->
     @*<div class="col-sm-9">
