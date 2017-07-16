@@ -3,7 +3,7 @@
 @{
 	ViewBag.Title = "Assign Subject";
 }
-<script src="~/Scripts/chosen.jquery.js"></script>
+
 <h2>Assign Subject To Class</h2>
 <div class="alert alert-warning">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -39,7 +39,7 @@
 				<div class="form-group">
 					@Html.LabelFor(model => model.SubjectId, "SubjectId", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-10">
-						@Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+						@Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "mdb-select", multiple = true })
 						@Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
 					</div>
 				</div>
@@ -75,12 +75,3 @@
 	@Scripts.Render("~/bundles/jqueryval")
 }
 
-<script type="text/javascript">
-	//window.alert(5 + 6);
-	$('.chosen-select').chosen();
-	$(function () {
-		$('.listbox').multiselect({
-			includeSelectAllOption: true
-		});
-	});
-</script>

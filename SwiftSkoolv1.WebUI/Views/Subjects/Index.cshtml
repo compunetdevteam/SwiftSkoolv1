@@ -46,7 +46,7 @@
 
 
 <div class="tablecontainer" style="width: 90%; margin: 0 auto">
-    <a href="/Subjects/Save/0" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#actionsList"><i class="fa fa-plus left"></i> Add Subject</a>
+    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Subject</a>
     @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
     <table id="Jdatatable" class="table table-striped table-hover">
         <thead>
@@ -70,58 +70,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <div class="flex-center">
-                    <h4 class="modal-title">Create Subject</h4>
+                    <h4 class="modal-title">Subject</h4>
                 </div>
             </div>
             <!--Body-->
-            <div class="modal-body">
-
-                <form class="myform">
-                    
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-                        <h4>Subject</h4>
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @*@if(Model != null && Model.SubjectId > 0)
-                {
-                    @Html.HiddenFor(model => model.SubjectId)
-                }*@
-
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.SubjectCode, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.SubjectCode, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.SubjectCode, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.SubjectName, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.SubjectName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.SubjectName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        @*<div class="form-group">
-                    @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.SubjectUnit, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input id="submitForm" type="reset" value="Save" class="btn btn-default" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
+            <div class="modal-body" id="myModalDivBody">
 
             </div>
         </div>
@@ -130,19 +83,31 @@
 </div>
 <!-- /.Modal-->
 
-@section scripts{
 
-    @*<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
-    @*<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>*@
-
-}
-
-<script src="~/Scripts/jquery-3.1.0.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true, // true/false
+            "debug": false, // true/false
+            "newestOnTop": false, // true/false
+            "progressBar": false, // true/false
+            "positionClass": "toast-bottom-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "preventDuplicates": false, //true/false
+            "onclick": null,
+            "showDuration": "300", // in milliseconds
+            "hideDuration": "1000", // in milliseconds
+            "timeOut": "5000", // in milliseconds
+            "extendedTimeOut": "1000", // in milliseconds
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+  
         //debugger;
         //$("#Jdatatable").DataTable({
         //    "processing": true, // for show progress bar while loading
@@ -161,7 +126,7 @@
         //        "type": "GET",
         //        "datatype": "json"
         //    },
-        var oTable = $("#Jdatatable").DataTable({
+        window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
             "filter": true, // disables search box
@@ -180,89 +145,48 @@
                     "data": "SubjectId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a class="popup" href="/subjects/save/' + data + '"><span class="md-mode-edit"> Edit</a>';
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/> Edit</a>';
+
                     }
                 },
                 {
                     "data": "SubjectId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a class="popup" href="/subjects/delete/' + data + '"><span class="md-delete"></span> Delete</a>';
+                        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/> Delete</a>';
                     }
                 }
                 //{ "data": "EmailID", "autoWidth": true },
                 //{ "data": "Phone", "autoWidth": true },
             ]
         });
-
-        $('.tablecontainer').on('click',
-            'a.popup',
-            function(e) {
-                e.preventDefault();
-                OpenPopup($(this).attr('href'));
-            });
-
-        function OpenPopup(pageUrl) {
-            var $pageContent = $('<div/>');
-            $pageContent.load(pageUrl,
-                function() {
-                    $('#popupForm', $pageContent).removeData('validator');
-                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                    $.validator.unobtrusive.parse('form');
-
-                });
-
-            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-                .html($pageContent)
-                .dialog({
-                    draggable: false,
-                    autoOpen: false,
-                    resizable: true,
-                    model: true,
-                    title: 'Subject Dialog Box',
-                    height: 400,
-                    width: 500,
-                    close: function() {
-                        $dialog.dialog('destroy').remove();
-                    }
-                });
-
-            $("#submitForm").click(function() {
-                // window.alert("ready");
-                $('#actionsList').modal('hide');
-                var data = $("#myform").serialize();
-                debugger
-                $.ajax({
-                    type: "POST",
-                    url: "/Subjects/Save",
-                    data: data,
-                    success: function(response) {
-                        $("#loaderDiv").hide();
-                        alertify.success('Subject Created Successfully');
-                    }
-                });
-            });
-
-            $('.popupWindow').on('submit',
-                '#popupForm',
-                function(e) {
-                    var url = $('#popupForm')[0].action;
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $('#popupForm').serialize(),
-                        success: function(data) {
-                            if (data.status) {
-                                $dialog.dialog('close');
-                                oTable.ajax.reload();
-                                alertify.success(data.message);
-                            }
-                        }
-                    });
-
-                    e.preventDefault();
-                });
-            $dialog.dialog('open');
-        }
+      
     });
+    function Edit(subjecId) {
+        var url = "/Subjects/Save?id=" + subjecId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(subjecId) {
+        var url = "/Subjects/Delete?id=" + subjecId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/Subjects/Save?id=0";
+        //$('#actionsList').modal("show");
+       // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
 </script>
