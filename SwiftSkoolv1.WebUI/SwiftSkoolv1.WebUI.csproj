@@ -1049,6 +1049,7 @@
     <Content Include="Views\Terms\Index.cshtml" />
     <Content Include="Views\Terms\TermsIndex.cshtml" />
     <Content Include="Views\ChartTypes\ResultInfo.cshtml" />
+    <Content Include="Views\AssignSubjects\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

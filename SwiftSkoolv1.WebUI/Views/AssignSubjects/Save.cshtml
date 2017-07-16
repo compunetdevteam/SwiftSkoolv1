@@ -1,0 +1,87 @@
+﻿
+@model SwiftSkoolv1.WebUI.ViewModels.AssignSubjectViewModel
+
+@{
+    ViewBag.Title = "Assign Subject";
+}
+<script src="~/Scripts/chosen.jquery.js"></script>
+<h2>Assign Subject To Class</h2>
+<div class="alert alert-warning">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>This Feature is best Applicable to Junior School or Primary School</strong> 
+</div>
+
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TermName, "TermName", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                        @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SubjectId, "SubjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                        @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+						<div class="editor-label control-label col-md-2">
+							@Html.Label("SubjectName")
+						</div>
+						<div class="col-md-10 editor-field">
+							@Html.ListBox("SubjectName", (MultiSelectList)ViewBag.SubjectName, new { size = 10, @class = "listbox" })
+						</div>
+					</div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Assign Subject" class="btn btn-raised btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    //window.alert(5 + 6);
+    $('.chosen-select').chosen();
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>

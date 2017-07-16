@@ -116,7 +116,7 @@
 </table>
 
 <br />
-<div class="btn-group pull-right">
+@*<div class="btn-group pull-right">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("Index", new
     {
@@ -125,4 +125,4 @@
         currentFilter =
             ViewBag.CurrentFilter
     }))
-</div>
+</div>*@
