@@ -63,10 +63,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 };
                 Db.Schools.Add(school);
                 await Db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return new JsonResult { Data = new { status = true, message = "School Created Successfully" } };
             }
 
-            return View(model);
+            return new JsonResult { Data = new { status = false, message = "Check your inputs and try again" } };
         }
 
         // GET: Schools/Edit/5

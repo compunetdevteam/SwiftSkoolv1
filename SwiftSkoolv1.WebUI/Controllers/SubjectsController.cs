@@ -92,28 +92,32 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "SubjectId,SubjectCode,SubjectName")] Subject subject)
         {
+
             if (ModelState.IsValid)
             {
+
+                string message = string.Empty;
                 var mysubject = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) &&
                                                     x.SubjectCode.ToUpper().Trim().Equals(subject.SubjectCode.ToUpper().Trim()));
 
                 if (mysubject.Any())
                 {
-                    TempData["UserMessage"] = "Subject Already Exist in Database";
-                    TempData["Title"] = "Deleted.";
-                    return View(subject);
+                    message = "Duplicate Subject code";
+                    return new JsonResult { Data = new { status = false, message = message } };
                 }
 
                 subject.SchoolId = userSchool;
                 Db.Subjects.Add(subject);
                 await Db.SaveChangesAsync();
 
-                TempData["UserMessage"] = "Subject Created Successfully.";
-                TempData["Title"] = "Success.";
-                return RedirectToAction("Index");
+                message = "Subject Created Successfully.";
+                return new JsonResult { Data = new { status = true, message = message } };
+                //TempData["UserMessage"] = "Subject Created Successfully.";
+                //TempData["Title"] = "Success.";
+                //return RedirectToAction("Index");
             }
 
-            return View(subject);
+            return new JsonResult { Data = new { status = false, message = "Not Saved" } };
         }
 
         // GET: Subjects/Edit/5
@@ -180,6 +184,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     subject.SchoolId = userSchool;
                     Db.Subjects.Add(subject);
                     message = "Subject Created Successfully...";
+
                 }
                 await Db.SaveChangesAsync();
                 status = true;
