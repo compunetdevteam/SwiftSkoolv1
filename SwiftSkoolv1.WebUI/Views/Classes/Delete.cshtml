@@ -1,0 +1,70 @@
+﻿
+@model SwiftSkoolv1.Domain.Class
+
+
+<h3>Are you sure you want to delete this?</h3>
+
+    <h4>Class</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassType)
+        </dd>
+        <dt>
+            Full Class Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullClassName)
+        </dd>
+
+    </dl>
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" id="id" name="id" class="form-control" value="@Model.ClassId">
+    <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" /> |
+
+    <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+
+</form>
+
+
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+
+        var data = $("#myform").serialize();
+        //window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/Classes/Delete",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                  
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["info"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>

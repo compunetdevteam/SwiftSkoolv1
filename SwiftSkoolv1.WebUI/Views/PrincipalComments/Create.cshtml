@@ -1,0 +1,81 @@
+﻿@model SwiftSkoolv1.Domain.PrincipalCommentVm
+
+@{
+	ViewBag.Title = "Add Principal Comment";
+}
+<script src="~/Scripts/chosen.jquery.js"></script>
+<div class="row">
+	<div class="col-md-1">
+
+	</div>
+	<div class="col-md-6">
+		<form id="myform">
+			@Html.AntiForgeryToken()
+
+			<div class="form-horizontal">
+				<h4>PrincipalComment</h4>
+				<hr />
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				<div class="form-group">
+					@Html.LabelFor(model => model.MinimumGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.MinimumGrade, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.MinimumGrade, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.MaximumGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.MaximumGrade, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.MaximumGrade, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.ClassName, "ClassName", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+						@Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-10">
+						<input type="reset" id="btnsubmit" value="Create" class="btn btn-raised btn-primary" />
+					</div>
+				</div>
+			</div>
+	</form>
+
+	</div>
+	<div class="col-md-3">
+
+	</div>
+</div>
+
+
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+	//window.alert(5 + 6);
+	$('.chosen-select').chosen();
+	$(function () {
+		$('.listbox').multiselect({
+			includeSelectAllOption: true
+		});
+	});
+</script>

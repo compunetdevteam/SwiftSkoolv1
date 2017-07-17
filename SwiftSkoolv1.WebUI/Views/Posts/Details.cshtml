@@ -1,0 +1,187 @@
+﻿@model SwiftSkoolv1.Domain.Objects.Post
+
+@{
+	Layout = ViewBag.Layout;
+	ViewBag.Title = "Details";
+	bool isAdmin = ViewBag.IsAdmin;
+}
+
+
+
+
+<div class="container">
+	
+
+	<div class="row">
+		<div class="col-md-8">
+		
+			@PostHelper.Render(Model, Html, isAdmin, true)
+			
+		</div>
+
+		<div class="col-md-4">
+			<!-- Subscribe to my feed widget -->
+			<div class="well text-center">
+				<p class="lead">
+					Don't want to miss updates? Please click the below button!
+				</p>
+				<button class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("RSS","Posts")'">Subscribe to my feed</button>
+			</div>
+
+			<!-- Other widgets -->
+		  
+			@Html.Action("Menu", "Posts")
+			
+			@Html.Action("TagList", "Posts")
+	 
+			@*<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Tags</h4>
+				</div>
+				<div class="panel-body">
+					<ul class="list-inline">
+						<li><a href="#">Aries</a></li>
+						<li><a href="#">Fire</a></li>
+						<li><a href="#">Mars</a></li>
+						<li><a href="#">Taurus</a></li>
+						<li><a href="#">Earth</a></li>
+						<li><a href="#">Moon</a></li>
+						<li><a href="#">Gemini</a></li>
+						<li><a href="#">Air</a></li>
+						<li><a href="#">Mercury</a></li>
+						<li><a href="#">Cancer</a></li>
+					</ul>
+				</div>
+			</div>*@
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div id="twitterHeader"><a href="http://www.twitter.com/kunlesymls">@System.Configuration.ConfigurationManager.AppSettings["SchoolName"] on Twitter</a></div>
+				</div>
+				<div id="tweets">
+					 
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@*<div class="row">
+
+	<!-- BEGIN BLOG POST TEXT -->
+	<div class="col-md-9">
+		<article class="style-default-bright">
+			<div>
+				<img class="img-responsive" src="../../../assets/img/img1.jpg?1403934956" alt="" />
+			</div>
+			<div class="card-body">
+				@PostHelper.Render(Model, Html, isAdmin, true)
+				<div class="well clearfix">
+					<h4>About the author: Daniel Johnson</h4>
+					
+				</div>
+			</div><!--end .card-body -->
+		</article>
+	</div><!--end .col -->*@
+	@*<!-- END BLOG POST TEXT -->
+	<!-- BEGIN BLOG POST MENUBAR -->
+	<div class="col-md-3">
+		<div class="card-body">
+			<h3 class="text-light">Categories</h3>
+			<ul class="nav nav-pills nav-stacked nav-transparent">
+				<li><a href="#"><span class="badge pull-right">42</span>Design</a></li>
+				<li><a href="#"><span class="badge pull-right">32</span>Technology</a></li>
+				<li><a href="#"><span class="badge pull-right">12</span>Video</a></li>
+				<li><a href="#"><span class="badge pull-right">5</span>Music</a></li>
+				<li><a href="#"><span class="badge pull-right">28</span>Uncategorized</a></li>
+			</ul>
+			<h3 class="text-light">Tags</h3>
+			<div class="list-tags">
+				<a class="btn btn-xs btn-primary">Wordpress</a>
+				<a class="btn btn-xs btn-primary">Technology</a>
+				<a class="btn btn-xs btn-primary">HTML5</a>
+				<a class="btn btn-xs btn-primary">Illustrator</a>
+				<a class="btn btn-xs btn-primary">Music</a>
+				<a class="btn btn-xs btn-primary">CSS3</a>
+				<a class="btn btn-xs btn-primary">Video</a>
+				<a class="btn btn-xs btn-primary">Photoshop</a>
+				<a class="btn btn-xs btn-primary">jQuery</a>
+			</div>
+		</div><!--end .card-body -->
+	</div><!--end .col -->
+	<!-- END BLOG POST MENUBAR -->
+
+</div><!--end .row -->	
+	<!-- BEGIN COMMENTS -->
+<div class="row">
+	<div class="col-md-9">
+		<h4>5 Comments</h4>
+		<ul class="list-comments">
+			<li>
+				<div class="card">
+					<div class="comment-avatar"><i class="glyphicon glyphicon-user opacity-50"></i></div>
+					<div class="card-body">
+						<h4 class="comment-title">Jim Peters <small>20/06/2013 at 4:02 pm</small></h4>
+						<a class="btn btn-default-dark stick-top-right" href="#respond">Reply</a>
+						<p>Etiam dui libero, tempor quis congue in, interdum eget tortor. Vivamus aliquam dictum lacus quis tincidunt. Phasellus rhoncus ante sollicitudin nisl consectetur ultricies. Sed rhoncus ullamcorper mauris, ac condimentum metus egestas ut. Nam et urna ante, vitae pretium lacus.</p>
+					</div>
+				</div><!--end .card -->
+			</li><!-- end comment -->
+			<li>
+				<div class="card">
+					<div class="comment-avatar"><span class="glyphicon glyphicon-user opacity-50"></span></div>
+					<div class="card-body">
+						<h4 class="comment-title">CarolSharp <small>20/06/2013 at 4:14 pm</small></h4>
+						<a class="btn btn-default-dark stick-top-right" href="#respond">Reply</a>
+						<p>Integer ac magna lacinia velit bibendum ornare. Morbi eget dui lectus, eget eleifend mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+					</div>
+				</div><!--end .card -->
+				<ul>
+					<li>
+						<div class="card style-default-dark">
+							<div class="comment-avatar"><img class="img-circle" src="../../../assets/img/avatar1.jpg?1403934956" alt="" /></div>
+							<div class="card-body">
+								<h4 class="comment-title">Daniel Johnson <small>20/06/2013 at 4:38 pm</small></h4>
+								<a class="btn btn-default-dark stick-top-right" href="#respond">Reply</a>
+								<p>Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer ac magna lacinia velit bibendum ornare. Morbi eget dui lectus, eget eleifend mi.</p>
+							</div>
+						</div><!--end .card -->
+					</li><!-- end sub-comment -->
+					<li>
+						<div class="card">
+							<div class="comment-avatar"><span class="glyphicon glyphicon-user opacity-50"></span></div>
+							<div class="card-body">
+								<h4 class="comment-title">Amber Page <small>20/06/2013 at 4:41 pm</small></h4>
+								<a class="btn btn-default-dark stick-top-right" href="#respond">Reply</a>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in tempus lorem. Vivamus ullamcorper leo risus, non vehicula odio.</p>
+							</div>
+						</div><!--end .card -->
+						<ul>
+							<li>
+								<div class="card">
+									<div class="comment-avatar"><img class="img-circle" src="../../../assets/img/avatar2.jpg?1404026449" alt="" /></div>
+									<div class="card-body">
+										<h4 class="comment-title">Janie Ward <small>20/06/2013 at 4:56 pm</small></h4>
+										<a class="btn btn-default-dark stick-top-right" href="#respond">Reply</a>
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in tempus lorem. Vivamus ullamcorper leo risus, non vehicula odio.</p>
+									</div>
+								</div><!--end .card -->
+							</li><!-- end sub-sub-comment -->
+						</ul>
+					</li><!-- end sub-comment -->
+				</ul>
+			</li><!-- end comment -->
+			<li>
+				<div class="card">
+					<div class="comment-avatar"><img class="img-circle" src="../../../assets/img/avatar3.jpg?1404026799" alt="" /></div>
+					<div class="card-body">
+						<h4 class="comment-title">Marshall Buchanan <small>21/06/2013 at 3:32 am</small></h4>
+						<a class="btn btn-default-dark stick-top-right" href="#respond">Reply</a>
+						<p>Vestibulum in tempus lorem. Vivamus ullamcorper leo risus, non vehicula odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+					</div>
+				</div><!--end .card -->
+			</li><!-- end comment -->
+		</ul>
+	</div><!--end .col -->
+</div><!--end .row -->
+<!-- END COMMENTS -->*@			

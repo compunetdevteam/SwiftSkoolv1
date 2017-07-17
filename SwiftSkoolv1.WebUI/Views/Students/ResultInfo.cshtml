@@ -1,0 +1,104 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.ContinuousAssessment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TermName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject.SubjectName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstTest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondTest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThirdTest)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.ExamScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grading)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTest)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+        
+        </tr>
+    }
+
+</table>

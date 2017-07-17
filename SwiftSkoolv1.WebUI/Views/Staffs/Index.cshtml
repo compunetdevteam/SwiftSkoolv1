@@ -1,0 +1,139 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.Staff>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Salutation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salutation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+      
+            <td>
+                <!-- Trigger the modal with a button -->
+                @*<button class="btn btn-success" onclick="AddAffective('@item.Username')">Add Form Teacher</button>*@
+                <span>
+                    <a href="@Url.Action("Edit", new {id = item.StaffId, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
+                </span> |
+                <span>
+                    <a href="@Url.Action("Details", new {id = item.StaffId, @class = "btn btn-success" })"><span class="md-details"></span> Details</a>
+                </span>|
+                <span>
+                    <a href="@Url.Action("Delete", new {id = item.StaffId, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                </span>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Assign Form Teacher</h4>
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+                @*@Html.Partial("PartialAffective", TempData["ClassName"])*@
+                @*@{Html.RenderPartial ("AddAffective", "Affectives");}*@
+                @*@Html.Partial("~/Views/Affectives/PartialAffective.cshtml")*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*@section scripts
+    {
+        <script type="text/javascript">
+            window.alert(5 + 6);
+            function AddAffective(studentId) {
+                window.alert(5 + 6);
+                var url = "/AssignFormTeacherToClasses/AddFormTeacher?studentId=" + studentId;
+
+                $("#myModalBodyDiv1").load(url,
+                    function() {
+                        $("#myModal").modal("show");
+
+                    });
+            }
+
+            function AddPsycomotor(studentId) {
+                window.alert(5 + 6);
+                var url = "/Psychomotors/AddPsycomotor?studentId=" + studentId;
+
+                $("#myModalBodyDiv1").load(url,
+                    function () {
+                        $("#myModal").modal("show");
+
+                    });
+            }
+        </script>
+    }*@

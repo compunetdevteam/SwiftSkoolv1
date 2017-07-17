@@ -1,0 +1,39 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1><span class="text-xxxl text-light">Exception <i class="fa fa-exclamation-circle text-danger"></i></span></h1>
+            <h2 class="text-light">Oops! Something went wrong</h2>
+            <h1 class="text-danger"> No Record has been saved Yet, Please make sure the rows in the excel file you upload is not blank</h1>
+            <h3>Please, Leave no column Empty</h3>
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-warning">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>@ViewBag.ErrorMessage</strong>
+                </div>
+            }
+            
+            @if (ViewBag.LineError != null)
+            {
+                <div class="alert alert-danger">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>@ViewBag.LineError</strong>
+                </div>
+            }
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>@ViewBag.Message</strong>
+                </div>
+            }
+        </div><!--end .col -->
+    </div><!--end .row -->
+

@@ -1,0 +1,263 @@
+﻿@model SwiftSkoolv1.WebUI.ViewModels.CaListIndexVm
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+   
+        <th>
+            StudentId
+        </th>
+        <th>
+            TermName
+        </th>
+        <th>
+            SessionName
+        </th>
+        <th>
+          SubjectCode
+        </th>
+    <th>
+        ClassName
+    </th>
+@foreach (var item in Model.CaSetUp)
+{
+    <th>
+        @item.CaCaption (@item.MaximumScore)
+    </th>
+}
+    <tr>
+        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CaList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            @if (ViewBag.SetUpCount ==  1)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 2)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 3)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 4)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 5)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 6)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FifthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 7)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FifthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SixthCa)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 8)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FifthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SixthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeventhCa)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 9)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FifthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SixthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeventhCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EightCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            else if (ViewBag.SetUpCount == 10)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FifthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeventhCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SixthCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EightCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NinthtCa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCa)
+                </td>
+            }
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.CaListId}) |
+                @Html.ActionLink("Details", "Details", new {id = item.CaListId}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.CaListId})
+            </td>
+        </tr>
+    }
+
+</table>

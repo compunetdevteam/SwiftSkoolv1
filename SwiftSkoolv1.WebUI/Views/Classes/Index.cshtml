@@ -1,0 +1,164 @@
+﻿@using SwiftSkool.Services
+@model IEnumerable<SwiftSkoolv1.Domain.Class>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{
+    var barModel = new List<DataPoint>();
+    //Html.RenderAction("Area", "ChartTypes", new { model = ViewBag.MyModel });
+}
+
+
+
+<div class="tablecontainer" style="width: 90%; margin: 0 auto">
+    @*<a class="popup" href="/Classes/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
+    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Class</a>
+
+    <table id="Jdatatable" class="table table-hover">
+        <thead>
+        <tr>
+            <th >School Class</th>
+            <th>Class Name</th>
+            <th >Class Type</th>
+            <th >Full ClassName</th>
+            <th>Actions</th>
+            @*<th>Delete</th>*@
+        </tr>
+        </thead>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Class</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+
+@*<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        @{
+            //foreach (var item in ViewBag.Model)
+            //{
+            //    Html.RenderAction("Area", "ChartTypes", new { model =  item});  
+            //}
+           
+            Html.RenderAction("Area", "ChartTypes", new { model = barModel });
+        } 
+    </div>
+    <div class="col-md-3"></div>
+</div>*@
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //debugger;
+        //$("#Jdatatable").DataTable({
+        //    "processing": true, // for show progress bar while loading
+        //    "serverSide": true, // if it is true the preocess is done on server side
+        //    "filter": false, // disables search box
+        //    "orderMulti": false, // disable multiple column loading at once
+        //    "ajax": {
+        //        "url": "/Sessions/GetIndex",
+        //        "type": "POST",
+        //        "datatype": "json"
+        //    },
+        //var oTable = $("#Jdatatable").DataTable({
+        //    // "processing": true, // for show progress bar while loading
+        //    "ajax": {
+        //        "url": "/Subjects/GetIndex",
+        //        "type": "GET",
+        //        "datatype": "json"
+        //    },
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/Classes/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "SchoolName", "autoWidth": true },
+                { "data": "ClassName", "autoWidth": true },
+                { "data": "ClassType", "autoWidth": true },
+                { "data": "FullClassName", "autoWidth": true },
+               
+                //{
+                //    "data": "ClassId",
+                //    "autoWidth": true,
+                //    "render": function(data) {
+                //        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ><i/> </a>';
+                //    }
+                //},
+                {
+                    "data": "ClassId",
+                    "autoWidth": true,
+                    "render": function(data) {
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                    }
+                }
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+       
+    });
+    function Edit(subjecId) {
+        var url = "/Classes/Save?id=" + subjecId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(subjecId) {
+        var url = "/Classes/Delete?id=" + subjecId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/Classes/Save?id=0";
+        //$('#actionsList').modal("show");
+        // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

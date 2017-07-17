@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewBag.Title = "Contact";
 }
 <h2>@ViewBag.Title.</h2>
@@ -14,4 +14,48 @@
 <address>
     <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
     <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+</address>*@
+
+@{
+    ViewBag.Title = "Contact Page";
+    Layout = "~/Views/Shared/_LayoutLanding.cshtml";
+}
+
+<div class="">
+    <div class="container">
+        <div class="row">
+
+
+
+
+            <div class="contact-area">
+
+                <div class="col-md-5 col-md-offset-2" style="padding-left: 70px">
+                    <div id="sendmessage">Your message has been sent. Thank you!</div>
+                    <div id="errormessage"></div>
+                    <h2 align="center">Please Sign In Here</h2>
+                    <form action="#" method="post" role="form" class="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control" id="username" placeholder="Your Username" data-rule="username" data-msg="Please enter a valid username" required="" />
+                            <div class="validation"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" data-rule="password" data-msg="Please enter a valid password" required="" />
+                            <div class="validation"></div>
+                        </div>
+
+                        <div class="text-center"><button type="submit" class="btn">Login</button></div>
+
+
+                    </form>
+                    <br>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

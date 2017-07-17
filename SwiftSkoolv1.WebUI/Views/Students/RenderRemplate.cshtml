@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.Result>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table">
+   @* <tr>
+
+    <th>
+        @Html.DisplayNameFor(model => model.SubjectPosition)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.AggretateScore)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.AggregatePosition)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.NoOfSubjectOffered)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.NoOfStudentPerClass)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Average)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.ClassAverage)
+    </th>
+    <th></th>
+    </tr>*@
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AggretateScore)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.AggregatePosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfSubjectOffered)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfStudentPerClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Average)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassAverage)
+            </td>*@
+         
+        </tr>
+    }
+
+</table>
+

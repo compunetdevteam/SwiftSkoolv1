@@ -1,0 +1,124 @@
+﻿@using SwiftSkoolv1.Domain.Objects
+@model SwiftSkool.Models.Objects
+using Microsoft.AspNet.Identity;
+
+@helper Render(Post post, System.Web.Mvc.HtmlHelper html, bool isAdmin, bool showComments)
+{
+
+   
+        <div>
+            <h2>
+                <a href="@Href("~/Posts/Details/" + post.ID)"> @post.Title </a>
+            </h2>
+        </div>
+        <div>
+            <span class="glyphicon glyphicon-time"></span>
+            @post.DateTime.ToString("dd"))
+            <span class="glyphicon glyphicon-pencil"> </span>
+            <a href="@Href("~/Posts/Details/" + post.ID + "#Comments")">@post.Comments.Count</a>
+            @*<span class="glyphicon glyphicon-pencil"> </span>
+                <a href="@Href("~/Posts/Details/" + post.ID + "#Comments")">@post.Comments.Count</a>*@
+        </div>
+        <div>
+            <p class="text-justify">
+                <div>@html.Raw(post.Body)</div>
+           
+            <hr>
+            </p>
+            <div class="taglist">
+                @foreach (Tag tag in post.Tags)
+                {
+                    <span class="tag"> <a href="@Href("~/Posts/Tags/" + tag.Name)">@tag.Name</a></span>
+                }
+            </div>
+            <div class="linkList">
+                @{
+                    string url = "http://www.mattblagden.com/post/details/" + post.ID;
+                    string encodedUrl = HttpUtility.UrlEncode(url);
+                    string encodedTitle = HttpUtility.UrlEncode(post.Title);
+                }
+                @*<a href="http://reddit.com/submit?url=@encodedUrl&title=@encodedTitle">image or link goes here></a>*@
+                <a href="http://digg.com/submit?url=@encodedUrl&amp;title=@encodedTitle"></a>
+                <a href="http://twitter.com/share" class="twitter-share-button" data-url="@encodedUrl" data-text="@encodedTitle" data-count="none">Tweet</a>
+                <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            </div>
+        </div>
+
+        if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="postControlPanel">
+                <a href="@Href("~/Posts/Delete/" + post.ID)">Delete</a>
+                <a href="@Href("~/Posts/Edit/" + post.ID)">Edit</a>
+            </div>
+        }
+
+
+
+    if (showComments)
+    {
+        <div>
+            <a id="comments"></a>
+            @foreach (Comment comment in post.Comments.OrderBy(x => x.DateTime))
+            {
+
+                <div class="comment">
+                    <div class="comment clearfix">
+                        @if (!string.IsNullOrWhiteSpace(comment.Email))
+                        {
+                            <div class="clearfix">
+                                <h4 class="pull-left"><a href="mailto:@comment.Email">@comment.Name</a></h4>
+                                <h4 class="pull-right">at @comment.DateTime.ToString("HH:mm") on @comment.DateTime.ToString("dd/MM/yyyy")</h4>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="clearfix">
+                                @comment.Name
+                                <h4 class="pull-right">at @comment.DateTime.ToString("HH:mm") on @comment.DateTime.ToString("dd/MM/yyyy")</h4>
+                            </div>
+                        }
+                    </div>
+                    said:
+                    <div class="clearfix"><p> <em>@html.Raw(html.Encode(comment.Body).Replace("\n", "<br/>")) </em></p></div>
+                    @*<div class="clearfix">at @comment.DateTime.ToString("HH:mm") on @comment.DateTime.ToString("yyyy/MM/dd")</div>*@
+                    @if (isAdmin)
+                    {
+                        <div class="commentControlPanel">
+                            <a href="@Href("~/Posts/DeleteComment/" + post.ID)">Delete</a>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="well">
+                <h3 class="text-success">Leave a Comment</h3>
+                <form action="@Href("~/Posts/Comment/" + post.ID)" method="post" role="form" class="">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="commentNamePrompt" name="name" placeholder="Enter your Name" /> <br />
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="commentNamePrompt" name="email" placeholder="Enter Your Password (Optional)" /><br />
+                    }
+                    else
+                    {
+                        <label for="name">Name</label>
+                    <input type="text" class="form-control" id="commentNamePrompt" name="name" placeholder="Enter your Name" /> <br />
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="commentNamePrompt" name="email" placeholder="Enter Your Password (Optional)" /><br />
+                    }
+                    
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea  class="form-control" name="body" placeholder="Enter Your Comment"></textarea> <br />
+                     
+                    </div>
+                    <input type="submit" id="commentSubmit" name="submit" value="Submit" class="btn btn-lg btn-success" />
+                </form>
+            </div>
+        </div>
+
+
+    }
+}
+

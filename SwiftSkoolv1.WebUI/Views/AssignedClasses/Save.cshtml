@@ -1,0 +1,134 @@
+﻿
+@model SwiftSkoolv1.Domain.AssignedClass
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-block">
+            @if (Model != null && Model.AssignedClassId > 0)
+            {
+                <div class="form-header  purple darken-4">
+                    <h3>
+                        <i class="fa fa-save"></i> Update Record
+                    </h3>
+                </div>
+            }
+            else
+            {
+                <div class="form-header  purple darken-4">
+                    <h3><i class="fa fa-save"></i> Save</h3>
+                </div>
+            }
+
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.AssignedClassId > 0)
+            {
+                @Html.HiddenFor(model => model.AssignedClassId)
+            }
+
+
+
+
+            @Html.ValidationSummary(true, "", new { @class = "form text-danger" })
+
+            <div class="md-form">
+                @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "mdb-select" })
+                @Html.LabelFor(model => model.ClassName)
+                @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="md-form">
+                @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "mdb-select" })
+                @Html.LabelFor(model => model.TermName)
+                @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="md-form">
+                @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "mdb-select" })
+                @Html.LabelFor(model => model.SessionName)
+                @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="md-form">
+                @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "mdb-select", @multiple = "true" })
+                @Html.LabelFor(model => model.StudentId)
+                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+
+            </div>
+
+            @*<div class="form-group">
+                    <div class="editor-label control-label col-md-2">
+                        @Html.Label("StudentId")
+                    </div>
+                    <div class="col-md-10 editor-field">
+                        @Html.ListBox("StudentId", (MultiSelectList)ViewBag.StudentId, new { size = 10, @class = "ddlMultiSlectBox" })
+                    </div>
+                </div>*@
+
+
+
+            <div class="md-form">
+                
+                    @if (Model != null && Model.AssignedClassId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info" />
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                    }
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+              
+            </div>
+        </div>
+
+
+
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $('.mdb-select').material_select();
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/AssignedClasses/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    // debugger
+                    //$.fn.oTable();
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.location.href = "/Subjects/Index";
+
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>
+
+

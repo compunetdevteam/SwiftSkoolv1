@@ -1,0 +1,373 @@
+﻿@using SwiftSkool.Extensions
+@model SwiftSkoolv1.WebUI.ViewModels.SchoolVm
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create School</h2>
+
+
+@*@using (Html.BeginForm("Create", "Schools", FormMethod.Post, new { enctype = "multipart/form-data" , id="myform"}))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>School</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.SchoolId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SchoolId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SchoolId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Alias, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EnumDropDownListFor(model => model.Color, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LocalGovtArea, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LocalGovtArea, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LocalGovtArea, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="editor-field">
+                <input type="file" accept="image/*" name="File" onchange="loadFile(event)">
+                <img id="output"/>
+                @Html.ValidationMessageFor(model => model.File)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="reset" id="btnsubmit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}*@
+
+@using (Html.BeginForm("Create", "Schools", FormMethod.Post, new {enctype = "multipart/form-data", id = "myform"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <!-- Section: Edit Account -->
+        <section class="section">
+            <!-- First row -->
+            <div class="row">
+                <!-- First column -->
+                <div class="col-lg-4">
+                    <div class="row">
+                        <!-- Card -->
+                        <div class="card contact-card card-cascade narrower mb-r">
+                            <div class="admin-panel info-admin-panel">
+                                <!-- Card title -->
+                                <div class="view primary-color">
+                                    <h5>Add Logo</h5>
+                                </div>
+                                <!-- /.Card title -->
+
+                                <!-- Card content -->
+                                <div class="card-block text-center">
+
+                                    <img id="output" alt="School Logo" class="rounded-circle contact-avatar my-2 mx-auto"/>
+
+                                    <p class="text-muted"><small>photo will be changed automatically</small>
+                                    </p>
+                                    
+                                    <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
+                                    <label for="File" class="btn btn-primary btn-block">Upload Logo</label>
+
+
+                                </div>
+                                <!-- /.Card content -->
+                            </div>
+                        </div>
+                        <!-- /.Card -->
+                    </div>
+                    <div class="row">
+                        <!-- Card -->
+                        <div class="card contact-card card-cascade narrower mb-r">
+                            <div class="admin-panel info-admin-panel">
+                                <!-- Card title -->
+                                <div class="view primary-color">
+                                    <h5>Add Banner</h5>
+                                </div>
+                                <!-- /.Card title -->
+
+                                <!-- Card content -->
+                                <div class="card-block text-center">
+
+                                    <img id="output2" class="rounded-circle img-responsive"/>
+
+                                    <p class="text-muted"><small>photo will be changed automatically</small>
+                                    </p>
+                                    <input id="BannerFile" type="file" accept="image/*" name="BannerFile" onchange="loadFile2(event)" style="display: none">
+                                    <label for="BannerFile" class="btn btn-primary btn-block">Upload Banner</label>
+
+
+                                </div>
+                                <!-- /.Card content -->
+                            </div>
+                        </div>
+                        <!-- /.Card -->
+                    </div>
+                </div>
+                <!-- /.First column -->
+                <!-- Second column -->
+                <div class="col-lg-8">
+                    <!--Card-->
+                    <div class="card card-cascade narrower mb-r">
+                        <div class="admin-panel info-admin-panel">
+                            <!--Card image-->
+                            <div class="view primary-color">
+                                <h5>School Information</h5>
+                            </div>
+                            <!--/Card image-->
+                            <!--Card content-->
+                            <div class="card-block">
+                                <!-- Edit Form -->
+                                <form>
+                                    <!--Zero row-->
+                                    <div class="row">
+                                        <!--First column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @Html.EditorFor(model => model.SchoolId, new {htmlAttributes = new {@class = "form-control"}})
+                                                @Html.LabelFor(model => model.SchoolId)
+                                                @Html.ValidationMessageFor(model => model.SchoolId, "", new {@class = "text-danger"})
+
+                                            </div>
+
+
+                                        </div>
+                                        <!--Second column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @Html.EditorFor(model => model.DateOfEstablishment, new {htmlAttributes = new {@class = "form-control datepicker", @placeholder = "Date Of Establishment"}})
+                                                @Html.ValidationMessageFor(model => model.DateOfEstablishment, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/.First row-->
+                                    <!--First row-->
+                                    <div class="row">
+                                        <!--First column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                                                @Html.LabelFor(model => model.Name)
+                                                @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+
+                                            </div>
+
+
+                                        </div>
+                                        <!--Second column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @Html.EditorFor(model => model.Alias, new {htmlAttributes = new {@class = "form-control"}})
+                                                @Html.LabelFor(model => model.Alias)
+                                                @Html.ValidationMessageFor(model => model.Alias, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/.First row-->
+                                    <!--First row-->
+                                    <div class="row">
+                                        <!--First column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @*@Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })*@
+                                                @Html.EnumDropDownListFor(model => model.Color, htmlAttributes: new {@class = "mdb-select"})
+                                                @Html.LabelFor(model => model.LocalGovtArea)
+                                                @Html.ValidationMessageFor(model => model.Color, "", new {@class = "text-danger"})
+
+                                            </div>
+                                        </div>
+                                        <!--Second column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @Html.EnumDropDownListFor(model => model.LocalGovtArea, htmlAttributes: new {@class = "mdb-select"})
+                                                @Html.LabelFor(model => model.LocalGovtArea)
+                                                @Html.ValidationMessageFor(model => model.LocalGovtArea, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/.First row-->
+                                    <!--Second row-->
+                                    <div class="row">
+                                        <!--First column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                @Html.EnumDropDownListFor(model => model.OwernshipType, htmlAttributes: new {@class = "mdb-select"})
+                                                @Html.LabelFor(model => model.OwernshipType)
+                                                @Html.ValidationMessageFor(model => model.OwernshipType, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                        <!--Second column-->
+                                        @*<div class="col-md-6">
+                                        <div class="md-form">
+                                            <input type="text" id="form77" class="form-control validate">
+                                            <label for="form77" data-error="wrong" data-success="right">Website Address</label>
+                                        </div>
+                                    </div>*@
+                                    </div>
+                                    <!--/.Second row-->
+                                    <!--Third row-->
+                                    <div class="row">
+                                        <!--First column-->
+                                        <div class="col-md-12">
+                                            <div class="md-form">
+                                                @Html.EditorFor(model => model.Address, new {htmlAttributes = new {@class = "form-control"}})
+                                                @Html.LabelFor(model => model.Address)
+                                                @Html.ValidationMessageFor(model => model.Address, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/.Third row-->
+                                    <!-- Fourth row -->
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <input type="submit" id="btnsubmit" value="Create School Account" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                    <!-- /.Fourth row -->
+                                </form>
+                                <!-- Edit Form -->
+                            </div>
+                            <!--/.Card content-->
+                        </div>
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!-- /.Second column -->
+            </div>
+            <!-- /.First row -->
+        </section>
+        <!-- /.Section: Edit Account -->
+
+    </div>
+}
+<!--/Main layout-->
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    var loadFile = function (event) {
+        var fileUpload = document.getElementById("File");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 20) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output = document.getElementById('output');
+                output.src = "#";
+            } else {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+        
+    };
+    var loadFile2 = function (event) {
+        var fileUpload = document.getElementById("BannerFile");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 30) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output2 = document.getElementById('output2');
+                output2.src = "#";
+            } else {
+                var output2 = document.getElementById('output2');
+                output2.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    };
+</script>
+<script>
+    //$(document).ready(function() {
+    //    //window.alert("ready");
+
+    //    $("#btnsubmit").click(function() {
+    //        // window.alert("ready");
+
+    //        $("#loaderDiv").show();
+
+    //       // var data = $("#myform").serialize();
+    //        var formData = new FormData(this);
+
+    //        debugger
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/Schools/Create",
+    //            data: formData,
+    //            success: function (data) {
+    //                if (data.status) {
+    //                    $("#loaderDiv").hide();
+    //                    toastr["success"](data.message);
+    //                } else {
+    //                    toastr["error"](data.message);
+    //                }
+    //            }
+    //        });
+    //    });
+
+   
+    //});
+
+    
+</script>
+

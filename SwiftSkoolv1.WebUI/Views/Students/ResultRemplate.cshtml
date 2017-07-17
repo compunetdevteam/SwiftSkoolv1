@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.ContinuousAssessment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table table-responsive">
+    <tr>
+
+        <th>
+            SubjectCode
+        </th>
+      
+        <th>
+            Project
+        </th>
+        <th>
+            Assignment
+        </th>
+        <th>
+           ThirdTest
+        </th>
+      
+        <th>
+            Exam
+        </th>
+        <th>
+            Teacher Name
+        </th>
+        <th>
+           Total
+        </th>
+        <th>
+            Grade
+        </th>
+        <th>
+            Remark
+        </th>
+        <th>
+            Subject Position
+        </th>
+        <th>
+            Class Average
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+      
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+        
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTest)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            @*<td>
+                @Html.Action("RenderRemplate", "Students", new
+           {
+               studentNumber = item.StudentId,
+               term = item.TermName,
+               sessionName = item.SessionName,
+               subjectcode = item.SubjectCode
+           })
+            </td>*@
+        
+        </tr>
+    }
+
+</table>
+

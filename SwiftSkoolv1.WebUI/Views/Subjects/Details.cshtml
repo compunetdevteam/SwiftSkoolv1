@@ -1,0 +1,42 @@
+﻿@model SwiftSkoolv1.Domain.Subject
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Subject</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectName)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.SubjectUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectUnit)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SubjectId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

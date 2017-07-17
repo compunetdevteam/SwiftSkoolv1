@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Line Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme2",
+            zoomEnabled: true,
+            animationEnabled: true,
+            title: {
+                text: "Line Chart in ASP.Net MVC using CanvasJS"
+            },
+            subtitles: [
+                {
+                    text: "Try Zooming and Panning"
+                }
+            ],
+            data: [
+            {
+                type: "line",
+
+                dataPoints: [
+				    { x: 10, y: 71 },
+				    { x: 20, y: 55 },
+				    { x: 30, y: 50 },
+				    { x: 40, y: 65 },
+				    { x: 50, y: 95 },
+				    { x: 60, y: 68 },
+				    { x: 70, y: 28 },
+				    { x: 80, y: 34 },
+				    { x: 90, y: 14 },
+				    { x: 100, y: 33 },
+				    { x: 110, y: 42 },
+				    { x: 120, y: 62 },
+                    { x: 130, y: 70 },
+				    { x: 140, y: 85 },
+				    { x: 150, y: 58 },
+				    { x: 160, y: 34 },
+				    { x: 170, y: 24 },
+				    { x: 180, y: 33 },
+				    { x: 190, y: 28 },
+				    { x: 200, y: 42 },
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>

@@ -1,0 +1,82 @@
+﻿@model SwiftSkoolv1.Domain.Calender.Event
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Event</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsHoliday)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsHoliday)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsCommonToAll)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsCommonToAll)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ThemeColor)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ThemeColor)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsFullDay)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsFullDay)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StartingDate)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

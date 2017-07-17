@@ -1,0 +1,122 @@
+﻿@model SwiftSkoolv1.Domain.Affective
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Affective</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TermName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Honesty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Honesty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SelfConfidence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SelfConfidence)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sociability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sociability)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Punctuality)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Punctuality)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Neatness)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Neatness)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Initiative)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Initiative)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Organization)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Organization)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AttendanceInClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttendanceInClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HonestyAndReliability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HonestyAndReliability)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AffectiveId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

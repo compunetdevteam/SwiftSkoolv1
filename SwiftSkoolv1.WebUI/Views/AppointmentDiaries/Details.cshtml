@@ -1,0 +1,58 @@
+﻿@model SwiftSkoolv1.Domain.AppointmentDiary
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AppointmentDiary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SomeImportantKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SomeImportantKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTimeScheduled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTimeScheduled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentLength)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentLength)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusENUM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusENUM)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

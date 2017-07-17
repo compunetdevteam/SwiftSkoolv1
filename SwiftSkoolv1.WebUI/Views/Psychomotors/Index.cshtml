@@ -1,0 +1,87 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.Psychomotor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TermName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sports)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExtraCurricularActivity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HelpingOthers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManualDuty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LevelOfCommitment)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TermName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClassName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sports)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExtraCurricularActivity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assignment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HelpingOthers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManualDuty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LevelOfCommitment)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

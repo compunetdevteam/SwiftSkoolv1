@@ -1,0 +1,84 @@
+﻿@model List<SwiftSkoolv1.Domain.CaSetUp>
+@{
+    ViewBag.Title = "EditAll";
+}
+
+<h2>EditAll</h2>
+@using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+
+    {
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+                Enable C A
+            </th>
+            <th>
+                School Class
+            </th>
+            <th>
+                Term Name
+            </th>
+            <th>
+                C A Order
+            </th>
+            <th>
+                C A Caption
+            </th>
+            <th>
+                Maximum Score
+            </th>
+
+            <th></th>
+        </tr>
+
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            @Html.HiddenFor(model => Model[i].CaSetUpId)
+            <tr>
+               
+              
+                <td>
+                    @Html.EditorFor(model => Model[i].IsTrue)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => Model[i].ClassId, new {style = "display:none"})
+                    @Html.EditorFor(model => Model[i].Class.FullClassName, new {htmlAttributes = new {@class = "form-control"}})
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => Model[i].TermId, new {style = "display:none"})
+                    @Html.EditorFor(model => Model[i].Term.TermName, new {htmlAttributes = new {@class = "form-control"}})
+
+                </td>
+                <td>
+                    @Html.EditorFor(model => Model[i].CaOrder, new {htmlAttributes = new {@class = "form-control"}})
+                </td>
+                <td>
+                    @Html.EditorFor(model => Model[i].CaCaption, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => Model[i].CaCaption, "", new {@class = "text-danger"})
+
+                </td>
+                <td>
+                    @Html.EditorFor(model => Model[i].MaximumScore, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => Model[i].MaximumScore, "", new {@class = "text-danger"})
+
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = Model[i].CaSetUpId}) |
+                </td>
+            </tr>
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default"/>
+            </div>
+        </div>
+
+    </table>
+}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+

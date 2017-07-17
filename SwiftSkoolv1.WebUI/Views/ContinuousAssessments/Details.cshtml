@@ -1,0 +1,124 @@
+﻿@model SwiftSkoolv1.Domain.ContinuousAssessment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ContinuousAssessment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TermName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject.SubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstTest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SecondTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecondTest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThirdTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThirdTest)
+        </dd>
+
+     
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StaffName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Grading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ContinuousAssessmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

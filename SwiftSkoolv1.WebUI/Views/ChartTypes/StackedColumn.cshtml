@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Stacked Column Chart";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "Coal Reserves of Countries"
+            },
+            axisY: {
+                title: "Coal (bn tonnes)",
+                valueFormatString: "#0.#,.",
+            },
+            data: [
+            {
+                type: "stackedColumn",
+                legendText: "Anthracite & Bituminous",
+                yValueFormatString: "#0.#,.",
+                showInLegend: "true",
+                dataPoints: [
+                    { y: 111338, label: "USA" },
+                    { y: 49088, label: "Russia" },
+                    { y: 62200, label: "China" },
+                    { y: 90085, label: "India" },
+                    { y: 38600, label: "Australia" },
+                    { y: 48750, label: "SA" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints1),
+            }, {
+                type: "stackedColumn",
+                legendText: "SubBituminous & Lignite",
+                showInLegend: "true",
+                indexLabel: "#total bn",
+                yValueFormatString: "#0.#,.",
+                indexLabelFormatString: "#0.#,.",
+                indexLabelPlacement: "outside",
+                dataPoints: [
+                    { y: 135305, label: "USA" },
+                    { y: 107922, label: "Russia" },
+                    { y: 52300, label: "China" },
+                    { y: 3360, label: "India" },
+                    { y: 39900, label: "Australia" },
+                    { y: 0, label: "SA" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints2),
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>

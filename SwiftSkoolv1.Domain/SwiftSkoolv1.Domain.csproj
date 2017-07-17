@@ -36,9 +36,37 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,11 +75,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Affective.cs" />
+    <Compile Include="AppointmentDiary.cs" />
+    <Compile Include="AssignedClass.cs" />
+    <Compile Include="AssignSubject.cs" />
+    <Compile Include="AssignTeacherToClass.cs" />
+    <Compile Include="Book.cs" />
+    <Compile Include="BookIssue.cs" />
+    <Compile Include="Calender\Event.cs" />
+    <Compile Include="CaList.cs" />
+    <Compile Include="CaSetUp.cs" />
+    <Compile Include="CBT\ExamLog.cs" />
+    <Compile Include="CBT\ExamRule.cs" />
+    <Compile Include="CBT\ExamSetting.cs" />
+    <Compile Include="CBT\ExamType.cs" />
+    <Compile Include="CBT\QuestionAnswer.cs" />
+    <Compile Include="CBT\ResultDivision.cs" />
+    <Compile Include="CBT\StudentQuestion.cs" />
+    <Compile Include="Class.cs" />
+    <Compile Include="ClassAssignments.cs" />
+    <Compile Include="ClassRoom\Classroom.cs" />
+    <Compile Include="ContinuousAssessment.cs" />
+    <Compile Include="FeeCategory.cs" />
+    <Compile Include="FeePayment.cs" />
+    <Compile Include="FeeType.cs" />
+    <Compile Include="GeneralSchool.cs" />
+    <Compile Include="Grade.cs" />
+    <Compile Include="Guardian.cs" />
+    <Compile Include="HomePageSetUp.cs" />
+    <Compile Include="Objects\Administrator.cs" />
+    <Compile Include="Objects\Comment.cs" />
+    <Compile Include="Objects\Post.cs" />
+    <Compile Include="Objects\Tag.cs" />
+    <Compile Include="PopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportSetting.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="School.cs" />
+    <Compile Include="SchoolClass.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SMS.cs" />
+    <Compile Include="Staff.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="SubjectRegistration.cs" />
+    <Compile Include="Term.cs" />
+    <Compile Include="TimeTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

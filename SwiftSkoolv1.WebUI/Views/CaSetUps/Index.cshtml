@@ -1,0 +1,103 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.CaSetUp>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@using (Html.BeginForm("Index", "CaSetUps", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <!-- BEGIN INLINE FORM -->
+    <div class="row">
+        <div class="col-lg-7">
+            <article class="margin-bottom-xxl">
+                <p class="lead">
+                    Please use the box below to search
+                </p>
+            </article>
+        </div><!--end .col -->
+        <div class="col-lg-12">
+            <form class="form-inline">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "form-control" })
+                            <label for="ClassName">Class</label>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+
+                            @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
+                            <label for="TermName">Term Name</label>
+                        </div>
+                        <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
+                    </div><!--end .card-body -->
+                </div><!--end .card -->
+
+            </form>
+        </div><!--end .col -->
+    </div>
+
+    <!--end .row -->
+    <!-- END INLINE FORM -->
+}
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Class.FullClassName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Term.TermName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CaOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CaCaption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumScore)
+        </th>
+        <th>
+           Is Enabled
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Class.FullClassName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Term.TermName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CaOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CaCaption)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsTrue)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CaSetUpId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CaSetUpId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CaSetUpId })
+        </td>
+    </tr>
+}
+
+</table>

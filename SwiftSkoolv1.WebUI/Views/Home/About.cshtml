@@ -3,5 +3,43 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
+<h2 class="text-info">Angular introdution</h2>
 
-<p>Use this area to provide additional information.</p>
+<div ng-app="app">
+    <input type="number" ng-model="first" />
+    <input type="number" ng-model="second" />
+    <input type="number" value="{{first + second}}" />
+    <input type="number" value="10" />
+
+
+    {{first + second}}
+    
+    <p>
+         First Name: <input type="text" ng-model="firstName"><br>
+        Last Name: <input type="text" ng-model="lastName"><br>
+        <br>
+        Full Name: {{firstName + " " + lastName}}
+    </p>
+
+    <p ng-controller="myCtrl">
+        First Name: <input type="text" ng-model="f"><br>
+        Last Name: <input type="text" ng-model="l"><br>
+        <br>
+        Full Name: {{f}} {{l}}
+    </p>
+
+
+</div>
+
+
+<script>
+    function myCtrl($scope) {
+        $scope.f= 'John';
+        $scope.l= 'Doe';
+    };
+</script> 
+      
+
+
+
+

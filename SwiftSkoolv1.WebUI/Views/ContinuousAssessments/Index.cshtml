@@ -1,0 +1,185 @@
+﻿
+@model PagedList.IPagedList<SwiftSkoolv1.Domain.ContinuousAssessment>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "List Of CA";
+}
+
+
+
+@using (Html.BeginForm("Index", "ContinuousAssessments", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <!-- BEGIN INLINE FORM -->
+    <div class="row">
+        <div class="col-lg-7">
+            <article class="margin-bottom-xxl">
+                <p class="lead">
+                    Please use the following parameters to perform Query
+                </p>
+            </article>
+        </div><!--end .col -->
+        <div class="col-lg-12">
+            <form class="form-inline">
+                <div class="card">
+                    <div class="card-body">
+                        
+                        <div class="form-group">
+                            @Html.DropDownList("SubjectCode", (SelectList)ViewBag.SubjectCode, "", new { @class = "form-control" })
+                            <label for="SubjectCode">Subject Name</label>
+                        </div>
+                        <div class="form-group">
+                            @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                            <label for="ClassName">ClassName</label>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+                            <label for="TermName">Term Name</label>
+                        </div>
+                        <div class="form-group">
+                            @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
+
+                            @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
+                            <label for="SessionName">SessionName</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
+                    </div><!--end .card-body -->
+                </div><!--end .card -->
+
+            </form>
+        </div><!--end .col -->
+    </div>
+
+    <!--end .row -->
+    <!-- END INLINE FORM -->
+}
+
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Student ID", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            Term
+        </th>
+        <th>
+            Session
+        </th>
+        <th>
+            Subject
+        </th>
+        <th>
+            Class Name
+        </th>
+        <th>
+            First Test
+        </th>
+        <th>
+            Second Test 
+        </th>
+        <th>
+            Third Test
+        </th>
+       
+        <th>
+            Exam Score
+        </th>
+        <th>
+            Staff Name
+        </th>
+        <th>
+            @Html.ActionLink("Total", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            Grading
+        </th>
+        <th>
+            Remark
+        </th>
+        <th>
+            Grade Point
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondTest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdTest)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+          
+            <td>
+                <span>
+                    <a href="@Url.Action("Edit", new {id = item.ContinuousAssessmentId, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
+                </span> |
+                <span>
+                    <a href="@Url.Action("Details", new {id = item.ContinuousAssessmentId, @class = "btn btn-success" })"><span class="md-mode-details"></span> Details</a>
+                </span> |
+                <span>
+                    <a href="@Url.Action("Delete", new {id = item.ContinuousAssessmentId, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                </span>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.ContinuousAssessmentId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ContinuousAssessmentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ContinuousAssessmentId })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<div class="btn-group pull-right">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    sortOrder = ViewBag.CurrentSort,
+    currentFilter =
+    ViewBag.CurrentFilter
+}))
+</div>
