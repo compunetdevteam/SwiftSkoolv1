@@ -221,34 +221,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return new JsonResult { Data = new { status = status, message = message } };
         }
 
-        //// GET: Subjects/Delete/5
-        //public async Task<ActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Subject subject = await Db.Subjects.FindAsync(id);
-        //    if (subject == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(subject);
-        //}
-
-        //// POST: Subjects/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> DeleteConfirmed(int id)
-        //{
-        //    var subject = await Db.Subjects.FindAsync(id);
-        //    if (subject != null) Db.Subjects.Remove(subject);
-        //    await Db.SaveChangesAsync();
-        //    TempData["UserMessage"] = "Subject Deleted Successfully.";
-        //    TempData["Title"] = "Deleted.";
-        //    return RedirectToAction("Index");
-        //}
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

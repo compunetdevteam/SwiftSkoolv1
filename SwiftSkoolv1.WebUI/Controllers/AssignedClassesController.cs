@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -114,7 +113,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.AssignedClasses.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName }).ToList();
+            var v = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool))
+                .Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName, s.StudentId, s.TermName, s.SessionName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -123,8 +123,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.AssignedClasses.Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.StudentName.Equals(search)))
-                      .Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName }).ToList();
+                v = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.StudentName.Equals(search)))
+                      .Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName, s.StudentId, s.TermName, s.SessionName }).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -140,6 +140,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<PartialViewResult> Save(int id)
         {
             var assignedClass = await Db.AssignedClasses.FindAsync(id);
+            ViewBag.StudentId = new MultiSelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return PartialView(assignedClass);
         }
 

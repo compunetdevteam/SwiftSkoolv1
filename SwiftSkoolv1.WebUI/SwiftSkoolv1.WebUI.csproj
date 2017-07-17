@@ -739,6 +739,7 @@
     <Content Include="Scripts\MdJs\mdb.js" />
     <Content Include="Scripts\MdJs\mdb.min.js" />
     <Content Include="Scripts\MdJs\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MdJs\renderChart.js" />
     <Content Include="Scripts\MdJs\tether.min.js" />
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-2.0.3.css" />
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-2.0.3.min.js" />
@@ -824,7 +825,7 @@
     <Content Include="Views\AssignFormTeacherToClasses\PartialFormTeacherCreate.cshtml" />
     <Content Include="Views\AssignFormTeacherToClasses\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Create.cshtml" />
-    <Content Include="Views\AssignSubjects\Delete.cshtml" />
+    <Content Include="Views\AssignSubjects\DeleteOld.cshtml" />
     <Content Include="Views\AssignSubjects\Details.cshtml" />
     <Content Include="Views\AssignSubjects\Edit.cshtml" />
     <Content Include="Views\AssignSubjects\Index.cshtml" />
@@ -886,7 +887,7 @@
     <Content Include="Views\ChartTypes\StepArea.cshtml" />
     <Content Include="Views\ChartTypes\StepLine.cshtml" />
     <Content Include="Views\Classes\Create.cshtml" />
-    <Content Include="Views\Classes\Delete.cshtml" />
+    <Content Include="Views\Classes\Deleteold.cshtml" />
     <Content Include="Views\Classes\Details.cshtml" />
     <Content Include="Views\Classes\Edit.cshtml" />
     <Content Include="Views\Classes\FormTeacher.cshtml" />
@@ -968,7 +969,7 @@
     <Content Include="Views\RolesAdmin\Index.cshtml" />
     <Content Include="Views\RolesAdmin\ManageUserRoles.cshtml" />
     <Content Include="Views\SchoolClasses\Create.cshtml" />
-    <Content Include="Views\SchoolClasses\Delete.cshtml" />
+    <Content Include="Views\SchoolClasses\DeleteOld.cshtml" />
     <Content Include="Views\SchoolClasses\Details.cshtml" />
     <Content Include="Views\SchoolClasses\Edit.cshtml" />
     <Content Include="Views\SchoolClasses\Index.cshtml" />
@@ -1019,7 +1020,6 @@
     <Content Include="Views\Students\NewCalender.cshtml" />
     <Content Include="Views\Students\Print.cshtml" />
     <Content Include="Views\Students\PrintSecondTerm.cshtml" />
-    <Content Include="Views\Students\PrintSummaryReport.cshtml" />
     <Content Include="Views\Students\PrintTest.cshtml" />
     <Content Include="Views\Students\RenderRemplate.cshtml" />
     <Content Include="Views\Students\ResultInfo.cshtml" />
@@ -1049,7 +1049,13 @@
     <Content Include="Views\Terms\Index.cshtml" />
     <Content Include="Views\Terms\TermsIndex.cshtml" />
     <Content Include="Views\ChartTypes\ResultInfo.cshtml" />
+    <Content Include="Views\SchoolClasses\Save.cshtml" />
+    <Content Include="Views\SchoolClasses\Delete.cshtml" />
+    <Content Include="Views\Classes\Delete.cshtml" />
+    <Content Include="Views\Terms\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Save.cshtml" />
+    <Content Include="Views\AssignSubjects\Delete.cshtml" />
+    <Content Include="Views\Grades\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
