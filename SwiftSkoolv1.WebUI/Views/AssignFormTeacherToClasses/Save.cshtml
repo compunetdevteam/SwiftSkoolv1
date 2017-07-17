@@ -1,12 +1,17 @@
 ﻿@model SwiftSkoolv1.Domain.AssignFormTeacherToClass
 
 
-
-<h2>Save</h2>
-
-
-@using (Html.BeginForm("Save", "AssignFormTeacherToClasses", FormMethod.Post, new {id= "popupForm" }))
+@if (Model != null && Model.Id > 0)
 {
+    <h4>Update</h4>
+}
+else
+{
+    <h4>Save</h4>
+}
+
+
+<form id="myform" onsubmit="return false;">
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -36,7 +41,45 @@
         </div>
     </div>
 
+</form>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script type="text/javascript">
+ 
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/AssignFormTeacherToClasses/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    // debugger
+                    //$.fn.oTable();
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.location.href = "/Subjects/Index";
+                        
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"]("Teacher has not been Assigned");
+                }
+
+            }
+        });
+    });
+
+ 
+</script>
 
 
 

@@ -1056,6 +1056,8 @@
     <Content Include="Views\AssignSubjects\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Delete.cshtml" />
     <Content Include="Views\Grades\Save.cshtml" />
+    <Content Include="Views\AssignSubjectTeachers\Save.cshtml" />
+    <Content Include="Views\CaSetUps\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

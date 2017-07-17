@@ -1,16 +1,53 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.AssignBehavior>
 
-@{
-    ViewBag.Title = "Index";
-}
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+</style>
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
-@using (Html.BeginForm("Index", "AssignBehaviors", FormMethod.Get, new { @class = "form-inline" }))
+<div class="tablecontainer" style="width: 90%; margin: 0 auto">
+    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Subject</a>
+    @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
+    <table id="Jdatatable" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="sort-alpha">Subject Code</th>
+                <th class="sort-alpha">Subject Name</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Subject</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+@*@using (Html.BeginForm("Index", "AssignBehaviors", FormMethod.Get, new { @class = "form-inline" }))
 {
     <!-- BEGIN INLINE FORM -->
     <div class="row">
@@ -33,13 +70,13 @@
                         <div class="form-group">
                             @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
 
-                            @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
+                            @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })
                             <label for="TermName">Term Name</label>
                         </div>
                         <div class="form-group">
                             @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
 
-                            @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
+                           @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })
                             <label for="SessionName">SessionName</label>
                         </div>
 
@@ -114,9 +151,9 @@
         </td>
        
         <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.AssignBehaviorId }) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.AssignBehaviorId }) |
             @Html.ActionLink("Details", "Details", new { id=item.AssignBehaviorId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AssignBehaviorId })*@
+            @Html.ActionLink("Delete", "Delete", new { id=item.AssignBehaviorId })
             <span>
                 <a href="@Url.Action("Edit", new {id = item.AssignBehaviorId, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
             </span> |
@@ -127,4 +164,4 @@
     </tr>
 }
 
-</table>
+</table>*@
