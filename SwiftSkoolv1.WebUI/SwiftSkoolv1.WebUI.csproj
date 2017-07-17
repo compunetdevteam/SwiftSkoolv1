@@ -1056,6 +1056,8 @@
     <Content Include="Views\Terms\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Delete.cshtml" />
+    <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\Shared\_LayoutSwiftSkool1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
