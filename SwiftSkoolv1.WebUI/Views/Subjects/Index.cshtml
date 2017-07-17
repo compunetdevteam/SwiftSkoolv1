@@ -53,8 +53,8 @@
         <tr>
             <th class="sort-alpha">Subject Code</th>
             <th class="sort-alpha">Subject Name</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Actions</th>
+           
         </tr>
         </thead>
     </table>
@@ -89,23 +89,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true, // true/false
-            "debug": false, // true/false
-            "newestOnTop": false, // true/false
-            "progressBar": false, // true/false
-            "positionClass": "toast-bottom-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
-            "preventDuplicates": false, //true/false
-            "onclick": null,
-            "showDuration": "300", // in milliseconds
-            "hideDuration": "1000", // in milliseconds
-            "timeOut": "5000", // in milliseconds
-            "extendedTimeOut": "1000", // in milliseconds
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
+      
 
   
         //debugger;
@@ -145,17 +129,18 @@
                     "data": "SubjectId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/> Edit</a>';
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
 
                     }
-                },
-                {
-                    "data": "SubjectId",
-                    "autoWidth": true,
-                    "render": function(data) {
-                        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/> Delete</a>';
-                    }
                 }
+                //{
+                //    "data": "SubjectId",
+                //    "autoWidth": true,
+                //    "render": function(data) {
+                //        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                //    }
+                //}
                 //{ "data": "EmailID", "autoWidth": true },
                 //{ "data": "Phone", "autoWidth": true },
             ]

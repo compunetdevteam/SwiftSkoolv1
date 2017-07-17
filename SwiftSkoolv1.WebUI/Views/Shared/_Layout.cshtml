@@ -29,7 +29,8 @@
     <!-- /Twitter Card -->
     <!-- Font Awesome -->
   
-   
+    @*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")*@
     <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <!-- Bootstrap core CSS -->
     <link href="~/Content/MdCss/bootstrap.min.css" rel="stylesheet" />
@@ -41,7 +42,7 @@
     
     <!-- Your custom styles (optional) -->
     <link href="~/Content/MdCss/style.css" rel="stylesheet" />
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    @*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />*@
     <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 </head>
 @{
@@ -434,7 +435,10 @@ else if (Request.IsAuthenticated && User.IsInRole("Student"))
 <!-- SCRIPTS -->
 <!-- SCRIPTS -->
 <!-- JQuery -->
+@*@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")*@
 <script src="~/Scripts/MdJs/jquery-3.1.1.min.js"></script>
+
 <!-- Bootstrap tooltips -->
 <script src="~/Scripts/MdJs/tether.min.js"></script>
 <!-- Bootstrap core JavaScript -->
@@ -444,6 +448,7 @@ else if (Request.IsAuthenticated && User.IsInRole("Student"))
 
 <!-- Customizer -->
 <script src="~/Scripts/MdJs/customizer.min.js"></script>
+
 <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
 
@@ -532,6 +537,23 @@ else if (Request.IsAuthenticated && User.IsInRole("Student"))
     // Material Select Initialization
     $(document).ready(function() {
         $('.mdb-select').material_select();
+        toastr.options = {
+            "closeButton": true, // true/false
+            "debug": false, // true/false
+            "newestOnTop": false, // true/false
+            "progressBar": false, // true/false
+            "positionClass": "toast-bottom-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "preventDuplicates": false, //true/false
+            "onclick": null,
+            "showDuration": "300", // in milliseconds
+            "hideDuration": "1000", // in milliseconds
+            "timeOut": "5000", // in milliseconds
+            "extendedTimeOut": "1000", // in milliseconds
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
     });
 
     // Sidenav Initialization

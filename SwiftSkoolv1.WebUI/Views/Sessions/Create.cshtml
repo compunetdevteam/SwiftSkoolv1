@@ -63,7 +63,8 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
 <script>
     $(document).ready(function () {
         //window.alert("ready");
@@ -74,14 +75,14 @@
             $("#loaderDiv").show();
 
             var data = $("#myform").serialize();
-            debugger
+          
             $.ajax({
                 type: "POST",
                 url: "/Sessions/Create",
                 data: data,
                 success: function(response) {
                     $("#loaderDiv").hide();
-                    alertify.success('session Created Successfully');
+                    toastr["success"]("Session Created Successfully");
                 }
             });
         });

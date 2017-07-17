@@ -680,16 +680,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 string studentUpdated = "";
-                ApplicationUser user = new ApplicationUser()
+                var user = new ApplicationUser
                 {
                     Id = model.StudentId,
                     UserName = model.UserName,
                     //Email = model.Email.Trim(),
                     PhoneNumber = model.PhoneNumber.Trim(),
-
-
-                    //DateOfBirth = DateTime.Now
+                    SchoolId = userSchool
                 };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
