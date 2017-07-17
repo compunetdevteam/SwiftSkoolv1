@@ -1,7 +1,5 @@
-﻿@*@model <SwiftSkoolv1.Domain.AssignedClass>*@
-@model PagedList.IPagedList<SwiftSkoolv1.Domain.AssignedClass>
-@*@using PagedList.Mvc;*@
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+﻿@model PagedList.IPagedList<SwiftSkoolv1.Domain.AssignedClass>
+
 @{
     ViewBag.Title = "Assigned Classes";
 }
@@ -14,51 +12,57 @@
     </div>
     <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
 }*@
-
-@*@using (Html.BeginForm("Index", "AssignedClasses", FormMethod.Get, new { @class="form-inline" }))
+<br />
+@using (Html.BeginForm("Index", "AssignedClasses", FormMethod.Get, new {@class = "form-inline"}))
 {
     <!-- BEGIN INLINE FORM -->
+
+   
     <div class="row">
-        <div class="col-lg-7">
-            <article class="margin-bottom-xxl">
-                <p class="lead">
-                    Please use the box below to search
-                </p>
-            </article>
-        </div><!--end .col -->
-        <div class="col-lg-12">
-            <form class="form-inline">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-group">
-                            @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
-                            <label for="ClassName">ClassName</label>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+    <!--First column-->
+        <div class="col-md-2">
+            <div class="md-form">
+                @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "mdb-select" })
+                <label for="ClassName">ClassName</label>
+            </div>
+        </div>
+        <!--Second column-->
+        <div class="col-md-3">
+            <div class="md-form">
+                @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "mdb-select" })
+                <label for="ClassName">ClassName</label>
+            </div>
+        </div>
+        <!--Third column-->
+        <div class="col-md-2">
+            <div class="md-form">
+                @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "mdb-select" })
+                <label for="TermName">Term Name</label>
+            </div>
+        </div>
+        <!--forth column-->
+        <div class="col-md-3">
+            <div class="md-form">
+                @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new {@class = "mdb-select" })
+                <label for="SessionName">SessionName</label>
+            </div>
+        </div>
+   
+   
 
-                            @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })
-                            <label for="TermName">Term Name</label>
-                        </div>
-                        <div class="form-group">
-                            @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
+    <!--forth column-->
+        <div class="col-md-2">
+            <div class="md-form">
+                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
 
-                            @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*
-                            <label for="SessionName">SessionName</label>
-                        </div>
+   
 
-                        <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
-
-            </form>
-        </div><!--end .col -->
-    </div>*@
-
-    <!--end .row -->
-    <!-- END INLINE FORM -->
-@*}*@
+    
+    </div>
+}
 
 @*<table class="table">
     <tr>
@@ -123,39 +127,48 @@
 
 
 <div class="tablecontainer" style="width: 90%; margin: 0 auto">
-    <a class="popup" href="/AssignedClasses/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>
+    @*<a class="popup" href="/AssignedClasses/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
+
+    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Class</a>
     <table id="Jdatatable" class="table table-striped table-hover">
         <thead>
             <tr>
-               
+                <th>Student Name</th>
+                <th>Student Id</th>
+                <th>Class Name</th>
+                <th>Term Name</th>
+                <th>Session Name</th>
+                <th>Action</th>
                 
-                <th class="sort-alpha">Class Name</th>
-                <th class="sort-alpha">Term Name</th>
-                <th class="sort-alpha">Session Name</th>
-                <th class="sort-alpha">Student Id</th>
-              
-                <th>Edit</th>
-                <th>Delete</th>
             </tr>
         </thead>
     </table>
 </div>
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Assign Class</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
 
-<div class="btn-group pull-right">
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new
-{
-    page,
-    sortOrder = ViewBag.CurrentSort,
-    currentFilter =
-    ViewBag.CurrentFilter
-}))
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
 </div>
+<!-- /.Modal-->
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
-
-<script src="~/Scripts/jquery-3.1.0.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -177,7 +190,7 @@
         //        "type": "GET",
         //        "datatype": "json"
         //    },
-        var oTable = $("#Jdatatable").DataTable({
+        window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
             "filter": true, // disables search box
@@ -190,81 +203,57 @@
                 "datatype": "json"
             },
             "columns": [
+                { "data": "StudentId", "autoWidth": true },
+                { "data": "StudentName", "autoWidth": true },
                 { "data": "ClassName", "autoWidth": true },
                 { "data": "TermName", "autoWidth": true },
                 { "data": "SessionName", "autoWidth": true },
-                { "data": "StudentId    ", "autoWidth": true },
+              
                 {
                     "data": "AssignedClassId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a class="popup" href="/AssignedClasses/save/' + data + '"><span class="md-mode-edit"> Edit</a>';
-                    }
-                },
-                {
-                    "data": "AssignedClassId",
-                    "autoWidth": true,
-                    "render": function(data) {
-                        return '<a class="popup" href="/AssignedClasses/delete/' + data + '"><span class="md-delete"></span> Delete</a>';
-                    }
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';                    }
                 }
+                //{
+                //    "data": "AssignedClassId",
+                //    "autoWidth": true,
+                //    "render": function(data) {
+                //        return '<a class="popup" href="/AssignedClasses/delete/' + data + '"><span class="md-delete"></span> Delete</a>';
+                //    }
+                //}
                 //{ "data": "EmailID", "autoWidth": true },
                 //{ "data": "Phone", "autoWidth": true },
             ]
         });
 
-        $('.tablecontainer').on('click',
-            'a.popup',
-            function(e) {
-                e.preventDefault();
-                OpenPopup($(this).attr('href'));
-            });
-
-        function OpenPopup(pageUrl) {
-            var $pageContent = $('<div/>');
-            $pageContent.load(pageUrl,
-                function() {
-                    $('#popupForm', $pageContent).removeData('validator');
-                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                    $.validator.unobtrusive.parse('form');
-
-                });
-
-            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-                .html($pageContent)
-                .dialog({
-                    draggable: false,
-                    autoOpen: false,
-                    resizable: true,
-                    model: true,
-                    title: 'Assigned Class Dialog Box',
-                    height: 400,
-                    width: 500,
-                    close: function() {
-                        $dialog.dialog('destroy').remove();
-                    }
-                });
-
-            $('.popupWindow').on('submit',
-                '#popupForm',
-                function(e) {
-                    var url = $('#popupForm')[0].action;
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $('#popupForm').serialize(),
-                        success: function(data) {
-                            if (data.status) {
-                                $dialog.dialog('close');
-                                oTable.ajax.reload();
-                                alertify.success(data.message);
-                            }
-                        }
-                    });
-
-                    e.preventDefault();
-                });
-            $dialog.dialog('open');
-        }
     });
+    function Edit(subjecId) {
+        var url = "/AssignedClasses/Save?id=" + subjecId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(subjecId) {
+        var url = "/AssignedClasses/Delete?id=" + subjecId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/AssignedClasses/Save?id=0";
+        //$('#actionsList').modal("show");
+        // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
 </script>

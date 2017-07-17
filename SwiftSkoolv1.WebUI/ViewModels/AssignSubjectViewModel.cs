@@ -4,6 +4,8 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class AssignSubjectViewModel
     {
+        public int AssignSubjectId { get; set; }
+
         [Display(Name = "Class Name")]
         [Required(ErrorMessage = "Class Name cannot be empty")]
         public string ClassName { get; set; }
