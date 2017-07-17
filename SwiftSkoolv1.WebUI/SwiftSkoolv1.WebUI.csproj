@@ -512,7 +512,6 @@
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Content\images\swiftskool2.png" />
-    <Content Include="Content\materialadmin.css" />
     <Content Include="Content\MdCss\bootstrap.min.css" />
     <Content Include="Content\MdCss\customizer.min.css" />
     <Content Include="Content\MdCss\font-awesome.min.css" />
@@ -740,6 +739,7 @@
     <Content Include="Scripts\MdJs\mdb.js" />
     <Content Include="Scripts\MdJs\mdb.min.js" />
     <Content Include="Scripts\MdJs\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MdJs\renderChart.js" />
     <Content Include="Scripts\MdJs\tether.min.js" />
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-2.0.3.css" />
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-2.0.3.min.js" />
@@ -825,7 +825,7 @@
     <Content Include="Views\AssignFormTeacherToClasses\PartialFormTeacherCreate.cshtml" />
     <Content Include="Views\AssignFormTeacherToClasses\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Create.cshtml" />
-    <Content Include="Views\AssignSubjects\Delete.cshtml" />
+    <Content Include="Views\AssignSubjects\DeleteOld.cshtml" />
     <Content Include="Views\AssignSubjects\Details.cshtml" />
     <Content Include="Views\AssignSubjects\Edit.cshtml" />
     <Content Include="Views\AssignSubjects\Index.cshtml" />
@@ -887,7 +887,7 @@
     <Content Include="Views\ChartTypes\StepArea.cshtml" />
     <Content Include="Views\ChartTypes\StepLine.cshtml" />
     <Content Include="Views\Classes\Create.cshtml" />
-    <Content Include="Views\Classes\Delete.cshtml" />
+    <Content Include="Views\Classes\Deleteold.cshtml" />
     <Content Include="Views\Classes\Details.cshtml" />
     <Content Include="Views\Classes\Edit.cshtml" />
     <Content Include="Views\Classes\FormTeacher.cshtml" />
@@ -969,7 +969,7 @@
     <Content Include="Views\RolesAdmin\Index.cshtml" />
     <Content Include="Views\RolesAdmin\ManageUserRoles.cshtml" />
     <Content Include="Views\SchoolClasses\Create.cshtml" />
-    <Content Include="Views\SchoolClasses\Delete.cshtml" />
+    <Content Include="Views\SchoolClasses\DeleteOld.cshtml" />
     <Content Include="Views\SchoolClasses\Details.cshtml" />
     <Content Include="Views\SchoolClasses\Edit.cshtml" />
     <Content Include="Views\SchoolClasses\Index.cshtml" />
@@ -1049,13 +1049,13 @@
     <Content Include="Views\Terms\Edit.cshtml" />
     <Content Include="Views\Terms\Index.cshtml" />
     <Content Include="Views\Terms\TermsIndex.cshtml" />
-    <Content Include="Views\TimeTables\Create.cshtml" />
-    <Content Include="Views\TimeTables\Delete.cshtml" />
-    <Content Include="Views\TimeTables\Details.cshtml" />
-    <Content Include="Views\TimeTables\Edit.cshtml" />
-    <Content Include="Views\TimeTables\Index.cshtml" />
     <Content Include="Views\ChartTypes\ResultInfo.cshtml" />
+    <Content Include="Views\SchoolClasses\Save.cshtml" />
+    <Content Include="Views\SchoolClasses\Delete.cshtml" />
+    <Content Include="Views\Classes\Delete.cshtml" />
+    <Content Include="Views\Terms\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Save.cshtml" />
+    <Content Include="Views\AssignSubjects\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

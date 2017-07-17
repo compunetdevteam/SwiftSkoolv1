@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -96,7 +95,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.AssignSubjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.AssignSubjectId, s.Subject.SubjectName, s.Class.ClassName }).ToList();
+            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.AssignSubjectId, s.ClassName, s.Subject.SubjectName, s.TermName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -105,8 +104,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.AssignSubjects.Where(x => x.SchoolId.Equals(userSchool) && (x.Subject.SubjectName.Equals(search) || x.Class.ClassName.Equals(search)))
-                    .Select(s => new { s.AssignSubjectId, s.Subject.SubjectName, s.Class.ClassName }).ToList();
+                v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.Subject.SubjectName.Equals(search) || x.Class.ClassName.Equals(search)))
+                    .Select(s => new { s.AssignSubjectId, s.ClassName, s.Subject.SubjectName, s.TermName }).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -122,34 +121,65 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<PartialViewResult> Save(int id)
         {
             var assignSubject = await Db.AssignSubjects.FindAsync(id);
-            return PartialView(assignSubject);
+            ViewBag.SubjectId = new MultiSelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            ViewBag.TermName = new MultiSelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            return PartialView();
         }
 
-        // POST: Subjects/Save/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(AssignSubject assignSubject)
+        public async Task<ActionResult> Save(AssignSubjectViewModel model)
         {
             bool status = false;
             string message = string.Empty;
             if (ModelState.IsValid)
             {
-                if (assignSubject.AssignSubjectId > 0)
+                int counter = 0;
+                string theClass = String.Empty;
+                if (model.AssignSubjectId > 0)
                 {
-                    assignSubject.SchoolId = userSchool;
-                    Db.Entry(assignSubject).State = EntityState.Modified;
+                    var assignSubject = await Db.AssignSubjects.FindAsync(model.AssignSubjectId);
+                    if (assignSubject != null)
+                    {
+                        assignSubject.SchoolId = userSchool;
+                        Db.Entry(assignSubject).State = EntityState.Modified;
+                    }
                     message = "Class Updated Successfully...";
                 }
                 else
                 {
-                    assignSubject.SchoolId = userSchool;
-                    Db.AssignSubjects.Add(assignSubject);
-                    message = "Class Created Successfully...";
+                    foreach (var term in model.TermName)
+                    {
+                        foreach (var item in model.SubjectId)
+                        {
+                            var CA = Db.AssignSubjects.Where(x => x.ClassName.Equals(model.ClassName)
+                                                                  && x.SubjectId.Equals(item) &&
+                                                                  x.SchoolId.Equals(userSchool));
+                            var countFromDb = await CA.CountAsync();
+                            if (countFromDb >= 1)
+                            {
+                                message = $"Admin have already assigned {item} subject to {model.ClassName} Class";
+                                return new JsonResult { Data = new { status = false, message = message } };
+                            }
+                            var assigSubject = new AssignSubject
+                            {
+                                ClassName = model.ClassName,
+                                SubjectId = item,
+                                TermName = term,
+                                SchoolId = userSchool
+                            };
+                            Db.AssignSubjects.Add(assigSubject);
+                            counter += 1;
+                            theClass = model.ClassName;
+                        }
+                    }
+                    await Db.SaveChangesAsync();
+                    message = $" You have Assigned {counter} Subject(s)  to {theClass} Successfully.";
+
+                    return new JsonResult { Data = new { status = true, message = message } };
                 }
-                await Db.SaveChangesAsync();
-                status = true;
             }
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
@@ -279,32 +309,31 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(assignSubject);
         }
 
-        // GET: AssignSubjects/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+
+
+        public async Task<PartialViewResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var assignSubject = await Db.AssignSubjects.FindAsync(id);
-            if (assignSubject == null)
-            {
-                return HttpNotFound();
-            }
-            return View(assignSubject);
+            return PartialView(assignSubject);
         }
 
-        // POST: AssignSubjects/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            bool status = false;
+            string message = string.Empty;
             var assignSubject = await Db.AssignSubjects.FindAsync(id);
-            if (assignSubject != null) Db.AssignSubjects.Remove(assignSubject);
-            await Db.SaveChangesAsync();
-            TempData["UserMessage"] = "Subject removed from Class Successfully.";
-            TempData["Title"] = "Deleted.";
-            return RedirectToAction("Index");
+            if (assignSubject != null)
+            {
+                Db.AssignSubjects.Remove(assignSubject);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Subject Deleted from Class Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
 
         protected override void Dispose(bool disposing)

@@ -86,6 +86,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         public byte[] StaffPassport { get; set; }
 
+
         public string Username => $"{this.FirstName}_{this.LastName}";
 
         [Display(Name = "Upload A Passport/Picture")]

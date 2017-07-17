@@ -9,10 +9,11 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class SchoolVm
     {
-
+        [Required]
         public string SchoolId { get; set; }
 
-        [Display(Name = "School FullName")]
+        [Display(Name = "School Full Name")]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "School Alias")]
@@ -20,7 +21,6 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         [Display(Name = "School Primary Color")]
         public ThemeColor Color { get; set; }
-
 
         public OwershipType OwernshipType { get; set; }
 

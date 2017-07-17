@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkool.Controllers
 {
@@ -73,7 +72,7 @@ namespace SwiftSkool.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.Classes.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.ClassId, s.ClassType, s.ClassName }).ToList();
+            var v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -82,8 +81,8 @@ namespace SwiftSkool.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.Classes.Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.ClassType.Equals(search)))
-                    .Select(s => new { s.ClassId, s.ClassType, s.ClassName }).ToList();
+                v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.ClassType.Equals(search)))
+                    .ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -99,12 +98,12 @@ namespace SwiftSkool.Controllers
         public async Task<PartialViewResult> Save(int id)
         {
             var classes = await Db.Classes.FindAsync(id);
+            ViewBag.SchoolName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+
             return PartialView(classes);
         }
 
-        // POST: Subjects/Save/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Save(Class classes)
@@ -115,6 +114,15 @@ namespace SwiftSkool.Controllers
             {
                 if (classes.ClassId > 0)
                 {
+                    var myClass = Db.Classes.Where(x => x.SchoolId.Equals(userSchool) &&
+                                                        x.FullClassName.Equals(classes.FullClassName));
+
+                    if (myClass.Any())
+                    {
+                        //ViewBag.SchoolName = new SelectList(Db.SchoolClasses, "ClassCode", "ClassCode");
+
+                        return new JsonResult { Data = new { status = false, message = "Class Already Exist in Database" } };
+                    }
                     classes.SchoolId = userSchool;
                     Db.Entry(classes).State = EntityState.Modified;
                     message = "Class Updated Successfully...";
@@ -238,33 +246,29 @@ namespace SwiftSkool.Controllers
 
 
 
-
-        // GET: Classes/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<PartialViewResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Class @class = await Db.Classes.FindAsync(id);
-            if (@class == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@class);
+            var classes = await Db.Classes.FindAsync(id);
+
+            return PartialView(classes);
         }
 
-        // POST: Classes/Delete/5
+        // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Class @class = await Db.Classes.FindAsync(id);
-            Db.Classes.Remove(@class);
-            await Db.SaveChangesAsync();
-            TempData["UserMessage"] = "Class Has Been Deleted";
-            TempData["Title"] = "Deleted.";
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var classes = await Db.Classes.FindAsync(id);
+            if (classes != null)
+            {
+                Db.Classes.Remove(classes);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Class Deleted Successfully...";
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
         }
 
         protected override void Dispose(bool disposing)
