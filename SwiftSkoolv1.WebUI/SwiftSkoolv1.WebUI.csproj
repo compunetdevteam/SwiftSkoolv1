@@ -1020,7 +1020,6 @@
     <Content Include="Views\Students\NewCalender.cshtml" />
     <Content Include="Views\Students\Print.cshtml" />
     <Content Include="Views\Students\PrintSecondTerm.cshtml" />
-    <Content Include="Views\Students\PrintSummaryReport.cshtml" />
     <Content Include="Views\Students\PrintTest.cshtml" />
     <Content Include="Views\Students\RenderRemplate.cshtml" />
     <Content Include="Views\Students\ResultInfo.cshtml" />
@@ -1056,6 +1055,7 @@
     <Content Include="Views\Terms\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Delete.cshtml" />
+    <Content Include="Views\Grades\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
