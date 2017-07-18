@@ -1,6 +1,6 @@
 ﻿using HopeAcademySMS.Services;
 using OfficeOpenXml;
-using SwiftSkool.Models;
+using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
@@ -9,8 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.ViewModels;
+
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -27,6 +26,151 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 return View(guardians.Where(x => x.SchoolId.Equals(userSchool)));
             }
             return View(await guardians.ToListAsync());
+        }
+
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.Guardians.Where(x => x.SchoolId == userSchool).Select(s => new { s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
+
+            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            //}
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.Guardians.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FullName.Equals(search)))
+                    .Select(s => new { s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<PartialViewResult> Save(int id)
+        {
+            if (id > 0)
+            {
+                var guardian = await Db.Guardians.FindAsync(id);
+                var model = new GuardianViewModel()
+                {
+                    GuardianId = guardian.GuardianId,
+                    StudentId = guardian.StudentId,
+                    FirstName = guardian.FirstName,
+                    MiddleName = guardian.MiddleName,
+                    LastName = guardian.LastName,
+                    Email = guardian.Email,
+                    PhoneNumber = guardian.PhoneNumber,
+                    Address = guardian.Address,
+                    Occupation = guardian.Occupation,
+                    LGAOforigin = guardian.LGAOforigin,
+                    MotherName = guardian.MotherName,
+                    MotherMaidenName = guardian.MotherMaidenName,
+
+                };
+                ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentId", "FullName", guardian.StudentId);
+
+                return PartialView(model);
+            }
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentId", "FullName");
+
+            return PartialView();
+        }
+
+        // POST: Subjects/Save/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(GuardianViewModel model)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (model.GuardianId > 0)
+                {
+                    var guardian = await Db.Guardians.FindAsync(model.GuardianId);
+                    if (guardian != null)
+                    {
+                        guardian.StudentId = model.StudentId;
+                        guardian.Salutation = model.Salutation.ToString();
+                        guardian.FirstName = model.FirstName;
+                        guardian.MiddleName = model.MiddleName;
+                        guardian.LastName = model.LastName;
+                        guardian.Gender = model.Gender.ToString();
+                        guardian.Email = model.Email;
+                        guardian.PhoneNumber = model.PhoneNumber;
+                        guardian.Address = model.Address;
+                        guardian.Relationship = model.Relationship.ToString();
+                        guardian.Occupation = model.Occupation;
+                        guardian.Religion = model.Religion.ToString();
+                        guardian.LGAOforigin = model.LGAOforigin;
+                        guardian.StateOfOrigin = model.StateOfOrigin.ToString();
+                        guardian.MotherName = model.MotherName;
+                        guardian.MotherMaidenName = model.MotherMaidenName;
+                        guardian.SchoolId = userSchool;
+                    }
+                    Db.Entry(guardian).State = EntityState.Modified;
+                    message = "Guardian Updated Successfully...";
+                }
+                else
+                {
+                    if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
+                    {
+                        var guardian = new Guardian()
+                        {
+                            StudentId = model.StudentId,
+                            Salutation = model.Salutation.ToString(),
+                            FirstName = model.FirstName,
+                            MiddleName = model.MiddleName,
+                            LastName = model.LastName,
+                            Gender = model.Gender.ToString(),
+                            Email = model.Email,
+                            PhoneNumber = model.PhoneNumber,
+                            Address = model.Address,
+                            Relationship = model.Relationship.ToString(),
+                            Occupation = model.Occupation,
+                            Religion = model.Religion.ToString(),
+                            LGAOforigin = model.LGAOforigin,
+                            StateOfOrigin = model.StateOfOrigin.ToString(),
+                            MotherName = model.MotherName,
+                            MotherMaidenName = model.MotherMaidenName,
+                            SchoolId = userSchool
+                        };
+                        Db.Guardians.Add(guardian);
+                        message = "Guardian Created Successfully...";
+                    }
+                }
+                await Db.SaveChangesAsync();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(subject);
         }
 
         // GET: Guardians/Details/5
@@ -62,8 +206,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
                 {
-
-
                     var guardian = new Guardian()
                     {
                         StudentId = model.StudentId,
@@ -194,9 +336,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult UpLoadGuardian()
+        public PartialViewResult UpLoadGuardian()
         {
-            return View();
+            return PartialView();
         }
 
         [AllowAnonymous]

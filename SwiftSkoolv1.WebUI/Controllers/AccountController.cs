@@ -169,8 +169,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: 
-            var user = await Db.Users.AsNoTracking().FirstOrDefaultAsync(c => c.Email.Equals(model.Email)
-                                                    || c.UserName.Equals(model.Email)
+            var user = await Db.Users.AsNoTracking().FirstOrDefaultAsync(c => c.Email.ToUpper().Equals(model.Email.ToUpper())
+                                                    || c.UserName.ToUpper().Equals(model.Email.ToUpper())
                                                     || c.Id.Equals(model.Email));
 
             if (user == null)

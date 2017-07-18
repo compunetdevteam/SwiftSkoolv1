@@ -274,7 +274,8 @@
                     <div class="collapsible-body">
                         <ul>
                             <li>@Html.ActionLink("Add School", "Index", "Schools")</li>
-                            <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                            <li>@Html.ActionLink("School Admin", "RegisterAdmin", "Account")</li>  
+
                             <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
                         </ul>
                     </div>
@@ -315,27 +316,27 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
 
             <ul class="collapsible collapsible-accordion">
                 <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
-                    <div class="collapsible-body">
+                    <a href="@Url.Action("Index", "Students")" class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> Student</a>
+                    @*<div class="collapsible-body">
                         <ul>
                             <li>@Html.ActionLink("List Students", "Index", "Students")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
                         </ul>
-                    </div>
+                    </div>*@
                 </li>
 
                 <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Manage Guardian<i class="fa fa-angle-down rotate-icon"></i></a>
-                    <div class="collapsible-body">
+                    <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Manage Guardian</a>
+                    @*<div class="collapsible-body">
                         <ul>
-                            @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>*@
+                            @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>
                             <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
                         </ul>
-                    </div>
+                    </div>*@
                 </li>
                 <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-id-card-o"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
                             @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
@@ -410,16 +411,7 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>School<i class="fa fa-angle-down rotate-icon"></i></a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li>@Html.ActionLink("Add School", "Index", "Schools")</li>
-                            <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
-                            <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
-                        </ul>
-                    </div>
-                </li>
+                
                 
             </ul>
 
