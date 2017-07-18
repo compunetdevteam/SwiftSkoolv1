@@ -33,8 +33,22 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         /// <returns>Task<IQueryable<StudentClientViewModel>></StudentClientViewModel></returns>
         public async Task<IQueryable<StudentClientViewModel>> GetStudents()
         {
-            var students = await _db.Students.AsNoTracking().Where(s => s.UserName.Equals(CurrentUser.UserName))
-                              .Select(s => new StudentClientViewModel(s)).ToListAsync();
+            var students = await _db.Students.AsNoTracking().Where(s => s.UserName.Equals(User.Identity.Name))
+                              .Select(s => new StudentClientViewModel
+                              {
+                                  StudentId = s.StudentId,
+                                  FirstName = s.FirstName,
+                                  MiddleName = s.MiddleName,
+                                  LastName = s.LastName,
+                                  PhoneNumber = s.PhoneNumber,
+                                  DateOfBirth = s.DateOfBirth,
+                                  StateOfOrigin = s.StateOfOrigin,
+                                  Gender = s.Gender,
+                                  Religion = s.Religion,
+                                  AdmissionDate = s.AdmissionDate,
+                                  UserName = s.UserName
+                              }).ToListAsync();
+
             return students.AsQueryable();
         }
 
@@ -43,8 +57,20 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         public async Task<IHttpActionResult> GetStudent(string id)
         {
             var student = await _db.Students.AsNoTracking().Where(s => s.StudentId.Equals(id))
-                                   .Select(s => new StudentClientViewModel(s))
-                                   .SingleOrDefaultAsync();
+                                   .Select(s => new StudentClientViewModel
+                                   {
+                                       StudentId = s.StudentId,
+                                       FirstName = s.FirstName,
+                                       MiddleName = s.MiddleName,
+                                       LastName = s.LastName,
+                                       PhoneNumber = s.PhoneNumber,
+                                       DateOfBirth = s.DateOfBirth,
+                                       StateOfOrigin = s.StateOfOrigin,
+                                       Gender = s.Gender,
+                                       Religion = s.Religion,
+                                       AdmissionDate = s.AdmissionDate,
+                                       UserName = s.UserName
+                                   }).SingleOrDefaultAsync();
             if (student == null)
             {
                 return NotFound();
