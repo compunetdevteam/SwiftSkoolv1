@@ -1,0 +1,75 @@
+html,
+body {
+    height: 100%;
+}
+
+
+/* Navigation*/
+
+.navbar {
+    background-color: grey;
+    border-bottom: 2px solid yellow;
+}
+
+.top-nav-collapse {
+    background-color: #304a74;
+}
+
+footer.page-footer {
+    background-color: #304a74;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        background-color: #4285F4;
+    }
+}
+
+.scrolling-navbar {
+    -webkit-transition: background .5s ease-in-out, padding .5s ease-in-out;
+    -moz-transition: background .5s ease-in-out, padding .5s ease-in-out;
+    transition: background .5s ease-in-out, padding .5s ease-in-out;
+}
+
+
+/* Carousel*/
+
+.carousel {
+    height: 90%;
+}
+
+@media (max-width: 776px) {
+    .carousel {
+        height: 100%;
+    }
+}
+
+.carousel-item,
+.active {
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%;
+}
+
+
+/*Caption*/
+
+.flex-center {
+    color: #fff;
+}
+
+h1 {
+    text-shadow: 5px 5px 5px #000;
+}
+
+a.nav-link:hover {
+    color: red !important;
+    padding: 10px;
+}
+
+.title {
+    color: yellow;
+    text-shadow: 2px 2px 2px red;
+}
