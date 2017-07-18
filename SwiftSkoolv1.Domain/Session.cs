@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwiftSkoolv1.Domain
@@ -15,6 +16,7 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Current Session")]
         public bool ActiveSession { get; set; }
+        public ICollection<ResultAvailability> ResultAvailabilities { get; set; }
     }
 
 }

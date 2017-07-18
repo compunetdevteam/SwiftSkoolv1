@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using SwiftSkool.Models;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.Domain.Calender;
 using SwiftSkoolv1.Domain.CBT;
@@ -101,6 +100,7 @@ namespace SwiftSkoolv1.WebUI.Models
 
         public DbSet<FeeCategory> FeeCategories { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<ResultAvailability> ResultAvailabilities { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    //Configure domain classes using modelBuilder here
