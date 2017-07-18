@@ -241,11 +241,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            AssignBehavior assignBehavior = await Db.AssignBehaviors.FindAsync(id);
-            if (assignBehavior != null) Db.AssignBehaviors.Remove(assignBehavior);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var assignBehavior = await Db.AssignBehaviors.FindAsync(id);
+            if (assignBehavior != null)
+            {
+                Db.AssignBehaviors.Remove(assignBehavior);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Assigned Behavior Deleted Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
+
 
         protected override void Dispose(bool disposing)
         {

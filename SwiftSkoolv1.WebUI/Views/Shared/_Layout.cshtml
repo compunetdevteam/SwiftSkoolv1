@@ -164,7 +164,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
+                            @*<li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>*@
                             <li>@Html.ActionLink("List Students", "Index", "Students")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
                             @*<li>
@@ -187,7 +187,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Manage Guardian<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>
+                            @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>*@
                             <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
                         </ul>
@@ -197,7 +197,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Class", "Create", "Classes")</li>
+                            @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
                             <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
                             <li>@Html.ActionLink("Assign Student to Class", "Create", "AssignedClasses")</li>
                             <li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>
@@ -209,13 +209,13 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>
+                            @*<li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>*@
                             <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
 
-                            <li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>
+                            @*<li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>*@
                             <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
 
-                            <li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>
+                            @*<li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>*@
                             <li>@Html.ActionLink("View Student Subjects", "Index", "SubjectRegistrations")</li>
                         </ul>
                     </div>
@@ -300,7 +300,142 @@
 
 else if (Request.IsAuthenticated && User.IsInRole("Admin"))
 {
+    <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
+        <!-- Logo -->
+        <li>
+            <div class="user-box">
+                <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
+                <p class="user text-center black-text">@Model.Alias</p>
+            </div>
+        </li>
+        <!--/. Logo -->
 
+        <!-- Side navigation links -->
+        <li>
+
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("List Students", "Index", "Students")</li>
+                            <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Manage Guardian<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>*@
+                            <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
+                            <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
+                            <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
+                            <li>@Html.ActionLink("Assign Student to Class", "Create", "AssignedClasses")</li>
+                            <li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>
+                            <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @*<li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>*@
+                            <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
+
+                            @*<li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>*@
+                            <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
+
+                            @*<li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>*@
+                            <li>@Html.ActionLink("View Student Subjects", "Index", "SubjectRegistrations")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bar-chart"></i> Manage Teacher<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
+                            <li>@Html.ActionLink("Teacher Master", "Index", "Staffs")</li>
+                            @*<li>@Html.ActionLink("Edit Teacher", "Index", "Staffs")</li>*@
+                            <li>@Html.ActionLink("Assign Subject Teacher", "Create", "AssignSubjectTeachers")</li>
+                            @*<li>@Html.ActionLink("List Subject Teacher", "Create", "AssignSubjectTeachers")</li>*@
+                            <li>@Html.ActionLink("List Form-Teacher", "Index", "AssignFormTeacherToClasses")</li>
+                            <li>@Html.ActionLink("Teacher Excel Upload", "UploadTeacher", "Account")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> Manage fee<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Add Fees Type", "Create", "FeeTypes")</li>
+                            <li>@Html.ActionLink("List Fees Types", "Index", "FeeTypes")</li>
+                            <li>@Html.ActionLink("Fee Payment", "Create", "FeePayments")</li>
+                            <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
+                            <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="md md-assessment"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
+                            <li>@Html.ActionLink("List  Behavioral Assesment", "Index", "AssignBehaviors")</li>
+
+                            <li>@Html.ActionLink("Add C A", "Create", "ContinuousAssessments")</li>
+                            <li>@Html.ActionLink("List C A", "Index", "ContinuousAssessments")</li>
+                            <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
+                            <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                            <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>School<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Add School", "Index", "Schools")</li>
+                            <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                            <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                        </ul>
+                    </div>
+                </li>
+                
+            </ul>
+
+        </li>
+        <!--/. Side navigation links -->
+
+
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> CompunetLimited.com </a>
+
+            </div>
+        </div>
+
+        <div class="sidenav-bg mask-strong"></div>
+    </ul>
 }
 else if (Request.IsAuthenticated && User.IsInRole("Teacher"))
 {

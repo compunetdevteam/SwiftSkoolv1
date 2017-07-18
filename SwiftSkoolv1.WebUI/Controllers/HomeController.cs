@@ -75,26 +75,26 @@ namespace SwiftSkool.Controllers
 
             var list = new List<DataPoint>
             {
-                new DataPoint(boysPercentage, "Male","Male"),
-                new DataPoint(femalePercentage, "Female","Female")
+                new DataPoint(46, "Male","Male"),
+                new DataPoint(54, "Female","Female")
 
             };
 
 
             ViewBag.PiePoints = list;
 
+            var dashboardVm = new AdminDashboardVm
+            {
+                MaleStudents = totalMaleStudent,
+                FemaleStudents = totalFemaleStudent,
+                MalePercentage = boysPercentage,
+                FemalePercentage = femalePercentage,
+                TotalStudents = totalStudent,
+                TotalNumberOfStaff = totalStaff,
+                DataPoint = list
+            };
 
-
-            StudentDashboardVm dashboardVm = new StudentDashboardVm();
-            dashboardVm.MaleStudents = totalMaleStudent;
-            dashboardVm.FemaleStudents = totalFemaleStudent;
-            dashboardVm.TotalStudents = totalStudent;
-            dashboardVm.TotalNumberOfStaff = totalStaff;
-            ViewBag.BoysPercentage = boysPercentage;
-            ViewBag.FemalePercentage = femalePercentage;
-            dashboardVm.ActiveStudent = active;
-            dashboardVm.GraduatedStudent = graduatedStudent;
-            return View();
+            return View(dashboardVm);
         }
         /*
          method to build chart on admin dashboard

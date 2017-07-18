@@ -504,8 +504,71 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return new ViewAsPdf("PrintSecondTerm", reportModel);
         }
-        #endregion
 
+
+        public async Task<ActionResult> SummaryResult(string id, string sessionName)
+        {
+            var cModel = new CummulativeReportVm();
+            var summaryCaList = new List<SummaryCa>();
+            cModel.Student = await Db.Students.FindAsync(id);
+            var noOfStudentInClass = 0;
+            var className = string.Empty;
+
+            var subjectOffered = await GetSubjectId(cModel.Student.CurrentClass, cModel.Student.StudentId);
+            foreach (var subject in subjectOffered)
+            {
+                var resultSummaryCmd = new ResultSummaryCmd(id, sessionName, subject, userSchool);
+                var summaryCa = new SummaryCa
+                {
+                    FirstTermScore = resultSummaryCmd.FirstTermScore,
+                    FirstTermGrade = resultSummaryCmd.FirstTermSubjectGrade,
+                    FirstTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
+                    SecondTermScore = resultSummaryCmd.SecondTermScore,
+                    SecondTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
+                    SeondTermGrade = resultSummaryCmd.SecondTermSubjectGrade,
+                    ThirdTermScore = resultSummaryCmd.ThirdTermScore,
+                    ThirdTermGrade = resultSummaryCmd.ThirdTermSubjectGrade,
+                    ThirdTermPosition = resultSummaryCmd.ThirdTermSubjectPosition,
+                    SubjectGrade = resultSummaryCmd.SummaryGrading,
+                    WeightedScore = resultSummaryCmd.WeightedScores,
+                    SubjectRemark = resultSummaryCmd.SummaryRemark,
+                    SubjectAverage = resultSummaryCmd.ClassAverage
+                };
+                noOfStudentInClass = resultSummaryCmd.NoOfStudentPerClass;
+                className = resultSummaryCmd.ClassName;
+
+                summaryCaList.Add(summaryCa);
+            }
+
+            cModel.SummaryCas = summaryCaList;
+            cModel.NoOfSubjectOffered = subjectOffered.Count();
+            cModel.NoOfStudentPerClass = noOfStudentInClass;
+            cModel.SessionName = sessionName;
+            cModel.ClassName = className;
+            cModel.AggregateScore = cModel.SummaryCas.Sum(s => s.WeightedScore);
+
+
+            return View(cModel);
+
+        }
+
+        #endregion
+        public async Task<List<int>> GetSubjectId(string _className, string _studentId)
+        {
+            var subjectAssigned = await Db.AssignSubjects.AsNoTracking().Where(c => c.SchoolId.ToUpper().Trim().Equals(userSchool)
+                                                        && c.ClassName.ToUpper().Trim().Equals(_className))
+                                                        .Select(s => s.Subject.SubjectId).ToListAsync();
+            var subjectregistration = await Db.SubjectRegistrations.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
+                                                        && x.StudentId.ToUpper().Trim().Equals(_studentId.ToUpper().Trim()))
+                                                        .Select(s => s.Subject.SubjectId).ToListAsync();
+            if (subjectregistration.Count > 1)
+            {
+                return subjectregistration;
+            }
+            return subjectAssigned;
+            //var noOfSubjectPerStudent = _db.AssignSubjects.Count(x => x.ClassName.Equals(className));
+
+        }
         //public async Task<ActionResult> PrintSecondTerm(string FileId)
         //{
         //    DownloadFiles obj = new DownloadFiles();

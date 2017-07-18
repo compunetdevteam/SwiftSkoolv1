@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkoolv1.WebUI.BusinessLogic
 {
@@ -65,7 +64,41 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
 
         }
 
+        public async Task<bool> CheckResultAvailability()
+        {
+            var resultStatus = _db.ResultAvailabilities.Where(x => x.Term.TermName.Equals(_termName)
+                                                                   && x.Session.SessionName.Equals(_sessionName))
+                                                                .Select(s => s.MakeResultAvailable).FirstOrDefault();
 
+            if (resultStatus)
+            {
+                var registeredCourse = await SubjectOfferedByStudent();
+                var subjectInResult = GetCaLists().Count;
+                if (registeredCourse < subjectInResult)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<List<SubjectNotAvailable>> GetSubjectNotAvailables()
+        {
+            var subjectNotAvailableList = new List<SubjectNotAvailable>();
+            var subjectName = await NameOfSubjectOfferedByStudent();
+            var caList = GetCaLists();
+            foreach (var subject in subjectName)
+            {
+                var casubject = caList.FirstOrDefault(x => x.Subject.SubjectName.Equals(subject));
+                if (casubject == null)
+                {
+                    var list = new SubjectNotAvailable(subject);
+                    subjectNotAvailableList.Add(list);
+                }
+            }
+            return subjectNotAvailableList;
+        }
         public double TotalScorePerStudent()
         {
             var totalSum = _caList.Where(x => x.StudentId.ToUpper().Trim().Equals(_studentId)).Sum(y => y.Total);

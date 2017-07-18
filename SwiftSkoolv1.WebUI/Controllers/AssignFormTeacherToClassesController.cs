@@ -73,8 +73,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-            var assignFormTeacherToClasses = await Db.AssignFormTeacherToClasses.FindAsync(id);
-            return PartialView(assignFormTeacherToClasses);
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            ViewBag.Username = new SelectList(await _query.StaffListAsync(userSchool), "Username", "Username");
+            return PartialView();
         }
 
         // POST: Subjects/Save/5
@@ -206,11 +207,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            AssignFormTeacherToClass assignFormTeacherToClass = await Db.AssignFormTeacherToClasses.FindAsync(id);
-            if (assignFormTeacherToClass != null) Db.AssignFormTeacherToClasses.Remove(assignFormTeacherToClass);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var assignFormTeacherToClass = await Db.AssignFormTeacherToClasses.FindAsync(id);
+            if (assignFormTeacherToClass != null)
+            {
+                Db.AssignFormTeacherToClasses.Remove(assignFormTeacherToClass);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = " Teacher Has been Unassigned Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
+
 
         protected override void Dispose(bool disposing)
         {
