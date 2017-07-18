@@ -232,6 +232,7 @@
     <Compile Include="BusinessLogic\IResultCommandManager.cs" />
     <Compile Include="BusinessLogic\QueryManager.cs" />
     <Compile Include="BusinessLogic\ResultCommandManager.cs" />
+    <Compile Include="BusinessLogic\ResultSummaryCmd.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AffectivesController.cs" />
     <Compile Include="Controllers\AppointmentDiariesController.cs" />
@@ -511,7 +512,25 @@
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="Content\images\banner2.jpg" />
+    <Content Include="Content\images\comlogo.png" />
+    <Content Include="Content\images\im5.jpg" />
+    <Content Include="Content\images\im6.jpg" />
+    <Content Include="Content\images\im7.jpg" />
+    <Content Include="Content\images\school.jpg" />
+    <Content Include="Content\images\swiftskool.png" />
     <Content Include="Content\images\swiftskool2.png" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\controls.js" />
+    <Content Include="Content\js\easing.js" />
+    <Content Include="Content\js\JiSlider.js" />
+    <Content Include="Content\js\jquery-2.1.4.min.js" />
+    <Content Include="Content\js\jquery.countup.js" />
+    <Content Include="Content\js\jquery.flexslider.js" />
+    <Content Include="Content\js\jquery.swipebox.min.js" />
+    <Content Include="Content\js\jquery.waypoints.min.js" />
+    <Content Include="Content\js\main_slider.js" />
+    <Content Include="Content\js\move-top.js" />
     <Content Include="Content\MdCss\bootstrap.min.css" />
     <Content Include="Content\MdCss\customizer.min.css" />
     <Content Include="Content\MdCss\font-awesome.min.css" />
@@ -1056,6 +1075,7 @@
     <Content Include="Views\Terms\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Save.cshtml" />
     <Content Include="Views\AssignSubjects\Delete.cshtml" />
+    <Content Include="Views\Students\SummaryResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
