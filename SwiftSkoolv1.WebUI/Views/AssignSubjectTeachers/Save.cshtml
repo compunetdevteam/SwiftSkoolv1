@@ -1,0 +1,127 @@
+﻿
+@model SwiftSkoolv1.WebUI.ViewModels.AssignSubjectTeacherVM
+
+
+<script src="~/Scripts/chosen.jquery.js"></script>
+
+
+
+@if (Model != null && Model.AssignTeacherToSubjectId > 0)
+{
+    <h4>Update</h4>
+}
+else
+{
+    <h4>Save</h4>
+}
+
+<h2>Assign Subject Teacher</h2>
+
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-6">
+        <form id="myform" onsubmit="return false;">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>AssignSubjectTeacher</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SubjectId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StaffName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("StaffName", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.StaffName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassName, "ClassName", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                        @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+					<div class="editor-label control-label col-md-2">
+						@Html.Label("Class Name")
+					</div>
+					<div class="col-md-10 editor-field">
+						@Html.ListBox("ClassName", (MultiSelectList)ViewBag.StudentId)
+					</div>
+				</div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Assign Teacher" class="btn btn-raised btn-primary" />
+                    </div>
+                </div>
+            </div>
+      </form>
+
+    </div>
+    <div class="col-md-5">
+
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/AssignSubjectTeachers/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    // debugger
+                    //$.fn.oTable();
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.location.href = "/Subjects/Index";
+
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"]("Subject has not been Assigned Teacher");
+                }
+
+            }
+        });
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    //window.alert(5 + 6);
+    $('.chosen-select').chosen();
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>

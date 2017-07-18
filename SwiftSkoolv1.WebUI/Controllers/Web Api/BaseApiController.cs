@@ -1,4 +1,5 @@
-﻿using SwiftSkoolv1.WebUI.BusinessLogic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
@@ -13,11 +14,26 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         protected readonly SwiftSkoolDbContext _db;
         protected readonly QueryManager _qmgr;
         protected readonly ResultCommandManager _rcmg;
+        //protected IIdentity _identity;
+        //protected HttpControllerContext _context;
+
+        protected IdentityUser CurrentUser
+        {
+            get
+            {
+                return (IdentityUser) RequestContext.Principal.Identity;
+            }
+        }
 
 
         public BaseApiController(SwiftSkoolDbContext Db)
         {
             _db = Db;
+        }
+
+        public BaseApiController()
+        {
+
         }
 
 

@@ -164,7 +164,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
+                            @*<li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>*@
                             <li>@Html.ActionLink("List Students", "Index", "Students")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
                             @*<li>
@@ -187,7 +187,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Manage Guardian<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>
+                            @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>*@
                             <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
                         </ul>
@@ -197,7 +197,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Class", "Create", "Classes")</li>
+                            @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
                             <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
                             <li>@Html.ActionLink("Assign Student to Class", "Create", "AssignedClasses")</li>
                             <li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>
@@ -209,13 +209,13 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>
+                            @*<li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>*@
                             <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
 
-                            <li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>
+                            @*<li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>*@
                             <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
 
-                            <li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>
+                            @*<li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>*@
                             <li>@Html.ActionLink("View Student Subjects", "Index", "SubjectRegistrations")</li>
                         </ul>
                     </div>
@@ -273,7 +273,7 @@
                     <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>School<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li>@Html.ActionLink("Add School", "SendSMS", "Sms")</li>
+                            <li>@Html.ActionLink("Add School", "Index", "Schools")</li>
                             <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
                             <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
                         </ul>

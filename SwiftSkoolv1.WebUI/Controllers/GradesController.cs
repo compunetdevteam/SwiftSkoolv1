@@ -71,6 +71,46 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
 
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            
+            var v = Db.Grades.Where(x => x.SchoolId == userSchool).Select(g => new { g.GradeId, g.GradeName, g.MinimumValue,g.MaximumValue,g.Remark}).ToList();
+
+            
+            if (!string.IsNullOrEmpty(search))
+            {
+               
+                v = Db.Grades.Where(x => x.SchoolId.Equals(userSchool) && (x.GradeName.Equals(search) || x.Remark.Equals(search)))
+                    .Select(g => new { g.GradeId, g.GradeName, g.MinimumValue, g.MaximumValue, g.Remark }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         // GET: Grades/Create
         public ActionResult Create()
         {
@@ -116,6 +156,46 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             //ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
             return View(model);
+        }
+
+
+
+
+        public async Task<PartialViewResult> Save(int id)
+        {
+            var grade = await Db.Grades.FindAsync(id);
+            return PartialView(grade);
+        }
+
+        // POST: Subjects/Save/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(Grade grade)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (grade.GradeId > 0)
+                {
+                    grade.SchoolId = userSchool;
+                    Db.Entry(grade).State = EntityState.Modified;
+                    message = "Grade Updated Successfully...";
+                }
+                else
+                {
+                    grade.SchoolId = userSchool;
+                    Db.Grades.Add(grade);
+                    message = "Grade Created Successfully...";
+
+                }
+                await Db.SaveChangesAsync();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(Grade);
         }
 
 
@@ -200,12 +280,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            bool status = false;
+            string message = string.Empty;
             var grade = await Db.Grades.FindAsync(id);
-            if (grade != null) Db.Grades.Remove(grade);
-            await Db.SaveChangesAsync();
-            TempData["UserMessage"] = "Class Has Been Deleted";
-            TempData["Title"] = "Deleted.";
-            return RedirectToAction("Index");
+            if (grade != null)
+            {
+                Db.Grades.Remove(grade);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Subject Deleted Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
 
         protected override void Dispose(bool disposing)
