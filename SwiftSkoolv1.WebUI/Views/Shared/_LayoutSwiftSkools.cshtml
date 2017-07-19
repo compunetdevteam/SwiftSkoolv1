@@ -29,10 +29,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="@Url.Action("Index4", "Home")">
-                <strong><img src="~/Content/images/swiftskool.png" width="90" height="60"></strong>
+                <strong><img src="~/Content/images/swiftskool.png" width="90" height="50"></strong>
             </a>
             <div class="collapse navbar-collapse" id="navbarNav1">
-                <ul class="navbar-nav mr-auto" style="margin-left:40%">
+                <ul class="navbar-nav mr-auto" style="margin-left:50%">
                     <li class="nav-item">
                         <a href="@Url.Action("Login", "Account")" class="nav-link">GO TO PORTAL</a>
                     </li>
@@ -43,14 +43,13 @@
                         <a href="@Url.Action("LatestNews", "Posts")" class="nav-link">NEWS UPDATE</a>
                     </li>
                 </ul>
-                <form class="form-inline waves-effect waves-light">
-                    <input class="form-control" type="text" placeholder="Search">
-                </form>
-            </div>
+            </div><br/><br /><br />
         </div>
     </nav>
-    <!--/.Navbar-->
-    @RenderBody()
+<!--/.Navbar-->
+    <div class="container-default">
+        @RenderBody()
+    </div>
     <!--Footer-->
     <footer class="page-footer center-on-small-only">
 
@@ -108,7 +107,7 @@
         <div class="footer" style="margin-left:25%;">
             <div class="container-default">
                 © 2017 Copyright SwiftSkool | Design By
-                <a href="http://www.compunetlimited.org"><img src="img/comlogo.png" width="180" height="50" class="img-responsive"> </a>
+                <a href="http://www.compunetlimited.org"><img src="~/Content/images/comlogo.png" width="180" height="30" class="img-responsive"> </a>
                 <br>
             </div>
         </div>
