@@ -5,31 +5,52 @@
     ViewBag.Title = "Index";
 }
 
+<!-- First row -->
+<div class="row">
 
-@{
-    var barModel = new List<DataPoint>();
-    //Html.RenderAction("Area", "ChartTypes", new { model = ViewBag.MyModel });
-}
-
-
-
-<div class="tablecontainer" style="width: 90%; margin: 0 auto">
-    @*<a class="popup" href="/Classes/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Class</a>
-
-    <table id="Jdatatable" class="table table-hover">
-        <thead>
-        <tr>
-            <th >School Class</th>
-            <th>Class Name</th>
-            <th >Class Type</th>
-            <th >Full ClassName</th>
-            <th>Actions</th>
-            @*<th>Delete</th>*@
-        </tr>
-        </thead>
-    </table>
+<!-- First column -->
+<div class="col-md-1"> 
+    <div class="card-body">
+                       
+        <a onclick="myFunction()" class="btn btn-primary"> Add Class</a>
+        
+    </div>
 </div>
+<!-- /.First column -->
+
+<!-- Second column -->
+<div class="col-md-10 offset-md-1 white z-depth-1 py-1 pt-1">
+
+    <div class="row">
+        <div class="col-md-12">
+                            
+            <table id="Jdatatable" class="table table-responsive table-hover">
+                <thead>
+                <tr>
+                    <th >School Class</th>
+                    <th>Class Name</th>
+                    <th >Class Type</th>
+                    <th >Full ClassName</th>
+                    <th>Actions</th>
+                    @*<th>Delete</th>*@
+                </tr>
+                </thead>
+            </table>
+            <!--/Dropdown primary-->
+        </div>
+    </div>
+
+</div>
+<!-- /.Second column -->
+
+</div>
+<!-- /.First row -->
+
+
+
+
+
+
 <!-- Modal -->
 <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -53,7 +74,15 @@
     </div>
 </div>
 <!-- /.Modal-->
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="fa fa-pencil"></i>
+    </a>
 
+    <ul>
+        <li><a href="#" onclick="myFunction()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
+    </ul>
+</div>
 
 
 @*<div class="row">
@@ -123,7 +152,7 @@
                     "data": "ClassId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
                             '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
                     }
                 }

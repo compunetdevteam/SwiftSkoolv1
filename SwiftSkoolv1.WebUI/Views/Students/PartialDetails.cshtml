@@ -1,0 +1,17 @@
+﻿@model SwiftSkoolv1.Domain.Student
+    
+
+<div class="mt-1 mb-1">
+    <img src="@Url.Action("RenderImage", new { studentId = Model.StudentId})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+</div>
+<h3 class="h3-responsive text-center">@Model.FullName</h3>
+<p class="text-center grey-text">Active Student</p>
+<ul class="striped">
+    <li><strong>State of Origin: </strong> @Model.StateOfOrigin</li>
+    <li><strong>Age: </strong> @Model.Age</li>
+    <li><strong>Admission Date: </strong> @Model.AdmissionDate</li>
+    <li><strong>Tribe: </strong> @Model.Tribe</li>
+    <li><strong>Current Class:</strong> @Model.CurrentClass</li>
+</ul>
+
+@Html.ActionLink("Check Full Details", "Details", new { id=Model.StudentId }, new {@class="btn btn-primary"}) 

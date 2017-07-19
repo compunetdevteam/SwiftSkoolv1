@@ -129,20 +129,12 @@
                     "data": "SubjectId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
                             '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
 
                     }
                 }
-                //{
-                //    "data": "SubjectId",
-                //    "autoWidth": true,
-                //    "render": function(data) {
-                //        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
-                //    }
-                //}
-                //{ "data": "EmailID", "autoWidth": true },
-                //{ "data": "Phone", "autoWidth": true },
+          
             ]
         });
       
@@ -168,10 +160,11 @@
     function myFunction() {
         var url = "/Subjects/Save?id=0";
         //$('#actionsList').modal("show");
-       // window.alert(url);
+        // window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
             });
     };
 </script>
+

@@ -223,7 +223,7 @@
                                             <div class="md-form">
                                                 @*@Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })*@
                                                 @Html.EnumDropDownListFor(model => model.Color, htmlAttributes: new {@class = "mdb-select"})
-                                                @Html.LabelFor(model => model.LocalGovtArea)
+                                                @Html.LabelFor(model => model.Color)
                                                 @Html.ValidationMessageFor(model => model.Color, "", new {@class = "text-danger"})
 
                                             </div>
@@ -337,37 +337,5 @@
         }
     };
 </script>
-<script>
-    //$(document).ready(function() {
-    //    //window.alert("ready");
 
-    //    $("#btnsubmit").click(function() {
-    //        // window.alert("ready");
-
-    //        $("#loaderDiv").show();
-
-    //       // var data = $("#myform").serialize();
-    //        var formData = new FormData(this);
-
-    //        debugger
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "/Schools/Create",
-    //            data: formData,
-    //            success: function (data) {
-    //                if (data.status) {
-    //                    $("#loaderDiv").hide();
-    //                    toastr["success"](data.message);
-    //                } else {
-    //                    toastr["error"](data.message);
-    //                }
-    //            }
-    //        });
-    //    });
-
-   
-    //});
-
-    
-</script>
 

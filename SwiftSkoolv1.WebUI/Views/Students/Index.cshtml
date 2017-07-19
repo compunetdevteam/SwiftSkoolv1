@@ -5,7 +5,6 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Student List</h2>
 @if (ViewBag.Message != null)
 {
     <div class="alert alert-success">
@@ -13,89 +12,186 @@
         <strong>@ViewBag.Message</strong>
     </div>
 }
-
-@*<p> 
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-   @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-   {
-    using (Html.BeginForm("Index", "Students", FormMethod.Get))
-    {
-        <div class="form-group">
-            <input type="text" class="form-control" name="search" placeholder="Enter your keyword">
-        </div>
-        <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
-    }
-   }
-
-
-<table id="datatable2" class="table table-striped table-hover">
-    <tr>
-        <th>
-            Student ID
-        </th>
-        <th>
-            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm })
-            @*@Html.DisplayNameFor(model => model.FirstName)*@
-        </th>
-        <th>
-            Last Name
-        </th>
-        <th>
-            @Html.ActionLink("Admission Date", "Index", new { sortOrder = ViewBag.NameSortParm })
-
-        </th>
-        <th>
-            Gender
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdmissionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-
-            <td>
-                @*@Html.ActionLink("Print", "Print", new { id = item.StudentId }) |*@
-                @*@Html.ActionLink("Edit", "Edit", new { id=item.StudentId }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.StudentId }) |*@
-                @*@Html.ActionLink("Download Second Term Result", "PrintSecondTerm", new
-                    {
-                        FileId = item.StudentId
-                    })*@
-
-                <span>
-                    <a href="@Url.Action("Details", new {id = item.StudentId, @class = "btn btn-success" })"><span class="md-details"></span> Details</a>
-                </span>
-                @*@Html.ActionLink("Delete", "Delete", new {id = item.ClassId})*@
-                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    @*<div class="row">
+            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                using (Html.BeginForm("Index", "Students", FormMethod.Get, new { @class = "form-inline" }))
                 {
-                    <span>
-                        <a href="@Url.Action("Edit", new {id = item.StudentId, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
-                    </span>
-                    <a href="@Url.Action("Delete", new {id = item.StudentId, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <input type="text" class="form-control" name="search" placeholder="Enter your keyword">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+                    </div>
                 }
-            </td>
-        </tr>
-    }
+            }
+        </div>*@
 
-</table>
 
-<br />
+  <div class="container-fluid">
+<!-- First row -->
+<div class="row">
+    <!-- First column -->
+    <div class="col-md-8">
+       
+        <div class="row">
+            <div class="col-md-12 mb-1">
+                <!-- Tabs -->
+                <!-- Nav tabs -->
+                <div class="tabs-wrapper">
+                    <ul class="nav classic-tabs tabs-primary primary-color" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link waves-light active" data-toggle="tab" href="#panel83" role="tab">Personal Details</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Tab panels -->
+                <div class="tab-content card">
+                    <!--Panel 1-->
+                    <div class="tab-pane fade show active" id="panel83" role="tabpanel">
+                        <div class="table-responsive">
+                            <table id="Jdatatable" class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th> Full Name</th>
+                                    <th> Gender</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <!--/.Panel 1-->
+                </div>
+                <!-- /.Tabs -->
+            </div>
+        </div>
+    </div>
+    <!-- /.First column -->
+    <!-- Second column -->
+    <div class="col-md-4 mb-1">
+        <div class="card contact-card with-padding">
+            <div class="card-body" id="mydetailBody">
+               
+            </div>
+        </div>
+    </div>
+    <!-- /.Second column -->
+</div>
+<!-- /.First row -->
+</div>
 
+
+    @*<br />
+    <div class="tablecontainer" style="width: 90%; margin: 0 auto">
+        @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>
+        <table id="Jdatatable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th> Full Name</th>
+                    <th> Gender</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>*@
+
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+            <i class="fa fa-pencil"></i>
+        </a>
+
+        <ul>
+            <li><a href="#" onclick="Excel()" class="btn-floating red"><i class="fa fa-file-excel-o"></i>Excel Upload</a></li>
+            <li><a href="#" onclick="AddNew()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
+        </ul>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="flex-center">
+                        <h4 class="modal-title">Students</h4>
+                    </div>
+                </div>
+                <!--Body-->
+                <div class="modal-body" id="myModalDivBody">
+
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- /.Modal-->
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.oTable = $("#Jdatatable").DataTable({
+                "processing": true, // for show progress bar while loading
+                "serverSide": true, // if it is true the preocess is done on server side
+                "filter": true, // disables search box
+                "info": true,
+                "stateSave": true,
+                "orderMulti": false, // disable multiple column loading at once
+                "ajax": {
+                    "url": "/Students/GetIndex",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "StudentId", "autoWidth": true },
+                    { "data": "FullName", "autoWidth": true },
+                    { "data": "Gender", "autoWidth": true },
+                    {
+                        "data": "StudentId",
+                        "autoWidth": true,
+                        "render": function(data) {
+                            return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true" ></i></a>' +
+                                '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true" ><i/></a>';
+                        }
+                    }
+                    //{ "data": "EmailID", "autoWidth": true },
+                    //{ "data": "Phone", "autoWidth": true },
+                ]
+            });
+
+       
+        });
+        $(window).scroll(function(){
+            $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+        });
+        function Edit(subjecId) {
+
+            var url = "/Students/Edit?id=" + subjecId;
+            window.open(''+url+'', '_self');
+        };
+       
+        function Detail(subjecId) {
+            //window.alert(subjecId);
+            var url = "/Students/PartialDetails?id=" + subjecId;
+            $('#mydetailBody').load(url);
+               
+        };
+
+        function Excel() {
+            var url = "/Students/ExcelUpload";
+            $('#myModalDivBody').load(url,
+                function () {
+                    $('#actionsList').modal("show");
+                });
+        };
+        function AddNew() {
+            window.open('@Url.Action("RegisterStudent", "Account")', '_self');
+        };
+    </script>

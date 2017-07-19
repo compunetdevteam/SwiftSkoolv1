@@ -94,7 +94,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-        public ActionResult GetIndex()
+        public ActionResult GetIndex(string SessionName, string ClassName, string TermName)
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -125,6 +125,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
                 v = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.StudentName.Equals(search)))
                       .Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName, s.StudentId, s.TermName, s.SessionName }).ToList();
+            }
+            else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(ClassName))
+            {
+                v = v.Where(s => s.SessionName.Contains(SessionName)
+                                && s.ClassName.ToUpper().Contains(ClassName.ToUpper())
+                                && s.TermName.ToUpper().Contains(TermName.ToUpper())).ToList();
+
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
