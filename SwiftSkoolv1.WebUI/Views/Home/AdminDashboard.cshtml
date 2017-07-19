@@ -595,12 +595,14 @@
                                 @*@Html.Action("Menu", "Posts")*@
                                 <!--Panel title-->
                                 <div class="view left primary-color">
-                                    <h2>LATEST POST</h2>
+                                    <h2>Chart Analysis</h2>
                                 </div>
                                 <!--/Panel title-->
                                 <!--Panel data-->
                                 <div class="card-block pt-2">
-                                    @Html.Action("Menu", "Posts")
+                                    @{
+                                        Html.RenderAction("Area", "ChartTypes");
+                                    }
                                 </div>
                                 <!--/Panel data-->
                             </div>
