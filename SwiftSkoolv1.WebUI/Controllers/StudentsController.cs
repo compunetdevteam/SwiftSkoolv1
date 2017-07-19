@@ -120,7 +120,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var totalStudent = male + female;
 
-            model.Subjects = await _resultCommand.NameOfSubjectOfferedByStudent();
+         //   model.Subjects = await _resultCommand.NameOfSubjectOfferedByStudent();
 
             model.ClassName = myClass;
             model.MaleStudents = male;
