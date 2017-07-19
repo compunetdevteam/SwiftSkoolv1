@@ -85,7 +85,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            return View(feeCategory);
+            var model = new FeeCategoryVm
+            {
+                Id = feeCategory.FeeCategoryId,
+                CategoryName = feeCategory.CategoryName,
+                CategoryDescription = feeCategory.CategoryDescription
+            };
+            return View(model);
         }
 
         // POST: FeeCategories/Edit/5

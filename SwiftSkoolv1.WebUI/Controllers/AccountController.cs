@@ -415,12 +415,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             string middleName = workSheet.Cells[row, 3].Value.ToString().Trim();
                             string lastName = workSheet.Cells[row, 4].Value.ToString().Trim();
                             string phoneNumber = workSheet.Cells[row, 5].Value.ToString().Trim();
-                            string email = workSheet.Cells[row, 6].Value.ToString().Trim();
+                            string email = workSheet.Cells[row, 11].Value.ToString().Trim();
                             string gender = workSheet.Cells[row, 7].Value.ToString().Trim();
                             string address = workSheet.Cells[row, 8].Value.ToString().Trim();
                             string stateOffOrigin = workSheet.Cells[row, 9].Value.ToString().Trim();
                             string designation = workSheet.Cells[row, 10].Value.ToString().Trim();
-                            DateTime dateofBirth = DateTime.Parse(workSheet.Cells[row, 11].Value.ToString().Trim());
+                            DateTime dateofBirth = DateTime.Parse(workSheet.Cells[row, 6].Value.ToString().Trim());
                             string maritalStatus = workSheet.Cells[row, 12].Value.ToString().Trim();
                             string qualification = workSheet.Cells[row, 13].Value.ToString().Trim();
                             string password = workSheet.Cells[row, 14].Value.ToString().Trim();
@@ -428,7 +428,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                             #region database operation
 
-                            var user = new ApplicationUser { UserName = username, Email = email };
+                            var user = new ApplicationUser { UserName = username, Email = email, SchoolId = userSchool };
                             var result = await UserManager.CreateAsync(user, password);
 
                             if (result.Succeeded)
@@ -437,7 +437,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                                 try
                                 {
-                                    var staff = new Staff()
+                                    var staff = new Staff
                                     {
                                         StaffId = user.Id,
                                         Salutation = salutation,
@@ -627,6 +627,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                     UserName = username,
                                     //Email = email.Trim(),
                                     PhoneNumber = phoneNumber.Trim(),
+                                    SchoolId = userSchool,
 
                                 };
                                 var result = await UserManager.CreateAsync(user, password);

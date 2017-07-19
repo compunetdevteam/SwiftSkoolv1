@@ -1,15 +1,8 @@
 ﻿@model SwiftSkoolv1.Domain.Session
 
-@{
-    ViewBag.Title = "Delete";
-}
-
-<h2>Delete</h2>
-
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Session</h4>
-    <hr />
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.SessionName)
@@ -26,15 +19,45 @@
         <dd>
             @Html.DisplayFor(model => model.ActiveSession)
         </dd>
-
     </dl>
 
-    @using (Html.BeginForm()) {
+    <form id="myform" onsubmit="return false;">
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+        <input type="hidden" id="id" name="id" class="form-control" value="@Model.SessionId">
+        <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" /> |
+
+        <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+
+    </form>
 </div>
+
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+
+        var data = $("#myform").serialize();
+        //window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/Sessions/Delete",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                    toastr["info"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>

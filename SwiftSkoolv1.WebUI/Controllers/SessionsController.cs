@@ -1,5 +1,7 @@
 ﻿using SwiftSkoolv1.Domain;
+using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -18,94 +20,76 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<ActionResult> GetIndex()
         {
             #region Server Side filtering
-            ////Get parameter for sorting from grid table
-            //// get Start (paging start index) and length (page size for paging)
-            //var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            //var start = Request.Form.GetValues("start").FirstOrDefault();
-            //var length = Request.Form.GetValues("length").FirstOrDefault();
-            ////Get Sort columns values when we click on Header Name of column
-            ////getting column name
-            //var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            ////Soring direction(either desending or ascending)
-            //var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
 
-            //int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            //int skip = start != null ? Convert.ToInt32(start) : 0;
-            //int totalRecords = 0;
-            //var v = Db.Sessions.ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Session>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
-            //totalRecords = v.Count();
-            //var data = v.Skip(skip).Take(pageSize).ToList();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
 
-            //return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet); 
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.Sessions.AsNoTracking().ToList().Select(x => new { x.SessionId, x.SessionName, x.ActiveSession });
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.Sessions.Where(x => x.SessionName.Equals(search))
+                    .Select(s => new { s.SessionId, s.SessionName, s.ActiveSession }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
             #endregion
-
-            return Json(new { data = await Db.Sessions.AsNoTracking().ToListAsync() }, JsonRequestBehavior.AllowGet);
+            // return Json(new { data = await Db.Sessions.AsNoTracking().ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult Get([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
-        //{
-        //    IQueryable<Session> query = Db.Sessions;
-        //    var totalCount = query.Count();
+        public async Task<PartialViewResult> Save(int id)
+        {
+            var session = await Db.Sessions.FindAsync(id);
+            return PartialView(session);
+        }
 
-        //    #region Filtering
-        //    // Apply filters for searching
-        //    if (requestModel.Search.Value != string.Empty)
-        //    {
-        //        var value = requestModel.Search.Value.Trim();
-        //        query = query.Where(p => p.SessionName.Contains(value) ||
-        //                                 p.ActiveSession.ToString().Equals(value)
-        //        //p.ModelNumber.Contains(value) ||
-        //        //p.Building.Contains(value)
-        //        );
-        //    }
 
-        //    var filteredCount = query.Count();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(Session session)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (session.SessionId > 0)
+                {
+                    Db.Entry(session).State = EntityState.Modified;
+                    message = "Session Updated Successfully...";
+                }
+                else
+                {
 
-        //    #endregion Filtering
+                    Db.Sessions.Add(session);
+                    message = "Session Created Successfully...";
 
-        //    #region Sorting
-        //    // Sorting
-        //    var sortedColumns = requestModel.Columns.GetSortedColumns();
-        //    var orderByString = String.Empty;
+                }
+                await Db.SaveChangesAsync();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(subject);
+        }
 
-        //    foreach (var column in sortedColumns)
-        //    {
-        //        orderByString += orderByString != String.Empty ? "," : "";
-        //        orderByString += (column.Data) +
-        //                         (column.SortDirection ==
-        //                          Column.OrderDirection.Ascendant ? " asc" : " desc");
-        //    }
 
-        //    query = query.OrderBy(o => o.SessionName ==
-        //                         string.Empty ? "BarCode asc" : orderByString);
 
-        //    #endregion Sorting
-
-        //    // Paging
-        //    query = query.Skip(requestModel.Start).Take(requestModel.Length);
-
-        //    var data = query.Select(asset => new
-        //    {
-        //        SessionName = asset.SessionName,
-        //        ActiveSession = asset.ActiveSession
-        //        //Manufacturer = asset.Manufacturer,
-        //        //ModelNumber = asset.ModelNumber,
-        //        //Building = asset.Building,
-        //        //RoomNo = asset.RoomNo,
-        //        //Quantity = asset.Quantity
-        //    }).ToList();
-
-        //    return Json(new DataTablesResponse
-        //            (requestModel.Draw, data, filteredCount, totalCount),
-        //        JsonRequestBehavior.AllowGet);
-        //}
-
-        // GET: Sessions/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -178,33 +162,59 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(session);
         }
 
-        // GET: Sessions/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        //// GET: Sessions/Delete/5
+        //public async Task<ActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Session session = await Db.Sessions.FindAsync(id);
+        //    if (session == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(session);
+        //}
+
+        //// POST: Sessions/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> DeleteConfirmed(int id)
+        //{
+        //    Session session = await Db.Sessions.FindAsync(id);
+        //    if (session != null) Db.Sessions.Remove(session);
+        //    await Db.SaveChangesAsync();
+        //    TempData["UserMessage"] = "Session Deleted Successfully.";
+        //    TempData["Title"] = "Error.";
+        //    return RedirectToAction("Index");
+        //}
+
+        public async Task<PartialViewResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Session session = await Db.Sessions.FindAsync(id);
-            if (session == null)
-            {
-                return HttpNotFound();
-            }
-            return View(session);
+            var session = await Db.Sessions.FindAsync(id);
+            return PartialView(session);
         }
 
-        // POST: Sessions/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Session session = await Db.Sessions.FindAsync(id);
-            if (session != null) Db.Sessions.Remove(session);
-            await Db.SaveChangesAsync();
-            TempData["UserMessage"] = "Session Deleted Successfully.";
-            TempData["Title"] = "Error.";
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var session = await Db.Sessions.FindAsync(id);
+            if (session != null)
+            {
+                Db.Sessions.Remove(session);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Session Deleted Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
+
 
         protected override void Dispose(bool disposing)
         {
