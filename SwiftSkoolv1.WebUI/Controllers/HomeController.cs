@@ -118,8 +118,8 @@ namespace SwiftSkool.Controllers
             xValue.Add("Female Student");
             xValue.Add("Staff");
 
-            yValue.Add(totalNumberOfStudent);
             yValue.Add(totalMaleStudent);
+            yValue.Add(totalFemaleStudent);
             yValue.Add(totalStaff);
 
             new Chart(width: 400, height: 200, theme: ChartTheme.Green)

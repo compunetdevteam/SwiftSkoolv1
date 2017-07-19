@@ -15,6 +15,245 @@
 }
 
 
+
+
+<!-- First row -->
+<div class="row mb-r">
+    <!-- First column -->
+    <div class="col-md-3 mb-1">
+        <!--Card-->
+        <div class="card card-cascade cascading-admin-card">
+
+            <!--Card Data-->
+            <div class="admin-up">
+                <i class="fa fa-money blue"></i>
+                <div class="data">
+                    <p>Form Teacher</p>
+                
+                </div>
+            </div>
+            <!--/.Card Data-->
+
+            <!--Card content-->
+            <div class="card-block">
+                
+                @if (Model.FormTeacher == null)
+                {
+                    <span class="text-xl">No Form Teacher Yet</span>
+                    <br/>
+                    @*<span class="opacity-50">Form Teacher</span>*@
+                }
+                else
+                {
+                    <strong class="text-xl">@Model.FormTeacher</strong><br />
+                    <span class="opacity-50 text-sm">Form Teacher</span>
+                }
+            </div>
+            <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+    </div>
+
+    <!-- Second column -->
+    <div class="col-md-3 mb-1">
+        <!--Card-->
+        <div class="card card-cascade cascading-admin-card">
+
+            <!--Card Data-->
+            <div class="admin-up">
+                <i class="fa fa-line-chart blue"></i>
+                <div class="data">
+                    <p>Session/Term</p>
+                    <h3>@Model.Session</h3>
+                    <hr/>
+                    <h3>@Model.Term</h3>
+                </div>
+            </div>
+            <!--/.Card Data-->
+
+            <!--Card content-->
+            <div class="card-block">
+               
+                <!--Text-->
+                <p class="card-text">Session and Term</p>
+            </div>
+            <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+    </div>
+
+    <!-- Third column -->
+    <div class="col-md-3 mb-1">
+        <!--Card-->
+        <div class="card card-cascade cascading-admin-card">
+
+            <!--Card Data-->
+            <div class="admin-up">
+                <i class="fa fa-pie-chart blue"></i>
+                <div class="data">
+                    <p>Female</p>
+                    <h3>20000</h3>
+                </div>
+            </div>
+            <!--/.Card Data-->
+
+            <!--Card content-->
+            <div class="card-block">
+               
+                <!--Text-->
+                <p class="card-text">Female Student</p>
+            </div>
+            <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+    </div>
+
+    <!-- Fourth column -->
+    <div class="col-md-3 mb-1">
+        <!--Card-->
+        <div class="card card-cascade cascading-admin-card">
+
+            <!--Card Data-->
+            <div class="admin-up">
+                <i class="fa fa-bar-chart blue"></i>
+                <div class="data">
+                    <p>Male</p>
+                    <h3>2000</h3>
+                </div>
+            </div>
+            <!--/.Card Data-->
+
+            <!--Card content-->
+            <div class="card-block">
+               
+                <!--Text-->
+                <p class="card-text">Male Students</p>
+            </div>
+            <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+    </div>
+</div>
+<!-- /.First row -->
+
+
+<!--Section: Notifications-->
+<section class="section section-intro">
+
+    <!--Second row-->
+    <div class="row mb-3">
+
+        <!--First column-->
+        <div class="col-md-4 mb-1">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+                <div class="admin-panel info-admin-panel">
+                    <!--Card image-->
+                    <div class="view">
+                        <h5>Latest News Post</h5>
+                    </div>
+                    <!--/Card image-->
+
+                    <!--Card content-->
+                    <div class="card-block">
+
+                        <div class="list-group">
+                            @Html.Action("Menu", "Posts")
+                        </div>
+
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+            </div>
+            <!--/.Card-->
+        </div>
+        <!--/First column-->
+
+        <!--Second column-->
+        <div class="col-md-4 mb-1">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+                <div class="admin-panel danger-admin-panel">
+                    <!--Card image-->
+                    <div class="view">
+                        <h5>Subjects</h5>
+                    </div>
+                    <!--/Card image-->
+
+                    <!--Card content-->
+                    <div class="card-block">
+
+                        <div class="list-group">
+                             
+                            @*@foreach (var subjects in Model.Subjects)
+                                {
+                                    if (subjects == null)
+                                    {
+                                        <p>No Subjects Yet</p>
+                                    }
+                                    else
+                                    {
+                                        <li>@subjects</li>
+
+                                    }
+                                   
+
+                                }*@
+                        </div>
+
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+            </div>
+            <!--/.Card-->
+        </div>
+        <!--/Second column-->
+
+        <!--Third column-->
+        <div class="col-md-4 mb-1">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+                <div class="admin-panel success-admin-panel">
+                    <!--Card image-->
+                    <div class="view">
+                        <h5> Fee Analysis</h5>
+                    </div>
+                    <!--/Card image-->
+
+                    <!--Card content-->
+                    <div class="card-block">
+
+                        <div class="list-group">
+                             </div>
+
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+            </div>
+            <!--/.Card-->
+        </div>
+        <!--/Third column-->
+
+    </div>
+    <!--/Second row-->
+
+</section>
+<!--/Section: Notifications-->
+
+
+
+
+
 <div class="section-body">
 
     <div class="row">
@@ -195,11 +434,22 @@
                     <div class="col-md-9 hidden-xs">
                         <div class="force-padding text-sm text-default-light">
                             <ul>
-                                @foreach (var subjects in Model.Subjects)
+                                
+                                
+                                @*@foreach (var subjects in Model.Subjects)
                                 {
-                                    <li>@subjects</li>
+                                    if (subjects == null)
+                                    {
+                                        <p>No Subjects Yet</p>
+                                    }
+                                    else
+                                    {
+                                        <li>@subjects</li>
 
-                                }
+                                    }
+                                   
+
+                                }*@
 
                             </ul>
                         </div>
