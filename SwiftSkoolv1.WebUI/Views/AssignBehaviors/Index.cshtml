@@ -14,8 +14,13 @@
     <table id="Jdatatable" class="table table-striped table-hover">
         <thead>
             <tr>
-                <th class="sort-alpha">Subject Code</th>
-                <th class="sort-alpha">Subject Name</th>
+                <th class="sort-alpha">Student Id</th>
+                <th class="sort-alpha">Term Name</th>
+                <th class="sort-alpha">Session Name</th>
+                <th class="sort-alpha">Noo of Absence</th>
+                <th class="sort-alpha">Behavioral Skill Id</th>
+                <th class="sort-alpha">Skill Score</th>
+                <th class="sort-alpha">Teacher Comment</th>
                 <th>Actions</th>
 
             </tr>
@@ -165,3 +170,70 @@
 }
 
 </table>*@
+
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/AssignBehaviors/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "SubjectCode", "autoWidth": true },
+                { "data": "SubjectName", "autoWidth": true },
+                {
+                    "data": "SubjectId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+
+                    }
+                }
+
+            ]
+        });
+
+    });
+    function Edit(subjecId) {
+        var url = "/Subjects/Save?id=" + subjecId;
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(subjecId) {
+        var url = "/Subjects/Delete?id=" + subjecId;
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/Subjects/Save?id=0";
+
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>
