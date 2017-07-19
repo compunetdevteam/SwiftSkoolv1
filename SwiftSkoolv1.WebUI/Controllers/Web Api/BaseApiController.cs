@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using SwiftSkoolv1.WebUI.BusinessLogic;
+﻿using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 
 namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 {
@@ -14,21 +12,11 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         protected readonly SwiftSkoolDbContext _db;
         protected readonly QueryManager _qmgr;
         protected readonly ResultCommandManager _rcmg;
-        //protected IIdentity _identity;
-        //protected HttpControllerContext _context;
-
-        protected IdentityUser CurrentUser
-        {
-            get
-            {
-                return (IdentityUser) RequestContext.Principal.Identity;
-            }
-        }
-
 
         public BaseApiController(SwiftSkoolDbContext Db)
         {
             _db = Db;
+            SetSchoolByUserId();
         }
 
         public BaseApiController()
@@ -36,20 +24,34 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 
         }
 
-
-        protected async override void Initialize(HttpControllerContext context)
+        /// <summary>
+        /// Get the currently logged in user and find the schoolId
+        /// of the logged in users school
+        /// </summary>
+        protected async void SetSchoolByUserId()
         {
-            string user = string.Empty;
+            var user = string.Empty;
 
-            base.Initialize(context);
-
-            if (context.RequestContext.Principal.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
-                user = context.RequestContext.Principal.Identity.Name;
+                if(User.IsInRole("Student") || User.IsInRole("Teacher"))
+                {
+                    user = User.Identity.Name;
+                }
+                else if (User.IsInRole("SuperAdmin"))
+                {
+                    user = User.Identity.Name;
+                }
+                else
+                {
+                    
+                }
             }
+                                         
 
-            var schoolId = await _db.Users.AsNoTracking().Where(u => u.UserName.Contains(user))
-                                                         .SingleOrDefaultAsync();
+            var schoolId = await _db.Users.AsNoTracking().Where(u => u.UserName.Equals(user))
+                                          .Select(u => u.SchoolId)
+                                          .SingleOrDefaultAsync();
 
             var school = await _db.Schools.FindAsync(schoolId);
 
@@ -70,6 +72,8 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
                 model.SchoolId = "SwiftSkool";
                 model.Color = "";
             }
+
+            model.SchoolId = "";
         }
     }
 }
