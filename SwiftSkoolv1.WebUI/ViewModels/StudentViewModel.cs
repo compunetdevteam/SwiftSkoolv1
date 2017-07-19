@@ -111,16 +111,10 @@ namespace SwiftSkoolv1.WebUI.ViewModels
     public class StudentClientViewModel
     {
 
-        private StudentClientViewModel()
+        public StudentClientViewModel()
         {
 
         }
-
-        public StudentClientViewModel(Student student)
-        {
-            Map(student);
-        }
-
 
         private void Map(Student student)
         {
@@ -144,50 +138,50 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         [Display(Name = "Student ID")]
         [Required(ErrorMessage = "Your Student ID Number is required")]
         [StringLength(25, ErrorMessage = "Your Student ID is too long")]
-        public string StudentId { get; private set; }
+        public string StudentId { get; set; }
 
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "Your First Name is required")]
         [StringLength(50, ErrorMessage = "Your First Name is too long")]
-        public string FirstName { get; private set; }
+        public string FirstName { get; set; }
 
         [Display(Name = "Middle Name")]
-        public string MiddleName { get; private set; }
+        public string MiddleName { get; set; }
 
         [Display(Name = "Last Name")]
         [Required(ErrorMessage = "Your Last Name is required")]
         [StringLength(50, ErrorMessage = "Your Last Name is too long")]
-        public string LastName { get; private set; }
+        public string LastName { get; set; }
 
 
         [Display(Name = "Mobile Number")]
         [DataType(DataType.PhoneNumber)]
         [Required(ErrorMessage = "Phone Number is required")]
-        public string PhoneNumber { get; private set; }
+        public string PhoneNumber { get; set; }
 
         [Display(Name = "Date of Birth")]
         [Required(ErrorMessage = "Your Date of Birth is required")]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; private set; }
+        public DateTime DateOfBirth { get; set; }
         
         [Display(Name = "State of Origin")]
-        public string StateOfOrigin { get; private set; }
+        public string StateOfOrigin { get; set; }
 
-        public string Gender { get; private set; }
+        public string Gender { get; set; }
 
         [Display(Name = "Religion")]
-        public string Religion { get; private set; }
+        public string Religion { get; set; }
 
 
         [Display(Name = "Admission Date")]
         [Required(ErrorMessage = "Your Admission Date is required")]
         [DataType(DataType.Date)]
-        public DateTime AdmissionDate { get; private set; }
+        public DateTime AdmissionDate { get; set; }
 
         public string UserName
         {
             get { return $"{LastName} {FirstName}"; }
-            private set { }
+            set { }
         }
     }
 
