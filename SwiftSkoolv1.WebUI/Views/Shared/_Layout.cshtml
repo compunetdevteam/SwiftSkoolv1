@@ -49,7 +49,7 @@
     string myColor = "white-skin";
 }
 <body class="fixed-sn @myColor">
-@if (Request.IsAuthenticated && User.IsInRole("SuperAdmin2"))
+@if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
 {
     <!-- Customizer -->
     <div id="customizer" class="z-depth-1">
@@ -167,18 +167,7 @@
                             @*<li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>*@
                             <li>@Html.ActionLink("List Students", "Index", "Students")</li>
                             <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
-                            @*<li>
-                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
-                                    </li>*@
-                            @*<li>
-                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("RegisterStudent", "Account")" class="waves-effect">Add Student</a>
-                                    </li>*@
+                          
                         </ul>
                     </div>
                 </li>
@@ -316,13 +305,15 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
 
             <ul class="collapsible collapsible-accordion">
                 <li>
-                    <a href="@Url.Action("Index", "Students")" class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> Student</a>
-                    @*<div class="collapsible-body">
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
                         <ul>
+                            <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
                             <li>@Html.ActionLink("List Students", "Index", "Students")</li>
-                            <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
+                            @*<li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>*@
+
                         </ul>
-                    </div>*@
+                    </div>
                 </li>
 
                 <li>
@@ -336,14 +327,14 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     </div>*@
                 </li>
                 <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-id-card-o"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cc"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
                             @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
                             <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
-                            <li>@Html.ActionLink("Assign Student to Class", "Create", "AssignedClasses")</li>
-                            <li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>
-                            <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
+                            <li>@Html.ActionLink("Assign Class", "Index", "AssignedClasses")</li>
+                            @*<li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>*@
+                            @*<li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>*@
                         </ul>
                     </div>
                 </li>
@@ -355,10 +346,10 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                             <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
 
                             @*<li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>*@
-                            <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
+                            <li>@Html.ActionLink("Assigned Subjects", "Index", "AssignSubjects")</li>
 
                             @*<li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>*@
-                            <li>@Html.ActionLink("View Student Subjects", "Index", "SubjectRegistrations")</li>
+                            <li>@Html.ActionLink("Register Student", "Index", "SubjectRegistrations")</li>
                         </ul>
                     </div>
                 </li>
@@ -369,10 +360,22 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                             <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
                             <li>@Html.ActionLink("Teacher Master", "Index", "Staffs")</li>
                             @*<li>@Html.ActionLink("Edit Teacher", "Index", "Staffs")</li>*@
-                            <li>@Html.ActionLink("Assign Subject Teacher", "Create", "AssignSubjectTeachers")</li>
+                            <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
                             @*<li>@Html.ActionLink("List Subject Teacher", "Create", "AssignSubjectTeachers")</li>*@
-                            <li>@Html.ActionLink("List Form-Teacher", "Index", "AssignFormTeacherToClasses")</li>
-                            <li>@Html.ActionLink("Teacher Excel Upload", "UploadTeacher", "Account")</li>
+                            @*<li>@Html.ActionLink("List Form-Teacher", "Index", "AssignFormTeacherToClasses")</li>
+                            <li>@Html.ActionLink("Teacher Excel Upload", "UploadTeacher", "Account")</li>*@
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Books", "Create", "FeeTypes")</li>
+                            <li>@Html.ActionLink("Issue Book", "Index", "FeeTypes")</li>
+                            @*<li>@Html.ActionLink("Fee Payment", "Create", "FeePayments")</li>
+                            <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
+                            <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>*@
                         </ul>
                     </div>
                 </li>
@@ -389,25 +392,46 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     </div>
                 </li>
                 <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="md md-assessment"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
                             <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
-                            <li>@Html.ActionLink("List  Behavioral Assesment", "Index", "AssignBehaviors")</li>
+                            <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
 
                             <li>@Html.ActionLink("Add C A", "Create", "ContinuousAssessments")</li>
-                            <li>@Html.ActionLink("List C A", "Index", "ContinuousAssessments")</li>
+                            <li>@Html.ActionLink("Termly Setting", "Index", "ContinuousAssessments")</li>
                             <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-newspaper-o"></i>News/Article<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("Add News", "Create", "Posts")</li>
+                            <li>@Html.ActionLink("View News", "Index", "Posts")</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-commenting"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
                     <div class="collapsible-body">
                         <ul>
                             <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
                             <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
                             <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                        </ul>
+                    </div>
+                </li>
+                
+                <li>
+                    <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cogs"></i>School Setting<i class="fa fa-angle-down rotate-icon"></i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
+                            <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
+                            <li>@Html.ActionLink("Skill SetUp", "Create", "BehaviorSkillCategories")</li>
+                            <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
                         </ul>
                     </div>
                 </li>

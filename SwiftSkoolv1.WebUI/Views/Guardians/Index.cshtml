@@ -23,12 +23,11 @@
         <div class="modal-content">
             <!--Header-->
             <div class="modal-header">
+                <p class="heading lead">Guardian</p>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" class="white-text">&times;</span>
                 </button>
-                <div class="flex-center">
-                    <h4 class="modal-title">Guardian</h4>
-                </div>
             </div>
             <!--Body-->
             <div class="modal-body" id="myModalDivBody">
@@ -39,6 +38,8 @@
     </div>
 </div>
 <!-- /.Modal-->
+
+
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
     <a class="btn-floating btn-large red">
@@ -78,13 +79,10 @@
                     "data": "GuardianId",
                     "autoWidth": true,
                     "render": function (data) {
-                        return '<a href="#" onclick="Edit('+data+')"><i class="fa fa-pencil" aria-hidden="true"></i></a>' +
-                            '<a href="#" onclick="Details('+data+')"><i class="fa fa-info-circle" aria-hidden="true"></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ></i></a>';
-
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
                     }
                 }
-
                 //{ "data": "EmailID", "autoWidth": true },
                 //{ "data": "Phone", "autoWidth": true },
             ]

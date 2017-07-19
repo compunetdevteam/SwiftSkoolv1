@@ -175,7 +175,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             if (user == null)
             {
-                return View("Error1");
+                ViewBag.Message = "Incorrect UserName or Password, Please try again!!!";
+                return View(model);
             }
             var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)

@@ -224,6 +224,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             return View(student);
         }
+        public async Task<PartialViewResult> PartialDetails(string id)
+        {
+            var username = User.Identity.GetUserId();
+            //var user = await Db.Users.AsNoTracking().Where(c => c.Id.Equals(username)).Select(c => c.Email).FirstOrDefaultAsync();
+            if (id == null)
+            {
+                id = username;
+            }
+
+            var student = await Db.Students.FindAsync(id);
+            
+            return PartialView(student);
+        }
 
         public async Task<ActionResult> AssignClass()
         {
@@ -327,7 +340,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            var myStudent = new StudentEditViewModel()
+            var myStudent = new StudentEditViewModel
             {
                 StudentId = student.StudentId,
                 FirstName = student.FirstName,

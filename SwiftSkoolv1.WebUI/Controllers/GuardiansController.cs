@@ -48,7 +48,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int totalRecords = 0;
 
             //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.Guardians.Where(x => x.SchoolId == userSchool).Select(s => new { s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
+            var v = Db.Guardians.Where(x => x.SchoolId == userSchool).Select(s => new { s.GuardianId, s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -60,7 +60,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
                 v = Db.Guardians.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FullName.Equals(search)))
-                    .Select(s => new { s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
+                    .Select(s => new { s.GuardianId, s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -309,30 +309,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
-        // GET: Guardians/Delete/5
-        public async Task<ActionResult> Delete(string id)
+        public async Task<PartialViewResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Guardian guardian = await Db.Guardians.FindAsync(id);
-            if (guardian == null)
-            {
-                return HttpNotFound();
-            }
-            return View(guardian);
+            var guardian = await Db.Guardians.FindAsync(id);
+            return PartialView(guardian);
         }
 
-        // POST: Guardians/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Guardian guardian = await Db.Guardians.FindAsync(id);
-            Db.Guardians.Remove(guardian);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var guardian = await Db.Guardians.FindAsync(id);
+            if (guardian != null)
+            {
+                Db.Guardians.Remove(guardian);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Guardian Deleted Successfully...";
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
         }
 
         [AllowAnonymous]

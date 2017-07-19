@@ -124,7 +124,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         private void Map(Student student)
         {
-            if(student != null)
+            if (student != null)
             {
                 StudentId = student.StudentId;
                 FirstName = student.FirstName;
@@ -169,7 +169,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         [Required(ErrorMessage = "Your Date of Birth is required")]
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; private set; }
-        
+
         [Display(Name = "State of Origin")]
         public string StateOfOrigin { get; private set; }
 
@@ -215,7 +215,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         [Display(Name = "Mobile Number")]
         [DataType(DataType.PhoneNumber)]
-        [Required(ErrorMessage = "Phone Number is required")]
+        //[Required(ErrorMessage = "Phone Number is required")]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Date of Birth")]

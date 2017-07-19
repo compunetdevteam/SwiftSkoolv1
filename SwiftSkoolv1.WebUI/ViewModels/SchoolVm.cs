@@ -31,7 +31,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         [Display(Name = "Country")]
         public string Country { get; set; }
 
-        [StringLength(35)]
+
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
@@ -47,7 +47,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         [Display(Name = "Local Government Area")]
         public LGA LocalGovtArea { get; set; }
 
-        [StringLength(25)]
+
         [Display(Name = "State")]
         public State State { get; set; }
 
