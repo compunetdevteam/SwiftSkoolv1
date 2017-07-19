@@ -111,13 +111,14 @@ namespace SwiftSkool.Controllers
         {
             if (!String.IsNullOrEmpty(category))
             {
-                var items = from i in Db.Posts
-                            where i.Title.Contains(category.ToUpper())
-                            select i;
-                return View(items);
+                //var items = from i in Db.Posts
+                //            where i.Title.Contains(category.ToUpper())
+                //            select i;
+                var items = Db.Posts.AsNoTracking().Where(i => i.Title.Contains(category.ToUpper()));
+                return View(items.FirstOrDefault());
             }
 
-            Post post = GetPost(id);
+            var post = GetPost(id);
             ViewBag.IsAdmin = IsAdmin;
             ViewBag.Layout = Request.IsAuthenticated ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutLanding.cshtml";
             return View(post);
@@ -257,12 +258,12 @@ namespace SwiftSkool.Controllers
             IEnumerable<string> categories = Db.Tags.Select(s => s.Name);
             return PartialView(categories);
         }
-        public PartialViewResult LIstCategories()
-        {
-            IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
-                                                            .OrderBy(s => s)
-                                                            .Take(5);
-            return PartialView(categories);
-        }
+        //public PartialViewResult LIstCategories()
+        //{
+        //    IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
+        //                                                    .OrderBy(s => s)
+        //                                                    .Take(5);
+        //    return PartialView(categories);
+        //}
     }
 }

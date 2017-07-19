@@ -9,7 +9,7 @@ namespace SwiftSkoolv1.Domain
     {
         [Key]
         public string StaffId { get; set; }
-        [StringLength(15)]
+
         public string Salutation { get; set; }
         [StringLength(35)]
         public string FirstName { get; set; }

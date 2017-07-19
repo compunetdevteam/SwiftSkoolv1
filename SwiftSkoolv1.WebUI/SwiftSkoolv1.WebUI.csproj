@@ -296,6 +296,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DownloadFileInformation.cs" />
     <Compile Include="Models\GradeRemark.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -999,7 +1000,7 @@
     <Content Include="Views\Schools\Edit.cshtml" />
     <Content Include="Views\Schools\Index.cshtml" />
     <Content Include="Views\Sessions\Create.cshtml" />
-    <Content Include="Views\Sessions\Delete.cshtml" />
+    <Content Include="Views\Sessions\DeleteOld.cshtml" />
     <Content Include="Views\Sessions\Details.cshtml" />
     <Content Include="Views\Sessions\Edit.cshtml" />
     <Content Include="Views\Sessions\Index.cshtml" />
@@ -1080,6 +1081,13 @@
     <Content Include="Views\Guardians\Save.cshtml" />
     <Content Include="Views\Guardians\Delete.cshtml" />
     <Content Include="Views\Students\PartialDetails.cshtml" />
+    <Content Include="Views\Grades\Save.cshtml" />
+    <Content Include="Views\CaSetUps\Save.cshtml" />
+    <Content Include="Views\AssignSubjectTeachers\Save.cshtml" />
+    <Content Include="Views\Sessions\Save.cshtml" />
+    <Content Include="Views\Sessions\Delete.cshtml" />
+    <Content Include="Views\Staffs\PartialDetails.cshtml" />
+    <Content Include="Views\Staffs\ExcelUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
