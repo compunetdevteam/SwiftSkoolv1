@@ -343,10 +343,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome-reg.css" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\JiSlider.css" />
+    <Content Include="Content\css\mdb.min.css" />
+    <Content Include="Content\css\mystyle.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\swipebox.css" />
     <Content Include="Content\css\user-login.css" />
@@ -511,6 +514,33 @@
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="Content\images\banner2.jpg" />
+    <Content Include="Content\images\comlogo.png" />
+    <Content Include="Content\images\icons.png" />
+    <Content Include="Content\images\icons.svg" />
+    <Content Include="Content\images\im5.jpg" />
+    <Content Include="Content\images\im6.jpg" />
+    <Content Include="Content\images\im7.jpg" />
+    <Content Include="Content\images\images.jpg" />
+    <Content Include="Content\images\lightbox\default-skin.png" />
+    <Content Include="Content\images\lightbox\default-skin.svg" />
+    <Content Include="Content\images\lightbox\preloader.gif" />
+    <Content Include="Content\images\overlay.png" />
+    <Content Include="Content\images\overlays\01.png" />
+    <Content Include="Content\images\overlays\02.png" />
+    <Content Include="Content\images\overlays\03.png" />
+    <Content Include="Content\images\overlays\04.png" />
+    <Content Include="Content\images\overlays\05.png" />
+    <Content Include="Content\images\overlays\06.png" />
+    <Content Include="Content\images\overlays\07.png" />
+    <Content Include="Content\images\overlays\08.png" />
+    <Content Include="Content\images\overlays\09.png" />
+    <Content Include="Content\images\school.jpg" />
+    <Content Include="Content\images\search.png" />
+    <Content Include="Content\images\svg\arrow_left.svg" />
+    <Content Include="Content\images\svg\arrow_right.svg" />
+    <Content Include="Content\images\swift.png" />
+    <Content Include="Content\images\swiftskool.png" />
     <Content Include="Content\images\swiftskool2.png" />
     <Content Include="Content\MdCss\bootstrap.min.css" />
     <Content Include="Content\MdCss\customizer.min.css" />
@@ -561,16 +591,16 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Migrations\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Migrations\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Migrations\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Migrations\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Migrations\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
@@ -722,6 +752,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -733,6 +764,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mdb.min.js" />
     <Content Include="Scripts\MdJs\bootstrap.min.js" />
     <Content Include="Scripts\MdJs\customizer.min.js" />
     <Content Include="Scripts\MdJs\jquery-3.1.1.min.js" />
@@ -750,6 +782,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tether.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1061,6 +1094,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\css\free\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

@@ -15,14 +15,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
 
     <!-- Bootstrap core CSS -->
-    <link href="~/Content/MdCss/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
 
+    <!-- MyStyle CS-->
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/mystyle.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
-    <link href="~/Content/MdCss/mdb.css" rel="stylesheet">
+    <link href="~/Content/css/mdb.min.css" rel="stylesheet" />
     </head>
 
     <body>
-
 
         <!--Navbar-->
         <nav class="navbar navbar-toggleable-md navbar-dark fixed-top scrolling-navbar">
@@ -30,19 +32,19 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                <a class="navbar-brand" href="@Url.Action("Index4","Home")">
                     <strong><img src="~/Content/images/swiftskool2.png" width="90" height="60"></strong>
                 </a>
                 <div class="collapse navbar-collapse" id="navbarNav1">
                     <ul class="navbar-nav mr-auto" style="margin-left:40%">
                         <li class="nav-item">
-                            <a href="@Url.Action("Portal","Account")" class="nav-link">GO TO PORTAL</a>
+                            <a href="@Url.Action("Login","Account")" class="nav-link">GO TO PORTAL</a>
                         </li>
                         <li class="nav-item">
                             <a href="@Url.Action("About","Posts")" class="nav-link">ABOUT US</a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.Action("News Update","Posts")" class="nav-link">NEWS UPDATE</a>
+                            <a href="@Url.Action("Post","Posts")" class="nav-link">NEWS UPDATE</a>
                         </li>
                     </ul>
                     <form class="form-inline waves-effect waves-light">
@@ -53,7 +55,9 @@
         </nav>
     <!--/.Navbar-->
 
+    <div class="container">
         @RenderBody()
+    </div>
 
         <!--Footer-->
         <footer class="page-footer center-on-small-only">
@@ -79,10 +83,10 @@
                     <div class="col-lg-2 col-md-4 offset-lg-1">
                         <h5 class="title">SWIFTSKOOL</h5>
                         <ul>
-                            <li><a href="#!">We Digitize</a></li>
-                            <li><a href="#!">We Power</a></li>
-                            <li><a href="#!">We Connect</a></li>
-                            <li><a href="#!">We Network</a></li>
+                            <li><a href="#">We Digitize</a></li>
+                            <li><a href="#">We Power</a></li>
+                            <li><a href="#">We Connect</a></li>
+                            <li><a href="#">We Network</a></li>
                         </ul>
                     </div>
                     <!--/.Second column-->
@@ -122,16 +126,17 @@
         <!--/.Footer-->
         <!-- SCRIPTS -->
         <!-- JQuery -->
-        <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
         <!-- Bootstrap tooltips -->
-        <script type="text/javascript" src="~/Scripts/MdJs/tether.min.js"></script>
-
+        <script src="~/Scripts/tether.min.js"></script>
+        
         <!-- Bootstrap core JavaScript -->
-        <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
 
         <!-- MDB core JavaScript -->
-        <script type="text/javascript" src="~/Scripts/MdJs/mdb.min.js"></script>
+        <script src="~/Scripts/mdb.min.js"></script>
 
         <script>
         new WOW().init();

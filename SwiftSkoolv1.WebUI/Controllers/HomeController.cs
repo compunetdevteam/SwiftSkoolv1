@@ -38,11 +38,12 @@ namespace SwiftSkool.Controllers
         //    ViewBag.FemalePercentage = femalePercentage;
         //    return View();
         //}
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index4()
         {
             ViewBag.PictureList = await Db.HomePageSetUps.AsNoTracking().CountAsync();
             return View(await Db.HomePageSetUps.ToListAsync());
         }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
