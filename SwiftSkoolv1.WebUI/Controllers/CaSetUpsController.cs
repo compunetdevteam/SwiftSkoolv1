@@ -53,7 +53,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int totalRecords = 0;
 
             //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.CaSetUps.Where(x => x.SchoolId == userSchool).Select(s => new { s.CaSetUpId, s.Term.TermName, s.CaOrder, s.CaCaption,s.Class.ClassName }).ToList();
+            var v = Db.CaSetUps.Where(x => x.SchoolId == userSchool).Select(s => new { s.CaSetUpId, s.Term.TermName, s.CaOrder, s.CaCaption, s.Class.ClassName }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))

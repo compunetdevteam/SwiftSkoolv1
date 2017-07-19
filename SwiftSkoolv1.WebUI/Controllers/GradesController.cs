@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -90,13 +89,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            
-            var v = Db.Grades.Where(x => x.SchoolId == userSchool).Select(g => new { g.GradeId, g.GradeName, g.MinimumValue,g.MaximumValue,g.Remark}).ToList();
 
-            
+            var v = Db.Grades.Where(x => x.SchoolId == userSchool).Select(g => new { g.GradeId, g.GradeName, g.MinimumValue, g.MaximumValue, g.Remark }).ToList();
+
+
             if (!string.IsNullOrEmpty(search))
             {
-               
+
                 v = Db.Grades.Where(x => x.SchoolId.Equals(userSchool) && (x.GradeName.Equals(search) || x.Remark.Equals(search)))
                     .Select(g => new { g.GradeId, g.GradeName, g.MinimumValue, g.MaximumValue, g.Remark }).ToList();
             }

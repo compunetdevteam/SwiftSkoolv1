@@ -1,0 +1,19 @@
+﻿@model SwiftSkoolv1.Domain.Staff
+
+
+<div class="mt-1 mb-1">
+    <img src="@Url.Action("RenderImage", new { studentId = Model.StaffId})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+</div>
+<h3 class="h3-responsive text-center">@Model.LastName @Model.FirstName</h3>
+<p class="text-center grey-text">Active Student</p>
+<ul class="striped">
+    <li><strong>State of Origin: </strong> @Model.StateOfOrigin</li>
+    <li><strong>Date of Birth: </strong> @Model.DateOfBirth</li>
+    <li><strong>Marital Status: </strong> @Model.MaritalStatus</li>
+    <li><strong>Address: </strong> @Model.Address</li>
+    <li><strong>Email:</strong> @Model.Email</li>
+</ul>
+
+@Html.ActionLink("Check Full Details", "Details", new { id = Model.StaffId }, new { @class = "btn btn-primary" })
+
+

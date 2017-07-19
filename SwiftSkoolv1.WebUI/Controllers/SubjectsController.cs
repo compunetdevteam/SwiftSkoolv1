@@ -21,48 +21,48 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-            public async Task<ActionResult> GetIndex()
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.Subjects.Where(x => x.SchoolId == userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+
+            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            //}
+            if (!string.IsNullOrEmpty(search))
             {
-                #region Server Side filtering
-                //Get parameter for sorting from grid table
-                // get Start (paging start index) and length (page size for paging)
-                var draw = Request.Form.GetValues("draw").FirstOrDefault();
-                var start = Request.Form.GetValues("start").FirstOrDefault();
-                var length = Request.Form.GetValues("length").FirstOrDefault();
-                //Get Sort columns values when we click on Header Name of column
-                //getting column name
-                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-                //Soring direction(either desending or ascending)
-                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-                string search = Request.Form.GetValues("search[value]").FirstOrDefault();
-
-                int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                int skip = start != null ? Convert.ToInt32(start) : 0;
-                int totalRecords = 0;
-
-                //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-                var v = Db.Subjects.Where(x => x.SchoolId == userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-
-                //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-                //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-                //{
-                //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-                //}
-                if (!string.IsNullOrEmpty(search))
-                {
-                    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                    v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) && (x.SubjectName.Equals(search) || x.SubjectCode.Equals(search)))
-                                        .Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-                }
-                totalRecords = v.Count();
-                var data = v.Skip(skip).Take(pageSize).ToList();
-
-                return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-                #endregion
-
-                //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) && (x.SubjectName.Equals(search) || x.SubjectCode.Equals(search)))
+                                    .Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Subjects/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -196,7 +196,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: Subjects/Delete/5
         public async Task<PartialViewResult> Delete(int id)
         {
-
             Subject subject = await Db.Subjects.FindAsync(id);
 
             return PartialView(subject);

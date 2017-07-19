@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SwiftSkoolv1.Domain.DownloadFileInformation>
+﻿@model List<SwiftSkoolv1.WebUI.Services.DownloadFileInformation>
 
 @{
     ViewBag.Title = "Index";
@@ -8,10 +8,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FileId)
+            File ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FileName)
+           File Name
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.FilePath)

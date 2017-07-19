@@ -1,46 +1,10 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.Term>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>List of Term</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TermName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActiveTerm)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TermName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActiveTerm)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TermId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TermId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TermId })
-        </td>
-    </tr>
-}
-
-</table>*@
 
 
-    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Subject</a>
-    @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
+    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Term</a>
+@*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
+<div class="table-responsive">
     <table id="Jdatatable" class="table table-striped table-hover">
         <thead>
         <tr>
@@ -50,7 +14,7 @@
         </tr>
         </thead>
     </table>
-
+</div>
 <!-- Modal -->
 <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -101,20 +65,12 @@
                     "data": "TermId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
                             '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
 
                     }
                 }
-                //{
-                //    "data": "SubjectId",
-                //    "autoWidth": true,
-                //    "render": function(data) {
-                //        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
-                //    }
-                //}
-                //{ "data": "EmailID", "autoWidth": true },
-                //{ "data": "Phone", "autoWidth": true },
+             
             ]
         });
       

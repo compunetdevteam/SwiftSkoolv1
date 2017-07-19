@@ -1,15 +1,16 @@
-﻿using System;
+﻿using SwiftSkoolv1.Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Web;
-using SwiftSkoolv1.Domain;
 
 namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class StaffViewModel
     {
+        public string StaffId { get; set; }
 
         [Display(Name = "Salutation")]
         public Salutation Salutation { get; set; }
