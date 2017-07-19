@@ -1,5 +1,4 @@
 ﻿using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -17,11 +16,6 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         public StudentsController()
         {
 
-        }
-
-        public StudentsController(SwiftSkoolDbContext db) : base(db)
-        {
-            
         }
 
         // GET: api/Students
@@ -160,14 +154,14 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
             return Ok(student);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        _db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
         private bool StudentExists(string id)
         {

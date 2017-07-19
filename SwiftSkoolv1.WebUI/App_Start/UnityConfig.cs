@@ -1,4 +1,6 @@
 using Microsoft.Practices.Unity;
+using SwiftSkoolv1.WebUI.APIRepository.RepoAbstractions;
+using SwiftSkoolv1.WebUI.APIRepository.Repository;
 using SwiftSkoolv1.WebUI.Models;
 using System.Data.Entity;
 using System.Web.Http;
@@ -19,7 +21,7 @@ namespace SwiftSkoolv1.WebUI
 
             //CompunetDevTeam register and resolve code
             container.RegisterType<DbContext, SwiftSkoolDbContext>(new PerThreadLifetimeManager());
-            //container.RegisterType<HttpControllerContext>();
+            container.RegisterType<IStudentRepository, StudentRepository>();
             
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

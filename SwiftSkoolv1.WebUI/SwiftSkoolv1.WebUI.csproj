@@ -222,6 +222,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIRepository\RepoAbstractions\IRepository.cs" />
+    <Compile Include="APIRepository\RepoAbstractions\IStudentRepository.cs" />
+    <Compile Include="APIRepository\Repository\StudentRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
