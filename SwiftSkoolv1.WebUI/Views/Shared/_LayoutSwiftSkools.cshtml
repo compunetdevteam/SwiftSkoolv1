@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,135 +12,127 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
-
-    <!-- Bootstrap core CSS -->
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- MyStyle CS-->
+    <link href="~/Content/css/mystyle.css" rel="stylesheet"/>
     <link href="~/Content/css/style.css" rel="stylesheet" />
-    <link href="~/Content/css/mystyle.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Material Design Bootstrap -->
-    <link href="~/Content/css/mdb.min.css" rel="stylesheet" />
-    </head>
+    <link href="~/Content/css/mdb.min.css" rel="stylesheet">
 
-    <body>
-
-        <!--Navbar-->
-        <nav class="navbar navbar-toggleable-md navbar-dark fixed-top scrolling-navbar">
-            <div class="container">
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand" href="@Url.Action("Index4","Home")">
-                    <strong><img src="~/Content/images/swiftskool2.png" width="90" height="60"></strong>
-                </a>
-                <div class="collapse navbar-collapse" id="navbarNav1">
-                    <ul class="navbar-nav mr-auto" style="margin-left:40%">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Login","Account")" class="nav-link">GO TO PORTAL</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("About","Posts")" class="nav-link">ABOUT US</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Post","Posts")" class="nav-link">NEWS UPDATE</a>
-                        </li>
-                    </ul>
-                    <form class="form-inline waves-effect waves-light">
-                        <input class="form-control" type="text" placeholder="Search">
-                    </form>
-                </div>
+</head>
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-toggleable-md navbar-dark fixed-top scrolling-navbar">
+        <div class="container">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Action("Index4", "Home")">
+                <strong><img src="~/Content/images/swiftskool.png" width="90" height="60"></strong>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav1">
+                <ul class="navbar-nav mr-auto" style="margin-left:40%">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Login", "Account")" class="nav-link">GO TO PORTAL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("About", "Posts")" class="nav-link">ABOUT US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("LatestNews", "Posts")" class="nav-link">NEWS UPDATE</a>
+                    </li>
+                </ul>
+                <form class="form-inline waves-effect waves-light">
+                    <input class="form-control" type="text" placeholder="Search">
+                </form>
             </div>
-        </nav>
+        </div>
+    </nav>
     <!--/.Navbar-->
+    @RenderBody()
+    <!--Footer-->
+    <footer class="page-footer center-on-small-only">
 
-    <div class="container">
-        @RenderBody()
-    </div>
+        <!--Footer Links-->
+        <div class="container-fluid">
+            <div class="row">
 
-        <!--Footer-->
-        <footer class="page-footer center-on-small-only">
+                <!--First column-->
+                <div class="col-lg-3 offset-lg-1" style="margin-left:20%;">
+                    <h5 class="title">CONTACT SWIFTSKOOL</h5>
+                    <p>
+                        Jos: +(234) 808 9986 378, +(234) 09 291 9296 | Benue: +(234) 810 047 7182
+                        <a href="mailto:info@compunetlimited.org">info@compunetlimited.org</a>
 
-            <!--Footer Links-->
-            <div class="container-fluid">
-                <div class="row">
-
-                    <!--First column-->
-                    <div class="col-lg-3 offset-lg-1" style="margin-left:20%;">
-                        <h5 class="title">CONTACT SWIFTSKOOL</h5>
-                        <p>
-                            Jos: +(234) 808 9986 378, +(234) 09 291 9296 | Benue: +(234) 810 047 7182
-                            <a href="mailto:info@compunetlimited.org">info@compunetlimited.org</a>
-
-                        </p>
-                    </div>
-                    <!--/.First column-->
-
-                    <hr class="hidden-md-up">
-
-                    <!--Second column-->
-                    <div class="col-lg-2 col-md-4 offset-lg-1">
-                        <h5 class="title">SWIFTSKOOL</h5>
-                        <ul>
-                            <li><a href="#">We Digitize</a></li>
-                            <li><a href="#">We Power</a></li>
-                            <li><a href="#">We Connect</a></li>
-                            <li><a href="#">We Network</a></li>
-                        </ul>
-                    </div>
-                    <!--/.Second column-->
-
-                    <hr class="hidden-md-up">
-
-                    <!--Third column-->
-                    <!--/.Third column-->
-
-                    <hr class="hidden-md-up">
-
-                    <!--Fourth column-->
-                    <div class="col-lg-2 col-md-4">
-                        <h5 class="title">Follow us on</h5>
-                        <a href="#"><i class="fa fa-facebook"></i></a>&nbsp&nbsp
-                        <a href="#"><i class="fa fa-instagram"></i></a>&nbsp&nbsp
-                        <a href="#"><i class="fa fa-twitter"></i></a>&nbsp&nbsp
-                        <a href="#"><i class="fa fa-pinterest"></i></a>&nbsp&nbsp
-                    </div>
-                    <!--/.Fourth column-->
+                    </p>
                 </div>
-            </div>
-            <!--/.Footer Links-->
+                <!--/.First column-->
 
-            <hr>
-            <!--Copyright-->
-            <div class="footer" style="margin-left:25%;">
-                <div class="container-default">
-                    © 2017 Copyright SwiftSkool | Design By
-                    <a href="http://www.compunetlimited.org"><img src="~/Content/images/comlogo.png" width="180" height="50" class="img-responsive"> </a>
-                    <br>
+                <hr class="hidden-md-up">
+
+                <!--Second column-->
+                <div class="col-lg-2 col-md-4 offset-lg-1">
+                    <h5 class="title">AT SWIFTSKOOL</h5>
+                    <ul>
+                        <li><a href="#!">We Digitize</a></li>
+                        <li><a href="#!">We Power</a></li>
+                        <li><a href="#!">We Connect</a></li>
+                        <li><a href="#!">We Network</a></li>
+                    </ul>
                 </div>
+                <!--/.Second column-->
+
+                <hr class="hidden-md-up">
+
+                <!--Third column-->
+                <!--/.Third column-->
+
+                <hr class="hidden-md-up">
+
+                <!--Fourth column-->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="title">Follow us on</h5>
+                    <a href="#"><i class="fa fa-facebook"></i></a>&nbsp&nbsp
+                    <a href="#"><i class="fa fa-instagram"></i></a>&nbsp&nbsp
+                    <a href="#"><i class="fa fa-twitter"></i></a>&nbsp&nbsp
+                    <a href="#"><i class="fa fa-pinterest"></i></a>&nbsp&nbsp
+                </div>
+                <!--/.Fourth column-->
             </div>
-            <!--/.Copyright-->
+        </div>
+        <!--/.Footer Links-->
 
-        </footer>
-        <!--/.Footer-->
-        <!-- SCRIPTS -->
-        <!-- JQuery -->
+        <hr>
+        <!--Copyright-->
+        <div class="footer" style="margin-left:25%;">
+            <div class="container-default">
+                © 2017 Copyright SwiftSkool | Design By
+                <a href="http://www.compunetlimited.org"><img src="img/comlogo.png" width="180" height="50" class="img-responsive"> </a>
+                <br>
+            </div>
+        </div>
+        <!--/.Copyright-->
 
-        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    </footer>
+    <!--/.Footer-->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="~/Scripts/jquery-2.2.3.min.js"></script>
 
-        <!-- Bootstrap tooltips -->
-        <script src="~/Scripts/tether.min.js"></script>
-        
-        <!-- Bootstrap core JavaScript -->
-        <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/Scripts/tether.min.js"></script>
 
-        <!-- MDB core JavaScript -->
-        <script src="~/Scripts/mdb.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 
-        <script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/Scripts/mdb.min.js"></script>
+
+    <script>
         new WOW().init();
-        </script>
+    </script>
 
-    </body>
+</body>
 
 </html>
