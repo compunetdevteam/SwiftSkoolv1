@@ -1,86 +1,108 @@
-﻿using SwiftSkoolv1.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CaSetUp = SwiftSkoolv1.WebUI.Models.CaSetUp;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class CaSetUpsController : BaseController
     {
         // GET: CaSetUps
-        public async Task<ActionResult> Index(int? ClassId, string TermName)
+        public async Task<ActionResult> Index(string ClassId, string TermName)
         {
-            var caSetUps = Db.CaSetUps.Include(c => c.Class).Include(c => c.Term)
-                                .Where(x => x.SchoolId.Equals(userSchool));
+            var caSetUps = Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && x.IsTrue.Equals(true));
             if (ClassId != null && !string.IsNullOrEmpty(TermName))
             {
-                caSetUps = caSetUps.Where(x => x.Term.TermName.Equals(TermName)
-                                               && x.ClassId.Equals((int)ClassId));
+                caSetUps = caSetUps.Where(x => x.TermName.Equals(TermName)
+                                               && x.ClassName.Equals(ClassId));
             }
             else if (!string.IsNullOrEmpty(TermName))
             {
-                caSetUps = caSetUps.Where(x => x.Term.TermName.Equals(TermName)
-                                               || x.ClassId.Equals((int)ClassId));
+                caSetUps = caSetUps.Where(x => x.TermName.Equals(TermName)
+                                               || x.ClassName.Equals(ClassId));
             }
 
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View(await caSetUps.OrderBy(o => o.CaOrder).ToListAsync());
         }
 
 
-        public async Task<ActionResult> GetIndex()
+        public async Task<ActionResult> GetIndex(string ClassName, string TermName)
         {
             #region Server Side filtering
-            //Get parameter for sorting from grid table
-            // get Start (paging start index) and length (page size for paging)
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-            //Get Sort columns values when we click on Header Name of column
-            //getting column name
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            //Soring direction(either desending or ascending)
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+            ////Get parameter for sorting from grid table
+            //// get Start (paging start index) and length (page size for paging)
+            //var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            //var start = Request.Form.GetValues("start").FirstOrDefault();
+            //var length = Request.Form.GetValues("length").FirstOrDefault();
+            ////Get Sort columns values when we click on Header Name of column
+            ////getting column name
+            //var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            ////Soring direction(either desending or ascending)
+            //var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            //string search = Request.Form.GetValues("search[value]").FirstOrDefault();
 
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
+            //int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            //int skip = start != null ? Convert.ToInt32(start) : 0;
+            //int totalRecords = 0;
 
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.CaSetUps.Where(x => x.SchoolId == userSchool).Select(s => new { s.CaSetUpId, s.Term.TermName, s.CaOrder, s.CaCaption, s.Class.ClassName }).ToList();
+            ////var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            //var v = Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId == userSchool).ToList();
 
-            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            ////var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            ////if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            ////{
+            ////    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            ////    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            ////}
+            //if (!string.IsNullOrEmpty(search))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
-            if (!string.IsNullOrEmpty(search))
-            {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.CaSetUps.Where(x => x.SchoolId.Equals(userSchool) && (x.CaCaption.Equals(search) || x.Class.ClassName.Equals(search)))
-                    .Select(s => new { s.CaSetUpId, s.Term.TermName, s.CaOrder, s.CaCaption, s.Class.ClassName }).ToList();
-            }
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
+            //    v = Db.CaSetUps.Where(x => x.SchoolId.Equals(userSchool) &&
+            //                               (x.CaCaption.Equals(search) || x.ClassName.Equals(search))).ToList();
 
-            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            //}
+            //if (!string.IsNullOrEmpty(ClassName) && !string.IsNullOrEmpty(TermName))
+            //{
+            //    v = Db.CaSetUps.Where(x => x.SchoolId.Equals(userSchool) &&
+            //                               (x.ClassName.Equals(ClassName) && x.TermName.Equals(TermName))).ToList();
+            //}
+            //if (!string.IsNullOrEmpty(ClassName) || !string.IsNullOrEmpty(TermName))
+            //{
+            //    v = Db.CaSetUps.Where(x => x.SchoolId.Equals(userSchool) &&
+            //                               (x.ClassName.Equals(ClassName) || x.TermName.Equals(TermName))).ToList();
+            //}
+            //totalRecords = v.Count();
+            //var data = v.Skip(skip).Take(pageSize).ToList();
+
+            //return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
             #endregion
 
-            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+            var v = Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId == userSchool).ToList();
+            if (!string.IsNullOrEmpty(ClassName) && !string.IsNullOrEmpty(TermName))
+            {
+                v = Db.CaSetUps.Where(x => x.SchoolId.Equals(userSchool) &&
+                                           (x.ClassName.Equals(ClassName) && x.TermName.Equals(TermName))).ToList();
+            }
+            if (!string.IsNullOrEmpty(ClassName) || !string.IsNullOrEmpty(TermName))
+            {
+                v = Db.CaSetUps.Where(x => x.SchoolId.Equals(userSchool) &&
+                                           (x.ClassName.Equals(ClassName) || x.TermName.Equals(TermName))).ToList();
+            }
+
+            return Json(new { data = v }, JsonRequestBehavior.AllowGet);
         }
 
 
 
         public async Task<PartialViewResult> Save(int id)
         {
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
             ViewBag.TermId = new SelectList(Db.Terms, "TermId", "TermName");
 
             var caSetUp = await Db.CaSetUps.FindAsync(id);
@@ -121,21 +143,116 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
 
-        public async Task<ActionResult> SelectEdit()
+        public async Task<PartialViewResult> SelectEdit()
         {
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
             ViewBag.TermId = new SelectList(_query.TermList(), "TermName", "TermName");
-            return View();
+            return PartialView();
         }
 
-        public async Task<ActionResult> EditAll(int ClassId, string TermId)
+        public async Task<ActionResult> EditAll(string ClassId, string TermId)
         {
-            var caSetUps = Db.CaSetUps.Include(c => c.Class).Include(c => c.Term)
-                            .Where(x => x.SchoolId.Equals(userSchool) && x.ClassId.Equals(ClassId)
-                            && x.Term.TermName.Equals(TermId));
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
-            ViewBag.TermId = new SelectList(_query.TermList(), "TermId", "TermName");
-            return View(await caSetUps.ToListAsync());
+
+            var caSetUps = new List<CaSetUp>();
+
+            var checkCa = Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                                                && x.ClassName.Equals(ClassId) &&
+                                                                x.TermName.Equals(TermId));
+            if (checkCa.Any())
+            {
+                caSetUps = checkCa.ToList();
+            }
+            else
+            {
+                for (int i = 1; i < 11; i++)
+                {
+                    if (i == 1)
+                    {
+                        var caSetup = new CaSetUp
+                        {
+                            CaCaption = "1st Test",
+                            CaOrder = i,
+                            IsTrue = true,
+                            TermName = TermId,
+                            MaximumScore = 10.0,
+                            CaPercentage = 10,
+                            ClassName = ClassId
+                        };
+                        caSetUps.Add(caSetup);
+                        caSetup.SchoolId = userSchool;
+                        Db.CaSetUps.Add(caSetup);
+                    }
+                    else if (i == 2)
+                    {
+                        var caSetup = new CaSetUp
+                        {
+                            CaCaption = "2nd Test",
+                            CaOrder = i,
+                            IsTrue = true,
+                            TermName = TermId,
+                            MaximumScore = 10.0,
+                            CaPercentage = 10,
+                            ClassName = ClassId
+                        };
+                        caSetUps.Add(caSetup);
+                        caSetup.SchoolId = userSchool;
+                        Db.CaSetUps.Add(caSetup);
+                    }
+                    else if (i == 3)
+                    {
+                        var caSetup = new CaSetUp
+                        {
+                            CaCaption = "3rd Test",
+                            CaOrder = i,
+                            IsTrue = true,
+                            TermName = TermId,
+                            MaximumScore = 10.0,
+                            CaPercentage = 10,
+                            ClassName = ClassId
+                        };
+                        caSetUps.Add(caSetup);
+                        caSetup.SchoolId = userSchool;
+                        Db.CaSetUps.Add(caSetup);
+                    }
+                    else if (i == 10)
+                    {
+                        var caSetup = new CaSetUp
+                        {
+                            CaCaption = "Exam",
+                            CaOrder = i,
+                            IsTrue = true,
+                            TermName = TermId,
+                            MaximumScore = 70.0,
+                            CaPercentage = 70,
+                            ClassName = ClassId
+                        };
+                        caSetUps.Add(caSetup);
+                        caSetup.SchoolId = userSchool;
+                        Db.CaSetUps.Add(caSetup);
+                    }
+                    else
+                    {
+                        var caSetup = new CaSetUp
+                        {
+                            CaCaption = "",
+                            CaOrder = i,
+                            IsTrue = false,
+                            TermName = TermId,
+                            MaximumScore = 0,
+                            CaPercentage = 0,
+                            ClassName = ClassId
+                        };
+                        caSetUps.Add(caSetup);
+                        caSetup.SchoolId = userSchool;
+                        Db.CaSetUps.Add(caSetup);
+                    }
+
+                }
+                await Db.SaveChangesAsync();
+            }
+            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
+            ViewBag.TermId = new SelectList(_query.TermList(), "TermName", "TermName");
+            return View(caSetUps);
         }
 
         [HttpPost]
@@ -282,12 +399,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return new JsonResult { Data = new { status = status, message = message } };
         }
-        public async Task<JsonResult> MaximumValidation(List<double> MaximumScore, List<int> CaSetUpId, List<int> ClassId, List<int> TermId)
+        public async Task<JsonResult> ScoreValidation(List<double> MaximumScore, List<int> CaSetUpId, List<string> ClassName, List<string> TermName)
         {
             //bool myValue = ExamCa < 50;
             string maximumScore = string.Empty;
-            string classId = string.Empty;
-            string termId = string.Empty;
+            string className = string.Empty;
+            string termName = string.Empty;
             string caSetUpId = string.Empty;
 
             if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("maximumscore")) != null)
@@ -295,29 +412,28 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 maximumScore =
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("maximumscore"))];
             }
-            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("classid")) != null)
+            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("classname")) != null)
             {
-                classId =
-                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("classid"))];
+                className =
+                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("classname"))];
             }
-            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("termid")) != null)
+            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("termname")) != null)
             {
-                termId =
-                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("termid"))];
+                termName =
+                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("termname"))];
             }
             if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("casetupid")) != null)
             {
                 caSetUpId =
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupid"))];
             }
-            int newClassId = Convert.ToInt32(classId);
-            int newTermId = Convert.ToInt32(termId);
+
             int newCastupId = Convert.ToInt32(caSetUpId);
             var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
                                                                 && x.CaSetUpId != newCastupId
                                                                && x.SchoolId.Equals(userSchool)
-                                                               && x.ClassId.Equals(newClassId)
-                                                               && x.TermId.Equals(newTermId))
+                                                               && x.ClassName.Equals(className)
+                                                               && x.TermName.Equals(termName))
                                                                 .Sum(s => s.MaximumScore);
 
             var totalValue = setUpSum + Convert.ToDouble(maximumScore);
@@ -337,6 +453,62 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             // return Json(false, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<JsonResult> PercentageValidation(List<double> CaPercentage, List<int> CaSetUpId, List<string> ClassName, List<string> TermName)
+        {
+            //bool myValue = ExamCa < 50;
+            string caPercentage = string.Empty;
+            string className = string.Empty;
+            string termName = string.Empty;
+            string caSetUpId = string.Empty;
+
+            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("capercentage")) != null)
+            {
+                caPercentage =
+                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("capercentage"))];
+            }
+            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("classname")) != null)
+            {
+                className =
+                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("classname"))];
+            }
+            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("termname")) != null)
+            {
+                termName =
+                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("termname"))];
+            }
+            if (Request.QueryString.AllKeys.FirstOrDefault(p => p.ToLower().Contains("casetupid")) != null)
+            {
+                caSetUpId =
+                    Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupid"))];
+            }
+
+            int newCastupId = Convert.ToInt32(caSetUpId);
+            var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
+                                                                 && x.CaSetUpId != newCastupId
+                                                                 && x.SchoolId.Equals(userSchool)
+                                                                 && x.ClassName.Equals(className)
+                                                                 && x.TermName.Equals(termName))
+                .Sum(s => s.CaPercentage);
+
+            var totalValue = setUpSum + Convert.ToDouble(caPercentage);
+
+
+            if (totalValue > 100)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var caSetUp = await Db.CaSetUps.FindAsync(newCastupId);
+            caSetUp.SchoolId = userSchool;
+            caSetUp.MaximumScore = Convert.ToDouble(caPercentage);
+            Db.Entry(caSetUp).State = EntityState.Modified;
+            await Db.SaveChangesAsync();
+            return Json(true, JsonRequestBehavior.AllowGet);
+
+
+            // return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

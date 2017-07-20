@@ -400,9 +400,9 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                             <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
                             <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
 
-                            <li>@Html.ActionLink("Add C A", "CreateCaView", "CaLists")</li>
-                            @*<li>@Html.ActionLink("Termly Setting", "Index", "ContinuousAssessments")</li>
-                            <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>*@
+                            <li>@Html.ActionLink("Add C A", "Create", "ContinuousAssessments")</li>
+                            <li>@Html.ActionLink("Termly Setting", "Index", "ContinuousAssessments")</li>
+                            <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>
                         </ul>
                     </div>
                 </li>
@@ -433,7 +433,6 @@ else if (Request.IsAuthenticated && User.IsInRole("Admin"))
                             <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
                             <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
                             <li>@Html.ActionLink("Skill SetUp", "Create", "BehaviorSkillCategories")</li>
-                            <li>@Html.ActionLink("Behaviors", "Create", "BehaviouralSkills")</li>
                             <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
                         </ul>
                     </div>

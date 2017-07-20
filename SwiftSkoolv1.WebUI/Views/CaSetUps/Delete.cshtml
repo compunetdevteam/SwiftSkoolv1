@@ -1,4 +1,4 @@
-﻿@model SwiftSkoolv1.Domain.CaSetUp
+﻿@model SwiftSkoolv1.WebUI.Models.CaSetUp
 
 @{
     ViewBag.Title = "Delete";
@@ -12,19 +12,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Class.FullClassName)
+            @Html.DisplayNameFor(model => model.ClassName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Class.FullClassName)
+            @Html.DisplayFor(model => model.ClassName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Term.TermName)
+            @Html.DisplayNameFor(model => model.TermName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Term.TermName)
+            @Html.DisplayFor(model => model.TermName)
         </dd>
 
         <dt>

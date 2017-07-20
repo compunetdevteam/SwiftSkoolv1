@@ -84,7 +84,6 @@
     <Compile Include="BookIssue.cs" />
     <Compile Include="Calender\Event.cs" />
     <Compile Include="CaList.cs" />
-    <Compile Include="CaSetUp.cs" />
     <Compile Include="CBT\ExamLog.cs" />
     <Compile Include="CBT\ExamRule.cs" />
     <Compile Include="CBT\ExamSetting.cs" />

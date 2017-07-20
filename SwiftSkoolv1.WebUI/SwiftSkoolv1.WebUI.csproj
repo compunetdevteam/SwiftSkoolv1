@@ -299,6 +299,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CaSetUp.cs" />
     <Compile Include="Models\DownloadFileInformation.cs" />
     <Compile Include="Models\GradeRemark.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -324,7 +325,6 @@
     <Compile Include="ViewModels\AssignSubjectViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CaListVm.cs" />
-    <Compile Include="ViewModels\CaSetUpVm.cs" />
     <Compile Include="ViewModels\ContinuousAssesmentViewModel.cs" />
     <Compile Include="ViewModels\CreateFeeCategoryVM.cs" />
     <Compile Include="ViewModels\FormDataViewModel.cs" />
@@ -1091,6 +1091,7 @@
     <Content Include="Views\Sessions\Delete.cshtml" />
     <Content Include="Views\Staffs\PartialDetails.cshtml" />
     <Content Include="Views\Staffs\ExcelUpload.cshtml" />
+    <Content Include="Views\Shared\_LayoutBoot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

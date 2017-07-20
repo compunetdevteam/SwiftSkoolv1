@@ -536,7 +536,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             reportModel.ClassName = _resultCommand._className;
             reportModel.Student = await Db.Students.FindAsync(id);
             reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
-                                                         && x.Class.FullClassName.Equals(_resultCommand._className))
+                                                         && x.ClassName.Equals(_resultCommand._className))
                                                         .OrderBy(o => o.CaOrder).ToListAsync();
             reportModel.CaSetUpCount = reportModel.CaSetUp.Count();
 

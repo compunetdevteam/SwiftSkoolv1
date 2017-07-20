@@ -2,7 +2,7 @@
 
 
 
-    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Term</a>
+ <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Term</a>
 @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
 <div class="table-responsive">
     <table id="Jdatatable" class="table table-striped table-hover">
@@ -96,8 +96,8 @@
     function myFunction() {
         var url = "/Terms/Save?id=0";
         //$('#actionsList').modal("show");
-        // window.alert(url);
-        $('#myModalDivBody').load(url,
+         window.alert(url);
+         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
             });

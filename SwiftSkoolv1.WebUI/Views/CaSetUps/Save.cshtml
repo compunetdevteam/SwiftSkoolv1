@@ -1,5 +1,5 @@
 ﻿
-@model SwiftSkoolv1.Domain.CaSetUp
+@model SwiftSkoolv1.WebUI.Models.CaSetUp
 
 
 @if (Model != null && Model.CaSetUpId > 0)
@@ -27,9 +27,9 @@ else
         }
 
         <div class="md-form">
-            @Html.EditorFor(model => model.Term.TermName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.LabelFor(model => model.Term.TermName)
-            @Html.ValidationMessageFor(model => model.Term.TermName, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.TermName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.LabelFor(model => model.TermName)
+            @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
 
         </div>
      
@@ -46,9 +46,9 @@ else
         </div>
         
         <div class="md-form">
-            @Html.EditorFor(model => model.Class.ClassName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.LabelFor(model => model.Class.ClassName)
-            @Html.ValidationMessageFor(model => model.Class.ClassName, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.ClassName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.LabelFor(model => model.ClassName)
+            @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
         </div>
        
 

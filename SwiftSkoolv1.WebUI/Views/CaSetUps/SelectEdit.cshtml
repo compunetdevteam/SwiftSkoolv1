@@ -1,44 +1,71 @@
 ﻿
-@{
-    ViewBag.Title = "SelectEdit";
-}
-
-<h2>SelectEdit</h2>
 
 @using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Get, new { @class = "form-inline" }))
-{
-    <!-- BEGIN INLINE FORM -->
-    <div class="row">
-        <div class="col-lg-7">
-            <article class="margin-bottom-xxl">
-                <p class="lead">
-                    Please use the box below to search
-                </p>
-            </article>
-        </div><!--end .col -->
-        <div class="col-lg-12">
-            <form class="form-inline">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-group">
-                            @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "form-control" })
-                            <label for="ClassName">Class</label>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "form-control" })
 
-                            @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
-                            <label for="TermName">Term Name</label>
-                        </div>
-                        <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
+{ 
+    <div class="card">
+        <div class="card-block">
+            <h3>
+                <i class="fa fa-save"></i> Update Record
+            </h3>
 
-            </form>
-        </div><!--end .col -->
+           
+            <div class="form-group">
+                @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "mdb-select" })                
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Term Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "mdb-select" })
+                </div>
+            </div>
+
+            <div class="md-form">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
+
+
+
     </div>
-
-    <!--end .row -->
-    <!-- END INLINE FORM -->
 }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $('.mdb-select').material_select();
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/AssignSubjects/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>
+
+
+
+
