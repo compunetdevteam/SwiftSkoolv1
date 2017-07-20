@@ -349,6 +349,7 @@
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\JiSlider.css" />
     <Content Include="Content\css\mdb.min.css" />
+    <Content Include="Content\css\mylogin.css" />
     <Content Include="Content\css\mystyle.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\swipebox.css" />
@@ -1090,6 +1091,10 @@
     <Content Include="Views\AssignSubjects\Delete.cshtml" />
     <Content Include="Views\Shared\_LayoutSwiftSkools.cshtml" />
     <Content Include="Views\Home\Index4.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial4.cshtml" />
+    <Content Include="Views\Account\Login4.cshtml" />
+    <Content Include="Views\Posts\NewsUpdate.cshtml" />
+    <Content Include="Views\Posts\AboutUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

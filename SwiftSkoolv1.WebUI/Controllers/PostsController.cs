@@ -21,8 +21,8 @@ namespace SwiftSkool.Controllers
         {
             int pageNumber = id ?? 0;
             var items = (from post in Db.Posts
-                         where post.Title.Contains(category.ToUpper())
-                         select post);
+                where post.Title.Contains(category.ToUpper())
+                select post);
 
             //if (!String.IsNullOrEmpty(category))
             //{               
@@ -31,20 +31,24 @@ namespace SwiftSkool.Controllers
             if (String.IsNullOrEmpty(category))
             {
                 IEnumerable<Post> posts = (from post in Db.Posts
-                                           where post.DateTime < DateTime.Now
-                                           orderby post.DateTime descending
-                                           select post).Skip(pageNumber * PostPerPage)
-                                  .Take(PostPerPage + 1);
+                    where post.DateTime < DateTime.Now
+                    orderby post.DateTime descending
+                    select post).Skip(pageNumber*PostPerPage)
+                    .Take(PostPerPage + 1);
 
                 ViewBag.IsPreviousLinkVisible = pageNumber > 0;
                 ViewBag.IsNextLinkVisible = posts.Count() > PostPerPage;
                 ViewBag.PageNumber = pageNumber;
                 ViewBag.IsAdmin = IsAdmin;
-                ViewBag.Layout = Request.IsAuthenticated ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutLanding.cshtml";
+                ViewBag.Layout = Request.IsAuthenticated
+                    ? "~/Views/Shared/_Layout.cshtml"
+                    : "~/Views/Shared/_LayoutLanding.cshtml";
 
                 return View(posts.Take(PostPerPage));
             }
-            ViewBag.Layout = Request.IsAuthenticated ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutLanding.cshtml";
+            ViewBag.Layout = Request.IsAuthenticated
+                ? "~/Views/Shared/_Layout.cshtml"
+                : "~/Views/Shared/_LayoutLanding.cshtml";
             return View(items);
 
         }
@@ -64,7 +68,7 @@ namespace SwiftSkool.Controllers
             post.Tags.Clear();
 
             tag = tag ?? string.Empty;
-            string[] tagNames = tag.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tagNames = tag.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string tagName in tagNames)
             {
                 post.Tags.Add(GetTag(tagName));
@@ -76,21 +80,25 @@ namespace SwiftSkool.Controllers
                 //Db.AddToPost(post);
             }
             Db.SaveChanges();
-            return RedirectToAction("Details", new { id = post.ID });
+            return RedirectToAction("Details", new {id = post.ID});
         }
 
         private Tag GetTag(string tagName)
         {
-            return Db.Tags.FirstOrDefault(x => x.Name == tagName) ?? new Tag() { Name = tagName };
+            return Db.Tags.FirstOrDefault(x => x.Name == tagName) ?? new Tag() {Name = tagName};
         }
 
         private Post GetPost(int? id)
         {
-            return id.HasValue ? Db.Posts.First(x => x.ID == id) : new Post() { ID = -1 };
+            return id.HasValue ? Db.Posts.First(x => x.ID == id) : new Post() {ID = -1};
         }
 
 
-        public bool IsAdmin { get { return Session["IsAdmin"] != null && (bool)Session["IsAdmin"]; } }
+        public bool IsAdmin
+        {
+            get { return Session["IsAdmin"] != null && (bool) Session["IsAdmin"]; }
+        }
+
         //public bool IsAdmin { get { return true;/* Session["IsAdmin"] != null && (bool)Session["IsAdmin"];*/ } }
 
         // GET: Posts/Edit/5       
@@ -112,14 +120,16 @@ namespace SwiftSkool.Controllers
             if (!String.IsNullOrEmpty(category))
             {
                 var items = from i in Db.Posts
-                            where i.Title.Contains(category.ToUpper())
-                            select i;
+                    where i.Title.Contains(category.ToUpper())
+                    select i;
                 return View(items);
             }
 
             Post post = GetPost(id);
             ViewBag.IsAdmin = IsAdmin;
-            ViewBag.Layout = Request.IsAuthenticated ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutLanding.cshtml";
+            ViewBag.Layout = Request.IsAuthenticated
+                ? "~/Views/Shared/_Layout.cshtml"
+                : "~/Views/Shared/_LayoutLanding.cshtml";
             return View(post);
 
 
@@ -139,7 +149,7 @@ namespace SwiftSkool.Controllers
             Db.Comments.Add(comment);
             Db.SaveChanges();
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new {id = id});
         }
 
         public ActionResult Delete(int id)
@@ -178,11 +188,12 @@ namespace SwiftSkool.Controllers
         {
             IEnumerable<SyndicationItem> posts =
                 (from post in Db.Posts
-                 where post.DateTime < DateTime.Now
-                 orderby post.DateTime descending
-                 select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
+                    where post.DateTime < DateTime.Now
+                    orderby post.DateTime descending
+                    select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
 
-            SyndicationFeed feed = new SyndicationFeed("HeritageTv", "HeritageTv blog", new Uri("http://localhost:60210/"), posts);
+            SyndicationFeed feed = new SyndicationFeed("HeritageTv", "HeritageTv blog",
+                new Uri("http://localhost:60210/"), posts);
             Rss20FeedFormatter formattedFeed = new Rss20FeedFormatter(feed);
             return new FeedResult(formattedFeed);
         }
@@ -220,7 +231,7 @@ namespace SwiftSkool.Controllers
             post.Tags.Clear();
 
             tag = tag ?? string.Empty;
-            string[] tagNames = tag.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tagNames = tag.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string tagName in tagNames)
             {
                 post.Tags.Add(GetTag(tagName));
@@ -238,8 +249,8 @@ namespace SwiftSkool.Controllers
         public PartialViewResult Menu()
         {
             IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
-                                                            .OrderBy(s => s)
-                                                            .Take(5);
+                .OrderBy(s => s)
+                .Take(5);
             return PartialView(categories);
         }
 
@@ -257,12 +268,25 @@ namespace SwiftSkool.Controllers
             IEnumerable<string> categories = Db.Tags.Select(s => s.Name);
             return PartialView(categories);
         }
+
         public PartialViewResult LIstCategories()
         {
             IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
-                                                            .OrderBy(s => s)
-                                                            .Take(5);
+                .OrderBy(s => s)
+                .Take(5);
             return PartialView(categories);
         }
+
+        //My NewsUpdate addition on the Controller <Igwe>
+        public ActionResult NewsUpdate()
+        {
+            return View();
+        }
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
     }
+
+
 }

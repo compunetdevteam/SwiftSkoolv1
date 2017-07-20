@@ -149,7 +149,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login4(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -160,7 +160,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login4(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -237,7 +237,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 TempData["Title"] = "Success.";
                 return RedirectToAction("GeneralDashboard", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index4", "Home");
         }
 
         //
@@ -980,7 +980,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login4");
             }
 
             // Sign in the user with this external login provider if the user already has a login
@@ -1047,7 +1047,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login4", "Account");
         }
 
         //
