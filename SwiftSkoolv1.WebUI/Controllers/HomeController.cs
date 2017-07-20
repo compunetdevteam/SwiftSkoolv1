@@ -50,12 +50,15 @@ namespace SwiftSkool.Controllers
             //return new Rotativa.ViewAsPdf();
             return View();
         }
-        public ActionResult GeneralDashboard()
+        public async Task<ActionResult> GeneralDashboard()
         {
+            var numberOfSchools = await Db.Schools.AsNoTracking().CountAsync();
+            var model = new GeneralDashboardVm();
+            model.TotalNumberOfSchools = numberOfSchools;
             ViewBag.Message = "Your application description page.";
 
             //return new Rotativa.ViewAsPdf();
-            return View();
+            return View(model);
         }
 
         public async Task<ActionResult> AdminDashboard()
