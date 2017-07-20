@@ -13,8 +13,8 @@
             <div class="card-body no-padding">
                 <div class="alert alert-callout alert-info no-margin">
                     <strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong>
-                    <strong class="text-xl">$ 32,829</strong><br />
-                    <span class="opacity-50">Revenue</span>
+                    <strong class="text-xl">829</strong><br />
+                    <span class="opacity-50">Total Male Student</span>
                     <div class="stick-bottom-left-right">
                         <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
                     </div>
@@ -29,8 +29,8 @@
             <div class="card-body no-padding">
                 <div class="alert alert-callout alert-warning no-margin">
                     <strong class="pull-right text-warning text-lg">0,01% <i class="md md-swap-vert"></i></strong>
-                    <strong class="text-xl">432,901</strong><br />
-                    <span class="opacity-50">Visits</span>
+                    <strong class="text-xl">901</strong><br />
+                    <span class="opacity-50">Total Female StudentS</span>
                     <div class="stick-bottom-right">
                         <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
                     </div>
@@ -72,3 +72,42 @@
     <!-- END ALERT - TIME ON SITE -->
 
 </div><!--end .row -->
+
+
+<!--Section: Notifications-->
+<section class="section section-intro">
+
+    <!--Second row-->
+    <div class="row mb-3">
+
+        <!--First column-->
+        <div class="col-md-4 mb-1">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+                <div class="admin-panel info-admin-panel">
+                    <!--Card image-->
+                    <div class="view">
+                        <h5>Latest News Post</h5>
+                    </div>
+                    <!--/Card image-->
+
+                    <!--Card content-->
+                    <div class="card-block">
+
+                        <div class="list-group">
+                            @Html.Action("Menu", "Posts")
+                        </div>
+
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+            </div>
+            <!--/.Card-->
+        </div>
+        <!--/First column-->
+
+    </div>
+
+</section>

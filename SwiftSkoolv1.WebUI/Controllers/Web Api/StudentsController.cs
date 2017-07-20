@@ -7,15 +7,17 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using SwiftSkoolv1.WebUI.APIRepository.RepoAbstractions;
 
 namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 {
-    public class StudentsController : BaseApiController
+    public class StudentsController : ApiController
     {
+        private readonly IStudentRepository _repo;
 
-        public StudentsController()
+        public StudentsController(IStudentRepository repo)
         {
-
+            _repo = repo;
         }
 
         // GET: api/Students
@@ -27,7 +29,7 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         /// <returns>Task<IQueryable<StudentClientViewModel>></StudentClientViewModel></returns>
         public async Task<IQueryable<StudentClientViewModel>> GetStudents()
         {
-            var students = await _db.Students.AsNoTracking().Where(s => s.UserName.Equals(User.Identity.Name))
+            var students = await _repo.GetAll().AsNoTracking().Where(s => s.UserName.Equals(User.Identity.Name))
                               .Select(s => new StudentClientViewModel
                               {
                                   StudentId = s.StudentId,
@@ -50,7 +52,7 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         [ResponseType(typeof(StudentClientViewModel))]
         public async Task<IHttpActionResult> GetStudent(string id)
         {
-            var student = await _db.Students.AsNoTracking().Where(s => s.StudentId.Equals(id))
+            var student = await _repo.GetAll().AsNoTracking().Where(s => s.StudentId.Equals(id))
                                    .Select(s => new StudentClientViewModel
                                    {
                                        StudentId = s.StudentId,
@@ -87,11 +89,11 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
                 return BadRequest();
             }
 
-            _db.Entry(student).State = EntityState.Modified;
+            _repo.Update(student);
 
             try
             {
-                await _db.SaveChangesAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -117,11 +119,11 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
                 return BadRequest(ModelState);
             }
 
-            _db.Students.Add(student);
+            _repo.Add(student);
 
             try
             {
-                await _db.SaveChangesAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateException)
             {
@@ -142,14 +144,14 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> DeleteStudent(string id)
         {
-            Student student = await _db.Students.FindAsync(id);
+            var student = await _repo.GetByIdAsync(id);
             if (student == null)
             {
                 return NotFound();
             }
 
-            _db.Students.Remove(student);
-            await _db.SaveChangesAsync();
+            _repo.Delete(student);
+            await _repo.SaveAsync();
 
             return Ok(student);
         }
@@ -165,7 +167,7 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 
         private bool StudentExists(string id)
         {
-            return _db.Students.Count(e => e.StudentId == id) > 0;
+            return _repo.GetAll().Count(e => e.StudentId == id) > 0;
         }
     }
 }

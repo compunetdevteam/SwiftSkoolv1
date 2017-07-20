@@ -249,11 +249,117 @@
 </section>
 <!--/Section: Notifications-->
 
+<!--Third row-->
+<div class="row">
+
+    <div class="col-md-12">
+        <!--Card-->
+        <div class="card card-cascade narrower">
+
+            <!--Admin panel-->
+            <div class="admin-panel indigo-admin-panel">
+
+                <!--Second row-->
+                <div class="row m-b-0">
+                    <!--First column-->
+                    <div class="col-md-12">
+
+                        <!--Panel content-->
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <!--Table-->
+                                <table class="table table-hover mb-0">
+                                    <!--Table head-->
+                                    <thead>
+                                    <tr>
+                                        <th>Days</th>
+                                        <th>8:45 - 10 am</th>
+                                        <th>10-10:30am</th>
+                                        <th>10:30 - 12</th>
+                                        <th>12 - 12:30 </th>
+                                        <th>12:30 - 2pm</th>
+                                        <th>2 - 3:30pm</th>
+                                       
+                                    </tr>
+                                    </thead>
+                                    <!--/Table head-->
+
+                                    <!--Table body-->
+                                    <tbody>
+                                    <tr class="none-top-border">
+                                        <td class="font-weight-bold">Monday</td>
+                                        <td>Maths</td>
+                                        <td>Break</td>
+                                        <td>English</td>
+                                        <td>Break</td>
+                                        <td>Computer</td>
+                                        <td>2 Arts</td>
+                                      
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Tuesday</td>
+                                        <td>English</td>
+                                        <td>Break</td>
+                                        <td>Maths</td>
+                                        <td>Break</td>
+                                        <td>Arts</td>
+                                        <td>Computer</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Wednesday</td>
+                                        <td>Computer</td>
+                                        <td>Break</td>
+                                        <td>English</td>
+                                        <td>Break</td>
+                                        <td>Maths</td>
+                                        <td>2 Arts</td>
+                                      
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Thursday</td>
+                                        <td>Arts</td>
+                                        <td>Break</td>
+                                        <td>Maths</td>
+                                        <td>Break</td>
+                                        <td>Computer</td>
+                                        <td>English</td>
+                                      
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Friday</td>
+                                        <td>Maths</td>
+                                        <td>Break</td>
+                                        <td>English</td>
+                                        <td>Break</td>
+                                        <td>Computer</td>
+                                        <td>2 Arts</td>
+                                    </tr>
+                                    </tbody>
+                                    <!--/Table body-->
+                                </table>
+                                <!--/Table-->
+                            </div>
+                        </div>
+                        <!--/.Panel content-->
+
+                    </div>
+                    <!--/First column-->
+                </div>
+                <!--/Second row-->
+
+            </div>
+            <!--/Admin panel-->
+
+        </div>
+        <!--/.Card-->
+    </div>
+
+</div>
+<!--/Third row-->
 
 
-
-
-<div class="section-body">
+@*<div class="section-body">
 
     <div class="row">
 
@@ -276,7 +382,7 @@
                         
                         @*<div class="stick-bottom-left-right">
                             <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                        </div>*@
+                        </div>
                     </div>
                 </div><!--end .card-body -->
             </div><!--end .card -->
@@ -404,10 +510,10 @@
                     <strong class="text-xl">
 
 
-                        @* logic to check if student has been assigned a class *@
+                         logic to check if student has been assigned a class 
 
-                        @*@if(ViewBag.Class == null) { @ViewBag.NotAssinged}
-                            else{ @ViewBag.Class}*@
+                        @if(ViewBag.Class == null) { @ViewBag.NotAssinged}
+                            else{ @ViewBag.Class}
 
                     </strong><br />
                     <span class="opacity-50">School Fees</span>
@@ -435,7 +541,7 @@
                             <ul>
                                 
                                 
-                                @*@foreach (var subjects in Model.Subjects)
+                                @foreach (var subjects in Model.Subjects)
                                 {
                                     if (subjects == null)
                                     {
@@ -448,7 +554,7 @@
                                     }
                                    
 
-                                }*@
+                                }
 
                             </ul>
                         </div>
@@ -463,7 +569,7 @@
 </div><!--end .row -->
         
         
-@* school fee analysis *@
+ school fee analysis
 <div class="row">
     <div class="col-md-3">
         <div class="card">
@@ -473,10 +579,10 @@
                     <strong class="text-xl">
 
 
-                        @* logic to check if student has been assigned a class *@
+                      logic to check if student has been assigned a class 
 
-                        @*@if(ViewBag.Class == null) { @ViewBag.NotAssinged}
-                            else{ @ViewBag.Class}*@
+                       @if(ViewBag.Class == null) { @ViewBag.NotAssinged}
+                            else{ @ViewBag.Class}
 
                     </strong><br />
                     <span class="opacity-50">School Fee Analysis</span>
@@ -497,7 +603,7 @@
 
  </div>
         
-@* end of school fee analysis *@
+@* end of school fee analysis
         
 
 <!-- BEGIN CALENDAR -->

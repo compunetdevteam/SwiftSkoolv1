@@ -105,23 +105,21 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SchoolVm model)
         {
-
-            if (ModelState.IsValid)
+            var currentsch = await Db.Schools.FindAsync(model.SchoolId);
+            if (ModelState.IsValid && currentsch != null)
             {
-                var school = new School
-                {
-                    SchoolId = model.SchoolId,
-                    Name = model.Name,
-                    Alias = model.Alias,
-                    Address = model.Address,
-                    LocalGovtArea = model.LocalGovtArea.ToString(),
-                    Color = model.Color.ToString(),
-                    OwernshipType = model.OwernshipType.ToString(),
-                    DateOfEstablishment = model.DateOfEstablishment,
-                    Logo = model.Logo,
-                    SchoolBanner = model.SchoolBanner
-                };
-                Db.Entry(school).State = EntityState.Modified;
+                currentsch.SchoolId = model.SchoolId;
+                currentsch.Name = model.Name;
+                currentsch.Alias = model.Alias;
+                currentsch.Address = model.Address;
+                currentsch.LocalGovtArea = model.LocalGovtArea.ToString();
+                currentsch.Color = model.Color.ToString();
+                currentsch.OwernshipType = model.OwernshipType.ToString();
+                currentsch.DateOfEstablishment = model.DateOfEstablishment;
+                currentsch.Logo = model.Logo;
+                currentsch.SchoolBanner = model.SchoolBanner;
+
+                Db.Entry(currentsch).State = EntityState.Modified;
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

@@ -44,7 +44,7 @@ namespace SwiftSkoolv1.WebUI.APIRepository.Repository
 
         public IQueryable<Student> GetAll()
         {
-            return _db.Students;
+            return _db.Students.Include(s => s.Guardian).Include(s => s.AssignedClasses);
         }
 
         public async Task<Student> GetByIdUnTrackedAsync(string id)
@@ -83,12 +83,14 @@ namespace SwiftSkoolv1.WebUI.APIRepository.Repository
 
         public Task<int> SaveAsync()
         {
-            throw new NotImplementedException();
+            return _db.SaveChangesAsync();
         }
 
         public void Update(Student entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new Exception("Please pass a valid student for updating");
+            _db.Entry(entity).State = EntityState.Modified;
         }
     }
 }
