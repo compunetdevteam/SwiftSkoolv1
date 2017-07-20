@@ -9,6 +9,6 @@ namespace SwiftSkoolv1.WebUI.ViewModels
     public class GeneralDashboardVm
     {
         public int TotalNumberOfSchools { get; set; }
-    
+        public int TotlaNumberOfStudents { get; set; }
 }
 }

@@ -5,9 +5,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using SwiftSkoolv1.Domain;
 
 
 namespace SwiftSkool.Controllers
@@ -53,8 +55,13 @@ namespace SwiftSkool.Controllers
         public async Task<ActionResult> GeneralDashboard()
         {
             var numberOfSchools = await Db.Schools.AsNoTracking().CountAsync();
+
+            var numberOfStudent =await Db.Students.AsNoTracking().Include( s => s.SchoolId).CountAsync();
+            
             var model = new GeneralDashboardVm();
             model.TotalNumberOfSchools = numberOfSchools;
+            model.TotlaNumberOfStudents = numberOfStudent;
+
             ViewBag.Message = "Your application description page.";
 
             //return new Rotativa.ViewAsPdf();
