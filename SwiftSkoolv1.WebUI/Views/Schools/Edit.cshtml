@@ -17,7 +17,7 @@
         <h4>School</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.SchoolId)
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -90,6 +90,7 @@
 
 @using (Html.BeginForm("Edit", "Schools", FormMethod.Post, new { enctype = "multipart/form-data", id = "myform" }))
 {
+    @Html.HiddenFor(model => model.SchoolId)
     @Html.AntiForgeryToken()
     <div class="container-fluid">
         <!-- Section: Edit Account -->
@@ -270,7 +271,7 @@
                                     <!-- Fourth row -->
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <input type="submit" id="btnsubmit" value="Create School Account" class="btn btn-primary">
+                                            <input type="submit" id="btnsubmit" value="Edit" class="btn btn-primary">
                                         </div>
                                     </div>
                                     <!-- /.Fourth row -->
