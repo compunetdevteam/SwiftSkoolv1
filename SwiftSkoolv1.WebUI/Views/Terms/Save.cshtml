@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <div class="col-md-10">
-                        <input type="checkbox" id="ActiveTerm" name="ActiveTerm">
+                        <input type="checkbox" id="@Model.ActiveTerm" name="@Model.ActiveTerm">
                         @*@Html.EditorFor(model => model.ActiveTerm)*@
                         @Html.LabelFor(model => model.ActiveTerm)
                         @Html.ValidationMessageFor(model => model.ActiveTerm, "", new { @class = "text-danger" })

@@ -1,4 +1,4 @@
-﻿@model SwiftSkoolv1.Domain.CaSetUp
+﻿@model SwiftSkoolv1.WebUI.Models.CaSetUp
 
 @{
     ViewBag.Title = "Edit";
@@ -52,18 +52,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ClassId, "SchoolClassId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClassName, "Class Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ClassId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+                @Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TermId, "TermId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TermName, "Term Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("TermId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TermId, "", new { @class = "text-danger" })
+                @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
             </div>
         </div>
 

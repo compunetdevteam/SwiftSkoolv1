@@ -124,7 +124,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.SubjectId = new MultiSelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
             ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             ViewBag.TermName = new MultiSelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            return PartialView();
+            return PartialView(assignSubject);
         }
 
 

@@ -56,6 +56,11 @@
 
 
 <script type="text/javascript">
+    var i = "@ViewBag.Message";
+    if (i) {
+        toastr["error"](data.message);
+    }
+    
     $(document).ready(function () {
 
         window.oTable = $("#Jdatatable").DataTable({

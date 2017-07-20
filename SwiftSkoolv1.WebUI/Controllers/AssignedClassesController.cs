@@ -159,23 +159,66 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(AssignedClass assignedClass)
+        public async Task<ActionResult> Save(AssignedClassesViewModel model)
         {
             var status = false;
             var message = string.Empty;
             if (ModelState.IsValid)
             {
-                if (assignedClass.AssignedClassId > 0)
+                if (model.AssignedClassId > 0)
                 {
-                    assignedClass.SchoolId = userSchool;
-                    Db.Entry(assignedClass).State = EntityState.Modified;
-                    message = "Class Updated Successfully...";
+                    var studentName = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(model.StudentId))
+                        .Select(s => s.FullName)
+                        .FirstOrDefaultAsync();
+                    var assigClass = new AssignedClass()
+                    {
+                        AssignedClassId = model.AssignedClassId,
+                        StudentId = model.StudentId.ToString(),
+                        ClassName = model.ClassName,
+                        TermName = model.TermName.ToString(),
+                        SessionName = model.SessionName,
+                        SchoolId = userSchool
+                    };
+                    Db.Entry(assigClass).State = EntityState.Modified;
+                    await Db.SaveChangesAsync();
+                    message = "Student Class Updated Successfully.";
                 }
                 else
                 {
-                    assignedClass.SchoolId = userSchool;
-                    Db.AssignedClasses.Add(assignedClass);
-                    message = "Class Created Successfully...";
+                    if (model.StudentId != null)
+                    {
+                        int counter = 0;
+                        string theClass = "";
+                        foreach (var item in model.StudentId)
+                        {
+                            var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(
+                                x => x.TermName.Equals(model.TermName.ToString())
+                                     && x.SessionName.Equals(model.SessionName)
+                                     && x.StudentId.Equals(item));
+
+                            if (countFromDb >= 1)
+                            {
+                                message = "You have already Assigned Class one or more of these student";
+                                return new JsonResult { Data = new { status = false, message = message } };
+                            }
+                            var studentName = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(item))
+                                .Select(s => s.FullName)
+                                .FirstOrDefaultAsync();
+                            var assigClass = new AssignedClass
+                            {
+                                StudentId = item,
+                                ClassName = model.ClassName,
+                                TermName = model.TermName,
+                                SessionName = model.SessionName,
+                                StudentName = studentName,
+                                SchoolId = userSchool
+                            };
+                            Db.AssignedClasses.Add(assigClass);
+                            counter += 1;
+                            theClass = model.ClassName;
+                        }
+                        message = $"You have Assigned to {counter} Student(s) to {theClass} Successfully.";
+                    }
                 }
                 await Db.SaveChangesAsync();
                 status = true;

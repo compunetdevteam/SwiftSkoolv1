@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SwiftSkoolv1.Domain.CaSetUp>
+﻿@model IEnumerable<SwiftSkoolv1.WebUI.Models.CaSetUp>
 
 
 <style>
@@ -10,22 +10,60 @@
 
 
 
-<div class="tablecontainer" style="width: 90%; margin: 0 auto">
-    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Create CA</a>
-    @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-    <table id="Jdatatable" class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th class="sort-alpha">Full Class Name</th>
-                <th class="sort-alpha">Term</th>
-                <th class="sort-alpha">Ca Order</th>
-                <th class="sort-alpha">CA Caption</th>
-                <th class="sort-alpha">Maximun Score</th>
-                <th>Actions</th>
+@*<div class="tablecontainer" style="width: 90%; margin: 0 auto">
+        <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Create CA</a>
+        @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*
+        <table id="Jdatatable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Full Class Name</th>
+                    <th>Term</th>
+                    <th>Ca Order</th>
+                    <th>CA Caption</th>
+                    <th>Maximun Score</th>
+                    <th>Actions</th>
 
-            </tr>
-        </thead>
-    </table>
+                </tr>
+            </thead>
+        </table>
+    </div>*@
+
+<div class="row">
+
+    @using (Html.BeginForm("Index", "CaSetUps", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <!-- BEGIN INLINE FORM -->
+        <div class="row">
+            <div class="col-md-4">
+                <article class="margin-bottom-xxl">
+                    <p class="lead">
+                        Please use the box below to search
+                    </p>
+                </article>
+            </div><!--end .col -->
+            <div class="col-md-3">
+
+                <div class="md-form">
+                    @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "mdb-select" })
+                    <label for="ClassName">Class</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="md-form">
+                    @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "mdb-select" })
+                    <label for="TermName">Term Name</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+            <span><a href="#" onclick="myFunction()" class="btn btn-primary">Add New SetUp</a></span>
+        </div><!--end .card-body -->
+
+
+
+
+
+    }
+
 </div>
 
 
@@ -56,57 +94,16 @@
 
 
 
-@*@using (Html.BeginForm("Index", "CaSetUps", FormMethod.Get, new { @class = "form-inline" }))
-{
-    <!-- BEGIN INLINE FORM -->
-    <div class="row">
-        <div class="col-lg-7">
-            <article class="margin-bottom-xxl">
-                <p class="lead">
-                    Please use the box below to search
-                </p>
-            </article>
-        </div><!--end .col -->
-        <div class="col-lg-12">
-            <form class="form-inline">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-group">
-                            @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "form-control" })
-                            <label for="ClassName">Class</label>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
-
-                            @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })
-                            <label for="TermName">Term Name</label>
-                        </div>
-                        <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
-
-            </form>
-        </div><!--end .col -->
-    </div>
-
-    <!--end .row -->
-    <!-- END INLINE FORM -->
-}*@
 
 
 
-
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Class.FullClassName)
+            @Html.DisplayNameFor(model => model.ClassName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Term.TermName)
+            @Html.DisplayNameFor(model => model.TermName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CaOrder)
@@ -118,40 +115,41 @@
             @Html.DisplayNameFor(model => model.MaximumScore)
         </th>
         <th>
-           Is Enabled
+            Is Enabled
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Class.FullClassName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Term.TermName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CaOrder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CaCaption)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaximumScore)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsTrue)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CaSetUpId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CaSetUpId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CaSetUpId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaCaption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsTrue)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.CaSetUpId }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.CaSetUpId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.CaSetUpId })
+                </td>*@
+        </tr>
+    }
 
-</table>*@
+</table>
 
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
@@ -159,7 +157,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-      
+
 
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
@@ -174,16 +172,16 @@
                 "datatype": "json"
             },
             "columns": [
-                { "data": "Term.TermName", "autoWidth": true },
+                { "data": "TermName", "autoWidth": true },
                 { "data": "CaOrder", "autoWidth": true },
                 { "data": "CaCaption", "autoWidth": true },
-                { "data": "Class.ClassName", "autoWidth": true },
+                { "data": "ClassName", "autoWidth": true },
                 {
                     "data": "CaSetUpId",
                     "autoWidth": true,
-                    "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
 
                     }
                 }
@@ -198,7 +196,7 @@
                 //{ "data": "Phone", "autoWidth": true },
             ]
         });
-      
+
     });
     function Edit(caSetUpId) {
         var url = "/CaSetUps/Save?id=" + caSetUpId;
@@ -219,7 +217,7 @@
             });
     };
     function myFunction() {
-        var url = "/CaSetUps/Save?id=0";
+        var url = "/CaSetUps/SelectEdit";
         //$('#actionsList').modal("show");
         // window.alert(url);
         $('#myModalDivBody').load(url,

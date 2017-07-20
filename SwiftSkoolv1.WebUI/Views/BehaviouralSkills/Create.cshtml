@@ -41,7 +41,7 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
     $(document).ready(function () {
         //window.alert("ready");
@@ -59,7 +59,7 @@
                 data: data,
                 success: function (response) {
                     $("#loaderDiv").hide();
-                    alertify.success('Behavioral Skills was Successfully');
+                    toastr.success('Behavioral Skills was Successfully');
                 }
             });
         });

@@ -16,7 +16,7 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Current Term")]
         public bool ActiveTerm { get; set; }
-        public virtual ICollection<CaSetUp> SchoolCas { get; set; }
+       // public virtual ICollection<CaSetUp> SchoolCas { get; set; }
         public ICollection<ExamLog> ExamLogs { get; set; }
         public ICollection<ExamSetting> ExamSettings { get; set; }
         public ICollection<ResultAvailability> ResultAvailabilities { get; set; }

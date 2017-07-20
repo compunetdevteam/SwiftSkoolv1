@@ -17,7 +17,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class CaListsController : BaseController
     {
 
-        public async Task<ActionResult> SelectIndex()
+        public async Task<ActionResult> CreateCaView()
         {
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
@@ -40,7 +40,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //    CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
             //                && x.SchoolId.Equals(userSchool)).OrderBy(o => o.CaOrder).ToList()
             //};
-            //ViewBag.SetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true));
+            ViewBag.SetUpCount = 0;
             //return View(myCalist);
             return View();
         }
@@ -79,8 +79,24 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<ActionResult> CreateCaView(CaSelectIndexVm model)
         {
             var myCalist = await GenerateCaList(model);
-            ViewBag.SetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true) && x.SchoolId.Equals(userSchool));
+            //return RedirectToAction("SelectIndex", myCalist.ToList());
 
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+
+            if (User.IsInRole("Teacher"))
+            {
+                string name = User.Identity.GetUserName();
+                var subjectList = Db.AssignSubjectTeachers.AsNoTracking().Where(x => x.StaffName.Equals(name));
+                ViewBag.SubjectId = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
+                ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            }
+            else
+            {
+                ViewBag.SubjectId = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
+                ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            }
+            ViewBag.SetUpCount = myCalist.Select(s => s.CaSetUpCount).FirstOrDefault();
             return View(myCalist.ToList());
         }
 
@@ -88,6 +104,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             var students = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
                                                                         && x.ClassName.Equals(model.ClassName)).ToList();
+
+            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(model.ClassName))
+                                                .Select(s => s.ClassName).FirstOrDefault();
             var subject = await Db.Subjects.FindAsync(model.SubjectId);
             var calist = Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
                                                               x.ClassName.Equals(model.ClassName)
@@ -110,12 +129,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         SessionName = list.SessionName,
                         CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
                                                          && x.SchoolId.Equals(userSchool)
-                                                         && x.Class.FullClassName.Equals(model.ClassName)
-                                                         && x.Term.TermName.Equals(model.TermName))
+                                                         && x.ClassName.Equals(studentClassName)
+                                                         && x.TermName.Equals(model.TermName))
                                                         .OrderBy(o => o.CaOrder).ToList(),
 
                         CaSetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true)
-                                                        && x.Class.FullClassName.Equals(model.ClassName)),
+                                                              && x.SchoolId.Equals(userSchool)
+                                                              && x.TermName.Equals(model.TermName)
+                                                        && x.ClassName.Equals(studentClassName)),
                         FirstCa = list.FirstCa,
                         SecondCa = list.SecondCa,
                         ThirdCa = list.ThirdCa,
@@ -145,13 +166,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         SessionName = model.SessionName,
                         CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
                                                          && x.SchoolId.Equals(userSchool)
-                                                         && x.Class.FullClassName.Equals(model.ClassName)
-                                                         && x.Term.TermName.Equals(model.TermName))
+                                                         && x.ClassName.Equals(studentClassName)
+                                                         && x.TermName.Equals(model.TermName))
                                                         .OrderBy(o => o.CaOrder).ToList(),
 
 
                         CaSetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true)
-                                                    && x.SchoolId.Equals(userSchool)),
+                                                                             && x.SchoolId.Equals(userSchool)
+                                                                             && x.TermName.Equals(model.TermName)
+                                                                             && x.ClassName.Equals(studentClassName)),
                     };
                     myCalist.Add(ca);
                 }
@@ -165,7 +188,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             //var facilityList = Db.Communications.AsNoTracking().ToList();
             var myCalist = await GenerateCaList(model);
-            var setUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true) && x.SchoolId.Equals(userSchool));
+            var setUpCount = myCalist.Select(s => s.CaSetUpCount).FirstOrDefault();
             char c1 = 'A';
             ExcelPackage package = new ExcelPackage();
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Report");
@@ -743,10 +766,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
         private bool GetValidation(string className, string termName, string caSetUpCount, double maximumScore,
             string inputScore)
         {
+            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
+                .Select(s => s.ClassName).FirstOrDefault();
             var setUps = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
                                                                && x.SchoolId.Equals(userSchool)
-                                                               && x.Class.FullClassName.Equals(className)
-                                                               && x.Term.TermName.Equals(termName))
+                                                               && x.ClassName.Equals(studentClassName)
+                                                               && x.TermName.Equals(termName))
                 .OrderBy(o => o.CaOrder).ToList();
 
             if (Convert.ToInt16(caSetUpCount) > 1)
@@ -790,10 +815,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
+            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
+                .Select(s => s.ClassName).FirstOrDefault();
+
             var setUps = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
                                                                && x.SchoolId.Equals(userSchool)
-                                                               && x.Class.FullClassName.Equals(className)
-                                                               && x.Term.TermName.Equals(termName))
+                                                               && x.ClassName.Equals(studentClassName)
+                                                               && x.TermName.Equals(termName))
                 .OrderBy(o => o.CaOrder).ToList();
 
             if (Convert.ToInt16(caSetUpCount) == 1)

@@ -381,9 +381,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         }
                         string lineError = $"Line/Row number {myArray[0]}  and column {myArray[1]} is not rightly formatted, Please Check for anomalies ";
                         //ViewBag.LineError = lineError;
-                        TempData["UserMessage"] = lineError;
-                        TempData["Title"] = "Error.";
-                        return View();
+                        ViewBag.Message = lineError;
+                        RedirectToAction("Index", "Guardians");
                     }
 
                     for (int row = 2; row <= noOfRow; row++)
@@ -434,15 +433,24 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         }
                         catch (Exception e)
                         {
+                            ViewBag.ErrorMessage = $"Student Id doesn,t exist for row {row}{e.Message}";
                             return View("Error3");
                         }
+
+                    }
+                    try
+                    {
                         await Db.SaveChangesAsync();
                         message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
-                        TempData["UserMessage"] = message;
-                        TempData["Title"] = "Success.";
+                        ViewBag.Message = message;
+                        return RedirectToAction("Index", "Guardians");
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.ErrorMessage = $"Student Id in record doesn't exist. {e.Message}";
+                        return View("Error3");
                     }
 
-                    return RedirectToAction("Index", "Guardians");
                 }
             }
             ViewBag.Error = "File type is Incorrect <br/>";

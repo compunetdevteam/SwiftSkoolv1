@@ -45,7 +45,7 @@ namespace SwiftSkoolv1.Domain
 
         public virtual AssignedClass AssignClass { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
-        public virtual ICollection<CaSetUp> SchoolCas { get; set; }
+        //public virtual ICollection<CaSetUp> SchoolCas { get; set; }
         public virtual ICollection<TimeTable> TimeTables { get; set; }
         public ICollection<ExamLog> ExamLogs { get; set; }
         public ICollection<ExamRule> ExamRules { get; set; }

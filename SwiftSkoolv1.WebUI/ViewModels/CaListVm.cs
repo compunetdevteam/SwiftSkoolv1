@@ -1,6 +1,7 @@
 ﻿using SwiftSkoolv1.Domain;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using CaSetUp = SwiftSkoolv1.WebUI.Models.CaSetUp;
 
 
 namespace SwiftSkoolv1.WebUI.ViewModels

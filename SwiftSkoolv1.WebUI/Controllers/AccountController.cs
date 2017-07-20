@@ -807,7 +807,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
                     //Assign Role to user Here 
                     await this.UserManager.AddToRoleAsync(user.Id, "Admin");
 
