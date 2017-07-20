@@ -54,13 +54,24 @@ namespace SwiftSkool.Controllers
         }
         public async Task<ActionResult> GeneralDashboard()
         {
+            //get the total number of school that SwiftSkool support
             var numberOfSchools = await Db.Schools.AsNoTracking().CountAsync();
 
+            //get the total number of student that SwiftSkool supports
             var numberOfStudent =await Db.Students.AsNoTracking().Include( s => s.SchoolId).CountAsync();
-            
+
+            //total number of female student in the software
+            var numberOfFemale = await Db.Students.AsNoTracking().Where(x => x.Gender.Equals("Female")).CountAsync();
+
+            //total number of male student in the application
+            var numberOfMale = await Db.Students.AsNoTracking().Where(x => x.Gender.Equals("Male")).CountAsync();
+
+
             var model = new GeneralDashboardVm();
             model.TotalNumberOfSchools = numberOfSchools;
             model.TotlaNumberOfStudents = numberOfStudent;
+            model.MaleStudent = numberOfMale;
+            model.FemaleStudent = numberOfFemale;
 
             ViewBag.Message = "Your application description page.";
 
