@@ -494,7 +494,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var totalValue = setUpSum + Convert.ToDouble(caPercentage);
 
 
-            if (totalValue > 100)
+            if (totalValue > 101)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }

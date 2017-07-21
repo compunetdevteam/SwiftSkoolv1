@@ -166,7 +166,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var totalStudent = male + female;
 
-         //   model.Subjects = await _resultCommand.NameOfSubjectOfferedByStudent();
+            //   model.Subjects = await _resultCommand.NameOfSubjectOfferedByStudent();
 
             model.ClassName = myClass;
             model.MaleStudents = male;
@@ -234,7 +234,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             var student = await Db.Students.FindAsync(id);
-            
+
             return PartialView(student);
         }
 
@@ -464,6 +464,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             _resultCommand = new ResultCommandManager(id, term, sessionName, userSchool);
             var reportModel = new ReportVm();
             var newCalist = new List<ContinuousAssesmentVm>();
+            var mySchoolClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
+                                                                          && x.FullClassName.Equals(_resultCommand._className))
+                .Select(s => s.ClassName).FirstOrDefault(); ;
             foreach (var ca in _resultCommand._studentCa)
             {
                 var caVm = new ContinuousAssesmentVm
@@ -535,8 +538,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             reportModel.SessionName = sessionName;
             reportModel.ClassName = _resultCommand._className;
             reportModel.Student = await Db.Students.FindAsync(id);
-            reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
-                                                         && x.ClassName.Equals(_resultCommand._className))
+            reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool) && x.IsTrue.Equals(true)
+                                                         && x.ClassName.Equals(mySchoolClassName))
                                                         .OrderBy(o => o.CaOrder).ToListAsync();
             reportModel.CaSetUpCount = reportModel.CaSetUp.Count();
 

@@ -323,11 +323,11 @@
         <tr>
             <td><strong>No of Subject Offered: </strong>@Html.DisplayFor(model => model.NoOfSubjectOffered) </td>
             @*<td><strong>Total: </strong>@Html.DisplayFor(model => model.TotalScore)</td>*@
-            <td><strong>Distinctions: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("A1"))</td>
+            @*<td><strong>Distinctions: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("A1"))</td>
             <td><strong>Good: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("B2") || x.Grading.Equals("B3"))</td>
             <td><strong>Credit: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("C4") || x.Grading.Equals("C5") || x.Grading.Equals("C6"))</td>
             <td><strong>Pass: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("D7") || x.Grading.Equals("E8"))</td>
-            <td><strong>Fail: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("F9"))</td>
+            <td><strong>Fail: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("F9"))</td>*@
         </tr>
         <tr>
             <td><strong>Terminal Performance:</strong></td>

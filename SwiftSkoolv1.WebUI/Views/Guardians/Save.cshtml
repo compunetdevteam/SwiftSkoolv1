@@ -1,6 +1,6 @@
 ﻿@model SwiftSkoolv1.WebUI.ViewModels.GuardianViewModel
 
-
+<link href="~/Content/chosen.css" rel="stylesheet" />
 <form id="myform" onsubmit="return false;">
     @Html.AntiForgeryToken()
     <div class="card">
@@ -32,9 +32,9 @@
             @Html.ValidationSummary(true, "", new { @class = "form text-danger" })
 
             <div class="md-form">
-                @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "mdb-select" })
-                @Html.LabelFor(model => model.StudentId)
-                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                
+                @Html.DropDownList("StudentId", null, htmlAttributes: new {@class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentId, "", new {@class = "text-danger"})
 
             </div>
             <div class="md-form">
