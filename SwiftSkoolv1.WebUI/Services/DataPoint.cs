@@ -16,6 +16,7 @@ namespace SwiftSkool.Services
         {
             this.Y = y;
             this.Label = label;
+            this.Label2 = label2;
         }
         public DataPoint(double y, string label)
         {
@@ -57,6 +58,12 @@ namespace SwiftSkool.Services
         //Explicitly setting the name to be used while serializing to JSON. 
         [DataMember(Name = "label")]
         public string Label = null;
+
+
+
+        //Explicitly setting the name to be used while serializing to JSON. 
+        [DataMember(Name = "label2")]
+        public string Label2 = null;
 
         //Explicitly setting the name to be used while serializing to JSON.
         [DataMember(Name = "y")]
