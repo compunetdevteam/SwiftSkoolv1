@@ -41,11 +41,12 @@
     <link href="~/Content/MdCss/customizer.min.css" rel="stylesheet" />
     
     <!-- Your custom styles (optional) -->
-    <link href="~/Content/MdCss/style.css" rel="stylesheet" />
+  
     @*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />*@
     <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
+    <link href="~/Content/MdCss/style.css" rel="stylesheet" />
 </head>
 @{
     string myColor = "white-skin";
@@ -578,10 +579,10 @@ else if (Request.IsAuthenticated && User.IsInRole("Student"))
 
     <!--Copyright-->
     <div class="footer-copyright">
-        <div class="container-fluid">
+       
             © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> CompunetLimited.com </a>
-
-        </div>
+            @*<img class="img-responsive img-backdrop" src="~/Content/images/comlogo.png" alt="Compunet Limited" href="https://www.CompunetLimited.org" width="50" height="15">*@
+       
     </div>
     <!--/.Copyright-->
 

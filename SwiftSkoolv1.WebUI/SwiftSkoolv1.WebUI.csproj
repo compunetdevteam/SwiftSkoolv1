@@ -525,6 +525,7 @@
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\images\banner2.jpg" />
     <Content Include="Content\images\comlogo.png" />
+    <Content Include="Content\images\compunetLogo.jpg" />
     <Content Include="Content\images\im5.jpg" />
     <Content Include="Content\images\im6.jpg" />
     <Content Include="Content\images\im7.jpg" />
@@ -1107,6 +1108,7 @@
     <Content Include="Views\Staffs\ExcelUpload.cshtml" />
     <Content Include="Views\Shared\_LayoutBoot.cshtml" />
     <Content Include="Views\Shared\_LayoutCheck.cshtml" />
+    <Content Include="Views\Results\SearhResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
