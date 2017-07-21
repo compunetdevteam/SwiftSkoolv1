@@ -1,4 +1,5 @@
-﻿using SwiftSkoolv1.WebUI.BusinessLogic;
+﻿using Rotativa;
+using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Collections.Generic;
@@ -27,16 +28,43 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
             return PartialView();
         }
-        #region Result Display
-        public async Task<ActionResult> PrintSecondTerm(string id, string term, string sessionName)
+        public async Task<ActionResult> SearhResultMain()
         {
+            ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
+            return View();
+        }
+        #region Result Display
+        public async Task<ActionResult> DownloadResult(string StudentId, string TermName, string SessionName)
+        {
+            var id = StudentId;
+            var termName = TermName;
+            var sessionName = SessionName;
 
-            _resultCommand = new ResultCommandManager(id, term, sessionName, userSchool);
+            var reportModel = await GenerateTermReport(id, termName, sessionName);
+            return new ViewAsPdf("DownloadResult", reportModel);
+        }
+
+
+        public async Task<ActionResult> ViewResult(string StudentId, string TermName, string SessionName)
+        {
+            var id = StudentId;
+            var termName = TermName;
+            var sessionName = SessionName;
+            var reportModel = await GenerateTermReport(id, termName, sessionName);
+            return View(reportModel);
+
+        }
+        private async Task<ReportVm> GenerateTermReport(string id, string termName, string sessionName)
+        {
+            _resultCommand = new ResultCommandManager(id, termName, sessionName, userSchool);
             var reportModel = new ReportVm();
             var newCalist = new List<ContinuousAssesmentVm>();
             var mySchoolClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
                                                                          && x.FullClassName.Equals(_resultCommand._className))
-                .Select(s => s.ClassName).FirstOrDefault(); ;
+                .Select(s => s.ClassName).FirstOrDefault();
+            ;
             foreach (var ca in _resultCommand._studentCa)
             {
                 var caVm = new ContinuousAssesmentVm
@@ -62,7 +90,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     StaffName = ca.StaffName
                 };
                 newCalist.Add(caVm);
-
             }
             reportModel.ContinuousAssesmentVms = newCalist;
 
@@ -73,17 +100,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
             reportModel.OverAllGrade = _gradeRemark.Grading(reportModel.Average, _resultCommand._className, userSchool);
 
 
-
-
-
             var myOtherSkills = await Db.Psychomotors.AsNoTracking().Where(s => s.StudentId.Contains(id)
-                                                                                && s.TermName.Contains(term)
+                                                                                && s.TermName.Contains(termName)
                                                                                 && s.SessionName.Contains(sessionName)
-                                                                                && s.ClassName.Equals(_resultCommand._className))
+                                                                                && s.ClassName.Equals(_resultCommand
+                                                                                    ._className))
                 .Select(c => c.Id).FirstOrDefaultAsync();
-
-
-
 
 
             reportModel.BehaviorCategory = await Db.BehaviorSkillCategories.AsNoTracking()
@@ -91,24 +113,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 .Select(x => x.Name).ToListAsync();
             reportModel.AssignBehaviors = await Db.AssignBehaviors.Where(s => s.SchoolId.Equals(userSchool)
                                                                               && s.StudentId.Contains(id)
-                                                                              && s.TermName.Contains(term)
-                                                                              && s.SessionName.Contains(sessionName)).ToListAsync();
+                                                                              && s.TermName.Contains(termName)
+                                                                              && s.SessionName.Contains(sessionName))
+                .ToListAsync();
 
 
             reportModel.AssignBehavior = reportModel.AssignBehaviors.FirstOrDefault();
 
             reportModel.ReportCard = await Db.ReportCards.FirstOrDefaultAsync(x => x.SchoolId.Equals(userSchool)
-                                                                                   && x.TermName.ToUpper().Equals(term)
+                                                                                   && x.TermName.ToUpper().Equals(termName)
                                                                                    && x.SessionName.Equals(sessionName));
 
 
             //ViewBag.Class = 
-            reportModel.PrincipalComment = _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
-            reportModel.TermName = term;
+            reportModel.PrincipalComment =
+                _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
+            reportModel.TermName = termName;
             reportModel.SessionName = sessionName;
             reportModel.ClassName = _resultCommand._className;
             reportModel.Student = await Db.Students.FindAsync(id);
-            reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool) && x.IsTrue.Equals(true)
+            reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool) &&
+                                                                              x.IsTrue.Equals(true)
                                                                               && x.ClassName.Equals(mySchoolClassName))
                 .OrderBy(o => o.CaOrder).ToListAsync();
             reportModel.CaSetUpCount = reportModel.CaSetUp.Count();
@@ -121,9 +146,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 var aggregateList = new AggregateList()
                 {
-                    Score = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && x.StudentId.Equals(student)
+                    Score = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                                                       x.StudentId.Equals(student)
                                                                        && x.ClassName.Equals(_resultCommand._className)
-                                                                       && x.TermName.Equals(term) && x.SessionName.Equals(sessionName))
+                                                                       && x.TermName.Equals(termName) &&
+                                                                       x.SessionName.Equals(sessionName))
                         .SumAsync(s => s.Total),
                     StudentId = student
                 };
@@ -131,27 +158,26 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             reportModel.AggregatePosition = _resultCommand.FindAggregatePosition(myAggregateList);
-
-            return View(reportModel);
-
-            // return new ViewAsPdf("PrintSecondTerm", reportModel);
+            return reportModel;
         }
 
 
-        public async Task<ActionResult> SummaryResult(string id, string sessionName)
+
+        public async Task<ActionResult> SummaryResult(string StudentId, string SessionName)
         {
             var cModel = new CummulativeReportVm();
             var summaryCaList = new List<SummaryCa>();
-            cModel.Student = await Db.Students.FindAsync(id);
+            cModel.Student = await Db.Students.FindAsync(StudentId);
             var noOfStudentInClass = 0;
             var className = string.Empty;
 
-            var subjectOffered = await GetSubjectId(cModel.Student.CurrentClass, cModel.Student.StudentId);
+            var subjectOffered = await GetSubjectId("JSS1 ALPHA", cModel.Student.StudentId);
             foreach (var subject in subjectOffered)
             {
-                var resultSummaryCmd = new ResultSummaryCmd(id, sessionName, subject, userSchool);
+                var resultSummaryCmd = new ResultSummaryCmd(StudentId, SessionName, subject, userSchool);
                 var summaryCa = new SummaryCa
                 {
+                    SubjectName = await Db.Subjects.Where(x => x.SubjectId.Equals(subject)).Select(s => s.SubjectName).FirstOrDefaultAsync(),
                     FirstTermScore = resultSummaryCmd.FirstTermScore,
                     FirstTermGrade = resultSummaryCmd.FirstTermSubjectGrade,
                     FirstTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
@@ -175,10 +201,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             cModel.SummaryCas = summaryCaList;
             cModel.NoOfSubjectOffered = subjectOffered.Count();
             cModel.NoOfStudentPerClass = noOfStudentInClass;
-            cModel.SessionName = sessionName;
+            cModel.SessionName = SessionName;
             cModel.ClassName = className;
             cModel.AggregateScore = cModel.SummaryCas.Sum(s => s.WeightedScore);
-
 
             return View(cModel);
 
@@ -188,8 +213,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<List<int>> GetSubjectId(string _className, string _studentId)
         {
             var subjectAssigned = await Db.AssignSubjects.AsNoTracking().Where(c => c.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                                                    && c.ClassName.ToUpper().Trim().Equals(_className))
-                .Select(s => s.Subject.SubjectId).ToListAsync();
+                                                                                    && c.ClassName.ToUpper().Trim().Equals(_className)
+                                                                                    && c.TermName.Equals("FIRST"))
+                                                                                .Select(s => s.Subject.SubjectId).ToListAsync();
             var subjectregistration = await Db.SubjectRegistrations.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
                                                                                               && x.StudentId.ToUpper().Trim().Equals(_studentId.ToUpper().Trim()))
                 .Select(s => s.Subject.SubjectId).ToListAsync();
