@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-using SwiftSkoolv1.WebUI.Controllers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using SwiftSkool.Services;
 
-namespace SwiftSkool.Controllers.Charts
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class ChartTypesController : BaseController
     {

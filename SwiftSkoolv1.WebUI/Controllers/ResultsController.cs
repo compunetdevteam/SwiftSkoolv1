@@ -1,287 +1,312 @@
-﻿//using PagedList;
-//using SwiftSkool.BusinessLogic;
-//using SwiftSkool.Models;
-//using SwiftSkool.ViewModel;
-//using System;
-//using System.Data.Entity;
-//using System.Linq;
-//using System.Net;
-//using System.Threading.Tasks;
-//using System.Web.Mvc;
+﻿using Rotativa;
+using SwiftSkoolv1.WebUI.BusinessLogic;
+using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
-//namespace SwiftSkool.Controllers
-//{
-//    public class ResultsController : Controller
-//    {
-//        private readonly ResultCommandManager _resultCommand;
-//        private readonly SwiftSkoolDbContext _db;
+namespace SwiftSkoolv1.WebUI.Controllers
+{
+    public class ResultsController : BaseController
+    {
+        private readonly GradeRemark _gradeRemark;
+        private ResultCommandManager _resultCommand;
 
-//        public ResultsController()
-//        {
-//            _resultCommand = new ResultCommandManager();
-//            _db = new SwiftSkoolDbContext();
-//        }
+        public ResultsController()
+        {
+            _gradeRemark = new GradeRemark();
+        }
 
-//        //public ResultsController(IResultCommandManager resultCommand, SwiftSkoolDbContext Db)
-//        //{
-//        //    ResultCommand = resultCommand;
-//        //    //_db = Db;
-//        //}
+        // GET: Results
+        public async Task<PartialViewResult> SearhResult()
+        {
+            ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
+            return PartialView();
+        }
+        public async Task<ActionResult> SearhResultMain()
+        {
+            ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
+            return View();
+        }
+        #region Result Display
+        public async Task<ActionResult> DownloadResult(string StudentId, string TermName, string SessionName)
+        {
+            var id = StudentId;
+            var termName = TermName;
+            var sessionName = SessionName;
 
-
-//        // GET: Results
-//        //public async Task<ActionResult> Index()
-//        //{
-//        //    return View(await _db.Results.ToListAsync());
-//        //}
-
-//        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page,
-//           int? SubjectCode, string ClassName, string TermName, string SessionName)
-//        {
-//            int count = 10;
-//            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-//            if (search != null)
-//            {
-
-//                page = 1;
-//            }
-//            else
-//            {
-//                search = currentFilter;
-//            }
-//            ViewBag.CurrentFilter = search;
-//            var assignedList = from s in _db.Results select s;
-//            if (!String.IsNullOrEmpty(search))
-//            {
-//                assignedList = assignedList.Where(s => s.StudentId.ToUpper().Contains(search.ToUpper())
-//                                                             || s.ClassName.ToUpper().Contains(search.ToUpper())
-//                                                             || s.Term.ToUpper().Contains(search.ToUpper()));
-
-//            }
-//            else if (SubjectCode != null && (!String.IsNullOrEmpty(ClassName)
-//                   && !String.IsNullOrEmpty(SessionName) && !String.IsNullOrEmpty(TermName)))
-//            {
-//                assignedList = assignedList.Where(s => s.SubjectName.Equals(SubjectCode)
-//                                           && s.ClassName.ToUpper().Equals(ClassName.ToUpper())
-//                                           && s.Term.ToUpper().Equals(TermName.ToUpper())
-//                                           && s.SessionName.ToUpper().Equals(SessionName))
-//                                           .OrderBy(c => c.StudentId);
-//                int myCount = await assignedList.CountAsync();
-//                if (myCount != 0)
-//                {
-//                    count = myCount;
-//                }
-
-//            }
-//            else if (SubjectCode != null || (!String.IsNullOrEmpty(ClassName)
-//                                                            || !String.IsNullOrEmpty(SessionName) ||
-//                                                            !String.IsNullOrEmpty(TermName)))
-//            {
-//                assignedList = assignedList.Where(s => s.SubjectName.Equals(SubjectCode)
-//                                                       || s.ClassName.ToUpper().Equals(ClassName.ToUpper())
-//                                                       || s.Term.ToUpper().Equals(TermName.ToUpper())
-//                                                       || s.SessionName.ToUpper().Equals(SessionName));
-//            }
+            var reportModel = await GenerateTermReport(id, termName, sessionName);
+            return new ViewAsPdf("DownloadResult", reportModel);
+        }
 
 
-//            switch (sortOrder)
-//            {
-//                case "name_desc":
-//                    assignedList = assignedList.OrderByDescending(s => s.StudentId);
-//                    break;
-//                case "Date":
-//                    assignedList = assignedList.OrderBy(s => s.SessionName);
-//                    break;
-//                default:
-//                    assignedList = assignedList.OrderBy(s => s.ClassName);
-//                    break;
-//            }
-//            int pageSize = count;
-//            int pageNumber = (page ?? 1);
+        public async Task<ActionResult> ViewResult(string StudentId, string TermName, string SessionName)
+        {
+            var id = StudentId;
+            var termName = TermName;
+            var sessionName = SessionName;
+            var reportModel = await GenerateTermReport(id, termName, sessionName);
+            return View(reportModel);
 
-//            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
-//            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-//            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-//            return View(assignedList.ToPagedList(pageNumber, pageSize));
-//            //return View(await Db.ContinuousAssessments.ToListAsync());
-//        }
+        }
+        private async Task<ReportVm> GenerateTermReport(string id, string termName, string sessionName)
+        {
+            _resultCommand = new ResultCommandManager(id, termName, sessionName, userSchool);
+            var reportModel = new ReportVm();
+            var newCalist = new List<ContinuousAssesmentVm>();
+            var mySchoolClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
+                                                                         && x.FullClassName.Equals(_resultCommand._className))
+                .Select(s => s.ClassName).FirstOrDefault();
+            ;
+            foreach (var ca in _resultCommand._studentCa)
+            {
+                var caVm = new ContinuousAssesmentVm
+                {
+                    SubjectName = ca.Subject.SubjectName,
+                    SubjectPosition = _resultCommand.FindSubjectPosition(ca.SubjectId),
+                    SubjectHighest = _resultCommand.SubjectHighest(ca.SubjectId),
+                    SubjectLowest = _resultCommand.SubjectLowest(ca.SubjectId),
+                    ClassAverage = await _resultCommand.CalculateClassAverage(ca.SubjectId),
+                    FirstCa = ca.FirstCa,
+                    SecondCa = ca.SecondCa,
+                    ThirdCa = ca.ThirdCa,
+                    ForthCa = ca.ForthCa,
+                    FifthCa = ca.FifthCa,
+                    SixthCa = ca.SixthCa,
+                    SeventhCa = ca.SeventhCa,
+                    EightCa = ca.EightCa,
+                    NinthtCa = ca.NinthtCa,
+                    ExamCa = ca.ExamCa,
+                    Total = ca.Total,
+                    Grading = ca.Grading,
+                    Remark = ca.Remark,
+                    StaffName = ca.StaffName
+                };
+                newCalist.Add(caVm);
+            }
+            reportModel.ContinuousAssesmentVms = newCalist;
 
-//        //// GET: Results/Details/5
-//        //public ActionResult Details(int id)
-//        //{
-//        //    return View();
-//        //}
+            reportModel.NoOfStudentPerClass = await _resultCommand.NumberOfStudentPerClass();
+            reportModel.NoOfSubjectOffered = await _resultCommand.SubjectOfferedByStudent();
+            reportModel.AggregateScore = _resultCommand.TotalScorePerStudent();
+            reportModel.Average = await _resultCommand.CalculateAverage();
+            reportModel.OverAllGrade = _gradeRemark.Grading(reportModel.Average, _resultCommand._className, userSchool);
 
-//        // GET: Results/Create
-//        public ActionResult Create()
-//        {
-//            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
-//            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//            //ViewBag.StudentId = new SelectList(Db.Students, "StudentId", "FullName");
-//            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-//            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-//            return View();
-//        }
 
-//        // POST: Results/Create
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<ActionResult> Create(ResultViewModel model)
-//        {
-//            if (ModelState.IsValid)
-//            {
+            var myOtherSkills = await Db.Psychomotors.AsNoTracking().Where(s => s.StudentId.Contains(id)
+                                                                                && s.TermName.Contains(termName)
+                                                                                && s.SessionName.Contains(sessionName)
+                                                                                && s.ClassName.Equals(_resultCommand
+                                                                                    ._className))
+                .Select(c => c.Id).FirstOrDefaultAsync();
 
-//                var student = await _db.AssignedClasses.Where(x => x.ClassName.Equals(model.ClassName.Trim())
-//                                                            && x.TermName.ToUpper().Trim().Equals(model.TermName.ToUpper().Trim())
-//                                                            && x.SessionName.ToUpper().Trim().Equals(model.SessionName.ToUpper().Trim())).ToListAsync();
 
-//                foreach (var listStudent in student)
-//                {
-//                    string studentNumber = listStudent.StudentId;
-//                    var cA = await _db.Results.CountAsync(x => x.ClassName.ToUpper().Trim().Equals(model.ClassName.ToUpper().Trim())
-//                                                                 && x.Term.ToUpper().Trim().Equals(model.TermName.ToUpper().Trim())
-//                                                                 && x.SessionName.ToUpper().Trim().Equals(model.SessionName.ToUpper().Trim())
-//                                                                 && x.SubjectName.Equals(model.SubjectCode)
-//                                                                 && x.StudentId.ToUpper().Trim().Equals(studentNumber.ToUpper().Trim()));
+            reportModel.BehaviorCategory = await Db.BehaviorSkillCategories.AsNoTracking()
+                .Where(s => s.SchoolId.Equals(userSchool))
+                .Select(x => x.Name).ToListAsync();
+            reportModel.AssignBehaviors = await Db.AssignBehaviors.Where(s => s.SchoolId.Equals(userSchool)
+                                                                              && s.StudentId.Contains(id)
+                                                                              && s.TermName.Contains(termName)
+                                                                              && s.SessionName.Contains(sessionName))
+                .ToListAsync();
 
-//                    if (cA >= 1)
-//                    {
-//                        TempData["UserMessage"] = "Result has Already been created.";
-//                        TempData["Title"] = "Error.";
-//                        ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
-//                        ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//                        //ViewBag.StudentId = new SelectList(Db.Students, "StudentId", "FullName");
-//                        ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-//                        ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-//                        return View(model);
-//                    }
-//                    else
-//                    {
-//                        //var result = new Result(studentNumber, model.ClassName, model.TermName.ToString(),
-//                        //    model.SessionName, model.SubjectCode);
-//                        try
-//                        {
-//                            var result = new Result
-//                            {
-//                                StudentId = studentNumber,
-//                                ClassName = model.ClassName,
-//                                Term = model.TermName,
-//                                SubjectName = model.SubjectCode,
-//                                SessionName = model.SessionName,
-//                                ClassAverage = Math.Round(await _resultCommand.CalculateClassAverage(model.ClassName, model.TermName, model.SessionName, model.SubjectCode), 2),
-//                                Average = Math.Round(await _resultCommand.CalculateAverage(studentNumber, model.ClassName, model.TermName, model.SessionName), 2),
-//                                SubjectPosition = _resultCommand.FindSubjectPosition(studentNumber, model.SubjectCode, model.ClassName, model.TermName, model.SessionName),
-//                                AggretateScore = Math.Round(await _resultCommand.TotalScorePerStudent(studentNumber, model.ClassName, model.TermName, model.SessionName), 2),
-//                                // TotalQualityPoint = Math.Round(await _resultCommand.TotalQualityPoint(studentNumber, model.ClassName, model.TermName, model.SessionName), 2),
-//                                TotalCreditUnit = Math.Round(await _resultCommand.TotalcreditUnit(model.ClassName), 2),
-//                                SubjectHighest = Math.Round(await _resultCommand.SubjectHighest(model.SubjectCode, model.ClassName, model.TermName, model.SessionName), 2),
-//                                SubjectLowest = Math.Round(await _resultCommand.SubjectLowest(model.SubjectCode, model.ClassName, model.TermName, model.SessionName), 2)
-//                            };
-//                            _db.Results.Add(result);
-//                        }
-//                        catch (Exception e)
-//                        {
-//                            TempData["UserMessage"] = $"Result setup Not Complete..The class is {model.ClassName} Student Id is {studentNumber} , Term is {model.TermName}, Session is" +
-//                                                      $"{model.SessionName} and Subject Code {model.SubjectCode} Please ensure that you have properly setup the necessary things to create a result.{e.Message}";
-//                            TempData["Title"] = "Error.";
-//                            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
-//                            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//                            //ViewBag.StudentId = new SelectList(Db.Students, "StudentId", "FullName");
-//                            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-//                            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-//                            return View(model);
-//                        }
 
-//                    }
-//                }
-//                await _db.SaveChangesAsync();
-//                TempData["UserMessage"] = $"Result Created Successfully for all Students in {model.ClassName} offering {model.SubjectCode}";
-//                TempData["Title"] = "Success.";
-//                return RedirectToAction("Index");
-//            }
-//            return View(model);
-//        }
+            reportModel.AssignBehavior = reportModel.AssignBehaviors.FirstOrDefault();
 
-//        // GET: Results/Edit/5
-//        public async Task<ActionResult> Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            var result = await _db.Results.FindAsync(id);
-//            if (result == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            var myStudent = new ResultViewModel()
-//            {
-//                ResultId = result.ResultId,
-//                StudentId = result.StudentId
-//            };
-//            ViewBag.SubjectCode = new SelectList(_db.Subjects.AsNoTracking(), "SubjectId", "SubjectName");
-//            //ViewBag.StudentId = new SelectList(Db.Students, "StudentID", "FullName");
-//            ViewBag.SessionName = new SelectList(_db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-//            ViewBag.ClassName = new SelectList(_db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-//            ViewBag.TermName = new SelectList(_db.Terms.AsNoTracking(), "TermName", "TermName");
-//            return View(myStudent);
-//        }
+            reportModel.ReportCard = await Db.ReportCards.FirstOrDefaultAsync(x => x.SchoolId.Equals(userSchool)
+                                                                                   && x.TermName.ToUpper().Equals(termName)
+                                                                                   && x.SessionName.Equals(sessionName));
 
-//        // POST: Results/Edit/5
-//        [HttpPost]
-//        public async Task<ActionResult> Edit(ResultViewModel model)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                string studentNumber = model.StudentId;
 
-//                var result = new Result
-//                {
-//                    StudentId = studentNumber,
-//                    ClassName = model.ClassName,
-//                    Term = model.TermName,
-//                    SubjectName = model.SubjectCode,
-//                    SessionName = model.SessionName,
-//                    ClassAverage = Math.Round(await _resultCommand.CalculateClassAverage(model.ClassName, model.TermName, model.SessionName, model.SubjectCode), 2),
-//                    Average = Math.Round(await _resultCommand.CalculateAverage(studentNumber, model.ClassName, model.TermName, model.SessionName), 2),
-//                    SubjectPosition = _resultCommand.FindSubjectPosition(studentNumber, model.SubjectCode, model.ClassName, model.TermName, model.SessionName),
-//                    AggretateScore = Math.Round(await _resultCommand.TotalScorePerStudent(studentNumber, model.ClassName, model.TermName, model.SessionName), 2),
-//                    // TotalQualityPoint = Math.Round(await _resultCommand.TotalQualityPoint(studentNumber, model.ClassName, model.TermName, model.SessionName), 2),
-//                    TotalCreditUnit = Math.Round(await _resultCommand.TotalcreditUnit(model.ClassName), 2),
-//                    SubjectHighest = Math.Round(await _resultCommand.SubjectHighest(model.SubjectCode, model.ClassName, model.TermName, model.SessionName), 2),
-//                    SubjectLowest = Math.Round(await _resultCommand.SubjectLowest(model.SubjectCode, model.ClassName, model.TermName, model.SessionName), 2)
-//                };
+            //ViewBag.Class = 
+            reportModel.PrincipalComment =
+                _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
+            reportModel.TermName = termName;
+            reportModel.SessionName = sessionName;
+            reportModel.ClassName = _resultCommand._className;
+            reportModel.Student = await Db.Students.FindAsync(id);
+            reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool) &&
+                                                                              x.IsTrue.Equals(true)
+                                                                              && x.ClassName.Equals(mySchoolClassName))
+                .OrderBy(o => o.CaOrder).ToListAsync();
+            reportModel.CaSetUpCount = reportModel.CaSetUp.Count();
 
-//                _db.Entry(result).State = EntityState.Modified;
-//                await _db.SaveChangesAsync();
-//                return RedirectToAction("Index");
-//            }
+            var myAggregateList = new List<AggregateList>();
 
-//            return View(model);
-//            // return View();
-//        }
+            var classMate = Db.AssignedClasses.AsNoTracking().Where(x => x.ClassName.Equals(_resultCommand._className))
+                .Select(s => s.StudentId).ToList();
+            foreach (var student in classMate)
+            {
+                var aggregateList = new AggregateList()
+                {
+                    Score = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                                                       x.StudentId.Equals(student)
+                                                                       && x.ClassName.Equals(_resultCommand._className)
+                                                                       && x.TermName.Equals(termName) &&
+                                                                       x.SessionName.Equals(sessionName))
+                        .SumAsync(s => s.Total),
+                    StudentId = student
+                };
+                myAggregateList.Add(aggregateList);
+            }
 
-//        // GET: Results/Delete/5
-//        //public ActionResult Delete(int id)
-//        //{
-//        //    return View();
-//        //}
+            reportModel.AggregatePosition = _resultCommand.FindAggregatePosition(myAggregateList);
+            return reportModel;
+        }
 
-//        //// POST: Results/Delete/5
-//        //[HttpPost]
-//        //public ActionResult Delete(int id, FormCollection collection)
-//        //{
-//        //    try
-//        //    {
-//        //        // TODO: Add delete logic here
 
-//        //        return RedirectToAction("Index");
-//        //    }
-//        //    catch
-//        //    {
-//        //        return View();
-//        //    }
-//        //}
-//    }
-//}
+
+        public async Task<ActionResult> SummaryResult(string StudentId, string SessionName)
+        {
+            var cModel = new CummulativeReportVm();
+            var summaryCaList = new List<SummaryCa>();
+            cModel.Student = await Db.Students.FindAsync(StudentId);
+            var noOfStudentInClass = 0;
+            var className = string.Empty;
+
+            var subjectOffered = await GetSubjectId("JSS1 ALPHA", cModel.Student.StudentId);
+            foreach (var subject in subjectOffered)
+            {
+                var resultSummaryCmd = new ResultSummaryCmd(StudentId, SessionName, subject, userSchool);
+                var summaryCa = new SummaryCa
+                {
+                    SubjectName = await Db.Subjects.Where(x => x.SubjectId.Equals(subject)).Select(s => s.SubjectName).FirstOrDefaultAsync(),
+                    FirstTermScore = resultSummaryCmd.FirstTermScore,
+                    FirstTermGrade = resultSummaryCmd.FirstTermSubjectGrade,
+                    FirstTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
+                    SecondTermScore = resultSummaryCmd.SecondTermScore,
+                    SecondTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
+                    SeondTermGrade = resultSummaryCmd.SecondTermSubjectGrade,
+                    ThirdTermScore = resultSummaryCmd.ThirdTermScore,
+                    ThirdTermGrade = resultSummaryCmd.ThirdTermSubjectGrade,
+                    ThirdTermPosition = resultSummaryCmd.ThirdTermSubjectPosition,
+                    SubjectGrade = resultSummaryCmd.SummaryGrading,
+                    WeightedScore = resultSummaryCmd.WeightedScores,
+                    SubjectRemark = resultSummaryCmd.SummaryRemark,
+                    SubjectAverage = resultSummaryCmd.ClassAverage
+                };
+                noOfStudentInClass = resultSummaryCmd.NoOfStudentPerClass;
+                className = resultSummaryCmd.ClassName;
+
+                summaryCaList.Add(summaryCa);
+            }
+
+            cModel.SummaryCas = summaryCaList;
+            cModel.NoOfSubjectOffered = subjectOffered.Count();
+            cModel.NoOfStudentPerClass = noOfStudentInClass;
+            cModel.SessionName = SessionName;
+            cModel.ClassName = className;
+            cModel.AggregateScore = cModel.SummaryCas.Sum(s => s.WeightedScore);
+
+            return View(cModel);
+
+        }
+
+        #endregion
+        public async Task<List<int>> GetSubjectId(string _className, string _studentId)
+        {
+            var subjectAssigned = await Db.AssignSubjects.AsNoTracking().Where(c => c.SchoolId.ToUpper().Trim().Equals(userSchool)
+                                                                                    && c.ClassName.ToUpper().Trim().Equals(_className)
+                                                                                    && c.TermName.Equals("FIRST"))
+                                                                                .Select(s => s.Subject.SubjectId).ToListAsync();
+            var subjectregistration = await Db.SubjectRegistrations.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
+                                                                                              && x.StudentId.ToUpper().Trim().Equals(_studentId.ToUpper().Trim()))
+                .Select(s => s.Subject.SubjectId).ToListAsync();
+            if (subjectregistration.Count > 1)
+            {
+                return subjectregistration;
+            }
+            return subjectAssigned;
+            //var noOfSubjectPerStudent = _db.AssignSubjects.Count(x => x.ClassName.Equals(className));
+
+        }
+
+        //public async Task<ActionResult> PrintSecondTerm(string FileId)
+        //{
+        //    DownloadFiles obj = new DownloadFiles();
+        //    string NewFileName = FileId + ".pdf";
+        //    var filesCol = obj.GetFiles();
+        //    string CurrentFileName = (from fls in filesCol
+        //                              where fls.FileName == NewFileName
+        //                              select fls.FilePath).First();
+
+        //    string contentType = string.Empty;
+
+        //    if (CurrentFileName.Contains(".pdf"))
+        //    {
+        //        contentType = "application/pdf";
+        //    }
+
+        //    else if (CurrentFileName.Contains(".docx"))
+        //    {
+        //        contentType = "application/docx";
+        //    }
+        //    return File(CurrentFileName, contentType, CurrentFileName);
+        //}
+
+
+        //public ActionResult PrintTest(string id, string term, string sessionName)
+        //{
+
+
+        //    var className = Db.AssignedClasses.Where(x => x.StudentId.Equals(id) && x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim())
+        //                                             && x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()))
+        //                                        .Select(y => y.ClassName)
+        //                                        .FirstOrDefault();
+        //    string subject = "MATHEMATICS";
+
+        //    // var className = "JSS1 A";
+
+        //    ViewBag.Subject = _resultCommand.SubjectOfferedByStudent(id, term, sessionName);
+        //    var sumPerSubject = Db.ContinuousAssessments.Where(x => x.SubjectCode.ToUpper().Trim().Equals(subject.ToUpper().Trim())
+        //                                                           && x.ClassName.ToUpper().Trim().Equals(className.ToUpper().Trim())
+        //                                                            && x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim())
+        //                                                    && x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()))
+        //                                                    .Sum(y => y.Total);
+        //    double classAverage = _resultCommand.CalculateClassAverage(className, term, sessionName, subject.ToUpper().Trim());
+        //    var studentPerClass = Db.AssignedClasses.Count(x => x.ClassName.ToUpper().Trim().Equals(className.ToUpper().Trim())
+        //                                                        && x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim())
+        //                                                     && x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()));
+
+        //    double average = _resultCommand.CalculateAverage(id, className, term, sessionName);
+        //    double totalScore = _resultCommand.TotalScorePerStudent(id, className, term, sessionName);
+        //    // return Math.Round(sumPerSubject, 2);
+        //    ViewBag.Term = term;
+        //    ViewBag.Session = sessionName;
+        //    ViewBag.ClassName = className;
+        //    ViewBag.SubjectTotal = Math.Round(sumPerSubject, 2);
+
+        //    ViewBag.ClassAverage = classAverage;
+        //    ViewBag.StudentPerClass = studentPerClass;
+        //    ViewBag.Average = average;
+        //    ViewBag.TotalScore = totalScore;
+
+        //    return View();
+
+        //}
+        //public ActionResult PrintSummaryReport(string id, string sessionName)
+        //{
+        //    var summary = new SummaryReportViewModel()
+        //    {
+        //        Results = Db.Results.Where(s => s.StudentId.Contains(id)
+        //                                && s.SessionName.Contains(sessionName)).ToList(),
+        //        ReportSummaries = Db.ReportSummarys.Where(s => s.StudentId.Equals(id)
+        //                                            && s.SessionName.Equals(sessionName)).ToList()
+        //    };
+        //    //foreach (var item in studentResults.Where(c => c.))
+        //    //{
+
+        //    //}
+        //    return View(summary);
+        //}
+
+
+    }
+}

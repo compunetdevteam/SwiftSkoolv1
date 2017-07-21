@@ -1,7 +1,7 @@
 ﻿@model SwiftSkoolv1.WebUI.ViewModels.ReportVm
 @{
-    //Layout = "~/Views/Shared/_LayoutPrint.cshtml";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
@@ -20,7 +20,7 @@
                 <th><strong>SEX: </strong> @Html.DisplayFor(model => model.Student.Gender)</th>
                 @*<td><strong>AGE:</strong> @Html.DisplayFor(model => model.Student.Age)</td>*@
                 <th><strong>CLASS: </strong> @Model.ClassName</th>
-                <th rowspan="3"><img src="@Url.Action("RenderImage", new { studentId = Model.Student.StudentId})" width="100" height="100" /></th>
+                <th rowspan="3"><img src="@Url.Action("RenderImage","Students", new { studentId = Model.Student.StudentId})" width="100" height="100" /></th>
 
             </tr>
             <tr>
@@ -33,7 +33,7 @@
                 <td><strong>Next Term Begins: </strong> 28th April, 2017@*@Html.DisplayFor(model => model.ReportCard.NextTermBegin)*@</td>
                 <td><strong>Next Term Ends: </strong>29th July, 2017@*@Html.DisplayFor(model => model.ReportCard.NextTermEnd)*@</td>
                 <td><strong>No in Class: </strong> @Html.DisplayFor(model => model.NoOfStudentPerClass)</td>
-               
+
             </tr>
         </tbody>
     </table>
@@ -287,7 +287,7 @@
                 </td>
 
             }
-       
+
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
@@ -335,7 +335,7 @@
             <td><strong>Total Mark: </strong> @Html.DisplayFor(model => model.AggregateScore)</td>
             <td><strong>Average:</strong> @Html.DisplayFor(model => model.Average)</td>
             @*<td><strong>GPA:</strong> @Html.DisplayFor(model => model.GradePointAverage)</td>
-            <td><strong>CGPA:</strong> xxx</td>*@
+                <td><strong>CGPA:</strong> xxx</td>*@
         </tr>
     </tbody>
 </table>
@@ -516,6 +516,8 @@
             </table>
         </td>
 </table>
+
+
 
 
 

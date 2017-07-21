@@ -17,11 +17,11 @@
         <table id="Jdatatable" class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="sort-alpha">Staff Name</th>
-                <th class="sort-alpha">Class Name</th>
-                <th class="sort-alpha">Subjects</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Staff Name</th>
+                <th>Class Name</th>
+                <th>Subjects</th>
+                <th>Action</th>
+               
             </tr>
             </thead>
         </table>
@@ -79,13 +79,12 @@
             "columns": [
                 { "data": "StaffName", "autoWidth": true },
                 { "data": "ClassName", "autoWidth": true },
-                { "data": "Subject", "autoWidth": true },
+                { "data": "SubjectName", "autoWidth": true },
                 {
                     "data": "Id",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                        return '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
 
                     }
                 }

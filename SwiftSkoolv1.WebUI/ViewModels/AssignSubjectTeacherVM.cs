@@ -4,7 +4,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class AssignSubjectTeacherVM
     {
-        public int AssignTeacherToSubjectId { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Subject Name")]
         public int SubjectId { get; set; }

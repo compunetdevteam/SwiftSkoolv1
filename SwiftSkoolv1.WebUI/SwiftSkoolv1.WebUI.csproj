@@ -348,6 +348,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\chosen.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome-reg.css" />
@@ -521,6 +525,7 @@
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\images\banner2.jpg" />
     <Content Include="Content\images\comlogo.png" />
+    <Content Include="Content\images\compunetLogo.jpg" />
     <Content Include="Content\images\im5.jpg" />
     <Content Include="Content\images\im6.jpg" />
     <Content Include="Content\images\im7.jpg" />
@@ -538,6 +543,7 @@
     <Content Include="Content\js\jquery.waypoints.min.js" />
     <Content Include="Content\js\main_slider.js" />
     <Content Include="Content\js\move-top.js" />
+    <Content Include="Content\materialadmin.css" />
     <Content Include="Content\MdCss\bootstrap.min.css" />
     <Content Include="Content\MdCss\customizer.min.css" />
     <Content Include="Content\MdCss\font-awesome.min.css" />
@@ -674,6 +680,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\canvasjs.min.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
@@ -751,6 +761,7 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
+    <Content Include="Scripts\jquery-1.8.0.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -758,6 +769,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.canvasjs.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -774,6 +786,7 @@
     <Content Include="Scripts\MdJs\vendor\jvectormap\jquery-jvectormap-world-mill.js" />
     <Content Include="Scripts\MdJs\vendor\tinymce\tinymce.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\prototype.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -1096,6 +1109,12 @@
     <Content Include="Views\Staffs\PartialDetails.cshtml" />
     <Content Include="Views\Staffs\ExcelUpload.cshtml" />
     <Content Include="Views\Shared\_LayoutBoot.cshtml" />
+    <Content Include="Views\Shared\_LayoutCheck.cshtml" />
+    <Content Include="Views\Results\SearhResult.cshtml" />
+    <Content Include="Views\Results\SearhResultMain.cshtml" />
+    <Content Include="Views\Results\ViewResult.cshtml" />
+    <Content Include="Views\Results\DownloadResult.cshtml" />
+    <Content Include="Views\Results\SummaryResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

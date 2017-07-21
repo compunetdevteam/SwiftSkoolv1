@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -16,6 +17,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class CaListsController : BaseController
     {
+        private GradeRemark _myGradeRemark = new GradeRemark();
 
         public async Task<ActionResult> CreateCaView()
         {
@@ -345,6 +347,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 foreach (var item in model)
                 {
+                    var myTotal = item.FirstCa + item.SecondCa + item.ThirdCa + item.ForthCa + item.FifthCa +
+                                  item.SixthCa + item.SecondCa + item.EightCa + item.NinthtCa + item.ExamCa;
                     var caList = new CaList()
                     {
                         CaListId = item.CaListId,
@@ -364,6 +368,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         EightCa = item.EightCa,
                         NinthtCa = item.NinthtCa,
                         ExamCa = item.ExamCa,
+                        Total = myTotal,
+                        Grading = _myGradeRemark.Grading(myTotal, item.ClassName, userSchool),
+                        Remark = _myGradeRemark.Remark(myTotal, item.ClassName, userSchool),
+
                         SchoolId = userSchool,
                     };
                     Db.CaLists.AddOrUpdate(caList);
@@ -484,7 +492,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, firstCa);
+            var checkedResult = GetValidation(className, 0, termName, caSetUpCount, maximumScore, firstCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -518,7 +526,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, secondCa);
+            var checkedResult = GetValidation(className, 1, termName, caSetUpCount, maximumScore, secondCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -552,7 +560,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, thirdCa);
+            var checkedResult = GetValidation(className, 2, termName, caSetUpCount, maximumScore, thirdCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -586,7 +594,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, forthCa);
+            var checkedResult = GetValidation(className, 3, termName, caSetUpCount, maximumScore, forthCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -620,7 +628,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, fifthCa);
+            var checkedResult = GetValidation(className, 4, termName, caSetUpCount, maximumScore, fifthCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -654,7 +662,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, sixthCa);
+            var checkedResult = GetValidation(className, 5, termName, caSetUpCount, maximumScore, sixthCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -688,7 +696,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, seventhCa);
+            var checkedResult = GetValidation(className, 6, termName, caSetUpCount, maximumScore, seventhCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -722,7 +730,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, eightCa);
+            var checkedResult = GetValidation(className, 7, termName, caSetUpCount, maximumScore, eightCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
@@ -756,18 +764,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupcount"))];
             }
 
-            var checkedResult = GetValidation(className, termName, caSetUpCount, maximumScore, ninthtCa);
+            var checkedResult = GetValidation(className, 8, termName, caSetUpCount, maximumScore, ninthtCa);
 
 
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
 
 
-        private bool GetValidation(string className, string termName, string caSetUpCount, double maximumScore,
+        private bool GetValidation(string className, int pointer, string termName, string caSetUpCount, double maximumScore,
             string inputScore)
         {
-            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
-                .Select(s => s.ClassName).FirstOrDefault();
+            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool) && x.FullClassName.Equals(className))
+                                        .Select(s => s.ClassName).FirstOrDefault();
             var setUps = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
                                                                && x.SchoolId.Equals(userSchool)
                                                                && x.ClassName.Equals(studentClassName)
@@ -776,7 +784,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             if (Convert.ToInt16(caSetUpCount) > 1)
             {
-                maximumScore = setUps[0].MaximumScore;
+                maximumScore = setUps[pointer].MaximumScore;
             }
 
             if (Convert.ToDouble(inputScore) > maximumScore)

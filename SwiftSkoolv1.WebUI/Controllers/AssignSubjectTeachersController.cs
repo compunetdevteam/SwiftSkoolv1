@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using PagedList;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -88,7 +87,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
 
-   
+
         public async Task<ActionResult> GetIndex()
         {
             #region Server Side filtering
@@ -109,7 +108,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int totalRecords = 0;
 
             //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.AssignSubjectTeachers.Where(x => x.SchoolId == userSchool).Select(s => new { s.Id, s.StaffName, s.ClassName,s.Subject }).ToList();
+            var v = Db.AssignSubjectTeachers.Where(x => x.SchoolId == userSchool).Select(s => new { s.Id, s.StaffName, s.ClassName, s.Subject.SubjectName }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -120,13 +119,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.AssignSubjectTeachers.Where(x => x.SchoolId.Equals(userSchool) && (x.StaffName.Equals(search) || x.Subject.Equals(search) || x.ClassName.Equals(search)))
-                    .Select(s => new { s.Id, s.StaffName, s.ClassName, s.Subject }).ToList();
+                v = Db.AssignSubjectTeachers.Where(x => x.SchoolId.Equals(userSchool) && (x.StaffName.Equals(search) || x.Subject.SubjectName.Equals(search) || x.ClassName.Equals(search)))
+                    .Select(s => new { s.Id, s.StaffName, s.ClassName, s.Subject.SubjectName }).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
 
-            return   Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
             #endregion
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
@@ -147,23 +146,62 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(AssignSubjectTeacher subjectTeacher)
+        public async Task<ActionResult> Save(AssignSubjectTeacherVM model)
         {
             bool status = false;
             string message = string.Empty;
             if (ModelState.IsValid)
             {
-                if (subjectTeacher.Id > 0)
+                if (model.Id > 0)
                 {
-                    subjectTeacher.SchoolId = userSchool;
-                    Db.Entry(subjectTeacher).State = EntityState.Modified;
+                    var assignSubjectTeacher = await Db.AssignSubjectTeachers.FindAsync(model.Id);
+                    assignSubjectTeacher.SchoolId = userSchool;
+                    assignSubjectTeacher.ClassName = model.ClassName[0];
+                    assignSubjectTeacher.SubjectId = model.SubjectId;
+                    assignSubjectTeacher.StaffName = model.StaffName;
+                    Db.Entry(assignSubjectTeacher).State = EntityState.Modified;
                     message = "Subject Assigned to Teacher was Updated Successfully...";
                 }
                 else
                 {
-                    subjectTeacher.SchoolId = userSchool;
-                    Db.AssignSubjectTeachers.Add(subjectTeacher);
-                    message = "Subject Assigned to Teacher was  Successfully...";
+                    if (model.ClassName != null)
+                    {
+                        int counter = 0;
+                        string theClass = "";
+                        string theName = "";
+                        foreach (var item in model.ClassName)
+                        {
+
+                            var countFromDb = await Db.AssignSubjectTeachers.AsNoTracking().CountAsync(x => x.ClassName.Equals(item)
+                                                                                                            && x.SubjectId.Equals(model.SubjectId));
+                            var subject = await Db.Subjects.FindAsync(model.SubjectId);
+
+
+                            // var countFromDb = CA.Count();
+
+                            if (countFromDb >= 1)
+                            {
+                                message = $"Admin have already assigned Teacher to  {subject.SubjectName} in {item} Class";
+                                return new JsonResult { Data = new { status = false, message = message } };
+                            }
+
+                            var assigSubjectTeacher = new AssignSubjectTeacher()
+                            {
+                                ClassName = item,
+                                SubjectId = model.SubjectId,
+                                StaffName = model.StaffName,
+                                SchoolId = userSchool
+
+                            };
+                            Db.AssignSubjectTeachers.Add(assigSubjectTeacher);
+                            counter += 1;
+                            theClass = subject.SubjectName;
+                            theName = model.StaffName;
+                        }
+                        message = $" You have Assigned {theClass} Subject  to {theName} in {counter} class Successfully.";
+                        await Db.SaveChangesAsync();
+                    }
+
 
                 }
                 await Db.SaveChangesAsync();
@@ -299,18 +337,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         // GET: AssignSubjectTeachers/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<PartialViewResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var assignSubjectTeacher = await Db.AssignSubjectTeachers.FindAsync(id);
-            if (assignSubjectTeacher == null)
-            {
-                return HttpNotFound();
-            }
-            return View(assignSubjectTeacher);
+
+            return PartialView(assignSubjectTeacher);
         }
 
         // POST: AssignSubjectTeachers/Delete/5
@@ -318,12 +349,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            bool status = false;
+            string message = string.Empty;
             var assignSubjectTeacher = await Db.AssignSubjectTeachers.FindAsync(id);
             if (assignSubjectTeacher != null) Db.AssignSubjectTeachers.Remove(assignSubjectTeacher);
             await Db.SaveChangesAsync();
-            TempData["UserMessage"] = $"Subject Teacher Successfully Deleted";
-            TempData["Title"] = "Deleted.";
-            return RedirectToAction("Index");
+            status = true;
+            message = "Subject Deleted from Class Successfully...";
+            return new JsonResult { Data = new { status = status, message = message } };
+
         }
 
         protected override void Dispose(bool disposing)
