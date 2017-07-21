@@ -6878,10 +6878,10 @@ ul.instagram-photos li {
 ***************/
 /* Remove default checkbox */
 [type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
+/*[type="checkbox"]:checked {
   position: absolute;
   left: -9999px;
-  visibility: hidden; }
+  visibility: hidden; }*/
 
 [type="checkbox"] {
   /* checkbox aspect */ }

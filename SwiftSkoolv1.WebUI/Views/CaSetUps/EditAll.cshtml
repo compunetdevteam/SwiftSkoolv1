@@ -1,10 +1,10 @@
 ﻿@model List<SwiftSkoolv1.WebUI.Models.CaSetUp>
 @{
     ViewBag.Title = "EditAll";
+   
 }
 
-
-
+<link href="~/Content/materialadmin.css" rel="stylesheet" />
 @using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 
     {
@@ -52,11 +52,10 @@
                
               
                 <td>
-                    @*<fieldset class="form-group">*@
-                        @Html.DisplayFor(model => Model[i].IsTrue, new {htmlAttributes = new {@disabled = "disabled"}})
-                        <label>Enable CA</label>
-                    @*</fieldset>*@
-                    @*@Html.CheckBoxFor(model => Model[i].IsTrue, new {htmlAttributes = new {@class = "form-control", @disabled="false"}})*@
+                    @*@Html.Label("Enable CA")*@
+                    @Html.CheckBoxFor(m => m[i].IsTrue, new{ @id = "ca" }) <span>@Html.Label("Enable CA")</span>
+                    @*@Html.EditorFor(model => Model[i].IsTrue, new {htmlAttributes = new {@class = "form-control"}})*@
+
                 </td>
                 @*@*<td>
                     @Html.TextBoxFor(model => Model[i].ClassName, new {style = "display:none"})
