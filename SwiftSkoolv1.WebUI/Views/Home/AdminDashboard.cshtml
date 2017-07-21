@@ -1,4 +1,5 @@
-﻿@model SwiftSkoolv1.WebUI.ViewModels.AdminDashboardVm
+﻿@using SwiftSkool.Services
+@model SwiftSkoolv1.WebUI.ViewModels.AdminDashboardVm
     @*@using SwiftSkool.Services
 
 
@@ -415,6 +416,10 @@
             </script>
     }*@
 
+
+@{
+    List<DataPoint> myModel = (List<DataPoint>)ViewBag.PiePoints;
+}
 <!--Section: Intro-->
 <section class="section section-intro">
 
@@ -601,7 +606,7 @@
                                 <!--Panel data-->
                                 <div class="card-block pt-2">
                                     @{
-                                        Html.RenderAction("Area", "ChartTypes");
+                                        Html.RenderAction("Pie", "ChartTypes", new {model = myModel});
                                     }
                                 </div>
                                 <!--/Panel data-->
@@ -699,9 +704,7 @@
 
     <!--Second row-->
     <div class="row">
-        @{
-            Html.RenderAction("Area", "ChartTypes");
-        }
+       
         <p></p>
        
         @*<p> @{
