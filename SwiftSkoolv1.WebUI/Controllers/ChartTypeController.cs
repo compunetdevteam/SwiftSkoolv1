@@ -15,10 +15,10 @@ namespace SwiftSkool.Controllers.Charts
             var resultInfoes = Db.ContinuousAssessments.Where(s => s.StudentId.Contains(studentNumber));
             return PartialView(resultInfoes);
         }
-        public PartialViewResult Column()
+        public PartialViewResult Column(List<DataPoint> model, string title)
         {
             //Below code can be used to include dynamic data in Chart. Check view page and uncomment the line "dataPoints: @Html.Raw(ViewBag.DataPoints)"
-            //  ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetRandomDataForCategoryAxis(10), _jsonSetting);
+              ViewBag.DataPoint = JsonConvert.SerializeObject(model, _jsonSetting);
 
             return PartialView();
         }
