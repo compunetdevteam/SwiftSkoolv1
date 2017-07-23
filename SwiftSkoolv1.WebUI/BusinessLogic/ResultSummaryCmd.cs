@@ -27,6 +27,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                 _studentId = studentId.Trim();
                 _className = GetClassName();
                 _subjectId = subjectCode;
+                ClassName = "JSS1 ALPHA";
                 FirstTermScore = GetFirstTermScore();
                 FirstTermSubjectGrade = _myGradeRemark.Grading(FirstTermScore, _className, _schoolId).ToString();
 
@@ -113,7 +114,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
             return _db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(_schoolId) && x.StudentId.Equals(_studentId)
                                                         && x.TermName.ToUpper().Equals("FIRST")
                                                         && x.SessionName.Equals(_sessionName)
-                                                        && x.ClassName.Equals(_className)
+                                                        && x.ClassName.Equals(ClassName)
                                                         && x.SubjectId.Equals(_subjectId))
                                                         .Select(y => y.Total).FirstOrDefault();
 

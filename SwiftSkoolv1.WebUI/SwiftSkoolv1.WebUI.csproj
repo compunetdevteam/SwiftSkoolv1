@@ -289,15 +289,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Content\Migrations\201707141741518_InitialCreate.cs" />
-    <Compile Include="Content\Migrations\201707141741518_InitialCreate.Designer.cs">
+    <Compile Include="Migrations\201707141741518_InitialCreate.cs" />
+    <Compile Include="Migrations\201707141741518_InitialCreate.Designer.cs">
       <DependentUpon>201707141741518_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Content\Migrations\201707141941540_Initial_Create.cs" />
-    <Compile Include="Content\Migrations\201707141941540_Initial_Create.Designer.cs">
+    <Compile Include="Migrations\201707141941540_Initial_Create.cs" />
+    <Compile Include="Migrations\201707141941540_Initial_Create.Designer.cs">
       <DependentUpon>201707141941540_Initial_Create.cs</DependentUpon>
     </Compile>
-    <Compile Include="Content\Migrations\Configuration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CaSetUp.cs" />
     <Compile Include="Models\DownloadFileInformation.cs" />
@@ -525,6 +525,7 @@
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\images\banner2.jpg" />
     <Content Include="Content\images\comlogo.png" />
+    <Content Include="Content\images\compunetLogo.jpg" />
     <Content Include="Content\images\im5.jpg" />
     <Content Include="Content\images\im6.jpg" />
     <Content Include="Content\images\im7.jpg" />
@@ -670,7 +671,7 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Rotativa\msvcp120.dll" />
@@ -1109,6 +1110,11 @@
     <Content Include="Views\Staffs\ExcelUpload.cshtml" />
     <Content Include="Views\Shared\_LayoutBoot.cshtml" />
     <Content Include="Views\Shared\_LayoutCheck.cshtml" />
+    <Content Include="Views\Results\SearhResult.cshtml" />
+    <Content Include="Views\Results\SearhResultMain.cshtml" />
+    <Content Include="Views\Results\ViewResult.cshtml" />
+    <Content Include="Views\Results\DownloadResult.cshtml" />
+    <Content Include="Views\Results\SummaryResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1130,10 +1136,10 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\Migrations\201707141741518_InitialCreate.resx">
+    <EmbeddedResource Include="Migrations\201707141741518_InitialCreate.resx">
       <DependentUpon>201707141741518_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Content\Migrations\201707141941540_Initial_Create.resx">
+    <EmbeddedResource Include="Migrations\201707141941540_Initial_Create.resx">
       <DependentUpon>201707141941540_Initial_Create.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
