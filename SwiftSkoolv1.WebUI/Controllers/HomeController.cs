@@ -96,8 +96,8 @@ namespace SwiftSkool.Controllers
 
             var list = new List<DataPoint>
             {
-                new DataPoint(46, "Male","Male"),
-                new DataPoint(54, "Female","Female")
+                new DataPoint(boysPercentage, "Male","Male"),
+                new DataPoint(femalePercentage, "Female","Female")
 
             };
 
