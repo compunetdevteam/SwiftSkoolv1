@@ -434,7 +434,7 @@
                 <div class="admin-up">
                     <i class="fa fa-male blue darken-3"></i>
                     <div class="data">
-                        <p><a href="@Url.Action("GetMaleStudentIndex","Students")"> BOYS</a></p>
+                        <p><a href="@Url.Action("Index","Students", new {gender = "male" })"> BOYS</a></p>
                         <h3>@Model.MaleStudents</h3>
                     </div>
                 </div>
@@ -462,7 +462,7 @@
                 <div class="admin-up">
                     <i class="fa fa-female deep-purple darken-4"></i>
                     <div class="data">
-                        <p> GIRLS</p>
+                        <p> <a href="@Url.Action("Index","Students", new {gender = "female" })">GIRLS</a></p>
                         <h3>@Model.FemaleStudents</h3>
                     </div>
                 </div>

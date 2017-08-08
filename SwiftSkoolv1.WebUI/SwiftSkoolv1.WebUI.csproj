@@ -1121,7 +1121,7 @@
     <Content Include="Views\TimeTables\Details.cshtml" />
     <Content Include="Views\TimeTables\Edit.cshtml" />
     <Content Include="Views\TimeTables\Index.cshtml" />
-    <Content Include="Views\Students\GetMaleStudentIndex.cshtml" />
+    <Content Include="Views\Students\GetMaleStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
