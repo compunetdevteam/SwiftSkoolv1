@@ -83,10 +83,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-        public ActionResult GetMaleStudent()
-        {
-            return View("GetMaleStudent");
-        } 
+     
 
         public async Task<ActionResult> GetIndex(string gender)
         {
@@ -126,7 +123,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
             //}
 
-            if (gender != null)
+            if (gender != null) 
             {
                 v = Db.Students.Where(x => x.SchoolId == userSchool && x.Gender == gender)
                     .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
