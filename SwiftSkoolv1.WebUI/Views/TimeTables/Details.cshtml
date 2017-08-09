@@ -1,0 +1,58 @@
+﻿@model SwiftSkoolv1.Domain.TimeTable
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TimeTable</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDuration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDuration)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TimeTableId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

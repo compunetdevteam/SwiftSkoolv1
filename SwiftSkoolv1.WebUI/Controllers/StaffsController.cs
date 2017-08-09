@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SwiftSkool.Services;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -97,6 +98,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 .Where(x => x.ClassName.Equals(teacherAssignedClass))
                 .Select(x => x.StudentId).ToList();
             var mylist = new List<Student>();
+
+            var list = new List<DataPoint>
+            {
+                new DataPoint(924,"Student"),
+                new DataPoint(50,"Staff"),
+            };
+
+            ViewBag.ColumnPoints = list;
 
             foreach (var item in studentInMyClass)
             {

@@ -101,6 +101,8 @@ namespace SwiftSkoolv1.WebUI.Models
         public DbSet<FeeCategory> FeeCategories { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<ResultAvailability> ResultAvailabilities { get; set; }
+
+        public System.Data.Entity.DbSet<SwiftSkoolv1.Domain.TimeTable> TimeTables { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    //Configure domain classes using modelBuilder here

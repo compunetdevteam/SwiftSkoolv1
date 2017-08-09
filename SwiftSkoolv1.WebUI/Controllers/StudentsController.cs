@@ -23,7 +23,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
     {
 
         // GET: Students
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page, string whatever)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page, string whatever, string gender)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             if (search != null)
@@ -36,6 +36,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             ViewBag.CurrentFilter = search;
 
+            //get the gender to the view
+            ViewBag.Gender = gender;
             //var studentList = from s in Db.Students.AsNoTracking() select s;
             var studentList = Db.Students.AsNoTracking().Include(g => g.Guardian);
             if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
@@ -80,7 +82,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //return View(studentList.ToList());
         }
 
-        public async Task<ActionResult> GetIndex()
+
+     
+
+        public async Task<ActionResult> GetIndex(string gender)
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -99,8 +104,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.Students.Where(x => x.SchoolId == userSchool).Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+
+            /*
+             * get the student base on the studen type eithr
+             * male or female
+             */
+
+          
+          
+                //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+                var v = Db.Students.Where(x => x.SchoolId == userSchool)
+                    .Select(s => new {s.StudentId, s.FullName, s.Gender}).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -108,20 +122,33 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
             //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
             //}
-            if (!string.IsNullOrEmpty(search))
+
+            if (gender != null) 
             {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FullName.Equals(search)))
+                v = Db.Students.Where(x => x.SchoolId == userSchool && x.Gender == gender)
                     .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
             }
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
+            if (!string.IsNullOrEmpty(search))
+                {
+                    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                    v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) &&
+                                               (x.StudentId.Equals(search) || x.FullName.Equals(search)))
+                        .Select(s => new {s.StudentId, s.FullName, s.Gender}).ToList();
+                }
 
-            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+                totalRecords = v.Count();
+                var data = v.Skip(skip).Take(pageSize).ToList();
 
+                return Json(new {draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data},
+                    JsonRequestBehavior.AllowGet);
+
+                #endregion
+    
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
         public PartialViewResult ExcelUpload()
         {

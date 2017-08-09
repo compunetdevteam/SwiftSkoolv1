@@ -283,6 +283,7 @@
     <Compile Include="Controllers\SummaryScoreController.cs" />
     <Compile Include="Controllers\TeacherCommentsController.cs" />
     <Compile Include="Controllers\TermsController.cs" />
+    <Compile Include="Controllers\TimeTablesController.cs" />
     <Compile Include="Controllers\Web Api\BaseApiController.cs" />
     <Compile Include="Controllers\Web Api\StudentsController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
@@ -671,7 +672,7 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Rotativa\msvcp120.dll" />
@@ -1115,6 +1116,11 @@
     <Content Include="Views\Results\ViewResult.cshtml" />
     <Content Include="Views\Results\DownloadResult.cshtml" />
     <Content Include="Views\Results\SummaryResult.cshtml" />
+    <Content Include="Views\TimeTables\Create.cshtml" />
+    <Content Include="Views\TimeTables\Delete.cshtml" />
+    <Content Include="Views\TimeTables\Details.cshtml" />
+    <Content Include="Views\TimeTables\Edit.cshtml" />
+    <Content Include="Views\TimeTables\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
