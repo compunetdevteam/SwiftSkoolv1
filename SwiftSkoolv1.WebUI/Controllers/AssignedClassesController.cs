@@ -128,9 +128,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(ClassName))
             {
-                v = v.Where(s => s.SessionName.Contains(SessionName)
-                                && s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-                                && s.TermName.ToUpper().Contains(TermName.ToUpper())).ToList();
+                v = v.Where(s => s.SessionName.Equals(SessionName)
+                                && s.ClassName.ToUpper().Equals(ClassName.ToUpper())
+                                && s.TermName.ToUpper().Equals(TermName.ToUpper())).ToList();
 
             }
             totalRecords = v.Count();

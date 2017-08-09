@@ -368,7 +368,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     student.MiddleName = model.MiddleName;
                     student.LastName = model.LastName;
                     student.PhoneNumber = model.PhoneNumber;
-                    student.Gender = model.Gender.ToString();
+                    student.Gender = model.Gender.ToString().ToUpper();
                     student.Religion = model.Religion.ToString();
                     student.DateOfBirth = model.DateOfBirth;
                     student.PlaceOfBirth = model.PlaceOfBirth;
