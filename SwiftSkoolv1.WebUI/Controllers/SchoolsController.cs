@@ -1,6 +1,4 @@
-﻿using SwiftSkool.Services;
-using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.Models;
+﻿using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Net;
@@ -9,7 +7,7 @@ using System.Web.Mvc;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
-    [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+    //[CustomAuthorize(Roles = RoleName.SuperAdmin)]
     public class SchoolsController : BaseController
     {
         // GET: Schools

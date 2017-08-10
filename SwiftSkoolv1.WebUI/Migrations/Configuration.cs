@@ -7,16 +7,16 @@ namespace SwiftSkoolv1.WebUI.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SwiftSkoolv1.WebUI.Models.SwiftSkoolDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<SwiftSkoolDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "SwiftSkoolv1.WebUI.Models.SwiftSkoolDbContext";
+
         }
 
-        protected override void Seed(SwiftSkoolv1.WebUI.Models.SwiftSkoolDbContext context)
+        protected override void Seed(SwiftSkoolDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

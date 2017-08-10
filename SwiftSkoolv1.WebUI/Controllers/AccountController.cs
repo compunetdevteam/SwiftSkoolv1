@@ -3,7 +3,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OfficeOpenXml;
-using SwiftSkool.Services;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
@@ -639,9 +638,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             }
                             catch (Exception e)
                             {
-                                message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
-                                TempData["UserMessage"] = message + e.Message;
-                                TempData["Title"] = "Success.";
+                                //message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
+                                //TempData["UserMessage"] = message + e.Message;
+                                //TempData["Title"] = "Success.";
                                 return View("Error3");
                             }
 
@@ -787,7 +786,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
         // GET: /Account/Register
-        [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        // [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        [AllowAnonymous]
         public ActionResult RegisterAdmin()
         {
             ViewBag.SchoolId = new SelectList(Db.Schools.AsNoTracking(), "SchoolId", "Name");
@@ -797,7 +797,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        [AllowAnonymous]
+        // [CustomAuthorize(Roles = RoleName.SuperAdmin)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterAdmin(RegisterAdminVm model)
         {
