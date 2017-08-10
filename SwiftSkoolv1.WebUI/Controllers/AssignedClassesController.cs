@@ -128,9 +128,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(ClassName))
             {
-                v = v.Where(s => s.SessionName.Contains(SessionName)
-                                && s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-                                && s.TermName.ToUpper().Contains(TermName.ToUpper())).ToList();
+                v = v.Where(s => s.SessionName.Equals(SessionName)
+                                && s.ClassName.ToUpper().Equals(ClassName.ToUpper())
+                                && s.TermName.ToUpper().Equals(TermName.ToUpper())).ToList();
 
             }
             totalRecords = v.Count();
@@ -146,12 +146,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-            var assignedClass = await Db.AssignedClasses.FindAsync(id);
+           // var assignedClass = await Db.AssignedClasses.FindAsync(id);
             ViewBag.StudentId = new MultiSelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
             ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            return PartialView(assignedClass);
+            //var assignClassVm = new AssignedClassesViewModel
+            //{
+            //    AssignedClassId = assignedClass.AssignedClassId,
+                
+
+            //};
+            return PartialView();
         }
 
         // POST: Subjects/Save/5

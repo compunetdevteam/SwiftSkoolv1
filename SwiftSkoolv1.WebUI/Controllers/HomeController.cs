@@ -5,9 +5,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using SwiftSkoolv1.Domain;
 
 
 namespace SwiftSkool.Controllers
@@ -50,12 +52,31 @@ namespace SwiftSkool.Controllers
             //return new Rotativa.ViewAsPdf();
             return View();
         }
-        public ActionResult GeneralDashboard()
+        public async Task<ActionResult> GeneralDashboard()
         {
+            //get the total number of school that SwiftSkool support
+            var numberOfSchools = await Db.Schools.AsNoTracking().CountAsync();
+
+            //get the total number of student that SwiftSkool supports
+            var numberOfStudent =await Db.Students.AsNoTracking().Include( s => s.SchoolId).CountAsync();
+
+            //total number of female student in the software
+            var numberOfFemale = await Db.Students.AsNoTracking().Where(x => x.Gender.Equals("Female")).CountAsync();
+
+            //total number of male student in the application
+            var numberOfMale = await Db.Students.AsNoTracking().Where(x => x.Gender.Equals("Male")).CountAsync();
+
+
+            var model = new GeneralDashboardVm();
+            model.TotalNumberOfSchools = numberOfSchools;
+            model.TotlaNumberOfStudents = numberOfStudent;
+            model.MaleStudent = numberOfMale;
+            model.FemaleStudent = numberOfFemale;
+
             ViewBag.Message = "Your application description page.";
 
             //return new Rotativa.ViewAsPdf();
-            return View();
+            return View(model);
         }
 
         public async Task<ActionResult> AdminDashboard()
@@ -75,8 +96,8 @@ namespace SwiftSkool.Controllers
 
             var list = new List<DataPoint>
             {
-                new DataPoint(46, "Male","Male"),
-                new DataPoint(54, "Female","Female")
+                new DataPoint(boysPercentage, "Male","Male"),
+                new DataPoint(femalePercentage, "Female","Female")
 
             };
 
@@ -99,6 +120,57 @@ namespace SwiftSkool.Controllers
         /*
          method to build chart on admin dashboard
              */
+
+
+        /* 
+
+         Get the total student in the class and display in the admin view
+
+         */
+
+        //public async Task<ActionResult> GetIndex()
+        //{
+        //    #region Server Side filtering
+        //    //Get parameter for sorting from grid table
+        //    // get Start (paging start index) and length (page size for paging)
+        //    var draw = Request.Form.GetValues("draw").FirstOrDefault();
+        //    var start = Request.Form.GetValues("start").FirstOrDefault();
+        //    var length = Request.Form.GetValues("length").FirstOrDefault();
+        //    //Get Sort columns values when we click on Header Name of column
+        //    //getting column name
+        //    var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+        //    //Soring direction(either desending or ascending)
+        //    var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+        //    string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+        //    int pageSize = length != null ? Convert.ToInt32(length) : 0;
+        //    int skip = start != null ? Convert.ToInt32(start) : 0;
+        //    int totalRecords = 0;
+
+        //    //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+        //    var v = Db.Students.Where(x => x.SchoolId == userSchool && x.Gender == "Male").Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+
+        //    //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+        //    //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+        //    //{
+        //    //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+        //    //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+        //    //}
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+        //        v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FullName.Equals(search)))
+        //            .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+        //    }
+        //    totalRecords = v.Count();
+        //    var data = v.Skip(skip).Take(pageSize).ToList();
+
+        //    return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+        //    #endregion
+
+        //    //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        //}
+
 
         public ActionResult CharterColumn()
         {

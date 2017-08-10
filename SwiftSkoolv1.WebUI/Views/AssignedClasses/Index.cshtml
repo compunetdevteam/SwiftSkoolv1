@@ -39,7 +39,7 @@
         <!--forth column-->
         <div class="col-md-3">
             <div class="md-form">
-                @Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new {@class = "mdb-select" })
+                @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new {@class = "mdb-select" })
                 <label for="SessionName">SessionName</label>
             </div>
         </div>

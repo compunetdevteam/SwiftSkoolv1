@@ -3,14 +3,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OfficeOpenXml;
 using PagedList;
-using Rotativa;
 using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -25,16 +22,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class StudentsController : BaseController
     {
 
-        private readonly GradeRemark _gradeRemark;
-        private ResultCommandManager _resultCommand;
-
-        public StudentsController()
-        {
-            _gradeRemark = new GradeRemark();
-        }
-
         // GET: Students
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page, string whatever)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page, string whatever, string gender)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             if (search != null)
@@ -47,6 +36,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             ViewBag.CurrentFilter = search;
 
+            //get the gender to the view
+            ViewBag.Gender = gender;
             //var studentList = from s in Db.Students.AsNoTracking() select s;
             var studentList = Db.Students.AsNoTracking().Include(g => g.Guardian);
             if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
@@ -91,7 +82,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //return View(studentList.ToList());
         }
 
-        public async Task<ActionResult> GetIndex()
+
+
+
+        public async Task<ActionResult> GetIndex(string gender)
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -110,8 +104,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
+
+            /*
+             * get the student base on the studen type eithr
+             * male or female
+             */
+
+
+
             //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.Students.Where(x => x.SchoolId == userSchool).Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+            var v = Db.Students.Where(x => x.SchoolId == userSchool)
+                .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -119,20 +122,33 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
             //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
             //}
+
+            if (!string.IsNullOrWhiteSpace(gender))
+            {
+                v = Db.Students.Where(x => x.SchoolId == userSchool && x.Gender == gender)
+                    .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+            }
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FullName.Equals(search)))
+                v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) &&
+                                           (x.StudentId.Equals(search) || x.FullName.Equals(search)))
                     .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
             }
+
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
 
-            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data },
+                JsonRequestBehavior.AllowGet);
+
             #endregion
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
         public PartialViewResult ExcelUpload()
         {
@@ -166,7 +182,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var totalStudent = male + female;
 
-         //   model.Subjects = await _resultCommand.NameOfSubjectOfferedByStudent();
+            //   model.Subjects = await _resultCommand.NameOfSubjectOfferedByStudent();
 
             model.ClassName = myClass;
             model.MaleStudents = male;
@@ -234,7 +250,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             var student = await Db.Students.FindAsync(id);
-            
+
             return PartialView(student);
         }
 
@@ -379,7 +395,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     student.MiddleName = model.MiddleName;
                     student.LastName = model.LastName;
                     student.PhoneNumber = model.PhoneNumber;
-                    student.Gender = model.Gender.ToString();
+                    student.Gender = model.Gender.ToString().ToUpper();
                     student.Religion = model.Religion.ToString();
                     student.DateOfBirth = model.DateOfBirth;
                     student.PlaceOfBirth = model.PlaceOfBirth;
@@ -457,283 +473,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    return PartialView(GuardianInfoes);
         //}
 
-        #region Result Display
-        public async Task<ActionResult> PrintSecondTerm(string id, string term, string sessionName)
-        {
-
-            _resultCommand = new ResultCommandManager(id, term, sessionName, userSchool);
-            var reportModel = new ReportVm();
-            var newCalist = new List<ContinuousAssesmentVm>();
-            foreach (var ca in _resultCommand._studentCa)
-            {
-                var caVm = new ContinuousAssesmentVm
-                {
-                    SubjectName = ca.Subject.SubjectName,
-                    SubjectPosition = _resultCommand.FindSubjectPosition(ca.SubjectId),
-                    SubjectHighest = _resultCommand.SubjectHighest(ca.SubjectId),
-                    SubjectLowest = _resultCommand.SubjectLowest(ca.SubjectId),
-                    ClassAverage = await _resultCommand.CalculateClassAverage(ca.SubjectId),
-                    FirstCa = ca.FirstCa,
-                    SecondCa = ca.SecondCa,
-                    ThirdCa = ca.ThirdCa,
-                    ForthCa = ca.ForthCa,
-                    FifthCa = ca.FifthCa,
-                    SixthCa = ca.SixthCa,
-                    SeventhCa = ca.SeventhCa,
-                    EightCa = ca.EightCa,
-                    NinthtCa = ca.NinthtCa,
-                    ExamCa = ca.ExamCa,
-                    Total = ca.Total,
-                    Grading = ca.Grading,
-                    Remark = ca.Remark,
-                    StaffName = ca.StaffName
-                };
-                newCalist.Add(caVm);
-
-            }
-            reportModel.ContinuousAssesmentVms = newCalist;
-
-            reportModel.NoOfStudentPerClass = await _resultCommand.NumberOfStudentPerClass();
-            reportModel.NoOfSubjectOffered = await _resultCommand.SubjectOfferedByStudent();
-            reportModel.AggregateScore = _resultCommand.TotalScorePerStudent();
-            reportModel.Average = await _resultCommand.CalculateAverage();
-            reportModel.OverAllGrade = _gradeRemark.Grading(reportModel.Average, _resultCommand._className, userSchool);
 
 
-
-
-
-            var myOtherSkills = await Db.Psychomotors.AsNoTracking().Where(s => s.StudentId.Contains(id)
-                                                          && s.TermName.Contains(term)
-                                                          && s.SessionName.Contains(sessionName)
-                                                          && s.ClassName.Equals(_resultCommand._className))
-                                                         .Select(c => c.Id).FirstOrDefaultAsync();
-
-
-
-
-
-            reportModel.BehaviorCategory = await Db.BehaviorSkillCategories.AsNoTracking()
-                                                    .Where(s => s.SchoolId.Equals(userSchool))
-                                                    .Select(x => x.Name).ToListAsync();
-            reportModel.AssignBehaviors = await Db.AssignBehaviors.Where(s => s.SchoolId.Equals(userSchool)
-                                                                    && s.StudentId.Contains(id)
-                                                                     && s.TermName.Contains(term)
-                                                                     && s.SessionName.Contains(sessionName)).ToListAsync();
-
-
-            reportModel.AssignBehavior = reportModel.AssignBehaviors.FirstOrDefault();
-
-            reportModel.ReportCard = await Db.ReportCards.FirstOrDefaultAsync(x => x.SchoolId.Equals(userSchool)
-                                                && x.TermName.ToUpper().Equals(term)
-                                                && x.SessionName.Equals(sessionName));
-
-
-            //ViewBag.Class = 
-            reportModel.PrincipalComment = _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
-            reportModel.TermName = term;
-            reportModel.SessionName = sessionName;
-            reportModel.ClassName = _resultCommand._className;
-            reportModel.Student = await Db.Students.FindAsync(id);
-            reportModel.CaSetUp = await Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
-                                                         && x.ClassName.Equals(_resultCommand._className))
-                                                        .OrderBy(o => o.CaOrder).ToListAsync();
-            reportModel.CaSetUpCount = reportModel.CaSetUp.Count();
-
-            var myAggregateList = new List<AggregateList>();
-
-            var classMate = Db.AssignedClasses.AsNoTracking().Where(x => x.ClassName.Equals(_resultCommand._className))
-                                                    .Select(s => s.StudentId).ToList();
-            foreach (var student in classMate)
-            {
-                var aggregateList = new AggregateList()
-                {
-                    Score = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && x.StudentId.Equals(student)
-                                                    && x.ClassName.Equals(_resultCommand._className)
-                                                    && x.TermName.Equals(term) && x.SessionName.Equals(sessionName))
-                                                .SumAsync(s => s.Total),
-                    StudentId = student
-                };
-                myAggregateList.Add(aggregateList);
-            }
-
-            reportModel.AggregatePosition = _resultCommand.FindAggregatePosition(myAggregateList);
-
-            //return View(reportModel);
-
-            return new ViewAsPdf("PrintSecondTerm", reportModel);
-        }
-
-
-        public async Task<ActionResult> SummaryResult(string id, string sessionName)
-        {
-            var cModel = new CummulativeReportVm();
-            var summaryCaList = new List<SummaryCa>();
-            cModel.Student = await Db.Students.FindAsync(id);
-            var noOfStudentInClass = 0;
-            var className = string.Empty;
-
-            var subjectOffered = await GetSubjectId(cModel.Student.CurrentClass, cModel.Student.StudentId);
-            foreach (var subject in subjectOffered)
-            {
-                var resultSummaryCmd = new ResultSummaryCmd(id, sessionName, subject, userSchool);
-                var summaryCa = new SummaryCa
-                {
-                    FirstTermScore = resultSummaryCmd.FirstTermScore,
-                    FirstTermGrade = resultSummaryCmd.FirstTermSubjectGrade,
-                    FirstTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
-                    SecondTermScore = resultSummaryCmd.SecondTermScore,
-                    SecondTermPosition = resultSummaryCmd.FirstTermSubjectPosition,
-                    SeondTermGrade = resultSummaryCmd.SecondTermSubjectGrade,
-                    ThirdTermScore = resultSummaryCmd.ThirdTermScore,
-                    ThirdTermGrade = resultSummaryCmd.ThirdTermSubjectGrade,
-                    ThirdTermPosition = resultSummaryCmd.ThirdTermSubjectPosition,
-                    SubjectGrade = resultSummaryCmd.SummaryGrading,
-                    WeightedScore = resultSummaryCmd.WeightedScores,
-                    SubjectRemark = resultSummaryCmd.SummaryRemark,
-                    SubjectAverage = resultSummaryCmd.ClassAverage
-                };
-                noOfStudentInClass = resultSummaryCmd.NoOfStudentPerClass;
-                className = resultSummaryCmd.ClassName;
-
-                summaryCaList.Add(summaryCa);
-            }
-
-            cModel.SummaryCas = summaryCaList;
-            cModel.NoOfSubjectOffered = subjectOffered.Count();
-            cModel.NoOfStudentPerClass = noOfStudentInClass;
-            cModel.SessionName = sessionName;
-            cModel.ClassName = className;
-            cModel.AggregateScore = cModel.SummaryCas.Sum(s => s.WeightedScore);
-
-
-            return View(cModel);
-
-        }
-
-        #endregion
-        public async Task<List<int>> GetSubjectId(string _className, string _studentId)
-        {
-            var subjectAssigned = await Db.AssignSubjects.AsNoTracking().Where(c => c.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                        && c.ClassName.ToUpper().Trim().Equals(_className))
-                                                        .Select(s => s.Subject.SubjectId).ToListAsync();
-            var subjectregistration = await Db.SubjectRegistrations.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                        && x.StudentId.ToUpper().Trim().Equals(_studentId.ToUpper().Trim()))
-                                                        .Select(s => s.Subject.SubjectId).ToListAsync();
-            if (subjectregistration.Count > 1)
-            {
-                return subjectregistration;
-            }
-            return subjectAssigned;
-            //var noOfSubjectPerStudent = _db.AssignSubjects.Count(x => x.ClassName.Equals(className));
-
-        }
-        //public async Task<ActionResult> PrintSecondTerm(string FileId)
-        //{
-        //    DownloadFiles obj = new DownloadFiles();
-        //    string NewFileName = FileId + ".pdf";
-        //    var filesCol = obj.GetFiles();
-        //    string CurrentFileName = (from fls in filesCol
-        //                              where fls.FileName == NewFileName
-        //                              select fls.FilePath).First();
-
-        //    string contentType = string.Empty;
-
-        //    if (CurrentFileName.Contains(".pdf"))
-        //    {
-        //        contentType = "application/pdf";
-        //    }
-
-        //    else if (CurrentFileName.Contains(".docx"))
-        //    {
-        //        contentType = "application/docx";
-        //    }
-        //    return File(CurrentFileName, contentType, CurrentFileName);
-        //}
-
-
-        //public ActionResult PrintTest(string id, string term, string sessionName)
-        //{
-
-
-        //    var className = Db.AssignedClasses.Where(x => x.StudentId.Equals(id) && x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim())
-        //                                             && x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()))
-        //                                        .Select(y => y.ClassName)
-        //                                        .FirstOrDefault();
-        //    string subject = "MATHEMATICS";
-
-        //    // var className = "JSS1 A";
-
-        //    ViewBag.Subject = _resultCommand.SubjectOfferedByStudent(id, term, sessionName);
-        //    var sumPerSubject = Db.ContinuousAssessments.Where(x => x.SubjectCode.ToUpper().Trim().Equals(subject.ToUpper().Trim())
-        //                                                           && x.ClassName.ToUpper().Trim().Equals(className.ToUpper().Trim())
-        //                                                            && x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim())
-        //                                                    && x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()))
-        //                                                    .Sum(y => y.Total);
-        //    double classAverage = _resultCommand.CalculateClassAverage(className, term, sessionName, subject.ToUpper().Trim());
-        //    var studentPerClass = Db.AssignedClasses.Count(x => x.ClassName.ToUpper().Trim().Equals(className.ToUpper().Trim())
-        //                                                        && x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim())
-        //                                                     && x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()));
-
-        //    double average = _resultCommand.CalculateAverage(id, className, term, sessionName);
-        //    double totalScore = _resultCommand.TotalScorePerStudent(id, className, term, sessionName);
-        //    // return Math.Round(sumPerSubject, 2);
-        //    ViewBag.Term = term;
-        //    ViewBag.Session = sessionName;
-        //    ViewBag.ClassName = className;
-        //    ViewBag.SubjectTotal = Math.Round(sumPerSubject, 2);
-
-        //    ViewBag.ClassAverage = classAverage;
-        //    ViewBag.StudentPerClass = studentPerClass;
-        //    ViewBag.Average = average;
-        //    ViewBag.TotalScore = totalScore;
-
-        //    return View();
-
-        //}
-        //public ActionResult PrintSummaryReport(string id, string sessionName)
-        //{
-        //    var summary = new SummaryReportViewModel()
-        //    {
-        //        Results = Db.Results.Where(s => s.StudentId.Contains(id)
-        //                                && s.SessionName.Contains(sessionName)).ToList(),
-        //        ReportSummaries = Db.ReportSummarys.Where(s => s.StudentId.Equals(id)
-        //                                            && s.SessionName.Equals(sessionName)).ToList()
-        //    };
-        //    //foreach (var item in studentResults.Where(c => c.))
-        //    //{
-
-        //    //}
-        //    return View(summary);
-        //}
 
         public PartialViewResult ResultInfo(string studentNumber)
         {
             var resultInfoes = Db.ContinuousAssessments.Where(s => s.StudentId.Contains(studentNumber));
             return PartialView(resultInfoes);
         }
-        //public PartialViewResult ResultRemplate(string studentNumber, string term, string sessionName)
-        //{
-        //    var GuardianInfoes = Db.ContinuousAssessments.Include(p => p.Student).Where(s => s.StudentId.Contains(studentNumber)
-        //                                            && s.TermName.Contains(term) && s.SessionName.Contains(sessionName));
-        //    return PartialView(GuardianInfoes);
-        //}
 
-        //public PartialViewResult RenderRemplate(string studentNumber, string term, string sessionName, string subjectcode)
-        //{
-        //    var myResult = Db.Results.Where(s => s.StudentId.Contains(studentNumber)
-        //                                            && s.Term.Contains(term)
-        //                                            && s.SessionName.Contains(sessionName)
-        //                                            && s.SubjectName.Contains(subjectcode));
-        //    return PartialView(myResult);
-        //}
-
-
-        //public ActionResult Pdf()
-        //{
-        //    var pdf = Db.Students.ToList();
-        //    return new PdfResult(pdf, "Pdf");
-        //}
 
         public ActionResult Calender()
         {

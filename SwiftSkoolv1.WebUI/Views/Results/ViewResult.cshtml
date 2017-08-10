@@ -1,0 +1,528 @@
+﻿@model SwiftSkoolv1.WebUI.ViewModels.ReportVm
+@{
+    //Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+@*<img src="~/Content/images/logo.PNG" width="900" />*@
+
+<img src="~/Content/images/comlogo.png" height="100" align="middle" /> <span></span>
+
+<h4 class="text-center"> REPORT SHEET FOR @Model.TermName TERM @Model.SessionName ACADEMIC SESSION </h4>
+<div>
+
+
+    <table class="table table-banded no-margin table-responsive">
+        <tbody>
+        <tr>
+            <th><strong>FULLNAME: </strong> @Html.DisplayFor(model => model.Student.FullName)</th>
+            <th><strong>SEX: </strong> @Html.DisplayFor(model => model.Student.Gender)</th>
+            @*<td><strong>AGE:</strong> @Html.DisplayFor(model => model.Student.Age)</td>*@
+            <th><strong>CLASS: </strong> @Model.ClassName</th>
+            <th rowspan="3"><img src="@Url.Action("RenderImage","Students", new { studentId = Model.Student.StudentId})" width="100" height="100" /></th>
+
+        </tr>
+        <tr>
+            <th><strong>ADMISSION NO: </strong> @Html.DisplayFor(model => model.Student.StudentId)</th>
+            <td><strong>No of Times Sch. Opened: </strong> @Html.DisplayFor(model => model.ReportCard.SchoolOpened)</td>
+            @*<td><strong>ABSENT: </strong>@Model.AssignBehavior.NoOfAbsence</td>*@
+            <td><strong>Position:</strong> @Html.DisplayFor(model => model.AggregatePosition)</td>
+        </tr>
+        <tr>
+            <td><strong>Next Term Begins: </strong> 28th April, 2017@*@Html.DisplayFor(model => model.ReportCard.NextTermBegin)*@</td>
+            <td><strong>Next Term Ends: </strong>29th July, 2017@*@Html.DisplayFor(model => model.ReportCard.NextTermEnd)*@</td>
+            <td><strong>No in Class: </strong> @Html.DisplayFor(model => model.NoOfStudentPerClass)</td>
+               
+        </tr>
+        </tbody>
+    </table>
+</div><!--end .card-body -->
+
+
+
+
+<table class="table table-responsive table-bordered">
+<tr>
+
+    <th>
+        Subject
+    </th>
+
+    @foreach (var caitem in Model.CaSetUp)
+    {
+        <th>
+            <strong>@caitem.CaCaption (@caitem.MaximumScore)</strong>
+        </th>
+    }
+    @*<th>PROJECT(10%)</th>
+            <th>ASSIGNMENT(10%)</th>
+            <th>CA (20%)</th>
+            <th>EXAM (60%)</th>*@
+    <th>TOTAL</th>
+    <th>Class Highest</th>
+    <th>Class Lowest</th>
+    <th>Class Average</th>
+    <th>Position </th>
+    <th>Grade </th>
+    <th> Remark </th>
+    @*<th class="verticalTableHeader"> 1ST ASSIGN(5%) </th>
+            <th class="verticalTableHeader"> 1ST ASSIGN(5%) </th>
+            <th class="verticalTableHeader"> 2ND ASSIGN(5%) </th>
+            <th class="verticalTableHeader"> 1ST CA (10%) </th>
+            <th class="verticalTableHeader"> 2ND CA (10%) </th>
+            <th class="verticalTableHeader"> EXAM (60%) </th>
+            <th class="verticalTableHeader"> TOTAL </th>
+            <th class="verticalTableHeader"> Class Highest </th>
+            <th class="verticalTableHeader"> Class Lowest </th>
+            <th class="verticalTableHeader"> Class Average </th>
+            <th class="verticalTableHeader"> Position </th>
+            <th class="verticalTableHeader"> Grade </th>
+            <th class="verticalTableHeader"> Remark </th>*@
+</tr>
+
+@foreach (var item in Model.ContinuousAssesmentVms)
+{
+    <tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.SubjectName)
+    </td>
+    @if (Model.CaSetUpCount == 1)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+    }
+    @if (Model.CaSetUpCount == 2)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+    }
+    @if (Model.CaSetUpCount == 3)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+
+    }
+    @if (Model.CaSetUpCount == 4)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+    }
+    @if (Model.CaSetUpCount == 5)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+    }
+    @if (Model.CaSetUpCount == 6)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FifthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+    }
+    @if (Model.CaSetUpCount == 7)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FifthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SixthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+    }
+    @if (Model.CaSetUpCount == 8)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FifthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SixthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeventhCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+
+    }
+    @if (Model.CaSetUpCount == 9)
+    {
+
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FifthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SixthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeventhCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EightCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+
+    }
+    @if (Model.CaSetUpCount == 10)
+    {
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FifthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SixthCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeventhCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EightCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NinthtCa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamCa)
+        </td>
+
+    }
+       
+    <td>
+        @Html.DisplayFor(modelItem => item.Total)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.SubjectHighest)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.SubjectLowest)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ClassAverage)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SubjectPosition)
+    </td>
+
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Grading)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Remark)
+    </td>
+
+    </tr>
+}
+
+</table>
+
+<table class="table table-responsive">
+    <tbody>
+    <tr>
+        <td><strong>No of Subject Offered: </strong>@Html.DisplayFor(model => model.NoOfSubjectOffered) </td>
+        @*<td><strong>Total: </strong>@Html.DisplayFor(model => model.TotalScore)</td>*@
+        <td><strong>Distinctions: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("A1"))</td>
+        <td><strong>Good: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("B2") || x.Grading.Equals("B3"))</td>
+        <td><strong>Credit: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("C4") || x.Grading.Equals("C5") || x.Grading.Equals("C6"))</td>
+        <td><strong>Pass: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("D7") || x.Grading.Equals("E8"))</td>
+        <td><strong>Fail: </strong>@Model.ContinuousAssesmentVms.Count(x => x.Grading.Equals("F9"))</td>
+    </tr>
+    <tr>
+        <td><strong>Terminal Performance:</strong></td>
+        <td><strong>Total Mark: </strong> @Html.DisplayFor(model => model.AggregateScore)</td>
+        <td><strong>Average:</strong> @Html.DisplayFor(model => model.Average)</td>
+        @*<td><strong>GPA:</strong> @Html.DisplayFor(model => model.GradePointAverage)</td>
+            <td><strong>CGPA:</strong> xxx</td>*@
+    </tr>
+    </tbody>
+</table>
+
+
+
+@*<table class="table">
+        @foreach (var catItem in Model.BehaviorCataegory)
+        {
+            <tr>
+                <th>
+                    @catItem
+                </th>
+                <th>
+                    Score
+                </th>
+                <th></th>
+            </tr>
+
+            foreach (var resultItem in Model.Psychomotor.Where(x => x.BehaviorCategory.Equals(catItem)))
+             {
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(model => resultItem.BehaviouralSkillId)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(model => resultItem.SkillScore)
+                     </td>
+
+                 </tr>
+             }
+        }
+
+    </table>*@
+<table class="table table-responsive">
+
+    <tr>
+        @foreach (var catItem in Model.BehaviorCategory)
+        {
+            <td>
+                <table>
+                    <tr>
+                        <th><strong>@catItem</strong></th>
+                        <th><strong>Score</strong></th>
+                    </tr>
+                    @foreach (var resultItem in Model.AssignBehaviors.Where(x => x.BehaviorCategory.Equals(catItem)))
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(model => resultItem.BehaviouralSkillId)</td>
+                            <td>@Html.DisplayFor(model => resultItem.SkillScore)</td>
+                        </tr>
+                    }
+
+                </table>
+            </td>}
+    </tr>
+</table>
+
+
+@*<table class="table table-banded no-margin table-responsive">
+
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <th><strong>Affective Traits</strong></th>
+                        <th><strong>Score</strong></th>
+                    </tr>
+                    <tr>
+                        <td>Self Confidence</td>
+                        <td>@Html.DisplayFor(model => model.Affective.SelfConfidence)</td>
+                    </tr>
+                    <tr>
+                        <td>Honesty</td>
+                        <td>@Html.DisplayFor(model => model.Affective.Honesty)</td>
+                    </tr>
+                    <tr>
+                        <td>Sociability</td>
+                        <td>@Html.DisplayFor(model => model.Affective.Sociability)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Punctuality</td>
+                        <td>@Html.DisplayFor(model => model.Affective.Punctuality)</td>
+                    </tr>
+                    <tr>
+                        <td>Neatness</td>
+                        <td>@Html.DisplayFor(model => model.Affective.Neatness)</td>
+                    </tr>
+                    <tr>
+                        <td>Initiative</td>
+                        <td>@Html.DisplayFor(model => model.Affective.Initiative)</td>
+                    </tr>
+                    <tr>
+                        <td>Organization</td>
+                        <td>@Html.DisplayFor(model => model.Affective.Organization)</td>
+                    </tr>
+                    <tr>
+                        <td>Attendance in Class</td>
+                        <td>@Html.DisplayFor(model => model.Affective.AttendanceInClass)</td>
+                    </tr>
+                </table>
+
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <th><strong>Psycho-motor Traits</strong></th>
+                        <th><strong>Score</strong></th>
+                    </tr>
+                    <tr>
+                        <td>Sport</td>
+                        <td>@Html.DisplayFor(model => model.Psychomotor.Sports)</td>
+                    </tr>
+                    <tr>
+                        <td>Extra Curricular Activity</td>
+                        <td>@Html.DisplayFor(model => model.Psychomotor.ExtraCurricularActivity)</td>
+                    </tr>
+                    <tr>
+                        <td>Helping Others</td>
+                        <td>@Html.DisplayFor(model => model.Psychomotor.HelpingOthers)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Manual Duties</td>
+                        <td>@Html.DisplayFor(model => model.Psychomotor.ManualDuty)</td>
+                    </tr>
+                    <tr>
+                        <td>Level of Commitment</td>
+                        <td>@Html.DisplayFor(model => model.Psychomotor.LevelOfCommitment)</td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+
+    </table>*@
+
+<table class="table-responsive">
+    <tr>
+    <td>
+        <table>
+            <tbody>
+            <tr>
+                <td><strong>Form Teacher</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Remark : </strong>@Html.DisplayFor(model => model.AssignBehavior.TeacherComment) </td>
+
+
+            </tr>
+            <tr>
+                <td><strong>Sign/date :</strong> 30th March, 2017 @*@Html.DisplayFor(model => model.TeacherDate)*@ </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </td>
+    <td>
+        <table>
+            <tbody>
+            <tr>
+                <td><strong>Principal</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Remark : </strong> @ViewBag.PrincipalComment </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Sign/date :</strong> 30th March, 2017@*@Html.DisplayFor(model => model.TeacherDate)*@
+                    <img src="~/Content/images/PSign.jpeg" alt="" width="100" height="20" />
+                    @*<img src="@Url.Action("RenderSignature", new {studentId = Model.ReportCard.ReportCardId})" width="100" height="20" alt="" />*@
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </td>
+</table>
+
+
+
+
+
+
+
+
+
+

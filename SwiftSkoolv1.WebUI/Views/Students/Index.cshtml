@@ -8,10 +8,12 @@
 @if (ViewBag.Message != null)
 {
     <div class="alert alert-success">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>   
         <strong>@ViewBag.Message</strong>
     </div>
 }
+
+<h2>@ViewBag.Gender</h2>
     @*<div class="row">
             @if (Request.IsAuthenticated && User.IsInRole("Admin"))
             {
@@ -137,6 +139,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+        
+
+           // var gender = "@ViewBag.Gender";
             window.oTable = $("#Jdatatable").DataTable({
                 "processing": true, // for show progress bar while loading
                 "serverSide": true, // if it is true the preocess is done on server side
@@ -145,7 +150,8 @@
                 "stateSave": true,
                 "orderMulti": false, // disable multiple column loading at once
                 "ajax": {
-                    "url": "/Students/GetIndex",
+                    "url": "/Students/GetIndex?gender=" + "@ViewBag.Gender",
+                    //"url": "/Students/GetIndex?gender",
                     "type": "POST",
                     "datatype": "json"
                 },

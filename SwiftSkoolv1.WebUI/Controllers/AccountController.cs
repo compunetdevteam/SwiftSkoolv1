@@ -606,7 +606,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                     MiddleName = middleName,
                                     LastName = lastName,
                                     PhoneNumber = phoneNumber,
-                                    Gender = gender,
+                                    Gender = gender.ToUpper(),
                                     Religion = religion,
                                     PlaceOfBirth = placeofBirth,
                                     StateOfOrigin = state,
@@ -702,7 +702,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         MiddleName = model.MiddleName,
                         LastName = model.LastName,
                         PhoneNumber = model.PhoneNumber,
-                        Gender = model.Gender.ToString(),
+                        Gender = model.Gender.ToString().ToUpper(),
                         Religion = model.Religion.ToString(),
                         DateOfBirth = model.DateOfBirth,
                         PlaceOfBirth = model.PlaceOfBirth,
@@ -819,7 +819,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("AdminDashboard", "Home");
+                    return RedirectToAction("RegisterAdmin", "Account");
                 }
                 AddErrors(result);
             }

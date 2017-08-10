@@ -1,13 +1,13 @@
 ﻿@model SwiftSkoolv1.WebUI.ViewModels.ReportVm
 @{
-    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 @*<img src="~/Content/images/logo.PNG" width="900" />*@
 
-<img src="~/Content/images/templatemo_logo.png" height="100" /> <span></span>
+<img src="~/Content/images/comlogo.png" height="100" align="middle" /> <span></span>
 
 <h4 class="text-center"> REPORT SHEET FOR @Model.TermName TERM @Model.SessionName ACADEMIC SESSION </h4>
 <div>
@@ -27,12 +27,13 @@
                 <th><strong>ADMISSION NO: </strong> @Html.DisplayFor(model => model.Student.StudentId)</th>
                 <td><strong>No of Times Sch. Opened: </strong> @Html.DisplayFor(model => model.ReportCard.SchoolOpened)</td>
                 @*<td><strong>ABSENT: </strong>@Model.AssignBehavior.NoOfAbsence</td>*@
+                <td><strong>Position:</strong> @Html.DisplayFor(model => model.AggregatePosition)</td>
             </tr>
             <tr>
                 <td><strong>Next Term Begins: </strong> 28th April, 2017@*@Html.DisplayFor(model => model.ReportCard.NextTermBegin)*@</td>
                 <td><strong>Next Term Ends: </strong>29th July, 2017@*@Html.DisplayFor(model => model.ReportCard.NextTermEnd)*@</td>
                 <td><strong>No in Class: </strong> @Html.DisplayFor(model => model.NoOfStudentPerClass)</td>
-                <td><strong>Position:</strong> @Html.DisplayFor(model => model.AggregatePosition)</td>
+               
             </tr>
         </tbody>
     </table>
@@ -333,8 +334,8 @@
             <td><strong>Terminal Performance:</strong></td>
             <td><strong>Total Mark: </strong> @Html.DisplayFor(model => model.AggregateScore)</td>
             <td><strong>Average:</strong> @Html.DisplayFor(model => model.Average)</td>
-            <td><strong>GPA:</strong> @*@Html.DisplayFor(model => model.GradePointAverage)*@</td>
-            <td><strong>CGPA:</strong> xxx</td>
+            @*<td><strong>GPA:</strong> @Html.DisplayFor(model => model.GradePointAverage)</td>
+            <td><strong>CGPA:</strong> xxx</td>*@
         </tr>
     </tbody>
 </table>

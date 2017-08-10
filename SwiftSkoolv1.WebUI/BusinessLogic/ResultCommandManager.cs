@@ -16,6 +16,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         private readonly string _studentId;
         private readonly IQueryable<AssignedClass> _mYclassName;
         public readonly string _className;
+        
         private readonly string _termName;
         private readonly string _sessionName;
         private readonly string _schoolId;
@@ -36,6 +37,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
             _db = new SwiftSkoolDbContext();
 
             _mYclassName = GetClassName();
+           
             _className = GetClassName().Select(y => y.ClassName).FirstOrDefault();
 
             _caList = GetCaLists();
@@ -63,6 +65,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                                                                  && x.SessionName.ToUpper().Trim().Equals(_sessionName));
 
         }
+       
 
         public async Task<bool> CheckResultAvailability()
         {

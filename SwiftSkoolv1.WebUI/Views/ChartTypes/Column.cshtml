@@ -17,20 +17,20 @@
             data: [
             {
                 type: "column",
-                dataPoints: [
-                    { y: 6, label: "Apple" },
-					{ y: 4, label: "Mango" },
-					{ y: 5, label: "Orange" },
-					{ y: 7, label: "Banana" },
-					{ y: 4, label: "Pineapple" },
-					{ y: 6, label: "Pears" },
-					{ y: 7, label: "Grapes" },
-					{ y: 5, label: "Lychee" },
-					{ y: 4, label: "Jackfruit" }
-                ],
+     //           dataPoints: [
+     //               { y: 6, label: "Apple" },
+					//{ y: 4, label: "Mango" },
+					//{ y: 5, label: "Orange" },
+					//{ y: 7, label: "Banana" },
+					//{ y: 4, label: "Pineapple" },
+					//{ y: 6, label: "Pears" },
+					//{ y: 7, label: "Grapes" },
+					//{ y: 5, label: "Lychee" },
+					//{ y: 4, label: "Jackfruit" }
+     //           ],
 
                 //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
-                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+                dataPoints: @Html.Raw(ViewBag.DataPoint),
             }
             ]
         });
