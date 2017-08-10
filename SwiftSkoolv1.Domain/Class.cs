@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using SwiftSkoolv1.Domain.CBT;
+﻿using SwiftSkoolv1.Domain.CBT;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

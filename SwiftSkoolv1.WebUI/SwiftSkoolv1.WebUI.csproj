@@ -283,7 +283,6 @@
     <Compile Include="Controllers\SummaryScoreController.cs" />
     <Compile Include="Controllers\TeacherCommentsController.cs" />
     <Compile Include="Controllers\TermsController.cs" />
-    <Compile Include="Controllers\TimeTablesController.cs" />
     <Compile Include="Controllers\Web Api\BaseApiController.cs" />
     <Compile Include="Controllers\Web Api\StudentsController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
@@ -1116,11 +1115,6 @@
     <Content Include="Views\Results\ViewResult.cshtml" />
     <Content Include="Views\Results\DownloadResult.cshtml" />
     <Content Include="Views\Results\SummaryResult.cshtml" />
-    <Content Include="Views\TimeTables\Create.cshtml" />
-    <Content Include="Views\TimeTables\Delete.cshtml" />
-    <Content Include="Views\TimeTables\Details.cshtml" />
-    <Content Include="Views\TimeTables\Edit.cshtml" />
-    <Content Include="Views\TimeTables\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
