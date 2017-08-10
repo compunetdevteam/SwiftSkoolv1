@@ -83,7 +83,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-     
+
 
         public async Task<ActionResult> GetIndex(string gender)
         {
@@ -110,11 +110,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
              * male or female
              */
 
-          
-          
-                //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-                var v = Db.Students.Where(x => x.SchoolId == userSchool)
-                    .Select(s => new {s.StudentId, s.FullName, s.Gender}).ToList();
+
+
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.Students.Where(x => x.SchoolId == userSchool)
+                .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -123,27 +123,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
             //}
 
-            if (gender != null) 
+            if (!string.IsNullOrWhiteSpace(gender))
             {
                 v = Db.Students.Where(x => x.SchoolId == userSchool && x.Gender == gender)
                     .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
             }
             if (!string.IsNullOrEmpty(search))
-                {
-                    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                    v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) &&
-                                               (x.StudentId.Equals(search) || x.FullName.Equals(search)))
-                        .Select(s => new {s.StudentId, s.FullName, s.Gender}).ToList();
-                }
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) &&
+                                           (x.StudentId.Equals(search) || x.FullName.Equals(search)))
+                    .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+            }
 
-                totalRecords = v.Count();
-                var data = v.Skip(skip).Take(pageSize).ToList();
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
 
-                return Json(new {draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data},
-                    JsonRequestBehavior.AllowGet);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data },
+                JsonRequestBehavior.AllowGet);
 
-                #endregion
-    
+            #endregion
+
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
 
