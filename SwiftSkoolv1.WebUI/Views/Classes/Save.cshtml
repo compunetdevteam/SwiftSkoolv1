@@ -35,7 +35,7 @@
             <div class="form-group">
                 @Html.Label("School Class")
                 <div class="col-md-10">
-                    @Html.DropDownList("SchoolName", (SelectList)ViewBag.Classes, "", new { @class = "mdb-select" })
+                    @Html.DropDownList("SchoolName", (SelectList)ViewBag.SchoolName, "", new { @class = "mdb-select" })
                     @Html.ValidationMessageFor(model => model.SchoolName, "", new { @class = "text-danger" })
                 </div>
             </div>
