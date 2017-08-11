@@ -6,28 +6,6 @@
     ViewBag.Title = "Assigned Subjects";
 }
 <!-- Modal -->
-<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <!--Content-->
-        <div class="modal-content">
-            <!--Header-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="flex-center">
-                    <h4 class="modal-title">Term</h4>
-                </div>
-            </div>
-            <!--Body-->
-            <div class="modal-body" id="myModalDivBody">
-
-            </div>
-        </div>
-        <!--/.Content-->
-    </div>
-</div>
-<!-- /.Modal-->
 
 <div class="row">
     <div class="col-md-3">
@@ -44,17 +22,17 @@
             <br />
             <br />
 
-            <div class="md-form">
+           <div class="md-form">
                 @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "mdb-select" })
                 <label for="ClassName">ClassName</label>
             </div>
 
 
-
-            <div class="md-form">
-                @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "mdb-select" })
-                <label for="TermName">Term Name</label>
-            </div>
+            @*
+                <div class="md-form">
+                    @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "mdb-select" })
+                    <label for="TermName">Term Name</label>
+                </div>*@
 
             <div class="md-form">
                 <button type="submit" data-toggle="tooltip" data-placement="top" title="Search Subject by Class!" class="btn btn-primary"><i class="fa fa-search"></i> View Subject</button>
@@ -87,6 +65,28 @@
     </div>
 </div>
 
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Assign Subjects</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
 
 
 
@@ -118,7 +118,8 @@
                     "data": "AssignSubjectId",
                     "autoWidth": true,
                     "render": function (data) {
-                        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
+                               '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
                     }
                 }
 
@@ -129,17 +130,17 @@
 
 
     });
-    //function Edit(subjecId) {
-    //    var url = "/AssignSubjects/Save?id=" + subjecId;
-    //    //$('#actionsList').modal("show");
-    //    //window.alert(url);
-    //    $('#myModalDivBody').load(url,
-    //        function () {
-    //            $('#actionsList').modal("show");
-    //        });
-    //};
-    function Delete(subjecId) {
-        var url = "/AssignSubjects/Delete?id=" + subjecId;
+    function Edit(AssignSubjectId) {
+        var url = "/AssignSubjects/Save?id=" + AssignSubjectId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(AssignSubjectId) {
+        var url = "/AssignSubjects/Delete?id=" + AssignSubjectId;
         //$('#actionsList').modal("show");
         //window.alert(url);
         $('#myModalDivBody').load(url,
