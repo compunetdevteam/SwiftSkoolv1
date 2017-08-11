@@ -75,7 +75,7 @@ else
 
         $.ajax({
             type: "POST",
-            url: "/Subjects/Save",
+            url: "/Sessions/Save",
             data: data,
             success: function (data) {
                 if (data.status) {
@@ -89,7 +89,7 @@ else
                     $('#myform')[0].reset();
                 } else {
                     //$('#actionsList').modal("hide");
-                    toastr["error"]("Subject code and Name are required field");
+                    toastr["error"]("Something went wrong ");
                 }
 
             }

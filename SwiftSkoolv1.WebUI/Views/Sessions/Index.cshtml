@@ -3,7 +3,7 @@
 
 
 
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
 <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Session</a>
 
 
@@ -44,18 +44,20 @@
 <!-- /.Modal-->
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        debugger;
-        window.alert("hi");
-        $("#Jdatatable").DataTable({
+   
+    $(document).ready(function() {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
             "ajax": {
                 "url": "/Sessions/GetIndex",
-                "type": "GET",
+                "type": "POST",
                 "datatype": "json"
             },
             "columns": [
@@ -64,37 +66,40 @@
                 { // fifth column (Edit link)
                     "data": "SessionId",
                     "autoWidth": true,
-                    "render": function (data) {
-                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                    "render": function(data) {
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
                     }
                 }
-
             ]
         });
     });
+
     function Edit(subjecId) {
         var url = "/Sessions/Save?id=" + subjecId;
 
         $('#myModalDivBody').load(url,
-            function () {
+            function() {
                 $('#actionsList').modal("show");
             });
     };
+
     function Delete(subjecId) {
         var url = "/Sessions/Delete?id=" + subjecId;
 
         $('#myModalDivBody').load(url,
-            function () {
+            function() {
                 $('#actionsList').modal("show");
             });
     };
+
     function myFunction() {
         var url = "/Sessions/Save?id=0";
-
+        window.alert(url);
         $('#myModalDivBody').load(url,
-            function () {
+            function() {
                 $('#actionsList').modal("show");
             });
+    }
 </script>
 
