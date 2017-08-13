@@ -37,12 +37,43 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    <form id="myform" onsubmit="return false;">
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+        <input type="hidden" id="id" name="id" class="form-control" value="@Model.FeeCategoryId">
+        <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" /> |
+
+        <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+
+    </form>
 </div>
+
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+
+        var data = $("#myform").serialize();
+        //window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/FeeCategories/Delete",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                    toastr["info"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>
