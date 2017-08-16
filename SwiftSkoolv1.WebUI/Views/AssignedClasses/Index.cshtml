@@ -4,122 +4,112 @@
     ViewBag.Title = "Assigned Classes";
 }
 
-
 @*@using (Html.BeginForm("Index", "AssignedClasses", FormMethod.Get))
-{
-    <div class="form-group">
-        <input type="text" class="form-control" name="search" placeholder="Enter your keyword">
-    </div>
-    <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
-}*@
-<br />
-@using (Html.BeginForm("GetIndex", "AssignedClasses", FormMethod.Get, new {@class = "form-inline"}))
-{
-    <!-- BEGIN INLINE FORM -->
-
-   
-    <div class="row">
-
-    <!--First column-->
-       
-        <!--Second column-->
-        <div class="col-md-3">
-            <div class="md-form">
-                @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "mdb-select" })
-                <label for="ClassName">ClassName</label>
-            </div>
+    {
+        <div class="form-group">
+            <input type="text" class="form-control" name="search" placeholder="Enter your keyword">
         </div>
-        <!--Third column-->
-        <div class="col-md-2">
-            <div class="md-form">
-                @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "mdb-select" })
-                <label for="TermName">Term Name</label>
-            </div>
-        </div>
-        <!--forth column-->
-        <div class="col-md-3">
-            <div class="md-form">
-                @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new {@class = "mdb-select" })
-                <label for="SessionName">SessionName</label>
-            </div>
-        </div>
-   
-   
+        <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
+    }*@
+@*<div class="row">
+        <br />
+        @using (Html.BeginForm("GetIndex", "AssignedClasses", FormMethod.Get, new { @class = "" }))
+        {
+        <!-- BEGIN INLINE FORM -->
 
-    <!--forth column-->
-        <div class="col-md-2">
-            <div class="md-form">
-                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search"></i> Search</button>
+            <div class="col-md-3">
+                <!--First column-->
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "mdb-select" })
+                        <label for="ClassName">ClassName</label>
+                    </div>
+                </div>
             </div>
-        </div>
 
-   
+            <!--Third column-->
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "mdb-select" })
+                    <label for="TermName">Term Name</label>
+                </div>
+            </div>
+            <!--forth column-->
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "mdb-select" })
+                    <label for="SessionName">SessionName</label>
+                </div>
+            </div>
 
-    
-    </div>
-}
+            <!--forth column-->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search"></i> Search</button>
+                </div>
+            </div>
+
+        }
+    </div>*@
 
 @*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.StudentId)
-            @Html.ActionLink("Student ID", "Index", new { sortOrder = ViewBag.NameSortParm })
-        </th>
-        <th>
-            Student Name
-        </th>
-        <th>
-            @Html.ActionLink("Class Name", "Index", new { sortOrder = ViewBag.NameSortParm })
-            @Html.DisplayNameFor(model => model.ClassName)
-        </th>
-        <th>
-            Term Name
-        </th>
-        <th>
-            Session Name
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model) {
         <tr>
-            <ol>
-                
-            </ol>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TermName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SessionName)
-            </td>
-            <td>
-                @if (User.IsInRole("Teacher"))
-                {
-                    <span>
-                        <a href="@Url.Action("Edit", new {id = item.AssignedClassId, @class = "btn btn-success"})"><span class="md-mode-edit"></span> Edit</a>
-                    </span>
-                    <h6>|</h6>
-                    <span>
-                        <a href="@Url.Action("Delete", new {id = item.AssignedClassId, @class = "btn btn-success"})"><span class="md-delete"></span> Delete</a>
-                    </span>
-                }
-
-                @Html.ActionLink("Delete", "Delete", new { id=item.AssignedClassId })</td>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentId)
+                @Html.ActionLink("Student ID", "Index", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                Student Name
+            </th>
+            <th>
+                @Html.ActionLink("Class Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+                @Html.DisplayNameFor(model => model.ClassName)
+            </th>
+            <th>
+                Term Name
+            </th>
+            <th>
+                Session Name
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
-<br />*@
+        @foreach (var item in Model) {
+            <tr>
+                <ol>
+                </ol>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TermName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SessionName)
+                </td>
+                <td>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <span>
+                            <a href="@Url.Action("Edit", new {id = item.AssignedClassId, @class = "btn btn-success"})"><span class="md-mode-edit"></span> Edit</a>
+                        </span>
+                        <h6>|</h6>
+                        <span>
+                            <a href="@Url.Action("Delete", new {id = item.AssignedClassId, @class = "btn btn-success"})"><span class="md-delete"></span> Delete</a>
+                        </span>
+                    }
 
+                    @Html.ActionLink("Delete", "Delete", new { id=item.AssignedClassId })</td>
+            </tr>
+        }
+    </table>
+    <br />*@
 
 <div class="tablecontainer" style="width: 90%; margin: 0 auto">
     @*<a class="popup" href="/AssignedClasses/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
@@ -134,7 +124,6 @@
                 <th>Term Name</th>
                 <th>Session Name</th>
                 <th>Action</th>
-                
             </tr>
         </thead>
     </table>
@@ -155,7 +144,6 @@
             </div>
             <!--Body-->
             <div class="modal-body" id="myModalDivBody">
-
             </div>
         </div>
         <!--/.Content-->
@@ -173,13 +161,11 @@
     </ul>
 </div>
 
-
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-
 
 <script type="text/javascript">
     $(document).ready(function () {
- 
+
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
@@ -198,13 +184,14 @@
                 { "data": "ClassName", "autoWidth": true },
                 { "data": "TermName", "autoWidth": true },
                 { "data": "SessionName", "autoWidth": true },
-              
+
                 {
                     "data": "AssignedClassId",
                     "autoWidth": true,
-                    "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';                    }
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ><i /></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i /></a>';
+                    }
                 }
                 //{
                 //    "data": "AssignedClassId",

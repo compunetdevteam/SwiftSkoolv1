@@ -1,51 +1,33 @@
 ﻿@model SwiftSkoolv1.Domain.Objects.Post
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Create New Journal/Publications</h2>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Post</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+<form action="@Href("~/Posts/CreatePost")" method="post" id="postForm">
+    @if (Model.ID != -1)
+    {
+        <input type="hidden" name="id" value="@Model.ID" />
+    }
+    <div class="row">
+        <div class="col-md-3">
+            @*@{ DateTime dateTime = Model.DateTime.Year > 2015 ? Model.DateTime : DateTime.Now;}*@
+            <label>Date</label>
+            <input type="date" name="dateTime" value="@Model.DateTime" class="form-control" placeholder="The headline goes here..." /> <br />
+            <label>Title</label>
+            <input type="text" name="title" value="@Model.Title" class="form-control" placeholder="The Title goes here..." />  <br />
+            <label>Tags</label>
+            <input type="text" name="tag" value="@ViewBag.Tags" class="form-control" placeholder="The Tags goes here..." /> <br />
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <label>Body</label>
+    <textarea name="body" id="ckeditor" class="form-control control-12-rows" placeholder="Enter text ...">@Model.Body</textarea>
+    @*<script>
+            CKEDITOR.replace('editor1');
+        </script>*@
+    <br />
+    <input type="submit" name="submit" value="Submit" style="width: auto; font-weight: 600;" />
+</form>
