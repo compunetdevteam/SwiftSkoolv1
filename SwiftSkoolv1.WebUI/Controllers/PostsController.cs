@@ -21,8 +21,8 @@ namespace SwiftSkool.Controllers
         {
             int pageNumber = id ?? 0;
             var items = (from post in Db.Posts
-                         where post.Title.Contains(category.ToUpper())
-                         select post);
+                where post.Title.Contains(category.ToUpper())
+                select post);
 
             //if (!String.IsNullOrEmpty(category))
             //{               
@@ -31,10 +31,10 @@ namespace SwiftSkool.Controllers
             if (String.IsNullOrEmpty(category))
             {
                 IEnumerable<Post> posts = (from post in Db.Posts
-                                           where post.DateTime < DateTime.Now
-                                           orderby post.DateTime descending
-                                           select post).Skip(pageNumber * PostPerPage)
-                                  .Take(PostPerPage + 1);
+                        where post.DateTime < DateTime.Now
+                        orderby post.DateTime descending
+                        select post).Skip(pageNumber * PostPerPage)
+                    .Take(PostPerPage + 1);
 
                 ViewBag.IsPreviousLinkVisible = pageNumber > 0;
                 ViewBag.IsNextLinkVisible = posts.Count() > PostPerPage;
@@ -178,10 +178,10 @@ namespace SwiftSkool.Controllers
         public ActionResult RSS()
         {
             IEnumerable<SyndicationItem> posts =
-                (from post in Db.Posts
-                 where post.DateTime < DateTime.Now
-                 orderby post.DateTime descending
-                 select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
+            (from post in Db.Posts
+                where post.DateTime < DateTime.Now
+                orderby post.DateTime descending
+                select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
 
             SyndicationFeed feed = new SyndicationFeed("HeritageTv", "HeritageTv blog", new Uri("http://localhost:60210/"), posts);
             Rss20FeedFormatter formattedFeed = new Rss20FeedFormatter(feed);
@@ -205,7 +205,7 @@ namespace SwiftSkool.Controllers
             ViewBag.Tags = tagList.ToString();
             return View(post);
         }
-
+        [HttpPost]
         [ValidateInput(false)]
         public ActionResult CreatePost(int? id, string title, string body, DateTime dateTime, string tag)
         {
@@ -239,8 +239,8 @@ namespace SwiftSkool.Controllers
         public PartialViewResult Menu()
         {
             IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
-                                                            .OrderBy(s => s)
-                                                            .Take(5);
+                .OrderBy(s => s)
+                .Take(5);
             return PartialView(categories);
         }
 

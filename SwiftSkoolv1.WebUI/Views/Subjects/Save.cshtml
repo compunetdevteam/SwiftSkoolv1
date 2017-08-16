@@ -19,7 +19,7 @@ else
                        
                        
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        <a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>
         @if(Model != null && Model.SubjectId > 0)
                 {
                     @Html.HiddenFor(model => model.SubjectId)

@@ -2,20 +2,18 @@
 
    
     
-        @foreach (var link in Model)
-            {
-            <ul>
-                <li>
-                    <a href="@Url.Action("Index", "Posts",
-                new
-                {
-                    category = link,
-                    page = 1
+@foreach (var link in Model)
+{
+    <ul>
+        <li>
+            <a href="@Url.Action("Index", "Posts",
+                         new
+                         {
+                             category = link,
+                             page = 1
 
-                })">@link</a>
-            </li>
-            </ul>
-        }
-
-
+                         })">@link</a>
+        </li>
+    </ul>
+}
 

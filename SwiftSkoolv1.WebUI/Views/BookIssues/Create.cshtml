@@ -6,8 +6,8 @@
 
 <h2>Create</h2>
 
-
-<form id="myform">
+@using (Html.BeginForm()) 
+{
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
@@ -30,18 +30,34 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.IssueDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
             </div>
+        </div>*@
+
+
+        <div class="col-md-6">
+            <div class="md-form">
+                @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Date of Issue" } })
+                @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+            </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        
+
+        <div class="col-md-6">
+            <div class="md-form">
+                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Due Date to return book" } })
                 @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -55,43 +71,21 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.SchoolId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SchoolId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SchoolId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="reset" id="btnsubmit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
-</form>
+}
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        //window.alert("ready");
-
-        $("#btnsubmit").click(function () {
-            // window.alert("ready");
-
-            $("#loaderDiv").show();
-
-            var data = $("#myform").serialize();
-            debugger
-            $.ajax({
-                type: "POST",
-                url: "/BookIssues/Create",
-                data: data,
-                success: function (response) {
-                    $("#loaderDiv").hide();
-                    alertify.success('Books were issued Successfully');
-                }
-            });
-        });
-    })
-</script>
-

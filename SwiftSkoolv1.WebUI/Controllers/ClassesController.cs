@@ -72,7 +72,7 @@ namespace SwiftSkool.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).ToList();
+            var v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new {s.ClassId, s.ClassName, s.ClassType, s.FullClassName}).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -81,7 +81,8 @@ namespace SwiftSkool.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.ClassType.Equals(search)))
+                v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.ClassType.Equals(search) || x.FullClassName.Equals(search)))
+                    .Select(s => new { s.ClassId, s.ClassName, s.ClassType, s.FullClassName }).ToList()
                     .ToList();
             }
             totalRecords = v.Count();

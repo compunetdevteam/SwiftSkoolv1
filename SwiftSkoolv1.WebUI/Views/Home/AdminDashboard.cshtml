@@ -572,16 +572,30 @@
                              
                                 <table class="table no-header">
                                     <tbody>
+                                    <tr>
+                                        <a onclick="myFunctionParent()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Parents</a>
+                                    </tr>
+                                    <tr>
+                                        <a onclick="myFunctionStaff()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Teachers</a>
+                                    </tr>
+                                        
+                                    <tr>
+                                        <a onclick="myFunctionNumber()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Number</a>
+                                    </tr>
+                                    @*<tr>
+                                        <td>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms", "", new { onlick= "myFunction()" })</td>
+
+                                    </tr>
                                         <tr>
-                                            <td>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</td>
-                                          
-                                        </tr>
-                                        <tr>
-                                            <td>@Html.ActionLink("Send to Teachers", "SendToStaff", "Sms")</td>
-                                          
-                                        </tr>
-                                        <tr>
-                                            <td>@Html.ActionLink("Send to Number", "SendSms", "Sms")</td></tr>
+                                        <a onclick="myFunction()" class="btn btn-primary"> <i class="fa fa-plus left"></i> To All Students</a>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.ActionLink("Send to Teachers", "SendToStaff", "Sms")</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.ActionLink("Send to Number", "SendSms", "Sms")</td>
+                                    </tr>*@
                                     </tbody>
                                 </table>
                             </div>
@@ -1044,3 +1058,93 @@
 
 </section>*@
 <!--/Classic admin cards-->
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Send Sms</h4>
+                </div>
+            </div>
+            <!--Body--> 
+            <div class="modal-body" id="myModalDivBody">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+    //$(document).ready(function() {
+
+        //function Edit(subjecId) {
+        //    var url = "/Subjects/Save?id=" + subjecId;
+        //    //$('#actionsList').modal("show");
+        //    //window.alert(url);
+        //    $('#myModalDivBody').load(url,
+        //        function () {
+        //            $('#actionsList').modal("show");
+        //        });
+        //};
+        //function Delete(subjecId) {
+        //    var url = "/Subjects/Delete?id=" + subjecId;
+        //    //$('#actionsList').modal("show");
+        //    //window.alert(url);
+        //    $('#myModalDivBody').load(url,
+        //        function () {
+        //            $('#actionsList').modal("show");
+        //        });
+        //};
+
+
+        function myFunctionParent() {
+            var url = "/Sms/SendtoAllStudent";
+            //$('#actionsList').modal("show");
+            // window.alert(url);
+            $('#myModalDivBody').load(url,
+                function() {
+                    $('#actionsList').modal("show");
+                });
+    };
+
+        function myFunctionStaff() {
+            var url = "/Sms/SendToStaff";
+            //$('#actionsList').modal("show");
+            // window.alert(url);
+            $('#myModalDivBody').load(url,
+                function() {
+                    $('#actionsList').modal("show");
+                });
+    };
+
+        function myFunctionNumber() {
+            var url = "/Sms/SendSMS";
+            //$('#actionsList').modal("show");
+            // window.alert(url);
+            $('#myModalDivBody').load(url,
+                function() {
+                    $('#actionsList').modal("show");
+                });
+    };
+
+ 
+        </script>

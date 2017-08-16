@@ -142,12 +142,12 @@
         </div>
         <!-- /.First row -->
         <!-- Section: data tables -->
-        <section class="section">
+<section class="section">
 
-            <div class="row">
-                <div class="col-md-4">
+    <div class="row">
+        <div class="col-md-4">
 
-                    @*<div class="card mb-r">
+            @*<div class="card mb-r">
                             <div class="card-block">
                                 <h4 class="h4-responsive text-center mb-1">
                                     Student Analysis
@@ -157,95 +157,95 @@
                             </div>
                         </div>*@
 
-                    <!--Card-->
-                    <div class="card mb-r narrower">
-                        <div class="admin-panel info-admin-panel">
-                            <!--Card image-->
-                            <div class="view">
-                                <h5>Send Student SMS</h5>
-                            </div>
-                            <!--/Card image-->
-                            <!--Card content-->
-                            <div class="card-block">
+            <!--Card-->
+            <div class="card mb-r narrower">
+                <div class="admin-panel info-admin-panel">
+                    <!--Card image-->
+                    <div class="view">
+                        <h5>Send Student SMS</h5>
+                    </div>
+                    <!--/Card image-->
+                    <!--Card content-->
+                    <div class="card-block">
 
-                                <div class="list-group">
-                                    @Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")
-                                    @*<a href="#" class="list-group-item">Dapibus ac facilisi<i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
+                        <div class="list-group">
+                            <a onclick="myFunctionParent()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Parents</a>
+                            @*<a href="#" class="list-group-item">Dapibus ac facilisi<i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
                                         <a href="#" class="list-group-item">Morbi leo risus <i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
                                         <a href="#" class="list-group-item">Porta ac consectet<i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
                                         <a href="#" class="list-group-item">Vestibulum at eros <i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>*@
-                                </div>
-
-                            </div>
-                            <!--/.Card content-->
-
-                        </div>
-                    </div>
-                    <!--/.Card-->
-
-                    <div class="card mb-r">
-                        <div class="card-block">
-                            <div class="table-responsive">
-                                @{
-                                    Html.RenderAction("Column", "ChartTypes", new { model = myModel });
-                                }
-                            </div>
-
-                            <button class="btn-flat waves-effect float-right">Time Table</button>
-
                         </div>
 
                     </div>
+                    <!--/.Card content-->
+
+                </div>
+            </div>
+            <!--/.Card-->
+
+            <div class="card mb-r">
+                <div class="card-block">
+                    <div class="table-responsive">
+                        @{
+                            Html.RenderAction("Column", "ChartTypes", new { model = myModel });
+                        }
+                    </div>
+
+                    <button class="btn-flat waves-effect float-right">Time Table</button>
 
                 </div>
 
-                <div class="col-md-8">
-                    <div class="card mb-r">
-                        <div class="card-block">
-                            <table class="table large-header">
-                                <thead>
-                                    <tr>
-                                        <th>Days</th>
-                                        <th>Subject</th>
-                                        <th>Period</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Monday</td>
-                                        <td>Maths</td>
-                                        <td>2pm - 4pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tuesday</td>
-                                        <td>Maths</td>
-                                        <td>8am - 9:30am</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Wednessday</td>
-                                        <td>Further Maths</td>
-                                        <td>1pm - 3pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thursday</td>
-                                        <td>Further Maths</td>
-                                        <td>8am - 10am</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Friday</td>
-                                        <td>Maths</td>
-                                        <td>8am - 10am</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            </div>
 
-                            <button class="btn-flat waves-effect float-right">View full report</button>
+        </div>
 
-                        </div>
+        <div class="col-md-8">
+            <div class="card mb-r">
+                <div class="card-block">
+                    <table class="table large-header">
+                        <thead>
+                        <tr>
+                            <th>Days</th>
+                            <th>Subject</th>
+                            <th>Period</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Monday</td>
+                            <td>Maths</td>
+                            <td>2pm - 4pm</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>Maths</td>
+                            <td>8am - 9:30am</td>
+                        </tr>
+                        <tr>
+                            <td>Wednessday</td>
+                            <td>Further Maths</td>
+                            <td>1pm - 3pm</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>Further Maths</td>
+                            <td>8am - 10am</td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>Maths</td>
+                            <td>8am - 10am</td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                    </div>
+                    <button class="btn-flat waves-effect float-right">View full report</button>
 
-                    @*<div class="card mb-r">
+                </div>
+
+            </div>
+
+            @*<div class="card mb-r">
                             <div class="card-block">
                                 <table class="table large-header">
                                     <thead>
@@ -290,11 +290,38 @@
 
                         </div>*@
 
+        </div>
+    </div>
+
+</section>
+            
+            
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Send Sms</h4>
                 </div>
             </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
 
-        </section>
-        <!-- /.Section: data tables -->
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<!-- /.Section: data tables -->
         @*<div class="row">
 
                 <!-- BEGIN ALERT - REVENUE -->
@@ -456,80 +483,92 @@
 
         <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
-        <script>
-            $(function () {
-                var data = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
-                    datasets: [{
-                        label: "My First dataset",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(0,0,0,.15)",
-                        data: [65, 59, 80, 81, 56, 55, 40],
-                        backgroundColor: "#4CAF50"
-                    }, {
-                        label: "My Second dataset",
-                        fillColor: "rgba(255,255,255,.25)",
-                        strokeColor: "rgba(255,255,255,.75)",
-                        pointColor: "#fff",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(0,0,0,.15)",
-                        data: [28, 48, 40, 19, 86, 27, 90]
-                    }]
-                };
-
-
-                var dataPie = [{
-                    value: 300,
-                    color: "#4caf50",
-                    highlight: "#66bb6a",
-                    label: "Google Chrome"
-                }, {
-                    value: 50,
-                    color: "#03a9f4",
-                    highlight: "#29b6f6",
-                    label: "Edge"
-                }, {
-                    value: 100,
-                    color: "#d32f2f",
-                    highlight: "#e53935",
-                    label: "Firefox"
-                }]
-
-                var option = {
-                    responsive: true,
-                    // set font color
-                    scaleFontColor: "#fff",
-                    // font family
-                    defaultFontFamily: "'Roboto', sans-serif",
-                    // background grid lines color
-                    scaleGridLineColor: "rgba(255,255,255,.1)",
-                    // hide vertical lines
-                    scaleShowVerticalLines: false,
-                };
-
-                // // Get the context of the canvas element we want to select
-                // var ctx = document.getElementById("sales").getContext('2d');
-                // var myLineChart = new Chart(ctx).Line(data, option); //'Line' defines type of the chart.
-
-                // // Get the context of the canvas element we want to select
-                // var ctx = document.getElementById("conversion").getContext('2d');
-                // var myRadarChart = new Chart(ctx).Radar(data, option);
-
-                // Get the context of the canvas element we want to select
-                var ctx = document.getElementById("traffic").getContext('2d');
-                var myBarChart = new Chart(ctx).Bar(data, option);
-
-                // Get the context of the canvas element we want to select
-                var ctx = document.getElementById("seo").getContext('2d');
-                var myPieChart = new Chart(ctx).Pie(dataPie, option);
-
+<script>
+    function myFunctionParent() {
+        var url = "/Sms/SendtoAllStudent";
+        //$('#actionsList').modal("show");
+        // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function() {
+                $('#actionsList').modal("show");
             });
-        </script>
+    };
+
+
+
+    $(function () {
+        var data = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(0,0,0,.15)",
+                data: [65, 59, 80, 81, 56, 55, 40],
+                backgroundColor: "#4CAF50"
+            }, {
+                label: "My Second dataset",
+                fillColor: "rgba(255,255,255,.25)",
+                strokeColor: "rgba(255,255,255,.75)",
+                pointColor: "#fff",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(0,0,0,.15)",
+                data: [28, 48, 40, 19, 86, 27, 90]
+            }]
+        };
+
+
+        var dataPie = [{
+            value: 300,
+            color: "#4caf50",
+            highlight: "#66bb6a",
+            label: "Google Chrome"
+        }, {
+            value: 50,
+            color: "#03a9f4",
+            highlight: "#29b6f6",
+            label: "Edge"
+        }, {
+            value: 100,
+            color: "#d32f2f",
+            highlight: "#e53935",
+            label: "Firefox"
+        }]
+
+        var option = {
+            responsive: true,
+            // set font color
+            scaleFontColor: "#fff",
+            // font family
+            defaultFontFamily: "'Roboto', sans-serif",
+            // background grid lines color
+            scaleGridLineColor: "rgba(255,255,255,.1)",
+            // hide vertical lines
+            scaleShowVerticalLines: false,
+        };
+
+        // // Get the context of the canvas element we want to select
+        // var ctx = document.getElementById("sales").getContext('2d');
+        // var myLineChart = new Chart(ctx).Line(data, option); //'Line' defines type of the chart.
+
+        // // Get the context of the canvas element we want to select
+        // var ctx = document.getElementById("conversion").getContext('2d');
+        // var myRadarChart = new Chart(ctx).Radar(data, option);
+
+        // Get the context of the canvas element we want to select
+        var ctx = document.getElementById("traffic").getContext('2d');
+        var myBarChart = new Chart(ctx).Bar(data, option);
+
+        // Get the context of the canvas element we want to select
+        var ctx = document.getElementById("seo").getContext('2d');
+        var myPieChart = new Chart(ctx).Pie(dataPie, option);
+
+    });
+</script>
 
         <script>
             $(function () {

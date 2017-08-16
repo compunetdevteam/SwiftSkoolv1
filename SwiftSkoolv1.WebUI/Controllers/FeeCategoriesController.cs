@@ -1,4 +1,5 @@
-﻿using SwiftSkoolv1.Domain;
+﻿using System;
+using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Linq;
@@ -16,6 +17,55 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             return View(await Db.FeeCategories.AsNoTracking().ToListAsync());
         }
+
+
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.FeeCategories.Where(x => x.SchoolId == userSchool).Select(s => new { s.FeeCategoryId, s.CategoryName, s.CategoryDescription }).ToList();
+
+            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            //}
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.FeeCategories.Where(x => x.SchoolId.Equals(userSchool) && (x.CategoryName.Equals(search) || x.CategoryDescription.Equals(search)))
+                    .Select(s => new { s.FeeCategoryId, s.CategoryName, s.CategoryDescription }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
 
         public async Task<FeeCategory> FindFeeCategoryAsync(int? id)
         {
@@ -117,30 +167,68 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(feeCategory);
         }
 
-        // GET: FeeCategories/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<PartialViewResult> Save(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var feeCategory = await FindFeeCategoryAsync(id);
-            if (feeCategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(feeCategory);
+            var feeCategory = await Db.FeeCategories.FindAsync(id);
+            return PartialView(feeCategory);
         }
 
-        // POST: FeeCategories/Delete/5
+        // POST: Subjects/Save/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(FeeCategory feeCategory)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (feeCategory.FeeCategoryId > 0)
+                {
+                    feeCategory.SchoolId = userSchool;
+                    Db.Entry(feeCategory).State = EntityState.Modified;
+                    message = "Fee Category Updated Successfully...";
+                }
+                else
+                {
+                    feeCategory.SchoolId = userSchool;
+                    Db.FeeCategories.Add(feeCategory);
+                    message = "Fee Category Created Successfully...";
+
+                }
+                await Db.SaveChangesAsync();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(subject);
+        }
+
+        // GET: Subjects/Delete/5
+        public async Task<PartialViewResult> Delete(int id)
+        {
+            FeeCategory feeCategory = await Db.FeeCategories.FindAsync(id);
+
+            return PartialView(feeCategory);
+        }
+
+        // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var feeCategory = await FindFeeCategoryAsync(id);
-            Db.FeeCategories.Remove(feeCategory);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var feeCategory = await Db.FeeCategories.FindAsync(id);
+            if (feeCategory != null)
+            {
+                Db.FeeCategories.Remove(feeCategory);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Fee Category Deleted Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
 
         protected override void Dispose(bool disposing)

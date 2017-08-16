@@ -5,38 +5,49 @@
 }
 
 <h2>Edit</h2>
-<p>
-    The page uses the conditional values from the controller. You may have noticed the value from Controller, which is passed as a model (of type of the BlogPostModel). I have checked against that, to see if there are any posts in the data source. That is pretty much simple and straight-forward. The main thing to see,
-    if what happens if there is a new post in the data source. Consider the next section, please!
-</p>
 
-<form action="@Href("~/Posts/Update")" method="post" id="postForm">
-    @if (Model.ID != -1)
-    {
-        <input type="hidden" name="id" value="@Model.ID" />
-    }
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Post</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
 
-    @{ DateTime dateTime = Model.DateTime.Year > 2015 ? Model.DateTime : DateTime.Now;}
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <label>Date</label>
-    <input class="input-lg form-control" style="" type="datetime" name="dateTime" value="@Model.DateTime" placeholder="The headline goes here..." /> <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <label>Title</label>
-    <input type="text" name="title" value="@Model.Title" class="input-lg form-control" placeholder="The Title goes here..." />  <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <label>Tags</label>
-    <input type="text" name="tag" value="@ViewBag.Tags" class="input-lg form-control" placeholder="The Tags goes here..." /> <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
 
-    <label>Body</label>
-    <textarea class="form-control" id="editor1" name="body" style="height:200px;" placeholder="The Body goes here...">@Model.Body</textarea>
-    <script>
-        CKEDITOR.replace('editor1');
-    </script>
-    <br />
-    <br />
-
-    <input class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: auto; font-weight: 600;" />
-</form>
-
-
-
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

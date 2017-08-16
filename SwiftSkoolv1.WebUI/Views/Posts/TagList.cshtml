@@ -1,19 +1,20 @@
-﻿@model IEnumerable<string>
+﻿
+@model IEnumerable<string>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h4><a href="@Url.Action("Index", "Posts",
-                new
-                {
-                    category = "",
-                    page = 1
+                         new
+                         {
+                             category = "",
+                             page = 1
 
-                })">Tags</a></h4>
+                         })">Tags</a></h4>
     </div>
    
     
-        @foreach (var link in Model)
-            {
+    @foreach (var link in Model)
+    {
             @*@Html.RouteLink(link, new
                 {
                     controller = "Items",
@@ -24,20 +25,19 @@
                     new {@class = "btn btn-block btn-default btn-lg"}
                 )*@
 
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <a href="@Url.Action("Tags", "Posts",
-                new
-                {
-                    category = link,
-                    page = 1
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="@Url.Action("Tags", "Posts",
+                             new
+                             {
+                                 category = link,
+                                 page = 1
 
-                })">@link</a>
+                             })">@link</a>
             </li>
-            </ul>
+        </ul>
 
 
-        }
+    }
 
 </div>
-
