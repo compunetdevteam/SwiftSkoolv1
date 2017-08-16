@@ -972,18 +972,6 @@
     <Content Include="Views\Home\GeneralDashboard.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Home\SchoolSetUp.cshtml" />
-    <Content Include="Views\Posts\Create.cshtml" />
-    <Content Include="Views\Posts\Details.cshtml" />
-    <Content Include="Views\Posts\Edit.cshtml" />
-    <Content Include="Views\Posts\Index.cshtml" />
-    <Content Include="Views\Posts\LatestNews.cshtml" />
-    <Content Include="Views\Posts\Menu.cshtml" />
-    <Content Include="Views\Posts\TagList.cshtml" />
-    <Content Include="Views\PrincipalComments\Create.cshtml" />
-    <Content Include="Views\PrincipalComments\Delete.cshtml" />
-    <Content Include="Views\PrincipalComments\Details.cshtml" />
-    <Content Include="Views\PrincipalComments\Edit.cshtml" />
-    <Content Include="Views\PrincipalComments\Index.cshtml" />
     <Content Include="Views\Psychomotors\Create.cshtml" />
     <Content Include="Views\Psychomotors\Delete.cshtml" />
     <Content Include="Views\Psychomotors\Details.cshtml" />
@@ -1121,6 +1109,20 @@
     <Content Include="Views\FeePayments\Save.cshtml" />
     <Content Include="Views\BehaviorSkillCategories\Save.cshtml" />
     <Content Include="Views\BehaviouralSkills\Save.cshtml" />
+    <Content Include="Views\PrincipalComments\Create.cshtml" />
+    <Content Include="Views\PrincipalComments\Delete.cshtml" />
+    <Content Include="Views\PrincipalComments\Details.cshtml" />
+    <Content Include="Views\PrincipalComments\Edit.cshtml" />
+    <Content Include="Views\PrincipalComments\Index.cshtml" />
+    <Content Include="Views\PrincipalComments\Save.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Posts\Menu.cshtml" />
+    <Content Include="Views\Posts\LatestNews.cshtml" />
+    <Content Include="Views\Posts\TagList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

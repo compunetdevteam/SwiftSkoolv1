@@ -13,7 +13,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
     {
         // GET: PrincipalComments
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page,
-           string ClassName)
+            string ClassName)
         {
             int count = 10;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -64,6 +64,52 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
+
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.PrincipalComments.Where(x => x.SchoolId == userSchool).Select(s => new { s.Id, s.Remark, s.ClassName, s.MinimumGrade, s.MaximumGrade }).ToList();
+
+            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            //}
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.PrincipalComments.Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.Remark.Equals(search)))
+                    .Select(s => new { s.Id, s.Remark, s.ClassName, s.MinimumGrade, s.MaximumGrade }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         // GET: PrincipalComments/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -98,8 +144,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 foreach (var item in model.ClassName)
                 {
                     var myGrade = await Db.PrincipalComments.CountAsync(x => x.MaximumGrade.Equals(model.MaximumGrade)
-                                                                  && x.MinimumGrade.Equals(model.MinimumGrade)
-                                                                  && x.ClassName.Equals(item));
+                                                                             && x.MinimumGrade.Equals(model.MinimumGrade)
+                                                                             && x.ClassName.Equals(item));
 
                     if (myGrade >= 1)
                     {
@@ -159,30 +205,69 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(principalComment);
         }
 
-        // GET: PrincipalComments/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<PartialViewResult> Save(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PrincipalComment principalComment = await Db.PrincipalComments.FindAsync(id);
-            if (principalComment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(principalComment);
+            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            var principalComment = await Db.PrincipalComments.FindAsync(id);
+            return PartialView(principalComment);
         }
 
-        // POST: PrincipalComments/Delete/5
+        // POST: Subjects/Save/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(PrincipalComment principalComment)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (principalComment.Id > 0)
+                {
+                    principalComment.SchoolId = userSchool;
+                    Db.Entry(principalComment).State = EntityState.Modified;
+                    message = "Comment Updated Successfully...";
+                }
+                else
+                {
+                    principalComment.SchoolId = userSchool;
+                    Db.PrincipalComments.Add(principalComment);
+                    message = "Comment Created Successfully...";
+
+                }
+                await Db.SaveChangesAsync();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(subject);
+        }
+
+        // GET: Subjects/Delete/5
+        public async Task<PartialViewResult> Delete(int id)
+        {
+            PrincipalComment principalComment = await Db.PrincipalComments.FindAsync(id);
+
+            return PartialView(principalComment);
+        }
+
+        // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            PrincipalComment principalComment = await Db.PrincipalComments.FindAsync(id);
-            if (principalComment != null) Db.PrincipalComments.Remove(principalComment);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var principalComment = await Db.PrincipalComments.FindAsync(id);
+            if (principalComment != null)
+            {
+                Db.PrincipalComments.Remove(principalComment);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Comment Deleted Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
 
         protected override void Dispose(bool disposing)

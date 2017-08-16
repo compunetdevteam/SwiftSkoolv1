@@ -1,0 +1,136 @@
+﻿
+@model SwiftSkoolv1.Domain.PrincipalComment
+
+
+@if (Model != null && Model.Id > 0)
+{
+    <h4>Update</h4>
+}
+else
+{
+    <h4>Save</h4>
+}
+
+
+<form id="myform" onsubmit="return false;">
+                    
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+                       
+                       
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@*<a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>*@
+@if(Model != null && Model.Id > 0)
+{
+    @Html.HiddenFor(model => model.Id)
+}
+
+
+
+
+
+
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MinimumGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MinimumGrade, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MinimumGrade, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaximumGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MaximumGrade, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MaximumGrade, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ClassName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @if (Model != null && Model.Id > 0)
+            {
+                <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
+            }
+            else
+            {
+                <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+            }
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+ 
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/PrincipalComments/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    // debugger
+                    //$.fn.oTable();
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.location.href = "/Subjects/Index";
+                        
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"]("Some Field Were Not Completed");
+                }
+
+            }
+        });
+    });
+
+ 
+</script>
