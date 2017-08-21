@@ -1,4 +1,5 @@
 ﻿using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.APIRepository.RepoAbstractions;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -7,7 +8,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using SwiftSkoolv1.WebUI.APIRepository.RepoAbstractions;
 
 namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
 {
@@ -29,7 +29,7 @@ namespace SwiftSkoolv1.WebUI.Controllers.Web_Api
         /// <returns>Task<IQueryable<StudentClientViewModel>></StudentClientViewModel></returns>
         public async Task<IQueryable<StudentClientViewModel>> GetStudents()
         {
-            var students = await _repo.GetAll().AsNoTracking().Where(s => s.UserName.Equals(User.Identity.Name))
+            var students = await _repo.GetAll().AsNoTracking()//.Where(s => s.UserName.Equals(User.Identity.Name))
                               .Select(s => new StudentClientViewModel
                               {
                                   StudentId = s.StudentId,
