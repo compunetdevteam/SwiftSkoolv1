@@ -7,15 +7,15 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Books</h4>
+    <h4>Book</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.BookIssue.StudentId)
+            @Html.DisplayNameFor(model => model.BookId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BookIssue.StudentId)
+            @Html.DisplayFor(model => model.BookId)
         </dd>
 
         <dt>
@@ -80,6 +80,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.PlaceOfPublish)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolId)
         </dd>
 
     </dl>

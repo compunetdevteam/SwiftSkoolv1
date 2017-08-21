@@ -1,23 +1,16 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.Session>
 
+<a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Session</a>
 
-
-
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
-<a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Subject</a>
-
-
-    <table id="Jdatatable" class="table table-striped table-hover">
-        <thead>
+<table id="Jdatatable" class="table table-striped table-hover">
+    <thead>
         <tr>
             <th>Session Name</th>
             <th>Active Session</th>
             <th>Action</th>
-            
         </tr>
-        </thead>
-    </table>
-
+    </thead>
+</table>
 
 <!-- Modal -->
 <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -35,7 +28,6 @@
             </div>
             <!--Body-->
             <div class="modal-body" id="myModalDivBody">
-
             </div>
         </div>
         <!--/.Content-->
@@ -43,19 +35,20 @@
 </div>
 <!-- /.Modal-->
 
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+
     $(document).ready(function () {
-        debugger;
-        window.alert("hi");
-        $("#Jdatatable").DataTable({
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
             "ajax": {
                 "url": "/Sessions/GetIndex",
-                "type": "GET",
+                "type": "POST",
                 "datatype": "json"
             },
             "columns": [
@@ -66,13 +59,13 @@
                     "autoWidth": true,
                     "render": function (data) {
                         return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i /></a>';
                     }
                 }
-
             ]
         });
     });
+
     function Edit(subjecId) {
         var url = "/Sessions/Save?id=" + subjecId;
 
@@ -81,6 +74,7 @@
                 $('#actionsList').modal("show");
             });
     };
+
     function Delete(subjecId) {
         var url = "/Sessions/Delete?id=" + subjecId;
 
@@ -89,12 +83,13 @@
                 $('#actionsList').modal("show");
             });
     };
+
     function myFunction() {
         var url = "/Sessions/Save?id=0";
-
+        // window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
             });
+    }
 </script>
-

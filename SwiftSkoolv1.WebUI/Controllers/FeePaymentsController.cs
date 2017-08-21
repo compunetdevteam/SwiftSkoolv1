@@ -23,6 +23,66 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(await feePayments.ToListAsync());
         }
 
+
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            var v = Db.FeePayments.Where(x => x.SchoolId == userSchool).Select(s => new
+                                                                                    {
+                                                                                        s.FeePaymentId, s.StudentId, s.FeeName, 
+                                                                                         s.Term, s.Session, s.PaidFee,
+                                                                                         s.TotalAmount, s.PaymentMode, s.Date, s.Remaining 
+                                                                                    }).ToList();
+
+            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            //}
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.FeePayments.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FeeName.Equals(search) || x.Term.Equals(search) || x.Session.Equals(search)))
+                                                                                    .Select(s => new {
+                                                                                        s.FeePaymentId,
+                                                                                        s.StudentId,
+                                                                                        s.FeeName,
+                                                                                        s.Term,
+                                                                                        s.Session,
+                                                                                        s.PaidFee,
+                                                                                        s.TotalAmount,
+                                                                                        s.PaymentMode,
+                                                                                        s.Date,
+                                                                                        s.Remaining
+                                                                                    }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> DebtorsList()
         {
             decimal value = 1m;
@@ -152,31 +212,97 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(feePayment);
         }
 
-        // GET: FeePayments/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        // GET: Subjects/Save/5
+        public async Task<PartialViewResult> Save(int id)
         {
-            if (id == null)
+
+            DateTime datetime = new DateTime();
+            datetime = DateTime.Now.Date;
+            ViewBag.Date = datetime.ToShortDateString();
+            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking().Select(s => new
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FeePayment feePayment = await Db.FeePayments.FindAsync(id);
-            if (feePayment == null)
+                StudentID = s.StudentId,
+                FullName = s.FullName
+            }), "StudentID", "FullName");
+            ViewBag.FeeName = new SelectList(Db.FeeTypes.AsNoTracking().Select(f => new
             {
-                return HttpNotFound();
-            }
-            return View(feePayment);
+                FeeName = f.FeeName
+            }), "FeeName", "FeeName");
+            ViewBag.Session = new SelectList(Db.Sessions.AsNoTracking().Select(s => new
+            {
+                SessionName = s.SessionName
+
+            }), "SessionName", "SessionName");
+            ViewBag.Term = new SelectList(Db.Terms.AsNoTracking().Select(t => new
+            {
+                TermName = t.TermName
+
+            }), "TermName", "TermName");
+
+            var payments = await Db.FeePayments.FindAsync(id);
+           
+
+            return PartialView(payments);
         }
 
-        // POST: FeePayments/Delete/5
+        // POST: Subjects/Save/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(FeePayment payment)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (payment.FeePaymentId > 0)
+                {
+                    payment.SchoolId = userSchool;
+                    Db.Entry(payment).State = EntityState.Modified;
+                    message = "Payment Updated Successfully...";
+                }
+                else
+                {
+                    payment.SchoolId = userSchool;
+                    Db.FeePayments.Add(payment);
+                    message = "Payment Created Successfully...";
+
+                }
+                await Db.SaveChangesAsync();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(subject);
+        }
+
+        // GET: Subjects/Delete/5
+        public async Task<PartialViewResult> Delete(int id)
+        {
+            FeePayment payment = await Db.FeePayments.FindAsync(id);
+
+            return PartialView(payment);
+        }
+
+        // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            FeePayment feePayment = await Db.FeePayments.FindAsync(id);
-            Db.FeePayments.Remove(feePayment);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool status = false;
+            string message = string.Empty;
+            var payment = await Db.FeePayments.FindAsync(id);
+            if (payment != null)
+            {
+                Db.FeePayments.Remove(payment);
+                await Db.SaveChangesAsync();
+                status = true;
+                message = "Payment Deleted Successfully...";
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
         }
+
 
         protected override void Dispose(bool disposing)
         {

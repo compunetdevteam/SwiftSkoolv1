@@ -1,0 +1,143 @@
+﻿
+@model SwiftSkoolv1.Domain.FeePayment
+
+
+@if (Model != null && Model.FeePaymentId > 0)
+{
+    <h4>Update</h4>
+}
+else
+{
+    <h4>Save</h4>
+}
+
+
+<form id="myform" onsubmit="return false;">
+                    
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+                       
+                       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>*@
+        @if(Model != null && Model.FeePaymentId > 0)
+        {
+            @Html.HiddenFor(model => model.FeePaymentId)
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentId, "StudentId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FeeName, "Fee Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownList("FeeName", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FeeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Term, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownList("Term", (SelectList)ViewBag.Term, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Session, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownList("Session", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Session, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaidFee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.PaidFee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaidFee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.EnumDropDownListFor(model => model.PaymentMode, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-5">
+                @Html.Editor("Date", (string)(ViewBag.Date), new { htmlAttributes = new { @class = "form-control", @readonly = "true", @type = "hidden" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model != null && Model.FeePaymentId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                }
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+ 
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/FeePayments/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    // debugger
+                    //$.fn.oTable();
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.location.href = "/Subjects/Index";
+                        
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"]("Check all field and fill it");
+                }
+
+            }
+        });
+    });
+
+ 
+</script>

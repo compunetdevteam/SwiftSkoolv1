@@ -6,13 +6,13 @@ namespace SwiftSkoolv1.Domain
     public class School
     {
         [Key]
-        [StringLength(25)]
+        [StringLength(35)]
         public string SchoolId { get; set; }
 
-        [StringLength(45)]
+        [StringLength(105)]
         public string Name { get; set; }
 
-        [StringLength(15)]
+        [StringLength(105)]
         public string Alias { get; set; }
 
         [StringLength(35)]

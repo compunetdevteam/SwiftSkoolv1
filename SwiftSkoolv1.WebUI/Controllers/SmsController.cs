@@ -31,13 +31,23 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //}
 
         [HttpGet]
-        public async Task<ActionResult> SendSMS()
+        //public async Task<ActionResult> SendSMS()
+        //{
+        //    //SMS sms = new SMS();
+        //    ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
+        //    ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
+        //    ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+        //    return View();
+        //}
+
+      
+        public async Task<PartialViewResult> SendSMS()
         {
             //SMS sms = new SMS();
             ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
             ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
-            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-            return View();
+            ViewBag.ClassName = new SelectList( await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            return PartialView();
         }
 
         [HttpPost]
@@ -95,13 +105,22 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //public ActionResult SendToStaff()
+        //{
+        //    //SMS sms = new SMS();
+        //    // ViewBag.ContactGroup = new SelectList(Db.Classes, "FullClassName", "FullClassName");
+        //    return View();
+        //}
+
         [HttpGet]
-        public ActionResult SendToStaff()
+        public PartialViewResult SendToStaff()
         {
             //SMS sms = new SMS();
             // ViewBag.ContactGroup = new SelectList(Db.Classes, "FullClassName", "FullClassName");
-            return View();
+            return PartialView();
         }
+
 
         [HttpPost]
         public ActionResult SendToStaff(SendToStaffViewModel model)
@@ -148,16 +167,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
+            
+        //[HttpGet]
+        //public ActionResult SendtoAllStudent()
+        //{
+        //    //SMS sms = new SMS();
+        //    ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
+        //    ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
+        //    // ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+        //    return View();
+        //}
 
         [HttpGet]
-        public ActionResult SendtoAllStudent()
+        public PartialViewResult SendtoAllStudent()
         {
             //SMS sms = new SMS();
             ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
             ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
             // ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-            return View();
+            return PartialView();
         }
+
 
         [HttpPost]
         public ActionResult SendtoAllStudent(SendToAllViewModel model)

@@ -4,15 +4,13 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-
 @using SwiftSkool.Models
 @model SwiftSkoolv1.WebUI.Models.LoginViewModel
 
-
 @*@if(ViewBag.Message != null)
-{
-    toastr.error('I do not think that word means what you think it means.', 'Inconceivable!')
-}*@
+    {
+        toastr.error('I do not think that word means what you think it means.', 'Inconceivable!')
+    }*@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-lg-5 login-form mx-auto float-none">
@@ -23,8 +21,10 @@
 
                     <!--Header-->
                     <div class="form-header">
-                        <h3><img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left:38%;" />
-                            @*<i class="fa fa-lock"></i>*@ </h3>
+                        <h3>
+                            <img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left:38%;" />
+                            @*<i class="fa fa-lock"></i>*@
+                        </h3>
                     </div>
 
                     <!--Body-->
@@ -45,7 +45,7 @@
                         </div>
 
                         <fieldset class="form-group">
-                            <input type="checkbox" id="RememberMe" name="RememberMe">
+                            @Html.EditorFor(model => model.RememberMe)
                             <label for="RememberMe">Remeber Me</label>
                         </fieldset>
 
@@ -55,14 +55,12 @@
                     </form>
                 </div>
 
-
                 <!--Footer-->
                 <div class="modal-footer text-center">
                     <a href="@Url.Action("ForgotPassword", "Account")">Forgot Password?</a>
                 </div>
             </div>
             <!--/Form with header-->
-
         </div>
     </div>
 </div>
@@ -134,12 +132,9 @@
     <script src="~/Scripts/jquery-3.1.0.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-
     </html>*@
 
 @*<section class="section-account">
-
 
         @*<div class="img-backdrop" style="background-image:url('../../Content/images/kingsqueen.jpeg');"></div>
         <div class="card contain-sm style-transparent">
@@ -169,15 +164,12 @@
                         @*<p class="help-block">Required*</p>
                     </div>
 
-
                             <br />
                             <div class="row">
                                 <div class="col-xs-6 text-left">
                                     <div class="checkbox checkbox-inline">
                                         @Html.CheckBoxFor(m => m.RememberMe) <span>Remember me</span>
-
                                     </div>
-
                                     </div><!--end .col -->
                                 <div class="col-xs-6 text-right">
                                     <button class="btn btn-primary btn-raised" type="submit">Login</button>
@@ -205,18 +197,15 @@
                     </div><!--end .col -->
                 </div><!--end .row -->
             </div><!--end .card-body -->
-
     </section>*@
 <!-- END LOGIN SECTION -->
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         var i = "@ViewBag.Message";
         if (i) {
-        toastr.error(i); 
+        toastr.error(i);
         }
     </script>
 }

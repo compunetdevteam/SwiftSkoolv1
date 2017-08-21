@@ -1,203 +1,194 @@
-﻿@model SwiftSkoolv1.WebUI.ViewModels.StaffVM
+﻿@using SwiftSkool.Services
+@model SwiftSkoolv1.WebUI.ViewModels.StaffVM
 @{
     ViewBag.Title = "StaffDashboard";
 }
 
 <h2>StaffDashboard</h2>
 
+@{
+    List<DataPoint> myModel = (List<DataPoint>)ViewBag.ColumnPoints;
+}
+        <!-- First row -->
+        <div class="row mb-r">
+            <!-- First column -->
+            <div class="col-md-3 mb-1">
+                <!--Card-->
+                <div class="card card-cascade cascading-admin-card">
 
-
-<!-- First row -->
-<div class="row mb-r">
-    <!-- First column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
-                <i class="fa fa-money  blue darken-3"></i>
-                <div class="data">
-                    <p>Assigned Class</p>
-                    @if (Model.ClassName == null)
+                    <!--Card Data-->
+                    <div class="admin-up">
+                        <i class="fa fa-money  blue darken-3"></i>
+                        <div class="data">
+                            <p>Assigned Class</p>
+                            @if (Model.ClassName == null)
                     {
-                        <h5>Not Assiged </h5>
+                    <h5>Not Assiged </h5>
 
                     }
                     else
-                    {   
-                        <h5>@Model.ClassName</h5>
-                    }
-                </div>
-            </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <!--Text-->
-                <p class="card-text">Assigned Class</p>
-            </div>
-            <!--/.Card content-->
-
-        </div>
-        <!--/.Card-->
-    </div>
-
-    <!-- Second column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
-                <i class="fa fa-line-chart deep-purple darken-4"></i>
-                <div class="data">
-                    <p>Students Number</p>
-                    
-                    @if (Model.TotalStudentInClass == 0)
                     {
-                        <h5>No Student</h5>
+                    <h5>@Model.ClassName</h5>
+                    }
+                        </div>
+                    </div>
+                    <!--/.Card Data-->
+                    <!--Card content-->
+                    <div class="card-block">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--Text-->
+                        <p class="card-text">Assigned Class</p>
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+                <!--/.Card-->
+            </div>
+
+            <!-- Second column -->
+            <div class="col-md-3 mb-1">
+                <!--Card-->
+                <div class="card card-cascade cascading-admin-card">
+
+                    <!--Card Data-->
+                    <div class="admin-up">
+                        <i class="fa fa-line-chart deep-purple darken-4"></i>
+                        <div class="data">
+                            <p>Students Number</p>
+
+                            @if (Model.TotalStudentInClass == 0)
+                    {
+                    <h5>No Student</h5>
                     }
                     else
                     {
-                        <h5>@Model.TotalStudentInClass</h5>   
+                    <h5>@Model.TotalStudentInClass</h5>
                     }
-                    
-                </div>
-            </div>
-            <!--/.Card Data-->
 
-            <!--Card content-->
-            <div class="card-block">
-                <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <!--Text-->
-                <p class="card-text">Number of Student</p>
-            </div>
-            <!--/.Card content-->
+                        </div>
+                    </div>
+                    <!--/.Card Data-->
+                    <!--Card content-->
+                    <div class="card-block">
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--Text-->
+                        <p class="card-text">Number of Student</p>
+                    </div>
+                    <!--/.Card content-->
 
+                </div>
+                <!--/.Card-->
+            </div>
+
+            <!-- Third column -->
+            <div class="col-md-3 mb-1">
+                <!--Card-->
+                <div class="card card-cascade cascading-admin-card">
+
+                    <!--Card Data-->
+                    <div class="admin-up">
+                        <i class="fa fa-pie-chart indigo"></i>
+                        <div class="data">
+                            <p> Assigments</p>
+                            <h3>2</h3>
+                        </div>
+                    </div>
+                    <!--/.Card Data-->
+                    <!--Card content-->
+                    <div class="card-block">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--Text-->
+                        <p class="card-text">Submited Assignments</p>
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+                <!--/.Card-->
+            </div>
+
+            <!-- Fourth column -->
+            <div class="col-md-3 mb-1">
+                <!--Card-->
+                <div class="card card-cascade cascading-admin-card">
+
+                    <!--Card Data-->
+                    <div class="admin-up">
+                        <i class="fa fa-bar-chart purple"></i>
+                        <div class="data">
+                            <p>Assignments</p>
+                            <h3>298</h3>
+                        </div>
+                    </div>
+                    <!--/.Card Data-->
+                    <!--Card content-->
+                    <div class="card-block">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--Text-->
+                        <p class="card-text">Unsubmited Assignments</p>
+                    </div>
+                    <!--/.Card content-->
+
+                </div>
+                <!--/.Card-->
+            </div>
         </div>
-        <!--/.Card-->
-    </div>
-
-    <!-- Third column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
-                <i class="fa fa-pie-chart indigo"></i>
-                <div class="data">
-                    <p> Assigments</p>
-                    <h3>2</h3>
-                </div>
-            </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <!--Text-->
-                <p class="card-text">Submited Assignments</p>
-            </div>
-            <!--/.Card content-->
-
-        </div>
-        <!--/.Card-->
-    </div>
-
-    <!-- Fourth column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
-                <i class="fa fa-bar-chart purple"></i>
-                <div class="data">
-                    <p>Assignments</p>
-                    <h3>298</h3>
-                </div>
-            </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <!--Text-->
-                <p class="card-text">Unsubmited Assignments</p>
-            </div>
-            <!--/.Card content-->
-
-        </div>
-        <!--/.Card-->
-    </div>
-</div>
-<!-- /.First row -->
-
-<!-- Section: data tables -->
+        <!-- /.First row -->
+        <!-- Section: data tables -->
 <section class="section">
 
     <div class="row">
         <div class="col-md-4">
-                        
-            <div class="card mb-r"> 
-                <div class="card-block">
-                    <h4 class="h4-responsive text-center mb-1">
-                        Student Analysis
-                    </h4>
 
-                    <canvas id="seo"></canvas>
+            @*<div class="card mb-r">
+                            <div class="card-block">
+                                <h4 class="h4-responsive text-center mb-1">
+                                    Student Analysis
+                                </h4>
+
+                                <canvas id="seo"></canvas>
+                            </div>
+                        </div>*@
+
+            <!--Card-->
+            <div class="card mb-r narrower">
+                <div class="admin-panel info-admin-panel">
+                    <!--Card image-->
+                    <div class="view">
+                        <h5>Send Student SMS</h5>
+                    </div>
+                    <!--/Card image-->
+                    <!--Card content-->
+                    <div class="card-block">
+
+                        <div class="list-group">
+                            <a onclick="myFunctionParent()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Parents</a>
+                            @*<a href="#" class="list-group-item">Dapibus ac facilisi<i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
+                                        <a href="#" class="list-group-item">Morbi leo risus <i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
+                                        <a href="#" class="list-group-item">Porta ac consectet<i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>
+                                        <a href="#" class="list-group-item">Vestibulum at eros <i class="fa fa-wrench ml-auto" data-toggle="tooltip" data-placement="top" title="Click to fix"></i></a>*@
+                        </div>
+
+                    </div>
+                    <!--/.Card content-->
+
                 </div>
             </div>
+            <!--/.Card-->
+
             <div class="card mb-r">
                 <div class="card-block">
                     <div class="table-responsive">
-                        <table class="table large-header">
-                            <thead>
-                            <tr>
-                                <th>Days</th>
-                                <th>Period</th>
-                              
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Monday</td>
-                                <td>8am - 9:30pm</td>
-                               
-                            </tr>
-                            <tr>
-                                <td>Tuesday</td>
-                                <td>9:30am - </td>
-                             
-                            </tr>
-                            <tr>
-                                <td>Wednesday</td>
-                                <td>2pm - 4pm</td>
-                              
-                            </tr>
-                            <tr>
-                                <td>Thursday</td>
-                                <td>10am - 11am</td>
-                             
-                            </tr>
-                            <tr>
-                                <td>Friday</td>
-                                <td>1pm - 2pm</td>
-                              
-                            </tr>
-                            </tbody>
-                        </table>
+                        @{
+                            Html.RenderAction("Column", "ChartTypes", new { model = myModel });
+                        }
                     </div>
 
                     <button class="btn-flat waves-effect float-right">Time Table</button>
@@ -215,35 +206,35 @@
                         <thead>
                         <tr>
                             <th>Days</th>
-                            <th>Periods</th>
-                            <th>Pages</th>
+                            <th>Subject</th>
+                            <th>Period</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td><img src="img/flags/us.png" class="flag"> United States</td>
-                            <td>15</td>
-                            <td>307</td>
+                            <td>Monday</td>
+                            <td>Maths</td>
+                            <td>2pm - 4pm</td>
                         </tr>
                         <tr>
-                            <td><img src="img/flags/in.png" class="flag"> India</td>
-                            <td>32</td>
-                            <td>504</td>
+                            <td>Tuesday</td>
+                            <td>Maths</td>
+                            <td>8am - 9:30am</td>
                         </tr>
                         <tr>
-                            <td><img src="img/flags/cn.png" class="flag"> China</td>
-                            <td>41</td>
-                            <td>613</td>
+                            <td>Wednessday</td>
+                            <td>Further Maths</td>
+                            <td>1pm - 3pm</td>
                         </tr>
                         <tr>
-                            <td><img src="img/flags/pl.png" class="flag"> Poland</td>
-                            <td>14</td>
-                            <td>208</td>
+                            <td>Thursday</td>
+                            <td>Further Maths</td>
+                            <td>8am - 10am</td>
                         </tr>
                         <tr>
-                            <td><img src="img/flags/it.png" class="flag"> Italy</td>
-                            <td>24</td>
-                            <td>314</td>
+                            <td>Friday</td>
+                            <td>Maths</td>
+                            <td>8am - 10am</td>
                         </tr>
                         </tbody>
                     </table>
@@ -255,230 +246,257 @@
             </div>
 
             @*<div class="card mb-r">
-                <div class="card-block">
-                    <table class="table large-header">
-                        <thead>
-                        <tr>
-                            <th>Browser</th>
-                            <th>Visits</th>
-                            <th>Pages</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Google Chrome</td>
-                            <td>15</td>
-                            <td>307</td>
-                        </tr>
-                        <tr>
-                            <td>Mozilla Firefox</td>
-                            <td>32</td>
-                            <td>504</td>
-                        </tr>
-                        <tr>
-                            <td>Safari</td>
-                            <td>41</td>
-                            <td>613</td>
-                        </tr>
-                        <tr>
-                            <td>Opera</td>
-                            <td>14</td>
-                            <td>208</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Edge</td>
-                            <td>24</td>
-                            <td>314</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            <div class="card-block">
+                                <table class="table large-header">
+                                    <thead>
+                                    <tr>
+                                        <th>Browser</th>
+                                        <th>Visits</th>
+                                        <th>Pages</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Google Chrome</td>
+                                        <td>15</td>
+                                        <td>307</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mozilla Firefox</td>
+                                        <td>32</td>
+                                        <td>504</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Safari</td>
+                                        <td>41</td>
+                                        <td>613</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Opera</td>
+                                        <td>14</td>
+                                        <td>208</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Microsoft Edge</td>
+                                        <td>24</td>
+                                        <td>314</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
 
-                    <button class="btn-flat waves-effect float-right">View full report</button>
+                                <button class="btn-flat waves-effect float-right">View full report</button>
 
-                </div>
+                            </div>
 
-            </div>*@
+                        </div>*@
 
         </div>
-    </div>                    
-
-</section>
-<!-- /.Section: data tables -->
-
-
-
-
-
-
-
-
-
-
-
-
-@*<div class="row">
-
-        <!-- BEGIN ALERT - REVENUE -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-info no-margin">
-
-                        <strong class="text-xl">@Model.MaleStudent</strong><br />
-                        <span class="opacity-50">Male Student In @Model.ClassName</span>
-                        <div class="stick-bottom-left-right">
-                            <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - REVENUE -->
-        <!-- BEGIN ALERT - VISITS -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-warning no-margin">
-
-                        <strong class="text-xl">@Model.FemaleStudent</strong><br />
-                        <span class="opacity-50">Female Student In @Model.ClassName</span>
-                        <div class="stick-bottom-right">
-                            <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - VISITS -->
-        <!-- BEGIN ALERT - BOUNCE RATES -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-danger no-margin">
-
-                        <strong class="text-xl">@Model.TotalStudentInClass</strong><br />
-                        <span class="opacity-50">Number Of Student In @Model.ClassName</span>
-                        <div class="stick-bottom-left-right">
-                            <div class="progress progress-hairline no-margin">
-                                <div class="progress-bar progress-bar-danger" style="width:43%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - BOUNCE RATES -->
-        <!-- BEGIN ALERT - TIME ON SITE -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-success no-margin">
-                        <h1 class="pull-right text-success"><i class="md md-timer"></i></h1>
-                        <strong class="text-xl">54 sec.</strong><br />
-                        <span class="opacity-50">Avg. time on site</span>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - TIME ON SITE -->
-
-    </div><!--end .row -->
-
-
-
-    <div class="row">
-
-
-
-
-
-        <!-- BEGIN NEW REGISTRATIONS -->
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-head">
-                    <header>New registrations</header>
-                    <div class="tools hidden-md">
-                        <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
-                    </div>
-                </div><!--end .card-head -->
-                <div class="card-body no-padding height-9 scroll">
-                    <ul class="list divider-full-bleed">
-
-                            @foreach (var student in Model.StudentsInMyClass)
-                            {
-                                <li class="tile">
-                                    <div class="tile-content">
-                                        <div class="tile-icon">
-                                            <img src="@Url.Action("RenderImage", new { studentId = student.StudentId })" width="100" height="100" />
-                                        </div>
-                                        <ul>
-                                            <li>@student.FullName</li>
-
-                                        </ul>
-
-                                    </div>
-                                    @*<a class="btn btn-flat ink-reaction">
-                                            <i class="md md-block text-default-light"></i>
-                                        </a>
-                                        @Html.ActionLink("", "Details", "Students", new { @id = student.StudentId},new { @id = "mydiv"})
-                                        @*<div id="mydiv" data-url="@Url.Action("", "Details","Student",new{ @id = student.StudentId},null,new { })"></div>
-                                    <div id="loading"> loading... </div>
-
-                                </li>
-                            }
-                    </ul>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END NEW REGISTRATIONS -->
     </div>
 
+</section>
+            
+            
 
-    @section scripts{
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Send Sms</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
 
-    <script>
-            $(function load() {
-                var myDiv = $('#mydiv');
-                $.ajax({
-                    url: myDiv.data('url'),
-                    type: 'GET',
-                    cache: false,
-                    context: myDiv,
-                    success: function (result) {
-                        this.html(result);
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<!-- /.Section: data tables -->
+        @*<div class="row">
+
+                <!-- BEGIN ALERT - REVENUE -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-body no-padding">
+                            <div class="alert alert-callout alert-info no-margin">
+
+                                <strong class="text-xl">@Model.MaleStudent</strong><br />
+                                <span class="opacity-50">Male Student In @Model.ClassName</span>
+                                <div class="stick-bottom-left-right">
+                                    <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+                                </div>
+                            </div>
+                        </div><!--end .card-body -->
+                    </div><!--end .card -->
+                </div><!--end .col -->
+                <!-- END ALERT - REVENUE -->
+                <!-- BEGIN ALERT - VISITS -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-body no-padding">
+                            <div class="alert alert-callout alert-warning no-margin">
+
+                                <strong class="text-xl">@Model.FemaleStudent</strong><br />
+                                <span class="opacity-50">Female Student In @Model.ClassName</span>
+                                <div class="stick-bottom-right">
+                                    <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
+                                </div>
+                            </div>
+                        </div><!--end .card-body -->
+                    </div><!--end .card -->
+                </div><!--end .col -->
+                <!-- END ALERT - VISITS -->
+                <!-- BEGIN ALERT - BOUNCE RATES -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-body no-padding">
+                            <div class="alert alert-callout alert-danger no-margin">
+
+                                <strong class="text-xl">@Model.TotalStudentInClass</strong><br />
+                                <span class="opacity-50">Number Of Student In @Model.ClassName</span>
+                                <div class="stick-bottom-left-right">
+                                    <div class="progress progress-hairline no-margin">
+                                        <div class="progress-bar progress-bar-danger" style="width:43%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--end .card-body -->
+                    </div><!--end .card -->
+                </div><!--end .col -->
+                <!-- END ALERT - BOUNCE RATES -->
+                <!-- BEGIN ALERT - TIME ON SITE -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-body no-padding">
+                            <div class="alert alert-callout alert-success no-margin">
+                                <h1 class="pull-right text-success"><i class="md md-timer"></i></h1>
+                                <strong class="text-xl">54 sec.</strong><br />
+                                <span class="opacity-50">Avg. time on site</span>
+                            </div>
+                        </div><!--end .card-body -->
+                    </div><!--end .card -->
+                </div><!--end .col -->
+                <!-- END ALERT - TIME ON SITE -->
+
+            </div><!--end .row -->
+
+
+
+            <div class="row">
+
+
+
+
+
+                <!-- BEGIN NEW REGISTRATIONS -->
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-head">
+                            <header>New registrations</header>
+                            <div class="tools hidden-md">
+                                <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                            </div>
+                        </div><!--end .card-head -->
+                        <div class="card-body no-padding height-9 scroll">
+                            <ul class="list divider-full-bleed">
+
+                                    @foreach (var student in Model.StudentsInMyClass)
+                                    {
+                                        <li class="tile">
+                                            <div class="tile-content">
+                                                <div class="tile-icon">
+                                                    <img src="@Url.Action("RenderImage", new { studentId = student.StudentId })" width="100" height="100" />
+                                                </div>
+                                                <ul>
+                                                    <li>@student.FullName</li>
+
+                                                </ul>
+
+                                            </div>
+                                            @*<a class="btn btn-flat ink-reaction">
+                                                    <i class="md md-block text-default-light"></i>
+                                                </a>
+                                                @Html.ActionLink("", "Details", "Students", new { @id = student.StudentId},new { @id = "mydiv"})
+                                                @*<div id="mydiv" data-url="@Url.Action("", "Details","Student",new{ @id = student.StudentId},null,new { })"></div>
+                                            <div id="loading"> loading... </div>
+
+                                        </li>
+                                    }
+                            </ul>
+                        </div><!--end .card-body -->
+                    </div><!--end .card -->
+                </div><!--end .col -->
+                <!-- END NEW REGISTRATIONS -->
+            </div>
+
+
+            @section scripts{
+
+            <script>
+                    $(function load() {
+                        var myDiv = $('#mydiv');
+                        $.ajax({
+                            url: myDiv.data('url'),
+                            type: 'GET',
+                            cache: false,
+                            context: myDiv,
+                            success: function (result) {
+                                this.html(result);
+                            }
+                        });
+                    });
+
+                    $(document).ajaxStart(function () {
+                        $("#loading").show();
+                    });
+
+                    $(document).ajaxComplete(function () {
+                        $("#loading").hide();
+                    });
+
+            </script>
+
+
+                <script>
+                    function myFunction() {
+                        var x = document.getElementById('studentDetails');
+                        if (x.style.display === 'none') {
+                            x.style.display = 'block';
+                        } else {
+                            x.style.display = 'none';
+                        }
                     }
-                });
-            });
+                </script>
+                <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
-            $(document).ajaxStart(function () {
-                $("#loading").show();
-            });
+            }*@
 
-            $(document).ajaxComplete(function () {
-                $("#loading").hide();
-            });
-
-    </script>
-
-
-        <script>
-            function myFunction() {
-                var x = document.getElementById('studentDetails');
-                if (x.style.display === 'none') {
-                    x.style.display = 'block';
-                } else {
-                    x.style.display = 'none';
-                }
-            }
-        </script>
-        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-
-    }*@
-
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 <script>
-    $(function() {
+    function myFunctionParent() {
+        var url = "/Sms/SendtoAllStudent";
+        //$('#actionsList').modal("show");
+        // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function() {
+                $('#actionsList').modal("show");
+            });
+    };
+
+
+
+    $(function () {
         var data = {
             labels: ["January", "February", "March", "April", "May", "June", "July"],
             datasets: [{
@@ -552,38 +570,38 @@
     });
 </script>
 
-<script>
-    $(function() {
-        $('.min-chart#chart-sales').easyPieChart({
-            barColor: "#4caf50",
-            onStep: function(from, to, percent) {
-                $(this.el).find('.percent').text(Math.round(percent));
-                }
+        <script>
+            $(function () {
+                $('.min-chart#chart-sales').easyPieChart({
+                    barColor: "#4caf50",
+                    onStep: function (from, to, percent) {
+                        $(this.el).find('.percent').text(Math.round(percent));
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 
-<script>
-    // Data Picker Initialization
-    $('.datepicker').pickadate();
+        <script>
+            // Data Picker Initialization
+            $('.datepicker').pickadate();
 
 
-    // Material Select Initialization
-    $(document).ready(function() {
-        $('.mdb-select').material_select();
-    });
+            // Material Select Initialization
+            $(document).ready(function () {
+                $('.mdb-select').material_select();
+            });
 
-    // Sidenav Initialization
-    $(".button-collapse").sideNav();
-    var el = document.querySelector('.custom-scrollbar');
-    Ps.initialize(el);
+            // Sidenav Initialization
+            $(".button-collapse").sideNav();
+            var el = document.querySelector('.custom-scrollbar');
+            Ps.initialize(el);
 
-        
-    Ps.initialize(el);
 
-    // Tooltips Initialization
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-        $('#toggle').tooltip('show')
-    })
-</script>
+            Ps.initialize(el);
+
+            // Tooltips Initialization
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+                $('#toggle').tooltip('show')
+            })
+        </script>

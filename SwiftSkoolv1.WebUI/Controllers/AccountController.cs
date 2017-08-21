@@ -3,7 +3,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OfficeOpenXml;
-using SwiftSkool.Services;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
@@ -606,7 +605,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                     MiddleName = middleName,
                                     LastName = lastName,
                                     PhoneNumber = phoneNumber,
-                                    Gender = gender,
+                                    Gender = gender.ToUpper(),
                                     Religion = religion,
                                     PlaceOfBirth = placeofBirth,
                                     StateOfOrigin = state,
@@ -639,9 +638,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             }
                             catch (Exception e)
                             {
-                                message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
-                                TempData["UserMessage"] = message + e.Message;
-                                TempData["Title"] = "Success.";
+                                //message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
+                                //TempData["UserMessage"] = message + e.Message;
+                                //TempData["Title"] = "Success.";
                                 return View("Error3");
                             }
 
@@ -702,7 +701,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         MiddleName = model.MiddleName,
                         LastName = model.LastName,
                         PhoneNumber = model.PhoneNumber,
-                        Gender = model.Gender.ToString(),
+                        Gender = model.Gender.ToString().ToUpper(),
                         Religion = model.Religion.ToString(),
                         DateOfBirth = model.DateOfBirth,
                         PlaceOfBirth = model.PlaceOfBirth,
@@ -787,7 +786,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
         // GET: /Account/Register
-        [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        // [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        [AllowAnonymous]
         public ActionResult RegisterAdmin()
         {
             ViewBag.SchoolId = new SelectList(Db.Schools.AsNoTracking(), "SchoolId", "Name");
@@ -797,7 +797,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        [AllowAnonymous]
+        // [CustomAuthorize(Roles = RoleName.SuperAdmin)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterAdmin(RegisterAdminVm model)
         {
@@ -819,7 +820,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("AdminDashboard", "Home");
+                    return RedirectToAction("RegisterAdmin", "Account");
                 }
                 AddErrors(result);
             }

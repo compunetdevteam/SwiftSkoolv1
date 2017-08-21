@@ -71,7 +71,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public List<SchoolClass> SchoolClassListAsync()
         {
             return _db.SchoolClasses.AsNoTracking().ToList()
-                .Select(x => new SchoolClass { ClassCode = x.ClassCode }).ToList();
+            .Select(x => new SchoolClass { ClassCode = x.ClassCode }).ToList();
         }
 
         public List<Session> SessionList()

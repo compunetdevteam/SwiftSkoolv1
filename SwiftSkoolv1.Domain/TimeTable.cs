@@ -3,7 +3,7 @@ using System;
 
 namespace SwiftSkoolv1.Domain
 {
-    public class TimeTable
+    public class TimeTable : GeneralSchool
     {
         public int TimeTableId { get; set; }
         public int ClassId { get; set; }
@@ -12,7 +12,7 @@ namespace SwiftSkoolv1.Domain
         public Duration StartDuration { get; set; }
         public Duration EndDuration { get; set; }
 
-        public virtual Class Classes { get; set; }
-        public virtual Subject Subjects { get; set; }
+        public virtual Class Class { get; set; }
+        public virtual Subject Subject { get; set; }
     }
 }

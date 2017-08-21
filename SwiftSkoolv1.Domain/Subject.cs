@@ -36,7 +36,6 @@ namespace SwiftSkoolv1.Domain
         public ICollection<ExamSetting> ExamSettings { get; set; }
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
         public ICollection<ResultDivision> ResultDivisions { get; set; }
-        public ICollection<TimeTable> TimeTable { get; set; }
 
 
     }

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace SwiftSkoolv1.WebUI.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

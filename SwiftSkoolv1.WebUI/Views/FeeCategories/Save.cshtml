@@ -1,0 +1,104 @@
+﻿@model SwiftSkoolv1.Domain.FeeCategory
+
+@if (Model != null && Model.FeeCategoryId > 0)
+{
+    <h4>Update</h4>
+}
+else
+{
+    <h4>Save</h4>
+}
+
+
+<form id="myform" onsubmit="return false;">
+                    
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+                       
+                       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>*@
+        @if(Model != null && Model.FeeCategoryId > 0)
+        {
+            @Html.HiddenFor(model => model.FeeCategoryId)
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryName)
+            @Html.EditorFor(model => model.CategoryName, new {htmlAttributes = new {@class = "form-control"}})
+
+            @Html.ValidationMessageFor(model => model.CategoryName, "", new {@class = "text-danger"})
+
+        </div>
+     
+        <div class="form-group">
+            
+            @Html.LabelFor(model => model.CategoryDescription)
+            @Html.EditorFor(model => model.CategoryDescription, new { htmlAttributes = new { @class = "form-control" } })
+           
+            @Html.ValidationMessageFor(model => model.CategoryDescription, "", new { @class = "text-danger" })
+        </div>
+       
+
+        @*<div class="form-group">
+                    @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SubjectUnit, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model != null && Model.FeeCategoryId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                }
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+ 
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/FeeCategories/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    // debugger
+                    //$.fn.oTable();
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.location.href = "/Subjects/Index";
+                        
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"]("Category Name and Description are required field");
+                }
+
+            }
+        });
+    });
+
+ 
+</script>

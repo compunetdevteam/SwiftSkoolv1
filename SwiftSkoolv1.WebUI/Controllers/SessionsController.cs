@@ -36,8 +36,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.Sessions.AsNoTracking().ToList().Select(x => new { x.SessionId, x.SessionName, x.ActiveSession });
+            var v = Db.Sessions.AsNoTracking().Select(x => new { x.SessionId, x.SessionName, x.ActiveSession }).ToList();
 
 
             if (!string.IsNullOrEmpty(search))

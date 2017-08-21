@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    Layout = ViewBag.Layout;
+    // Layout = ViewBag.Layout;
 }
 
 @model IEnumerable<SwiftSkoolv1.Domain.Objects.Post>
@@ -15,30 +15,30 @@
     <h2>@System.Configuration.ConfigurationManager.AppSettings["SchoolName"] News/Articles</h2>
 
     <div class="row">
-        <div class="col-md-8">         
+        <div class="col-md-8">
             @foreach (SwiftSkoolv1.Domain.Objects.Post post in Model)
             {
-                @PosthelperIndex.Render(post, Html, isAdmin, false)
-                @*@post.Title <br />*@
+            @PosthelperIndex.Render(post, Html, isAdmin, false)
+            @*@post.Title <br />*@
             }
 
             <ul class="pager">
                 @if (isPreviousLinkVisible)
                 {
-                    <li class="previous">
-                        <a id="previousLink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber - 1))">&lt; Previous Page</a>
-                    </li>
+                <li class="previous">
+                    <a id="previousLink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber - 1))">&lt; Previous Page</a>
+                </li>
                 }
 
                 @if (isNextLinkVisible)
                 {
-                    <li class="next">
-                        <a id="nextLink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber + 1))"> Next Page &gt;</a>
-                    </li>
+                <li class="next">
+                    <a id="nextLink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber + 1))"> Next Page &gt;</a>
+                </li>
                 }
             </ul>
         </div>
-       
+
         <div class="col-md-4">
             <!-- Subscribe to my feed widget -->
             <div class="well text-center">
@@ -49,41 +49,313 @@
             </div>
 
             <!-- Other widgets -->
-          
-                @Html.Action("Menu", "Posts")
-            
-                @Html.Action("TagList", "Posts")
-     
+
+            @Html.Action("Menu", "Posts")
+
+            @Html.Action("TagList", "Posts")
+
             @*<div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Tags</h4>
-                </div>
-                <div class="panel-body">
-                    <ul class="list-inline">
-                        <li><a href="#">Aries</a></li>
-                        <li><a href="#">Fire</a></li>
-                        <li><a href="#">Mars</a></li>
-                        <li><a href="#">Taurus</a></li>
-                        <li><a href="#">Earth</a></li>
-                        <li><a href="#">Moon</a></li>
-                        <li><a href="#">Gemini</a></li>
-                        <li><a href="#">Air</a></li>
-                        <li><a href="#">Mercury</a></li>
-                        <li><a href="#">Cancer</a></li>
-                    </ul>
-                </div>
-            </div>*@
+                    <div class="panel-heading">
+                        <h4>Tags</h4>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-inline">
+                            <li><a href="#">Aries</a></li>
+                            <li><a href="#">Fire</a></li>
+                            <li><a href="#">Mars</a></li>
+                            <li><a href="#">Taurus</a></li>
+                            <li><a href="#">Earth</a></li>
+                            <li><a href="#">Moon</a></li>
+                            <li><a href="#">Gemini</a></li>
+                            <li><a href="#">Air</a></li>
+                            <li><a href="#">Mercury</a></li>
+                            <li><a href="#">Cancer</a></li>
+                        </ul>
+                    </div>
+                </div>*@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div id="twitterHeader"><a href="http://www.twitter.com/kunlesymls">@System.Configuration.ConfigurationManager.AppSettings["SchoolName"] on Twitter</a></div>
                 </div>
                 <div id="tweets">
-                     
                 </div>
             </div>
         </div>
-        </div>
-    
+    </div>
 </div>
 
-    }
+<!-- Main layout -->
+<main>
+    <div class="container-fluid">
+
+        <!-- Magazine -->
+        <div class="row">
+            <!-- Main news -->
+            <div class="col-xl-8 col-md-12">
+
+                <!--Section: Blog v.3-->
+                <section class="section extra-margins listing-section">
+
+                    <!--First row-->
+                    <div class="row single-post wow fadeIn">
+                        <!--First column-->
+                        <div class="col-md-5 mb-r">
+                            <!--Featured image-->
+                            <div class="view overlay hm-white-slight">
+                                <img src="../../../../img/Photos/Horizontal/Work/4-col/img%20(21).jpg">
+                                <a>
+                                    <div class="mask waves-light"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <!--/First column-->
+                        <!--Second column-->
+                        <div class="col-md-7 mb-r">
+                            <!--Excerpt-->
+                            <a href="#" class="purple-text"><h5><i class="fa fa-money"></i>Business</h5></a>
+                            <div class="news-data">
+                                <p><strong><i class="fa fa-clock-o"></i> 24/08/2017 <a><i class="fa fa-comments-o"></i> 63</a></strong></p>
+                            </div>
+
+                            <h4><a>This is a title of the news.</a></h4>
+                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                            <a class="btn btn-mdb" data-toggle="modal" data-target="#sidedModal">Read more</a>
+                        </div>
+                        <!--/Second column-->
+                    </div>
+                    <!--/First row-->
+                </section>
+                <!--/Section: Blog v.3-->
+                <!--Pagination dark grey-->
+                <nav>
+                    <ul class="pagination pg-darkgrey wow fadeIn flex-center" data-wow-delay="0.3s">
+                        <!--Arrow left-->
+                        <li class="page-item">
+                            <a class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+                        <!--Numbers-->
+                        <li class="page-item active"><a class="page-link">1</a></li>
+                        <li class="page-item"><a class="page-link">2</a></li>
+                        <li class="page-item"><a class="page-link">3</a></li>
+                        <li class="page-item"><a class="page-link">4</a></li>
+                        <li class="page-item"><a class="page-link">5</a></li>
+
+                        <!--Arrow right-->
+                        <li class="page-item">
+                            <a class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!--/Pagination dark grey-->
+            </div>
+            <!--/ Main news -->
+            <!-- Sidebar -->
+            <div class="col-xl-4 col-md-12 widget-column">
+
+                <!-- Section: Popular posts -->
+                <section class="section widget-content wow fadeIn">
+
+                    <!-- Heading -->
+                    <nav class="navbar navbar-dark sidebar-heading primary-color">
+                        <div class="flex-center">
+                            <p class="white-text">Popular posts</p>
+                        </div>
+                    </nav>
+                    <!--/ Heading -->
+
+                    <div class="single-post">
+
+                        <div class="row">
+                            <div class="col-4">
+
+                                <!-- Image -->
+                                <div class="view overlay hm-white-slight">
+                                    <img src="../../../../img/Photos/Horizontal/People/4-col/img%20(121).jpg" class="img-fluid" alt="">
+                                    <a>
+                                        <div class="mask waves-light"></div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Excerpt -->
+                            <div class="col-8">
+                                <div class="post-data">
+                                    <p><i class="fa fa-clock-o"></i> 25/08/2017</p>
+                                    <a><i class="fa fa-comments-o"></i> 114</a>
+                                </div>
+
+                                <h6><a>What colors fit to brunette girl?</a></h6>
+                            </div>
+                            <!--/ Excerpt -->
+                        </div>
+                        <!--/ First row -->
+                    </div>
+
+                    <div class="single-post">
+                        <!-- Second row -->
+                        <div class="row">
+                            <!-- Image -->
+                            <div class="col-4">
+                                <div class="view overlay hm-white-slight">
+                                    <img src="../../../../img/Photos/Horizontal/Relax/4-col/img%20(8).jpg" class="img-fluid" alt="">
+                                    <a>
+                                        <div class="mask waves-light"></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/ Image -->
+                            <!-- Excerpt -->
+                            <div class="col-8">
+                                <div class="post-data">
+                                    <p><i class="fa fa-clock-o"></i> 21/08/2017</p>
+                                    <a><i class="fa fa-comments-o"></i> 96</a>
+                                </div>
+
+                                <h6><a>Marketing for luxury products.</a></h6>
+                            </div>
+                            <!--/ Excerpt -->
+                        </div>
+                        <!--/ Second row -->
+                    </div>
+
+                    <div class="single-post">
+                        <!-- Third row -->
+                        <div class="row">
+                            <!-- Image -->
+                            <div class="col-4">
+                                <div class="view overlay hm-white-slight">
+                                    <img src="../../../../img/Photos/Horizontal/Nature/4-col/img%20(124).jpg" class="img-fluid" alt="">
+                                    <a>
+                                        <div class="mask waves-light"></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/ Image -->
+                            <!-- Excerpt -->
+                            <div class="col-8">
+                                <div class="post-data">
+                                    <p><i class="fa fa-clock-o"></i> 19/07/2017</p>
+                                    <a><i class="fa fa-comments-o"></i> 105</a>
+                                </div>
+
+                                <h6><a>Trends in the blogosphere for 2017.</a></h6>
+                            </div>
+                            <!--/ Excerpt -->
+                        </div>
+                        <!--/ Third row -->
+                    </div>
+
+                    <div class="single-post">
+                        <!-- Fourth row -->
+                        <div class="row">
+                            <!-- Image -->
+                            <div class="col-4">
+                                <div class="view overlay hm-white-slight">
+                                    <img src="../../../../img/Photos/Horizontal/Food/4-col/img%20(58).jpg" class="img-fluid" alt="">
+                                    <a>
+                                        <div class="mask waves-light"></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/ Image -->
+                            <!-- Excerpt -->
+                            <div class="col-8">
+                                <div class="post-data">
+                                    <p><i class="fa fa-clock-o"></i> 26/06/2017</p>
+                                    <a><i class="fa fa-comments-o"></i> 82</a>
+                                </div>
+
+                                <h6><a>The best coffee in Paris.</a></h6>
+                            </div>
+                            <!--/ Excerpt -->
+                        </div>
+                        <!--/ Fourth row -->
+                    </div>
+
+                    <div class="single-post">
+                        <!-- Fifth row -->
+                        <div class="row">
+                            <!-- Image -->
+                            <div class="col-4">
+                                <div class="view overlay hm-white-slight">
+                                    <img src="../../../../img/Photos/Horizontal/Food/4-col/img%20(13).jpg" class="img-fluid" alt="">
+                                    <a>
+                                        <div class="mask waves-light"></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/ Image -->
+                            <!-- Excerpt -->
+                            <div class="col-8">
+                                <div class="post-data">
+                                    <p><i class="fa fa-clock-o"></i> 24/06/2017</p>
+                                    <a><i class="fa fa-comments-o"></i> 77</a>
+                                </div>
+
+                                <h6><a>Vegan lunch with spinach and bean.</a></h6>
+                            </div>
+                            <!--/ Excerpt -->
+                        </div>
+                        <!--/ Fifth row -->
+                    </div>
+                </section>
+                <!--/ Section: Popular posts -->
+            </div>
+            <!--/ Sidebar -->
+        </div>
+        <!--/ Magazine -->
+    </div>
+</main>
+<!--/ Main layout -->
+<!--2lvl Modal: Product presentation-->
+<div class="modal fade side-modal" id="sidedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header white-text" style="background-color: #154771">
+                <p class="heading" contenteditable="true">Create advanced websites and apps with MDB Pro</p>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                @*<form>
+                        <div class="file-field">
+                            <img src="../../../../wp-content/uploads/2017/05/updatepro-min-1.jpg" class="img-fluid z-depth-1">
+                            <input type="file">
+                        </div>
+                    </form>
+                    <br>
+                    <p class="card-text" contenteditable="true"><strong>With MDB PRO you can create easily and fast the most advanced projects.</strong></p>
+                    <p class="card-text" contenteditable="true"><strong>2000+</strong> stunning premium components, <strong>40+</strong> sections, <strong>20+</strong> templates, direct contact with our team to help you with any questions and unlimited future updates.</p>*@
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <a id="2lvlModal-learnMore" class="btn btn-danger" contenteditable="true">Learn more</a>
+                <a id="2lvlModal-cancel" class="btn btn-default" contenteditable="true">No, thanks</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--/2lvl Modal: Product presentation-->
+
+<script type="text/javascript">
+
+    function myFunction() {
+        var url = "/Post/Save?id=0";
+        //$('#actionsList').modal("show");
+        // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>
