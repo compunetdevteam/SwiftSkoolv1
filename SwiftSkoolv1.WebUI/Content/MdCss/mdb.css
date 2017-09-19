@@ -5915,12 +5915,12 @@ label {
   background-color: transparent;
   border-bottom: 1px solid #e0e0e0; }
 
-.md-form {
+.form-group {
   position: relative;
   margin-bottom: 1.5rem; }
-  .md-form .btn {
+  .form-group .btn {
     margin-bottom: 1.5rem; }
-  .md-form label {
+  .form-group label {
     color: #757575;
     position: absolute;
     top: 0.8rem;
@@ -5932,14 +5932,14 @@ label {
     -o-transition: 0.2s ease-out;
     -ms-transition: 0.2s ease-out;
     transition: 0.2s ease-out; }
-  .md-form label.active {
+  .form-group label.active {
     font-size: 0.8rem;
     -webkit-transform: translateY(-140%);
     -moz-transform: translateY(-140%);
     -ms-transform: translateY(-140%);
     -o-transform: translateY(-140%);
     transform: translateY(-140%); }
-  .md-form .prefix {
+  .form-group .prefix {
     position: absolute;
     width: 3rem;
     font-size: 2rem;
@@ -5948,50 +5948,50 @@ label {
     -o-transition: color 0.2s;
     -ms-transition: color 0.2s;
     transition: color 0.2s; }
-    .md-form .prefix.active {
+    .form-group .prefix.active {
       color: #4285F4; }
-  .md-form .prefix ~ input,
-  .md-form .prefix ~ textarea {
+  .form-group .prefix ~ input,
+  .form-group .prefix ~ textarea {
     margin-left: 3rem;
     width: 92%;
     width: calc(100% - 3rem); }
-  .md-form .prefix ~ textarea {
+  .form-group .prefix ~ textarea {
     padding-top: .8rem; }
-  .md-form .prefix ~ label {
+  .form-group .prefix ~ label {
     margin-left: 3rem; }
   @media only screen and (max-width: 992px) {
-    .md-form .prefix ~ input {
+    .form-group .prefix ~ input {
       width: 86%;
       width: calc(100% - 3rem); } }
   @media only screen and (max-width: 600px) {
-    .md-form .prefix ~ input {
+    .form-group .prefix ~ input {
       width: 80%;
       width: calc(100% - 3rem); } }
-  .md-form.input-group .form-control {
+  .form-group.input-group .form-control {
     margin: 0;
     padding-left: 1rem; }
-    .md-form.input-group .form-control::-webkit-input-placeholder {
+    .form-group.input-group .form-control::-webkit-input-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control:-moz-placeholder {
+    .form-group.input-group .form-control:-moz-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control::-moz-placeholder {
+    .form-group.input-group .form-control::-moz-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control::-ms-placeholder {
+    .form-group.input-group .form-control::-ms-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control::-webkit-input-placeholder {
+    .form-group.input-group .form-control::-webkit-input-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control::-moz-placeholder {
+    .form-group.input-group .form-control::-moz-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control:-ms-input-placeholder {
+    .form-group.input-group .form-control:-ms-input-placeholder {
       color: #999;
       padding-top: 2px; }
-    .md-form.input-group .form-control::placeholder {
+    .form-group.input-group .form-control::placeholder {
       color: #999;
       padding-top: 2px; }
 
@@ -10160,7 +10160,7 @@ button.toast-close-button {
   .deep-purple-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #d0637c;
     border-color: #d0637c; }
-  .deep-purple-skin .md-form .prefix.active {
+  .deep-purple-skin .form-group .prefix.active {
     color: #d0637c; }
   .deep-purple-skin .dropdown-content li:not(.disabled) span {
     color: #d0637c; }
@@ -10280,7 +10280,7 @@ button.toast-close-button {
   .navy-blue-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #309e9e;
     border-color: #309e9e; }
-  .navy-blue-skin .md-form .prefix.active {
+  .navy-blue-skin .form-group .prefix.active {
     color: #309e9e; }
   .navy-blue-skin .dropdown-content li:not(.disabled) span {
     color: #309e9e; }
@@ -10400,7 +10400,7 @@ button.toast-close-button {
   .cyan-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #4fada7;
     border-color: #4fada7; }
-  .cyan-skin .md-form .prefix.active {
+  .cyan-skin .form-group .prefix.active {
     color: #4fada7; }
   .cyan-skin .dropdown-content li:not(.disabled) span {
     color: #4fada7; }
@@ -10520,7 +10520,7 @@ button.toast-close-button {
   .pink-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #bd5d70;
     border-color: #bd5d70; }
-  .pink-skin .md-form .prefix.active {
+  .pink-skin .form-group .prefix.active {
     color: #bd5d70; }
   .pink-skin .dropdown-content li:not(.disabled) span {
     color: #bd5d70; }
@@ -10640,7 +10640,7 @@ button.toast-close-button {
   .indigo-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #7f82c5;
     border-color: #7f82c5; }
-  .indigo-skin .md-form .prefix.active {
+  .indigo-skin .form-group .prefix.active {
     color: #7f82c5; }
   .indigo-skin .dropdown-content li:not(.disabled) span {
     color: #7f82c5; }
@@ -10760,7 +10760,7 @@ button.toast-close-button {
   .light-blue-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: rgba(21, 73, 103, 0.73);
     border-color: rgba(21, 73, 103, 0.73); }
-  .light-blue-skin .md-form .prefix.active {
+  .light-blue-skin .form-group .prefix.active {
     color: rgba(21, 73, 103, 0.73); }
   .light-blue-skin .dropdown-content li:not(.disabled) span {
     color: rgba(21, 73, 103, 0.73); }
@@ -10882,7 +10882,7 @@ button.toast-close-button {
   .grey-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: rgba(187, 33, 77, 0.79);
     border-color: rgba(187, 33, 77, 0.79); }
-  .grey-skin .md-form .prefix.active {
+  .grey-skin .form-group .prefix.active {
     color: rgba(187, 33, 77, 0.79); }
   .grey-skin .dropdown-content li:not(.disabled) span {
     color: rgba(187, 33, 77, 0.79); }
@@ -11061,7 +11061,7 @@ button.toast-close-button {
   .white-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #4285F4;
     border-color: #4285F4; }
-  .white-skin .md-form .prefix.active {
+  .white-skin .form-group .prefix.active {
     color: #4285F4; }
   .white-skin .dropdown-content li:not(.disabled) span {
     color: #4285F4; }
@@ -11183,7 +11183,7 @@ button.toast-close-button {
   .black-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #2AD1A3;
     border-color: #2AD1A3; }
-  .black-skin .md-form .prefix.active {
+  .black-skin .form-group .prefix.active {
     color: #2AD1A3; }
   .black-skin .dropdown-content li:not(.disabled) span {
     color: #2AD1A3; }
@@ -11305,7 +11305,7 @@ button.toast-close-button {
   .mdb-skin input[type=checkbox].filled-in:checked + label:after {
     background-color: #33b5e5;
     border-color: #33b5e5; }
-  .mdb-skin .md-form .prefix.active {
+  .mdb-skin .form-group .prefix.active {
     color: #33b5e5; }
   .mdb-skin .dropdown-content li:not(.disabled) span {
     color: #33b5e5; }
@@ -12991,7 +12991,7 @@ ul.striped li {
   margin-top: 5px;
   margin-right: 2rem; }
 
-.date-panel .md-form {
+.date-panel .form-group {
   margin-bottom: 0; }
 
 .admin-panel .small-badge .badge {

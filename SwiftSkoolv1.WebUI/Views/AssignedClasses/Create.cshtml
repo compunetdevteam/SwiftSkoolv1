@@ -3,52 +3,80 @@
 @{
     ViewBag.Title = "Create";
 }
-<script src="~/Scripts/chosen.jquery.js"></script>
-<div class="row">
 
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-6">
-        <form id="myform">
+<script src="~/Scripts/chosen.jquery.min.js"></script>
 
-            @Html.AntiForgeryToken()
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-block">
+            @if (Model != null && Model.AssignedClassId > 0)
+            {
+                <div class="form-header  purple darken-4">
+                    <h3>
+                        <i class="fa fa-save"></i> Update Record
+                    </h3>
+                </div>
+            }
+            else
+            {
+                <div class="form-header  purple darken-4">
+                    <h3><i class="fa fa-save"></i> Assign Student Class</h3>
+                </div>
+            }
+
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.AssignedClassId > 0)
+            {
+                @Html.HiddenFor(model => model.AssignedClassId)
+            }
 
             <div class="form-horizontal">
-                <h4>Assign Class to Student</h4>
-                <hr />
+
+
                 @Html.ValidationSummary(true, "", new { @class = "form text-danger" })
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
-                    </div>
+                <div class="md-form">
+                    @Html.LabelFor(model => model.ClassName)
+                    @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.TermName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
-                    </div>
+                <div class="md-form">
+                    @Html.LabelFor(model => model.TermName)
+                    @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SessionName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
-                    </div>
+                <div class="md-form">
+                    @Html.LabelFor(model => model.SessionName)
+                    @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
+
                 </div>
 
+
                 <div class="form-group">
-                    @Html.LabelFor(model => model.StudentId, "StudentId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
-                        @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
-                    </div>
+                    @Html.LabelFor(model => model.StudentId)
+                    @Html.DropDownList("StudentId", null, new { @class = "form-control chosen-select", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+
                 </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.StudentId, "StudentId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control chosen", @multiple="true" })
+                            @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
 
                 @*<div class="form-group">
                         <div class="editor-label control-label col-md-2">
@@ -59,19 +87,30 @@
                         </div>
                     </div>*@
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="reset" id="btnsubmit" value="Create" class="btn btn-raised btn-primary" />
-                    </div>
+
+
+                <div class="md-form">
+
+                    @if (Model != null && Model.AssignedClassId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info" />
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                    }
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+
                 </div>
             </div>
-            }
-        </form>
-        <div class="col-md-3">
+
+
+
         </div>
     </div>
-</div>
 
+
+</form>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
@@ -84,21 +123,37 @@
 <script>
     $(document).ready(function () {
         //window.alert("ready");
+        $('.chosen-select').chosen();
+        $(function () {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true
+            });
+        });
 
         $("#btnsubmit").click(function () {
-            // window.alert("ready");
-
-            $("#loaderDiv").show();
 
             var data = $("#myform").serialize();
 
             $.ajax({
                 type: "POST",
-                url: "/AssignedClasses/Create",
+                url: "/AssignedClasses/Save",
                 data: data,
-                success: function (response) {
-                    $("#loaderDiv").hide();
-                    alertify.success('Class was assigned Successfully');
+                success: function (data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+                        // debugger
+                        //$.fn.oTable();
+                       // window.oTable.ajax.reload(); //run my_fun() ondomready
+                        //window.location.href = "/Subjects/Index";
+
+                        toastr["success"](data.message);
+                        toastr["success"]("You can add more Now");
+                        $('#myform')[0].reset();
+                    } else {
+                        //$('#actionsList').modal("hide");
+                        toastr["error"](data.message);
+                    }
+
                 }
             });
         });

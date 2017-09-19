@@ -561,109 +561,105 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 ViewBag.Error = "Please Select a excel file <br/>";
                 return View("UpLoadStudent");
             }
-            else
+            HttpPostedFileBase file = Request.Files["excelfile"];
+            if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
             {
-                HttpPostedFileBase file = Request.Files["excelfile"];
-                if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
-                {
-                    string lastrecord = "";
-                    int recordCount = 0;
-                    string message = "";
-                    string fileContentType = file.ContentType;
-                    byte[] fileBytes = new byte[file.ContentLength];
-                    var data = file.InputStream.Read(fileBytes, 0, Convert.ToInt32(file.ContentLength));
+                string lastrecord = "";
+                int recordCount = 0;
+                string message = "";
+                string fileContentType = file.ContentType;
+                byte[] fileBytes = new byte[file.ContentLength];
+                var data = file.InputStream.Read(fileBytes, 0, Convert.ToInt32(file.ContentLength));
 
-                    // Read data from excel file
-                    using (var package = new ExcelPackage(file.InputStream))
+                // Read data from excel file
+                using (var package = new ExcelPackage(file.InputStream))
+                {
+                    ExcelValidation myExcel = new ExcelValidation();
+                    var currentSheet = package.Workbook.Worksheets;
+                    var workSheet = currentSheet.First();
+                    var noOfCol = workSheet.Dimension.End.Column;
+                    var noOfRow = workSheet.Dimension.End.Row;
+                    int requiredField = 13;
+
+                    string validCheck = myExcel.ValidateExcel(noOfRow, workSheet, requiredField);
+                    if (!validCheck.Equals("Success"))
                     {
-                        ExcelValidation myExcel = new ExcelValidation();
-                        var currentSheet = package.Workbook.Worksheets;
-                        var workSheet = currentSheet.First();
-                        var noOfCol = workSheet.Dimension.End.Column;
-                        var noOfRow = workSheet.Dimension.End.Row;
-                        int requiredField = 13;
-
-                        string validCheck = myExcel.ValidateExcel(noOfRow, workSheet, requiredField);
-                        if (!validCheck.Equals("Success"))
+                        //string row = "";
+                        //string column = "";
+                        string[] ssizes = validCheck.Split(' ');
+                        string[] myArray = new string[2];
+                        for (int i = 0; i < ssizes.Length; i++)
                         {
-                            //string row = "";
-                            //string column = "";
-                            string[] ssizes = validCheck.Split(' ');
-                            string[] myArray = new string[2];
-                            for (int i = 0; i < ssizes.Length; i++)
-                            {
-                                myArray[i] = ssizes[i];
-                                // myArray[i] = ssizes[];
-                            }
-                            string lineError = $"Line/Row number {myArray[0]}  and column {myArray[1]} is not rightly formatted, Please Check for anomalies ";
-                            //ViewBag.LineError = lineError;
-                            TempData["UserMessage"] = lineError;
-                            TempData["Title"] = "Error.";
-                            return View();
+                            myArray[i] = ssizes[i];
+                            // myArray[i] = ssizes[];
                         }
-
-                        for (int row = 2; row <= noOfRow; row++)
-                        {
-                            string studentId = workSheet.Cells[row, 1].Value.ToString().Trim();
-                            string firstName = workSheet.Cells[row, 2].Value.ToString().Trim();
-                            string middleName = workSheet.Cells[row, 3].Value.ToString().Trim();
-                            string lastName = workSheet.Cells[row, 4].Value.ToString().Trim();
-                            string gender = workSheet.Cells[row, 5].Value.ToString().Trim();
-                            DateTime dateOfBirth = DateTime.Parse(workSheet.Cells[row, 6].Value.ToString().Trim());
-                            string placeofBirth = workSheet.Cells[row, 7].Value.ToString().Trim();
-                            string state = workSheet.Cells[row, 8].Value.ToString().Trim();
-                            string religion = workSheet.Cells[row, 9].Value.ToString().Trim();
-                            string tribe = workSheet.Cells[row, 10].Value.ToString().Trim();
-                            DateTime addmision = DateTime.Parse(workSheet.Cells[row, 11].Value.ToString().Trim());
-                            string phoneNumber = workSheet.Cells[row, 12].Value.ToString().Trim();
-                            string password = workSheet.Cells[row, 13].Value.ToString().Trim();
-                            string username = lastName.Trim() + " " + firstName.Trim();
-                            try
-                            {
-                                var student = new Student()
-                                {
-                                    StudentId = studentId,
-                                    FirstName = firstName,
-                                    MiddleName = middleName,
-                                    LastName = lastName,
-                                    PhoneNumber = phoneNumber,
-                                    Gender = gender,
-                                    Religion = religion,
-                                    PlaceOfBirth = placeofBirth,
-                                    StateOfOrigin = state,
-                                    Tribe = tribe,
-                                    DateOfBirth = dateOfBirth,
-                                    AdmissionDate = addmision
-                                };
-                                Db.Students.Add(student);
-
-                                recordCount++;
-                                lastrecord =
-                                    $"The last Updated record has the Last Name {lastName} and First Name {firstName} with Phone Number {phoneNumber}";
-                            }
-                            catch (Exception e)
-                            {
-                                message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
-                                TempData["UserMessage"] = message;
-                                TempData["Title"] = "Success.";
-                                return View("Error3");
-                            }
-
-
-                        }
-                        await Db.SaveChangesAsync();
-                        message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
-                        TempData["UserMessage"] = message;
-                        TempData["Title"] = "Success.";
-                        return RedirectToAction("Index", "Students");
+                        string lineError = $"Line/Row number {myArray[0]}  and column {myArray[1]} is not rightly formatted, Please Check for anomalies ";
+                        //ViewBag.LineError = lineError;
+                        TempData["UserMessage"] = lineError;
+                        TempData["Title"] = "Error.";
+                        return View();
                     }
-                }
-                else
-                {
-                    ViewBag.Error = "File type is Incorrect <br/>";
-                    return View("UploadStudent");
+
+                    for (int row = 2; row <= noOfRow; row++)
+                    {
+                        string studentId = workSheet.Cells[row, 1].Value.ToString().Trim();
+                        string firstName = workSheet.Cells[row, 2].Value.ToString().Trim();
+                        string middleName = workSheet.Cells[row, 3].Value.ToString().Trim();
+                        string lastName = workSheet.Cells[row, 4].Value.ToString().Trim();
+                        string gender = workSheet.Cells[row, 5].Value.ToString().Trim();
+                        DateTime dateOfBirth = DateTime.Parse(workSheet.Cells[row, 6].Value.ToString().Trim());
+                        string placeofBirth = workSheet.Cells[row, 7].Value.ToString().Trim();
+                        string state = workSheet.Cells[row, 8].Value.ToString().Trim();
+                        string religion = workSheet.Cells[row, 9].Value.ToString().Trim();
+                        string tribe = workSheet.Cells[row, 10].Value.ToString().Trim();
+                        DateTime addmision = DateTime.Parse(workSheet.Cells[row, 11].Value.ToString().Trim());
+                        string phoneNumber = workSheet.Cells[row, 12].Value.ToString().Trim();
+                        try
+                        {
+                            var student = new Student()
+                            {
+                                StudentId = studentId,
+                                FirstName = firstName,
+                                MiddleName = middleName,
+                                LastName = lastName,
+                                PhoneNumber = phoneNumber,
+                                Gender = gender.ToUpper(),
+                                Religion = religion,
+                                PlaceOfBirth = placeofBirth,
+                                StateOfOrigin = state,
+                                Tribe = tribe,
+                                DateOfBirth = dateOfBirth,
+                                AdmissionDate = addmision,
+                                SchoolId = userSchool,
+                            };
+                            Db.Students.Add(student);
+
+                            recordCount++;
+                            lastrecord =
+                                $"The last Updated record has the Last Name {lastName} and First Name {firstName} with Phone Number {phoneNumber}";
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ViewBag.Message = ex.Message;
+                            //message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
+                            //TempData["UserMessage"] = message + e.Message;
+                            //TempData["Title"] = "Success.";
+                            return View("Error3");
+                        }
+
+
+                    }
+                    await Db.SaveChangesAsync();
+                    message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
+                    TempData["UserMessage"] = message;
+                    TempData["Title"] = "Success.";
+                    return RedirectToAction("Index", "Students");
                 }
             }
+            ViewBag.Error = "File type is Incorrect <br/>";
+            return View("UploadStudent");
         }
         protected override void Dispose(bool disposing)
         {

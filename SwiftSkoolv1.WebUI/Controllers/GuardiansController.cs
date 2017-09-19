@@ -423,7 +423,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 LGAOforigin = lga,
                                 StateOfOrigin = state,
                                 MotherName = motherName,
-                                MotherMaidenName = mothermaidenName
+                                MotherMaidenName = mothermaidenName,
+                                SchoolId = userSchool
                             };
                             Db.Guardians.Add(guardian);
                             recordCount++;

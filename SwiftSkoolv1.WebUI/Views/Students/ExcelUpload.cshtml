@@ -14,7 +14,7 @@
 <br />
 <br />
 
-@using (Html.BeginForm("UpLoadStudent", "Account", FormMethod.Post, new {enctype = "multipart/form-data", id= "theform" }))
+@using (Html.BeginForm("UpLoadStudent", "Students", FormMethod.Post, new {enctype = "multipart/form-data", id= "theform" }))
 {
     @Html.Raw(ViewBag.Error)
     <div class="form-group">

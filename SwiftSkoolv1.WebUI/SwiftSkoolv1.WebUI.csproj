@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -296,6 +297,14 @@
     <Compile Include="Migrations\201708101610152_Pushseed.cs" />
     <Compile Include="Migrations\201708101610152_Pushseed.Designer.cs">
       <DependentUpon>201708101610152_Pushseed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141326130_GuradianUpload.cs" />
+    <Compile Include="Migrations\201709141326130_GuradianUpload.Designer.cs">
+      <DependentUpon>201709141326130_GuradianUpload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141353397_RemovingValidations.cs" />
+    <Compile Include="Migrations\201709141353397_RemovingValidations.Designer.cs">
+      <DependentUpon>201709141353397_RemovingValidations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -761,6 +770,7 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
+    <Content Include="Scripts\jquery-1.11.3.min.js" />
     <Content Include="Scripts\jquery-1.8.0.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -1123,6 +1133,7 @@
     <Content Include="Views\Posts\Menu.cshtml" />
     <Content Include="Views\Posts\LatestNews.cshtml" />
     <Content Include="Views\Posts\TagList.cshtml" />
+    <Content Include="Views\Account\ActivateStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1149,6 +1160,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708101610152_Pushseed.resx">
       <DependentUpon>201708101610152_Pushseed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141326130_GuradianUpload.resx">
+      <DependentUpon>201709141326130_GuradianUpload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141353397_RemovingValidations.resx">
+      <DependentUpon>201709141353397_RemovingValidations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -161,7 +161,7 @@
     </ul>
 </div>
 
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -208,8 +208,7 @@
     });
     function Edit(subjecId) {
         var url = "/AssignedClasses/Save?id=" + subjecId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
+      
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -217,20 +216,14 @@
     };
     function Delete(subjecId) {
         var url = "/AssignedClasses/Delete?id=" + subjecId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
+ 
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
             });
     };
     function myFunction() {
-        var url = "/AssignedClasses/Save?id=0";
-        //$('#actionsList').modal("show");
-        // window.alert(url);
-        $('#myModalDivBody').load(url,
-            function () {
-                $('#actionsList').modal("show");
-            });
+        var url = "/AssignedClasses/Create";    
+        window.open(url, '_self');
     };
 </script>

@@ -35,16 +35,15 @@
     <link href="~/Content/MdCss/bootstrap.min.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link href="~/Content/MdCss/mdb.css" rel="stylesheet" />
-
+    <link href="~/Content/chosen.min.css" rel="stylesheet" />
     <!-- Customizer -->
     <link href="~/Content/MdCss/customizer.min.css" rel="stylesheet" />
 
     <!-- Your custom styles (optional) -->
     @*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />*@
     <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
-    <link href="~/Content/chosen.min.css" rel="stylesheet" />
     <link href="~/Content/MdCss/style.css" rel="stylesheet" />
+    <link href="~/Content/chosen.min.css" rel="stylesheet" />
 </head>
 @{
     string myColor = "white-skin";
@@ -307,6 +306,7 @@
                                 <ul>
                                     <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
                                     <li>@Html.ActionLink("List Students", "Index", "Students")</li>
+                                    <li>@Html.ActionLink("Activate Student", "ActivateStudent", "Account")</li>
                                     @*<li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>*@
                                 </ul>
                             </div>
@@ -550,7 +550,7 @@
     <!-- JQuery -->
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
-    <script src="~/Scripts/MdJs/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
 
     <!-- Bootstrap tooltips -->
     <script src="~/Scripts/MdJs/tether.min.js"></script>

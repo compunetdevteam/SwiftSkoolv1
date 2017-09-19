@@ -12,7 +12,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 //using Excel = Microsoft.Office.Interop.Excel;
 
@@ -354,10 +353,10 @@ namespace SwiftSkool.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult UploadResult()
+        public PartialViewResult UploadResult()
         {
             //ViewBag.CourseName = new SelectList(Db.Courses, "CourseName", "CourseName");
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
