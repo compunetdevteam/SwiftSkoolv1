@@ -31,23 +31,19 @@
                     <form action="@Href("~/Account/Login")" method="post">
                         @Html.AntiForgeryToken()
                         <div class="md-form">
-                            <i class="fa fa-envelope prefix"></i>
-                            <input type="text" id="Email" name="Email" class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required.">
-                            <label for="Email">Your email</label>
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                            <label for="Email"> <i class="fa fa-envelope prefix"></i> Your email</label>
+                            <input type="text" id="Email" name="Email" class="form-control" >
+
+                            @*<span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>*@
                         </div>
 
                         <div class="md-form">
-                            <i class="fa fa-lock prefix"></i>
+                            <label for="Password"><i class="fa fa-lock prefix"></i> Your password</label>
                             <input type="password" id="Password" name="Password" class="form-control" data-val="true" data-val-Password="The Password field is required." data-val-required="The Password field is required.">
-                            <label for="Password">Your password</label>
+
                             <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
                         </div>
-
-                        <fieldset class="form-group">
-                            @Html.EditorFor(model => model.RememberMe)
-                            <label for="RememberMe">Remeber Me</label>
-                        </fieldset>
+                      
 
                         <div class="text-center">
                             <input type="submit" class="btn btn-primary" value="Login" />

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using PagedList;
+using SwiftSkoolv1.Domain;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using PagedList;
-using SwiftSkoolv1.Domain;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -67,6 +67,53 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //return View(await Db.AssignedClasses.ToListAsync());
         }
 
+        public ActionResult GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = Db.AssignBehaviors.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new
+            {
+
+                s.SchoolId,
+                s.AssignBehaviorId,
+                s.StudentId,
+                s.BehaviouralSkill.SkillName,
+                s.NoOfAbsence,
+                s.SkillScore,
+                s.TeacherComment,
+                s.SessionName,
+                s.TermName
+            }).ToList();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                v = v.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search)
+                                    || x.SkillName.Equals(search))).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+        }
+
+
+
         // GET: AssignBehaviors/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -114,13 +161,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     string lineError = $"The number of Behaviors you entered is {model.BehaviouralSkillId.Length}  and the score Entered is {ssizes.Length}. " +
                                        $"You should assign the same number of Score to the behavior you selected ";
                     //ViewBag.LineError = lineError;
-                    TempData["UserMessage"] = lineError;
-                    TempData["Title"] = "Error.";
-                    ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-                    ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-                    ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-                    ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
-                    return View(model);
+                    return new JsonResult { Data = new { status = false, message = lineError } };
                 }
                 for (int i = 0; i < model.BehaviouralSkillId.Length; i++)
                 {
@@ -137,23 +178,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         BehaviouralSkillId = model.BehaviouralSkillId[i],
                         BehaviorCategory = behavioCategory,
                         NoOfAbsence = model.NoOfAbsence,
-                        Date = DateTime.Now
-
+                        Date = DateTime.Now,
+                        SchoolId = userSchool
                     };
                     Db.AssignBehaviors.Add(assignBehavior);
                 }
 
                 await Db.SaveChangesAsync();
-                TempData["UserMessage"] = "Behavior Added Successfully.";
-                TempData["Title"] = "Success.";
-                return RedirectToAction("Index");
-            }
+                return new JsonResult { Data = new { status = true, message = "Behavior Assigned Successfully" } };
 
-            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName", model.BehaviouralSkillId);
-            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
-            return View(model);
+            }
+            return new JsonResult { Data = new { status = false, message = "Incomplete Data" } };
+            ;
         }
 
         // GET: AssignBehaviors/Edit/5

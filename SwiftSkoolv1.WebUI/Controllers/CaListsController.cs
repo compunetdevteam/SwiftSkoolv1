@@ -47,17 +47,33 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-
         // GET: CaLists
-        public async Task<ActionResult> Index()
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "Index")]
+        public async Task<ActionResult> Index(CaSelectIndexVm model)
         {
+            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(model.ClassName))
+                                        .Select(s => s.ClassName).FirstOrDefault();
+            var calist = Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                                    x.ClassName.Equals(model.ClassName)
+                                                    && x.TermName.Equals(model.TermName)
+                                                    && x.SubjectId.Equals(model.SubjectId)
+                                                    && x.SessionName.Equals(model.SessionName))
+                                                    .ToList();
             var myCalist = new CaListIndexVm()
             {
-                CaList = await Db.CaLists.ToListAsync(),
+                CaList = calist,
                 CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
-                            && x.SchoolId.Equals(userSchool)).OrderBy(o => o.CaOrder).ToList()
+                                                 && x.SchoolId.Equals(userSchool)
+                                                 && x.ClassName.Equals(studentClassName)
+                                                 && x.TermName.Equals(model.TermName))
+                    .OrderBy(o => o.CaOrder).ToList(),
+
             };
-            ViewBag.SetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true));
+            ViewBag.SetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true)
+                                                        && x.SchoolId.Equals(userSchool)
+                                                        && x.TermName.Equals(model.TermName)
+                                                        && x.ClassName.Equals(studentClassName));
             return View(myCalist);
         }
 
@@ -104,16 +120,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         private async Task<List<CaListVm>> GenerateCaList(CaSelectIndexVm model)
         {
-            var students = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
-                                                                        && x.ClassName.Equals(model.ClassName)).ToList();
+            var students = await Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                           && x.ClassName.Equals(model.ClassName)
+                                           && x.SessionName.Equals(model.SessionName)
+                                           && x.TermName.Equals(model.TermName)).ToListAsync();
 
             var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(model.ClassName))
                                                 .Select(s => s.ClassName).FirstOrDefault();
             var subject = await Db.Subjects.FindAsync(model.SubjectId);
             var calist = Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
                                                               x.ClassName.Equals(model.ClassName)
-                                                              && x.TermName.Equals(model.TermName) &&
-                                                              x.SessionName.Equals(model.SessionName)).ToList();
+                                                              && x.TermName.Equals(model.TermName)
+                                                              && x.SubjectId.Equals(model.SubjectId)
+                                                              && x.SessionName.Equals(model.SessionName))
+                                                              .ToList();
             var myCalist = new List<CaListVm>();
             if (calist.Any())
             {

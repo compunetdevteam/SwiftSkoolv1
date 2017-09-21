@@ -92,6 +92,7 @@
 {
     @Html.HiddenFor(model => model.SchoolId)
     @Html.AntiForgeryToken()
+   
     <div class="container-fluid">
         <!-- Section: Edit Account -->
         <section class="section">
@@ -175,7 +176,7 @@
                                         <!--First column-->
                                         <div class="col-md-6">
                                             <div class="md-form">
-                                                @Html.EditorFor(model => model.SchoolId, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.SchoolId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                                                 @Html.LabelFor(model => model.SchoolId)
                                                 @Html.ValidationMessageFor(model => model.SchoolId, "", new { @class = "text-danger" })
 

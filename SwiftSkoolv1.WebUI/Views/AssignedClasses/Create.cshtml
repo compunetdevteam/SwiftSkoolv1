@@ -38,67 +38,52 @@
 
             <div class="form-horizontal">
 
-
                 @Html.ValidationSummary(true, "", new { @class = "form text-danger" })
-
                 <div class="md-form">
                     @Html.LabelFor(model => model.ClassName)
-                    @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
-
+                    <div class="col-md-6">
+                        @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+
 
                 <div class="md-form">
                     @Html.LabelFor(model => model.TermName)
-                    @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
-
+                    <div class="col-md-6">
+                        @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
                 <div class="md-form">
                     @Html.LabelFor(model => model.SessionName)
-                    @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
-
+                    <div class="col-md-6">
+                        @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
 
-                <div class="form-group">
+                <div class="md-form">
                     @Html.LabelFor(model => model.StudentId)
                     @Html.DropDownList("StudentId", null, new { @class = "form-control chosen-select", @multiple = "true" })
                     @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
 
                 </div>
-
-                @*<div class="form-group">
-                        @Html.LabelFor(model => model.StudentId, "StudentId", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control chosen", @multiple="true" })
-                            @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
-
-                @*<div class="form-group">
-                        <div class="editor-label control-label col-md-2">
-                            @Html.Label("StudentId")
-                        </div>
-                        <div class="col-md-10 editor-field">
-                            @Html.ListBox("StudentId", (MultiSelectList)ViewBag.StudentId, new { size = 10, @class = "ddlMultiSlectBox" })
-                        </div>
-                    </div>*@
-
-
-
+                <br/>
+                <br/>
                 <div class="md-form">
 
                     @if (Model != null && Model.AssignedClassId > 0)
                     {
-                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info" />
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary" />
                     }
                     else
                     {
-                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary" />
                     }
+
                     <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
 
                 </div>
@@ -141,14 +126,10 @@
                 success: function (data) {
                     if (data.status) {
                         $('#actionsList').modal("hide");
-                        // debugger
-                        //$.fn.oTable();
-                       // window.oTable.ajax.reload(); //run my_fun() ondomready
-                        //window.location.href = "/Subjects/Index";
-
                         toastr["success"](data.message);
                         toastr["success"]("You can add more Now");
                         $('#myform')[0].reset();
+                        window.open("/AssignedClasses/Index", '_self');
                     } else {
                         //$('#actionsList').modal("hide");
                         toastr["error"](data.message);

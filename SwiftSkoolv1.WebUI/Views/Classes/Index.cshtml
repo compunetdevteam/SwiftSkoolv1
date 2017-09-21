@@ -4,49 +4,57 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<!-- First row -->
-<div class="row">
-
-<!-- First column -->
-<div class="col-md-1"> 
-    <div class="card-body">
-                       
-        <a onclick="myFunction()" class="btn btn-primary"> Add Class</a>
-        
+<div class="card contact-card card-cascade narrower mb-r">
+<div class="admin-panel info-admin-panel">
+    <!-- Card title -->
+    <div class="view primary-color">
+        <h5>Class List</h5>
     </div>
-</div>
-<!-- /.First column -->
-        
-<!-- Second column -->
-<div class="col-md-10 offset-md-1 white z-depth-1 py-1 pt-1">
-
+    <br/>
+    <br/>
+    <!-- First row -->
     <div class="row">
-        <div class="col-md-12">
-                            
-            <table id="Jdatatable" class="table table-responsive table-hover">
-                <thead>
-                <tr>
-                 
-                    <th>Class Name</th>
-                    <th >Class Type</th>
-                    <th >Full ClassName</th>
-                    <th>Actions</th>
-                    @*<th>Delete</th>*@
-                </tr>
-                </thead>
-            </table>
-            <!--/Dropdown primary-->
+
+        <!-- First column -->
+        <div class="col-md-1"> 
+            <div class="card-body">
+                       
+                <a onclick="myFunction()" class="btn btn-primary"> Add Class</a>
+        
+            </div>
         </div>
+        <!-- /.First column -->
+        
+        <!-- Second column -->
+        <div class="col-md-10 offset-md-1 white z-depth-1 py-1 pt-1">
+
+            <div class="row">
+                <div class="col-md-12">
+                            
+                    <table id="Jdatatable" class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                 
+                            <th>Class Name</th>
+                            <th >Class Type</th>
+                            <th >Full ClassName</th>
+                            <th>Actions</th>
+                            @*<th>Delete</th>*@
+                        </tr>
+                        </thead>
+                    </table>
+                    <!--/Dropdown primary-->
+                </div>
+            </div>
+
+        </div>
+        <!-- /.Second column -->
+
     </div>
+    <!-- /.First row -->
 
 </div>
-<!-- /.Second column -->
-
-</div>
-<!-- /.First row -->
-
-
+    </div>
 
 
 

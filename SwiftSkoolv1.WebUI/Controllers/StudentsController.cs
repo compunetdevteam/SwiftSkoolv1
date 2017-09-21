@@ -48,9 +48,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 string name = User.Identity.GetUserName();
                 var user = await Db.Users.AsNoTracking().Where(c => c.UserName.Equals(name)).Select(x => x.PhoneNumber).FirstOrDefaultAsync();
-                // studentList = studentList.Where(s => s.GPhoneNumber.ToUpper().Equals(user.ToUpper()));
 
-                // var studentId = studentList.Select(x => x.StudentId).FirstOrDefault();
             }
             else
             {
@@ -349,7 +347,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = User.Identity.GetUserId();
             }
             Student student = await Db.Students.FindAsync(id);
             if (student == null)

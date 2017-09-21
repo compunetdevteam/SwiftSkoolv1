@@ -290,22 +290,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201708101538243_Initial.cs" />
-    <Compile Include="Migrations\201708101538243_Initial.Designer.cs">
-      <DependentUpon>201708101538243_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708101610152_Pushseed.cs" />
-    <Compile Include="Migrations\201708101610152_Pushseed.Designer.cs">
-      <DependentUpon>201708101610152_Pushseed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709141326130_GuradianUpload.cs" />
-    <Compile Include="Migrations\201709141326130_GuradianUpload.Designer.cs">
-      <DependentUpon>201709141326130_GuradianUpload.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709141353397_RemovingValidations.cs" />
-    <Compile Include="Migrations\201709141353397_RemovingValidations.Designer.cs">
-      <DependentUpon>201709141353397_RemovingValidations.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CaSetUp.cs" />
@@ -361,6 +345,7 @@
     <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
     <Content Include="Content\chosen.min.css" />
+    <Content Include="Content\comlogo.png" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome-reg.css" />
@@ -680,6 +665,7 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -1134,6 +1120,7 @@
     <Content Include="Views\Posts\LatestNews.cshtml" />
     <Content Include="Views\Posts\TagList.cshtml" />
     <Content Include="Views\Account\ActivateStudent.cshtml" />
+    <Content Include="Views\Schools\PartialDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1153,20 +1140,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708101538243_Initial.resx">
-      <DependentUpon>201708101538243_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708101610152_Pushseed.resx">
-      <DependentUpon>201708101610152_Pushseed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709141326130_GuradianUpload.resx">
-      <DependentUpon>201709141326130_GuradianUpload.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709141353397_RemovingValidations.resx">
-      <DependentUpon>201709141353397_RemovingValidations.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

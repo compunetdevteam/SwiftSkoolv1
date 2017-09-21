@@ -77,8 +77,6 @@
     });
     function Edit(subjecId) {
         var url = "/Terms/Save?id=" + subjecId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -86,8 +84,7 @@
     };
     function Delete(subjecId) {
         var url = "/Terms/Delete?id=" + subjecId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
+      
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -95,8 +92,7 @@
     };
     function myFunction() {
         var url = "/Terms/Save?id=0";
-        //$('#actionsList').modal("show");
-         window.alert(url);
+    
          $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");

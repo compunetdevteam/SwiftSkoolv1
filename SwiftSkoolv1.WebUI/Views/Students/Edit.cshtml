@@ -2,10 +2,10 @@
 @using SwiftSkool.Extensions
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit Profile";
 }
 
-<a href="@Url.Action("Index")" class="btn btn-primary"> List of Student</a>
+
 
 
 @using (Html.BeginForm("Edit", "Students", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -35,14 +35,14 @@
                     <!-- Card content -->
                     <div class="card-block text-center">
 
-                        <img id="output" alt="School Logo" class="rounded-circle contact-avatar my-2 mx-auto" />
+                        <img id="output" alt="Passport Picture" class="rounded-circle contact-avatar my-2 mx-auto" />
 
                         <p class="text-muted">
                             <small>photo will be changed automatically</small>
                         </p>
 
                         <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
-                        <label for="File" class="btn btn-primary btn-block">Upload Logo</label>
+                        <label for="File" class="btn btn-primary btn-block">Upload Passport</label>
 
 
                     </div>
@@ -73,10 +73,9 @@
                             <!--First column-->
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    @Html.EditorFor(model => model.StudentId, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.LabelFor(model => model.StudentId)
-                                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
-
+                                    @Html.EditorFor(model => model.StudentId, new {htmlAttributes = new {@class = "form-control", @readonly="true"}})
+                                    @Html.ValidationMessageFor(model => model.StudentId, "", new {@class = "text-danger"})
                                 </div>
 
 
@@ -84,7 +83,7 @@
                             <!--Second column-->
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Addmission Date" } })
+                                    @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Addmission Date", @readonly = "true" } })
                                     @Html.ValidationMessageFor(model => model.AdmissionDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -95,9 +94,9 @@
                             <!--First column-->
                             <div class="col-md-4">
                                 <div class="md-form">
-                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.LabelFor(model => model.LastName)
-                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.LastName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
 
                                 </div>
 
@@ -106,17 +105,17 @@
                             <!--Second column-->
                             <div class="col-md-4">
                                 <div class="md-form">
-                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.LabelFor(model => model.FirstName)
-                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.FirstName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new {@class = "text-danger"})
                                 </div>
                             </div>
                             <!--Third column-->
                             <div class="col-md-4">
                                 <div class="md-form">
-                                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
                                     <label for="MiddleName">Other Names </label>
-                                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.MiddleName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                                    @Html.ValidationMessageFor(model => model.MiddleName, "", new {@class = "text-danger"})
                                 </div>
                             </div>
                         </div>

@@ -429,8 +429,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             int newCastupId = Convert.ToInt32(caSetUpId);
-            var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
-                                                                && x.CaSetUpId != newCastupId
+            var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.CaSetUpId != newCastupId
                                                                && x.SchoolId.Equals(userSchool)
                                                                && x.ClassName.Equals(className)
                                                                && x.TermName.Equals(termName))
@@ -484,8 +483,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             int newCastupId = Convert.ToInt32(caSetUpId);
-            var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.IsTrue.Equals(true)
-                                                                 && x.CaSetUpId != newCastupId
+            var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.CaSetUpId != newCastupId
                                                                  && x.SchoolId.Equals(userSchool)
                                                                  && x.ClassName.Equals(className)
                                                                  && x.TermName.Equals(termName))
@@ -494,7 +492,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var totalValue = setUpSum + Convert.ToDouble(caPercentage);
 
 
-            if (totalValue > 101)
+            if (totalValue > 100)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }

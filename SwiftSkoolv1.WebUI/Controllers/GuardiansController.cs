@@ -28,7 +28,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(await guardians.ToListAsync());
         }
 
-        public async Task<ActionResult> GetIndex()
+        public ActionResult GetIndex()
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table

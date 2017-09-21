@@ -1,6 +1,6 @@
 ﻿
 @model PagedList.IPagedList<SwiftSkoolv1.Domain.Grade>
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 
 <style>
     span.field-validation-error {
@@ -13,116 +13,58 @@
 </p>*@
 
 
+<div class="card contact-card card-cascade narrower mb-r">
+<div class="admin-panel info-admin-panel">
+    <!-- Card title -->
+    <div class="view primary-color">
+        <h5>Grade</h5>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="tablecontainer" style="width: 90%; margin: 0 auto">
+        <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Grade</a>
+        @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
+        <table id="Jdatatable" class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="sort-alpha">Grade Name</th>
+                <th class="sort-alpha">Minimum Value</th>
+                <th class="sort-alpha">Maximum Value</th>
+                <th class="sort-alpha">Remarks</th>
+                <th>Actions</th>
+
+            </tr>
+            </thead>
+        </table>
+    </div>
 
 
-<div class="tablecontainer" style="width: 90%; margin: 0 auto">
-    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Grade</a>
-    @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-    <table id="Jdatatable" class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th class="sort-alpha">Grade Name</th>
-            <th class="sort-alpha">Minimum Value</th>
-            <th class="sort-alpha">Maximum Value</th>
-            <th class="sort-alpha">Remarks</th>
-            <th>Actions</th>
+    <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="flex-center">
+                        <h4 class="modal-title">Grade</h4>
+                    </div>
+                </div>
+                <!--Body-->
+                <div class="modal-body" id="myModalDivBody">
 
-        </tr>
-        </thead>
-    </table>
-</div>
-
-
-<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <!--Content-->
-        <div class="modal-content">
-            <!--Header-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="flex-center">
-                    <h4 class="modal-title">Grade</h4>
                 </div>
             </div>
-            <!--Body-->
-            <div class="modal-body" id="myModalDivBody">
-
-            </div>
+            <!--/.Content-->
         </div>
-        <!--/.Content-->
     </div>
+
+
 </div>
-
-
-@*<table class="table">
-    <tr>
-        
-        <th>
-           Grade Name
-        </th>
-        <th>
-            Minimum Value
-        </th>
-        <th>
-            Maximum Value
-        </th>
-        
-        <th>
-            Remark
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.GradeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinimumValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaximumValue)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.GradePoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remark)
-            </td>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {id = item.GradeId}) |
-            @Html.ActionLink("Details", "Details", new {id = item.GradeId}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.GradeId})
-                <span>
-                    <a href="@Url.Action("Edit", new {id = item.GradeId, @class = "btn btn-success"})"><span class="md-mode-edit"></span> Edit</a>
-                </span> |
-                <span>
-                    <a href="@Url.Action("Delete", new {id = item.GradeId, @class = "btn btn-success"})"><span class="md-delete"></span> Delete</a>
-                </span>
-            </td>
-        </tr>
-    }
-
-</table>*@
-
-
-@*<div class="btn-group pull-right">
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new
-{
-    page,
-    sortOrder = ViewBag.CurrentSort,
-    currentFilter =
-    ViewBag.CurrentFilter
-}))
-</div>*@
-
+    </div>
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
@@ -151,8 +93,8 @@
                     "data": "GradeId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ><i/></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>' +
+                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ></i>Remove</a>';
 
                     }
                 }

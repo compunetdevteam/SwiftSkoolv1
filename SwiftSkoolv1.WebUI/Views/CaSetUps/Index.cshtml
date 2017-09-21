@@ -94,62 +94,64 @@
 
 
 
-
-
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ClassName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TermName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CaOrder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CaCaption)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MaximumScore)
-        </th>
-        <th>
-            Is Enabled
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div class="row">
+    <table class="table table-responsive">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TermName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CaOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CaCaption)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaximumScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsTrue)
-            </td>
-            @*<td>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TermName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaCaption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumScore)
+            </th>
+            <th>
+                Is Enabled
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TermName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CaOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CaCaption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaximumScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsTrue)
+                </td>
+                @*<td>
                     @Html.ActionLink("Edit", "Edit", new { id=item.CaSetUpId }) |
                     @Html.ActionLink("Details", "Details", new { id=item.CaSetUpId }) |
                     @Html.ActionLink("Delete", "Delete", new { id=item.CaSetUpId })
                 </td>*@
-        </tr>
-    }
+            </tr>
+        }
 
-</table>
+    </table>  
+</div>
+
+
+
 
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>

@@ -5,16 +5,24 @@
 }
 
 <link href="~/Content/materialadmin.css" rel="stylesheet" />
-@using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+<div class="card contact-card card-cascade narrower mb-r">
+    <div class="admin-panel info-admin-panel">
+        <!-- Card title -->
+        <div class="view primary-color">
+            <h5>Assigned Subject List</h5>
+        </div>
+        <br/>
+        <br/>
+        @using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 
-    {
-    @Html.AntiForgeryToken()
-    <table class="table table-responsive">
-        <tr>
-            <th>
-                Enable C A
-            </th>
-            @*<th>
+        {
+            @Html.AntiForgeryToken()
+            <table class="table table-responsive">
+                <tr>
+                    <th>
+                        Enable C A
+                    </th>
+                    @*<th>
                 School Class
             </th>
             <th>
@@ -23,41 +31,41 @@
             <th>
                 C A Order
             </th>*@
-            <th>
-                C A Caption
-            </th>
-            <th>
-                Maximum Score
-            </th>
-            <th>
-                CA Percentage
-            </th>
+                    <th>
+                        C A Caption
+                    </th>
+                    <th>
+                        Maximum Score
+                    </th>
+                    <th>
+                        CA Percentage
+                    </th>
 
-            <th></th>
-        </tr>
+                    <th></th>
+                </tr>
 
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            @Html.HiddenFor(model => Model[i].CaSetUpId)
-            @Html.HiddenFor(model => Model[i].CaOrder)
-            @Html.HiddenFor(model => Model[i].ClassName)
-            @Html.HiddenFor(model => Model[i].TermName)
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    @Html.HiddenFor(model => Model[i].CaSetUpId)
+                    @Html.HiddenFor(model => Model[i].CaOrder)
+                    @Html.HiddenFor(model => Model[i].ClassName)
+                    @Html.HiddenFor(model => Model[i].TermName)
             @*@Html.TextBoxFor(model => Model[i].ClassName, new {style = "display:none"})
             @Html.TextBoxFor(model => Model[i].TermName, new {style = "display:none"})*@
             @*@Html.TextBoxFor(model => Model[i].CaSetUpId, new {style = "display:none"})*@
 
 
-            <tr>
+                    <tr>
                
               
-                <td>
-                    @*@Html.Label("Enable CA")*@
-                    @Html.CheckBoxFor(m => m[i].IsTrue, new{ @id = "ca" }) <span>@Html.Label("Enable CA")</span>
-                    @*@Html.EditorFor(model => Model[i].IsTrue, new {htmlAttributes = new {@class = "form-control"}})*@
+                        <td>
+                            @*@Html.Label("Enable CA")*@
+                            @Html.CheckBoxFor(m => m[i].IsTrue, new{ @id = "ca" }) <span>@Html.Label("Enable CA")</span>
+                            @*@Html.EditorFor(model => Model[i].IsTrue, new {htmlAttributes = new {@class = "form-control"}})*@
 
-                </td>
-                @*@*<td>
+                        </td>
+                        @*@*<td>
                     @Html.TextBoxFor(model => Model[i].ClassName, new {style = "display:none"})
                     @Html.EditorFor(model => Model[i].ClassName, new {htmlAttributes = new {@class = "form-control"}})
                 </td>
@@ -69,32 +77,34 @@
                 <td>
                     @Html.EditorFor(model => Model[i].CaOrder, new {htmlAttributes = new {@class = "form-control"}})
                 </td>*@
-                <td>
-                    @Html.EditorFor(model => Model[i].CaCaption, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => Model[i].CaCaption, "", new {@class = "text-danger"})
+                        <td>
+                            @Html.EditorFor(model => Model[i].CaCaption, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => Model[i].CaCaption, "", new {@class = "text-danger"})
 
-                </td>
-                <td>
-                    @Html.EditorFor(model => Model[i].MaximumScore, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => Model[i].MaximumScore, "", new {@class = "text-danger"})
-                </td>
-                <td>
-                    @Html.EditorFor(model => Model[i].CaPercentage, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => Model[i].CaPercentage, "", new {@class = "text-danger"})
-                </td>
-                @*<td>
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => Model[i].MaximumScore, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => Model[i].MaximumScore, "", new {@class = "text-danger"})
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => Model[i].CaPercentage, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => Model[i].CaPercentage, "", new {@class = "text-danger"})
+                        </td>
+                        @*<td>
                     @Html.ActionLink("Edit", "Edit", new {id = Model[i].CaSetUpId}) |
                 </td>*@
-            </tr>
-        }
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default"/>
-            </div>
-        </div>
+                    </tr>
+                }
 
-    </table>
-}
+            </table>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default"/>
+                </div>
+            </div>
+        }
+    </div>
+</div>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }

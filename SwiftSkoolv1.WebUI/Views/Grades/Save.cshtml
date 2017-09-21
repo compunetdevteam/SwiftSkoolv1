@@ -1,57 +1,66 @@
 ﻿
 @model SwiftSkoolv1.Domain.Grade
 
-@if (Model != null && Model.GradeId > 0)
-{
-    <h4>Update</h4>
-}
-else
-{
-    <h4>Save</h4>
-}
+<div class="card">
+<div class="card-block">
+    @if (Model != null && Model.GradeId > 0)
+    {
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-save"></i> Update Record
+            </h3>
+        </div>
+    }
+    else
+    {
+        <div class="form-header  purple darken-4">
+            <h3><i class="fa fa-save"></i> Save</h3>
+        </div>
+    }
 
 
-<form id="myform" onsubmit="return false;">
+
+    <form id="myform" onsubmit="return false;">
                     
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+        <div class="form-horizontal">
                        
                        
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @if(Model != null && Model.GradeId > 0)
-        {
-            @Html.HiddenFor(model => model.GradeId)
-        }
+            @if(Model != null && Model.GradeId > 0)
+            {
+                @Html.HiddenFor(model => model.GradeId)
+            }
 
-        <div class="md-form">
-            @Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.LabelFor(model => model.GradeName)
-            @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
+            <div class="md-form">
+                @Html.LabelFor(model => model.GradeName)
+                @Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
 
-        </div>
+            </div>
      
-        <div class="md-form">
-            @Html.EditorFor(model => model.MinimumValue, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.LabelFor(model => model.MinimumValue)
-            @Html.ValidationMessageFor(model => model.MinimumValue, "", new { @class = "text-danger" })
-        </div>
+            <div class="md-form">
+                @Html.LabelFor(model => model.MinimumValue)
+                @Html.EditorFor(model => model.MinimumValue, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.MinimumValue, "", new {@class = "text-danger"})
+            </div>
         
-        <div class="md-form">
-            @Html.EditorFor(model => model.MaximumValue, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.LabelFor(model => model.MaximumValue)
-            @Html.ValidationMessageFor(model => model.MaximumValue, "", new { @class = "text-danger" })
-        </div>
+            <div class="md-form">
+                @Html.LabelFor(model => model.MaximumValue)
+                @Html.EditorFor(model => model.MaximumValue, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.MaximumValue, "", new {@class = "text-danger"})
+            </div>
         
-        <div class="md-form">
-            @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.LabelFor(model => model.Remark)
-            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
-        </div>
+            <div class="md-form">
+                @Html.LabelFor(model => model.Remark)
+                @Html.EditorFor(model => model.Remark, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Remark, "", new {@class = "text-danger"})
+            </div>
        
 
-        @*<div class="form-group">
+            @*<div class="form-group">
                     @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
@@ -59,22 +68,23 @@ else
                     </div>
                 </div>*@
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @if (Model != null && Model.GradeId > 0)
-                {
-                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
-                }
-                else
-                {
-                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
-                }
-                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            <div class="md-form">
+              
+                    @if (Model != null && Model.GradeId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                    }
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+              
             </div>
         </div>
-    </div>
-</form>
-
+    </form>
+</div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

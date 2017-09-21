@@ -6,22 +6,23 @@
 { 
     <div class="card">
         <div class="card-block">
-            <h3>
-                <i class="fa fa-save"></i> Update Record
-            </h3>
+              <div class="form-header  purple darken-4">
+                    <h3>
+                        <i class="fa fa-save"></i> SetUp CA 
+                    </h3>
+                </div>
+           
+           
 
            
-            <div class="form-group">
+            <div class="md-form">
                 @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "mdb-select" })                
-                </div>
+                @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "mdb-select" })             
+               
             </div>
-            <div class="form-group">
+            <div class="md-form">
                 @Html.Label("Term Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "mdb-select" })
-                </div>
+                @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "mdb-select" })
             </div>
 
             <div class="md-form">

@@ -1,6 +1,8 @@
 ﻿using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
+using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -14,6 +16,60 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<ActionResult> Index()
         {
             return View(await Db.Schools.AsNoTracking().ToListAsync());
+        }
+        public async Task<ActionResult> GetIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = await Db.Schools.AsNoTracking().Select(s => new
+            {
+                s.SchoolId,
+                s.Name,
+                s.Alias,
+                s.Address,
+                s.OwernshipType,
+            }).ToListAsync();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = v.Where(x => x.Name.Equals(search) || x.Alias.Equals(search)
+                                 || x.OwernshipType.Equals(search)).ToList();
+
+
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data },
+                JsonRequestBehavior.AllowGet);
+
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<PartialViewResult> PartialDetails(string id)
+        {
+            //var user = await Db.Users.AsNoTracking().Where(c => c.Id.Equals(username)).Select(c => c.Email).FirstOrDefaultAsync();
+            var school = await Db.Schools.FindAsync(id);
+
+            return PartialView(school);
         }
 
         // GET: Schools/Details/5

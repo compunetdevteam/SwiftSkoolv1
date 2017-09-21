@@ -10,7 +10,14 @@
 
 @*@if (User.IsInRole("Admin"))
 {*@
-
+<div class="card contact-card card-cascade narrower mb-r">
+<div class="admin-panel info-admin-panel">
+    <!-- Card title -->
+    <div class="view primary-color">
+        <h5>Assigned Subject List</h5>
+    </div>
+    <br/>
+    <br/>
 
     <div class="tablecontainer" style="width: 90%; margin: 0 auto">
         <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Assign Subject to Teacher </a>
@@ -52,18 +59,14 @@
         </div>
     </div>
     <!-- /.Modal-->
-@*}*@
-
+    @*}*@
+</div>
+    </div>
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-      
-
-  
-       
-     
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
@@ -84,20 +87,12 @@
                     "data": "Id",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                                '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>' +
+                                '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ></i>Remove</a>';
 
                     }
                 }
-                //{
-                //    "data": "Id",
-                //    "autoWidth": true,
-                //    "render": function(data) {
-                //        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
-                //    }
-                //}
-                //{ "data": "EmailID", "autoWidth": true },
-                //{ "data": "Phone", "autoWidth": true },
+            
             ]
         });
       

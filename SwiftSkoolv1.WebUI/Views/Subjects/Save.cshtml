@@ -1,48 +1,54 @@
 ﻿@model SwiftSkoolv1.Domain.Subject
 
+<div class="card">
+<div class="card-block">
+    @if (Model != null && Model.SubjectId > 0)
+    {
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-pencil-square-o"></i> Update Record
+            </h3>
+        </div>
+    }
+    else
+    {
+        <div class="form-header  purple darken-4">
+            <h3><i class="fa fa-save"></i> Save</h3>
+        </div>
+    }
 
-@if (Model != null && Model.SubjectId > 0)
-{
-    <h4>Update</h4>
-}
-else
-{
-    <h4>Save</h4>
-}
-
-
-<form id="myform" onsubmit="return false;">
+    <form id="myform" onsubmit="return false;">
                     
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+        <div class="form-horizontal">
                        
                        
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>*@
-        @if(Model != null && Model.SubjectId > 0)
-                {
-                    @Html.HiddenFor(model => model.SubjectId)
-                }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>*@
+            @if(Model != null && Model.SubjectId > 0)
+            {
+                @Html.HiddenFor(model => model.SubjectId)
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SubjectCode)
-            @Html.EditorFor(model => model.SubjectCode, new {htmlAttributes = new {@class = "form-control"}})
+            <div class="md-form">
+                @Html.LabelFor(model => model.SubjectCode)
+                @Html.EditorFor(model => model.SubjectCode, new {htmlAttributes = new {@class = "form-control"}})
 
-            @Html.ValidationMessageFor(model => model.SubjectCode, "", new {@class = "text-danger"})
+                @Html.ValidationMessageFor(model => model.SubjectCode, "", new {@class = "text-danger"})
 
-        </div>
+            </div>
      
-        <div class="form-group">
+            <div class="md-form">
             
-            @Html.LabelFor(model => model.SubjectName)
-            @Html.EditorFor(model => model.SubjectName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.LabelFor(model => model.SubjectName)
+                @Html.EditorFor(model => model.SubjectName, new { htmlAttributes = new { @class = "form-control" } })
            
-            @Html.ValidationMessageFor(model => model.SubjectName, "", new { @class = "text-danger" })
-        </div>
+                @Html.ValidationMessageFor(model => model.SubjectName, "", new { @class = "text-danger" })
+            </div>
        
 
-        @*<div class="form-group">
+            @*<div class="md-form">
                     @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
@@ -50,22 +56,23 @@ else
                     </div>
                 </div>*@
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-            @if (Model != null && Model.SubjectId > 0)
-            {
-                <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
-            }
-            else
-            {
-                <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
-            }
-                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            <div class="md-form">
+              
+                    @if (Model != null && Model.SubjectId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                    }
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+              
             </div>
         </div>
-    </div>
-</form>
-
+    </form>
+</div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

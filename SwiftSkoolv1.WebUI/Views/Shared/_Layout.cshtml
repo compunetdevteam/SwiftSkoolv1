@@ -41,7 +41,9 @@
 
     <!-- Your custom styles (optional) -->
     @*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />*@
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
     <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
     <link href="~/Content/MdCss/style.css" rel="stylesheet" />
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
 </head>
@@ -52,7 +54,7 @@
     @if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
     {
     <!-- Customizer -->
-        <div id="customizer" class="z-depth-1">
+        @*<div id="customizer" class="z-depth-1">
             <a href="#" id="toggle" data-toggle="tooltip" data-placement="left" title="Customize your template!"><i class="fa fa-cog" aria-hidden="true"></i></a>
             <div class="inner">
                 <p class="text-center customizer-heading">Pick a skin color</p>
@@ -137,7 +139,7 @@
                 </div>
                 <a href="../../../../product/admin-theme/index.html" type="button" class="btn light-blue darken-2 btn-block">Buy now</a>
             </div>
-        </div>
+        </div>*@
     <!-- /.Customizer -->
     }
 
@@ -150,8 +152,8 @@
                 <!-- Logo -->
                 <li>
                     <div class="user-box">
-                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
-                        <p class="user text-center black-text">@Model.Alias</p>
+                        <img src="~/Content/images/swiftskool.png" class="img-fluid img-responsive">
+                        @*<p class="user text-center black-text">@Model.Alias</p>*@
                     </div>
                 </li>
                 <!--/. Logo -->
@@ -160,123 +162,41 @@
 
                     <ul class="collapsible collapsible-accordion">
                         <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i>School<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    @*<li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>*@
-                                    <li>@Html.ActionLink("List Students", "Index", "Students")</li>
-                                    <li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>
+                                    <li>@Html.ActionLink("View Schools", "Index", "Schools")</li>
+                                    <li>@Html.ActionLink("Add School", "Create", "Schools")</li>
                                 </ul>
                             </div>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Sessions")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Session</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Terms")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Term</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>School Admin<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("View Admin", "Index", "Schools")</li>
+                                    <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
+                                   
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "SchoolClasses")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>School Class</a>
                         </li>
 
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Manage Guardian<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>*@
-                                    <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
-                                    <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
-                                    <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
-                                    <li>@Html.ActionLink("Assign Student to Class", "Create", "AssignedClasses")</li>
-                                    <li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>
-                                    <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    @*<li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>*@
-                                    <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
-
-                                    @*<li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>*@
-                                    <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
-
-                                    @*<li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>*@
-                                    <li>@Html.ActionLink("View Student Subjects", "Index", "SubjectRegistrations")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bar-chart"></i> Manage Teacher<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
-                                    <li>@Html.ActionLink("Teacher Master", "Index", "Staffs")</li>
-                                    @*<li>@Html.ActionLink("Edit Teacher", "Index", "Staffs")</li>*@
-                                    <li>@Html.ActionLink("Assign Subject Teacher", "Create", "AssignSubjectTeachers")</li>
-                                    @*<li>@Html.ActionLink("List Subject Teacher", "Create", "AssignSubjectTeachers")</li>*@
-                                    <li>@Html.ActionLink("List Form-Teacher", "Index", "AssignFormTeacherToClasses")</li>
-                                    <li>@Html.ActionLink("Teacher Excel Upload", "UploadTeacher", "Account")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> Manage fee<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add Fees Type", "Create", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("List Fees Types", "Index", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("Fee Payment", "Create", "FeePayments")</li>
-                                    <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
-                                    <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="md md-assessment"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
-                                    <li>@Html.ActionLink("List  Behavioral Assesment", "Index", "AssignBehaviors")</li>
-
-                                    <li>@Html.ActionLink("Add C A", "Create", "ContinuousAssessments")</li>
-                                    <li>@Html.ActionLink("List C A", "Index", "ContinuousAssessments")</li>
-                                    <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-support"></i>School<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add School", "Index", "Schools")</li>
-                                    <li>@Html.ActionLink("School Admin", "RegisterAdmin", "Account")</li>
-                                    <li>@Html.ActionLink("Add School Classes", "Create", "SchoolClasses")</li>
-
-                                    <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
-                                    <li>@Html.ActionLink("Session", "Index", "Sessions")</li>
-                                    <li>@Html.ActionLink("Term", "Index", "Terms")</li>
-                                </ul>
-                            </div>
-                        </li>
                     </ul>
                 </li>
                 <!--/. Side navigation links -->
 
                 <div class="footer-copyright">
                     <div class="container-fluid">
-                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> CompunetLimited.com </a>
+                        <a href="https://www.CompunetLimited.org"> <img class="img-responsive" src="~/Content/images/comlogo.png" height="25" width="150" /> </a>
                     </div>
                 </div>
 
@@ -427,8 +347,8 @@
                                 <ul>
                                     <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
                                     <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
-                                    <li>@Html.ActionLink("Skill SetUp", "Create", "BehaviorSkillCategories")</li>
-                                    <li>@Html.ActionLink("Behaviors", "Create", "BehaviouralSkills")</li>
+                                    <li>@Html.ActionLink("Skill SetUp", "Index", "BehaviorSkillCategories")</li>
+                                    <li>@Html.ActionLink("Behaviors", "Index", "BehaviouralSkills")</li>
                                     <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
                                 </ul>
                             </div>
@@ -439,7 +359,7 @@
 
                 <div class="footer-copyright">
                     <div class="container-fluid">
-                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> CompunetLimited.com </a>
+                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> </a>
                     </div>
                 </div>
 
@@ -448,11 +368,185 @@
         }
         else if (Request.IsAuthenticated && User.IsInRole("Teacher"))
         {
+            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
+                <!-- Logo -->
+                <li>
+                    <div class="user-box">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
+                        <p class="user text-center black-text">@Model.Alias</p>
+                    </div>
+                </li>
+                <!--/. Logo -->
+                <!-- Side navigation links -->
+                <li>
 
+                    <ul class="collapsible collapsible-accordion">
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> My Profile<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("View", "Details", "Students")</li>
+                                    <li>@Html.ActionLink("Edit", "Edit", "Students")</li>
+                                    <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
+                                    <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
+                                    <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Guardian</a>
+                         
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My ClassMates</a>
+                         
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> My Subject<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("My Subjects", "Index", "Subjects")</li>
+                                    <li>@Html.ActionLink("My Subjects Teachers", "Index", "Subjects")</li>
+                                </ul>
+                            </div>
+                        </li>
+                       
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Search Book", "Index", "FeeTypes")</li>
+                                    <li>@Html.ActionLink("Borrow Book", "Create", "FeeTypes")</li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> My fee<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Fee BreakDown", "Create", "FeeTypes")</li>
+                                    <li>@Html.ActionLink("My Wallet", "Index", "FeeTypes")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> My Result<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Check result", "Create", "AssignBehaviors")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>News/Articles</a>
+                         
+                        </li>
+                       
+                    </ul>
+                </li>
+                <!--/. Side navigation links -->
+
+                <div class="footer-copyright">
+                    <div class="container-fluid">
+                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> </a>
+                    </div>
+                </div>
+
+                <div class="sidenav-bg mask-strong"></div>
+            </ul>
         }
         else if (Request.IsAuthenticated && User.IsInRole("Student"))
         {
+            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
+                <!-- Logo -->
+                <li>
+                    <div class="user-box">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
+                        <p class="user text-center black-text">@Model.Alias</p>
+                    </div>
+                </li>
+                <!--/. Logo -->
+                <!-- Side navigation links -->
+                <li>
 
+                    <ul class="collapsible collapsible-accordion">
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> My Profile<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("View", "Details", "Students")</li>
+                                    <li>@Html.ActionLink("Edit", "Edit", "Students")</li>
+                                    <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
+                                    <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
+                                    <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Guardian</a>
+                         
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My ClassMates</a>
+                         
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> My Subject<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("My Subjects", "Index", "Subjects")</li>
+                                    <li>@Html.ActionLink("My Subjects Teachers", "Index", "Subjects")</li>
+                                </ul>
+                            </div>
+                        </li>
+                       
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Search Book", "Index", "FeeTypes")</li>
+                                    <li>@Html.ActionLink("Borrow Book", "Create", "FeeTypes")</li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> My fee<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Fee BreakDown", "Create", "FeeTypes")</li>
+                                    <li>@Html.ActionLink("My Wallet", "Index", "FeeTypes")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> My Result<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Check result", "Create", "AssignBehaviors")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>News/Articles</a>
+                         
+                        </li>
+                       
+                    </ul>
+                </li>
+                <!--/. Side navigation links -->
+
+                <div class="footer-copyright">
+                    <div class="container-fluid">
+                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> </a>
+                    </div>
+                </div>
+
+                <div class="sidenav-bg mask-strong"></div>
+            </ul>
         }
         <!-- Navbar -->
         <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
@@ -535,23 +629,17 @@
     </main>
 
     <!--Footer-->
-    <footer id="footer" class="page-footer blue center-on-small-only">
-        <!--Copyright-->
-        <div class="footer-copyright">
-
-            © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> CompunetLimited.com </a>
-            @*<img class="img-responsive img-backdrop" src="~/Content/images/comlogo.png" alt="Compunet Limited" href="https://www.CompunetLimited.org" width="50" height="15">*@
-        </div>
-        <!--/.Copyright-->
-    </footer>
+    @*<footer id="footer">
+          <a  href="https://www.CompunetLimited.org"><img class="img-responsive" src="~/Content/images/comlogo.png" height="40" width="250" /></a> 
+    </footer>*@
     <!--/.Footer-->
     <!-- SCRIPTS -->
     <!-- SCRIPTS -->
     <!-- JQuery -->
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
-<script src="~/Scripts/jquery-1.11.3.min.js"></script>
-
+@*<script src="~/Scripts/jquery-1.11.3.min.js"></script>*@
+    <script src="~/Scripts/MdJs/jquery-3.1.1.min.js"></script>
     <!-- Bootstrap tooltips -->
     <script src="~/Scripts/MdJs/tether.min.js"></script>
     <!-- Bootstrap core JavaScript -->
@@ -652,11 +740,11 @@
             "closeButton": true, // true/false
             "debug": false, // true/false
             "newestOnTop": false, // true/false
-            "progressBar": false, // true/false
-            "positionClass": "toast-bottom-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "progressBar": true, // true/false
+            "positionClass": "toast-top-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
             "preventDuplicates": false, //true/false
             "onclick": null,
-            "showDuration": "300", // in milliseconds
+            "showDuration": "3000", // in milliseconds
             "hideDuration": "1000", // in milliseconds
             "timeOut": "5000", // in milliseconds
             "extendedTimeOut": "1000", // in milliseconds

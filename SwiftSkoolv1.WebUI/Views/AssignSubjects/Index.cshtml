@@ -4,64 +4,59 @@
     ViewBag.Title = "Assigned Subjects";
 }
 <!-- Modal -->
-
-<div class="row">
-    <div class="col-md-3">
-        <article class="margin-bottom-xxl">
-            <p class="lead">
-                Please use the following parameters to perform Query
-                <br />
-                <br />
-            </p>
-        </article>
-
-        @using (Html.BeginForm("Index", "AssignSubjects", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <br />
-            <br />
-
-            <div class="md-form">
-                @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "mdb-select" })
-                <label for="ClassName">ClassName</label>
-            </div>
-
-            @*
-                <div class="md-form">
-                    @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "mdb-select" })
-                    <label for="TermName">Term Name</label>
-                </div>*@
-
-            <div class="md-form">
-                <button type="submit" data-toggle="tooltip" data-placement="top" title="Search Subject by Class!" class="btn btn-primary"><i class="fa fa-search"></i> View Subject</button>
-            </div>
-
-        }
+<div class="card contact-card card-cascade narrower mb-r">
+<div class="admin-panel info-admin-panel">
+    <!-- Card title -->
+    <div class="view primary-color">
+        <h5>Assigned Subject List</h5>
     </div>
-    <div class="col-md-9">
-        @*<a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Subject</a>*@
-        <table id="Jdatatable" class="table table-striped table-hover">
-            <thead>
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <article class="margin-bottom-xxl">
+                <p class="lead">
+                    Search
+                    <br/>
+                    <br/>
+                </p>
+            </article>
+
+            @using (Html.BeginForm("Index", "AssignSubjects", FormMethod.Get, new {@class = "form-inline"}))
+            {
+                <br/>
+                <div class="md-form">
+                    <label for="ClassName">ClassName</label>
+                    @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "mdb-select"})
+
+                </div>
+
+                <div class="md-form">
+                    <button type="submit" data-toggle="tooltip" data-placement="top" title="Search Subject by Class!" class="btn btn-primary"><i class="fa fa-search"></i> View Subject</button>
+                </div>
+
+            }
+        </div>
+        <div class="col-md-8">
+            @*<a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Subject</a>*@
+            <table id="Jdatatable" class="table table-striped table-hover">
+                <thead>
                 <tr>
                     <th>Class Name</th>
                     <th>Subject Name</th>
                     <th>Term </th>
                     <th>Action</th>
                 </tr>
-            </thead>
-        </table>
+                </thead>
+            </table>
+        </div>
+        <div class="col-md-1"></div>
+       
     </div>
-
-    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large red">
-            <i class="fa fa-pencil"></i>
-        </a>
-
-        <ul>
-            <li><a href="#" onclick="myFunction()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
-        </ul>
-    </div>
+    <!-- /.Modal-->
 </div>
-
+</div>
 <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <!--Content-->
@@ -82,8 +77,15 @@
         <!--/.Content-->
     </div>
 </div>
-<!-- /.Modal-->
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="fa fa-plus"></i>
+    </a>
 
+    <ul>
+        <li><a href="#" onclick="myFunction()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
+    </ul>
+</div>
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 <script type="text/javascript">
@@ -109,8 +111,8 @@
                     "data": "AssignSubjectId",
                     "autoWidth": true,
                     "render": function (data) {
-                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i /></a>';
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ></i>Remove</a>';
                     }
                 }
 

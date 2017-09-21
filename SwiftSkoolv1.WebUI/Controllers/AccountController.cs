@@ -207,12 +207,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             if (User.IsInRole(RoleName.Student))
             {
-                //var model = await Db.Students.Where(x => x.StudentId.Equals(username)).FirstOrDefaultAsync();
-                //model.IsLogin = true;
-                //Db.Entry(model).State = EntityState.Modified;
-                //await Db.SaveChangesAsync();
 
-                //IdentityResult result = await UserManager.UpdateAsync(model);
                 TempData["UserMessage"] = $"Login Successful, Welcome {username}";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Dashboard", "Students");
@@ -538,15 +533,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 {
                     try
                     {
-                        //var user = new ApplicationUser
-                        //{
-                        //    Id = student.StudentId,
-                        //    UserName = $"{student.LastName} {student.FirstName}",
-                        //    PhoneNumber = student.PhoneNumber,
-                        //    SchoolId = userSchool,
-
-                        //};
-                        //var result = await UserManager.CreateAsync(user, password);
                         var user = new ApplicationUser
                         {
                             UserName = student.FullName,
