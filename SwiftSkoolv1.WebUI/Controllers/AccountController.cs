@@ -216,7 +216,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 TempData["UserMessage"] = $"Login Successful, Welcome {username}";
                 TempData["Title"] = "Success.";
-                return RedirectToAction("TeacherDashboard", "Staffs");
+                return RedirectToAction("StaffDashboard", "Staffs");
             }
 
             if (User.IsInRole(RoleName.FormTeacher))

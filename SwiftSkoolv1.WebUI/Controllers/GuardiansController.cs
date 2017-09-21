@@ -1,4 +1,5 @@
 ﻿using HopeAcademySMS.Services;
+using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
@@ -20,12 +21,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: Guardians
         public async Task<ActionResult> Index()
         {
-            var guardians = Db.Guardians.AsNoTracking().Include(g => g.Student);
-            if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-            {
-                return View(guardians.Where(x => x.SchoolId.Equals(userSchool)));
-            }
-            return View(await guardians.ToListAsync());
+            //var guardians = Db.Guardians.AsNoTracking().Include(g => g.Student);
+            //var studentId = User.Identity.GetUserId();
+            //if (Request.IsAuthenticated && User.IsInRole("Student"))
+            //{
+            //    return View(guardians.Where(x => x.SchoolId.Equals(userSchool) && x.StudentId.Equals(studentId)).ToList());
+            //}
+            //if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            //{
+            //    return View(guardians.Where(x => x.SchoolId.Equals(userSchool)));
+            //}
+
+            //return View(await guardians.ToListAsync());
+            return View();
         }
 
         public ActionResult GetIndex()
@@ -46,9 +54,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
+            var guardians = Db.Guardians.AsNoTracking().Include(g => g.Student);
+            var studentId = User.Identity.GetUserId();
+            if (Request.IsAuthenticated && User.IsInRole("Student"))
+            {
+                guardians = guardians.Where(x => x.SchoolId.Equals(userSchool) && x.StudentId.Equals(studentId));
+            }
+            if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                guardians = guardians.Where(x => x.SchoolId.Equals(userSchool));
+            }
 
             //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.Guardians.Where(x => x.SchoolId == userSchool).Select(s => new { s.GuardianId, s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
+            var v = guardians.Where(x => x.SchoolId == userSchool).Select(s => new { s.GuardianId, s.StudentId, s.FullName, s.PhoneNumber, s.Relationship }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -187,6 +205,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             return View(guardian);
         }
+
+
+
 
         // GET: Guardians/Create
         public async Task<ActionResult> Create()

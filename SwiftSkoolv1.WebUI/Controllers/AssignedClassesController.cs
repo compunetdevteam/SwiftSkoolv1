@@ -146,7 +146,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-           // var assignedClass = await Db.AssignedClasses.FindAsync(id);
+            // var assignedClass = await Db.AssignedClasses.FindAsync(id);
             ViewBag.StudentId = new MultiSelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
             ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
@@ -154,7 +154,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //var assignClassVm = new AssignedClassesViewModel
             //{
             //    AssignedClassId = assignedClass.AssignedClassId,
-                
+
 
             //};
             return PartialView();
@@ -231,6 +231,24 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
+        }
+
+
+        public async Task<ActionResult> MyClassMate()
+        {
+            var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
+            var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
+            var studentId = User.Identity.GetUserId();
+            var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
+                                                            && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                                                            .Select(s => s.ClassName)
+                                                            .FirstOrDefaultAsync();
+            var myClassmate = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term)
+                                                    && x.SessionName.Equals(session) && x.SchoolId.Equals(userSchool)
+                                                    && x.ClassName.Equals(myClass))
+                                                    .Select(s => s.Student).ToListAsync();
+
+            return View(myClassmate);
         }
 
         // GET: AssignedClasses/Details/5

@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@Model.Alias</title>
+    <title>@ViewBag.Title -@Model.Alias</title>
     <!-- Meta OG -->
     @*<meta property="og:title" content="Premium Admin Templates Dashboard">
         <meta property="og:description" content="Clear and intuitive data categorization coming along with unique and user friendly layout.">
@@ -385,31 +385,19 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> My Profile<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("View", "Details", "Students")</li>
-                                    <li>@Html.ActionLink("Edit", "Edit", "Students")</li>
+                                    <li>@Html.ActionLink("View", "Details", "Staffs")</li>
+                                    <li>@Html.ActionLink("Edit", "Edit", "Staffs")</li>
                                     <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
                                     <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
                                     <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
                                 </ul>
                             </div>
                         </li>
-
                         <li>
-                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Guardian</a>
-                         
+                            <a href="@Url.Action("Index", "AssignSubjects")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Students</a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My ClassMates</a>
-                         
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> My Subject<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("My Subjects", "Index", "Subjects")</li>
-                                    <li>@Html.ActionLink("My Subjects Teachers", "Index", "Subjects")</li>
-                                </ul>
-                            </div>
+                            <a href="@Url.Action("Index", "AssignSubjects")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Subjects</a>
                         </li>
                        
                         <li>
@@ -432,16 +420,32 @@
                             </div>
                         </li>
                         <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> My Result<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> Class Result<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("Check result", "Create", "AssignBehaviors")</li>
+                                    
+                                    <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
+                                    <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
+
+                                    <li>@Html.ActionLink("Add C A", "CreateCaView", "CaLists")</li>
+                                    <li>@Html.ActionLink("View Reuslt", "SearhResultMain", "Results")</li>
                                 </ul>
                             </div>
                         </li>
                         <li>
+                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-commenting"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
+                                    <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                                    <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Create", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Add New Post</a>
                             <a href="@Url.Action("Index", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>News/Articles</a>
-                         
+
                         </li>
                        
                     </ul>
@@ -490,14 +494,13 @@
                          
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My ClassMates</a>
-                         
+                            <a href="@Url.Action("MyClassMate", "AssignedClasses")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My ClassMates</a>
                         </li>
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> My Subject<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("My Subjects", "Index", "Subjects")</li>
+                                    <li>@Html.ActionLink("My Subjects", "MyAssignedSubject", "AssignSubjects")</li>
                                     <li>@Html.ActionLink("My Subjects Teachers", "Index", "Subjects")</li>
                                 </ul>
                             </div>
@@ -526,10 +529,12 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> My Result<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("Check result", "Create", "AssignBehaviors")</li>
+                                    <li>@Html.ActionLink("Check result", "StudentSearch", "Results")</li>
                                 </ul>
                             </div>
                         </li>
+                        
+                       
                         <li>
                             <a href="@Url.Action("Index", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>News/Articles</a>
                          

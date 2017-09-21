@@ -10,7 +10,6 @@
 
 @{
     var barModel = new List<DataPoint>();
-    //Html.RenderAction("Area", "ChartTypes", new {model = ViewBag.MyModel});
 }
 
 
@@ -93,7 +92,7 @@
                 <i class="fa fa-pie-chart blue"></i>
                 <div class="data">
                     <p>Female</p>
-                    <h3>20000</h3>
+                    <h3>@Model.FemaleStudents</h3>
                 </div>
             </div>
             <!--/.Card Data-->
@@ -120,7 +119,7 @@
                 <i class="fa fa-bar-chart blue"></i>
                 <div class="data">
                     <p>Male</p>
-                    <h3>2000</h3>
+                    <h3>@Model.MaleStudents</h3>
                 </div>
             </div>
             <!--/.Card Data-->
@@ -190,21 +189,23 @@
                     <div class="card-block">
 
                         <div class="list-group">
-                             
-                            @*@foreach (var subjects in Model.Subjects)
+                            @if (@Model.Subjects == null)
+                            {
+                            <p>No Subjects Yet</p>
+                            }
+                            else
+                            {
+                                foreach (var subjects in Model.Subjects)
                                 {
-                                    if (subjects == null)
-                                    {
-                                        <p>No Subjects Yet</p>
-                                    }
-                                    else
-                                    {
+                                    <ul>
                                         <li>@subjects</li>
-
-                                    }
+                                    </ul>
                                    
+                               }
+                                
 
-                                }*@
+                            }
+                           
                         </div>
 
                     </div>

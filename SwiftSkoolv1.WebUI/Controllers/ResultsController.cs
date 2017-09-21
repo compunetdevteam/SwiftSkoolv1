@@ -1,7 +1,9 @@
-﻿using Rotativa;
+﻿using Microsoft.AspNet.Identity;
+using Rotativa;
 using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -35,9 +37,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
             return View();
         }
+        public async Task<ActionResult> StudentSearch()
+        {
+            ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
+            ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
+            return View();
+        }
         #region Result Display
         public async Task<ActionResult> DownloadResult(string StudentId, string TermName, string SessionName)
         {
+            if (String.IsNullOrEmpty(StudentId))
+            {
+                StudentId = User.Identity.GetUserId();
+            }
             var id = StudentId;
             var termName = TermName;
             var sessionName = SessionName;

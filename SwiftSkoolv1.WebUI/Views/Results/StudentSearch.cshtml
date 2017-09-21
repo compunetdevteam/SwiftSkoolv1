@@ -1,19 +1,17 @@
 ﻿
 @{
-    ViewBag.Title = "Search Result";
+    ViewBag.Title = "StudentSearch";
 }
 
 
 <div class="card">
     <div class="card-block">
-
-        <div class="form-header  purple darken-4">
-            <h3>
-                <i class="fa fa-eye"></i> Search for Student Result
-            </h3>
-        </div>
-
-
+       
+            <div class="form-header  purple darken-4">
+                <h3>
+                    <i class="fa fa-eye"></i> Search for Result
+                </h3>
+            </div>
         @using (Html.BeginForm("DownloadResult", "Results", FormMethod.Get))
         {
             @Html.AntiForgeryToken()
@@ -24,28 +22,27 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 <div class="md-form">
-                    @Html.Label("StudentId")
-                    @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
-                </div>
-
-                <div class="md-form">
                     @Html.Label("Term Name")
                     @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
-
+                  
                 </div>
 
                 <div class="md-form">
                     @Html.Label("Session Name")
                     @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
-
+                   
                 </div>
 
-                <div class="form-group">
+                <div class="md-form">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Search Result" class="btn btn-primary btn-raised" />
                     </div>
                 </div>
             </div>
         }
+
     </div>
 </div>
+
+
+

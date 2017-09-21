@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.Student>
+
+@{
+    ViewBag.Title = "MyClassMate";
+}
+<div class="card">
+    <div class="card-block">
+       
+            <div class="form-header  purple darken-4">
+                <h3>
+                    <i class="fa fa-eye"></i> My Class Mates
+                </h3>
+            </div>
+        <table class="table table-responsive">
+            <tr>
+      
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+       
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+      
+                <th>
+                    @Html.DisplayNameFor(model => model.CurrentClass)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentPassport)
+                </th>
+      
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model) {
+                <tr>
+      
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CurrentClass)
+                    </td>
+      
+                    <td>
+                        <img src="@Url.Action("RenderImage", "Students", new {studentId = item.StudentId})" class="img-fluid ">
+                    </td>
+    
+       
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

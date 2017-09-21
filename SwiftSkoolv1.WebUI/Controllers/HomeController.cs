@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using SwiftSkoolv1.Domain;
 
 
 namespace SwiftSkool.Controllers
@@ -17,29 +16,7 @@ namespace SwiftSkool.Controllers
 
     public class HomeController : BaseController
     {
-        ///private readonly SwiftSkoolDbContext Db = new SwiftSkoolDbContext();
 
-        //public ActionResult Index()
-        //{
-        //    int totalMaleStudent = Db.Students.Count(s => s.Gender.Equals("Male"));
-        //    int totalFemaleStudent = Db.Students.Count(s => s.Gender.Equals("Female"));
-        //    int totalStudent = Db.Students.Count();
-        //    int totalStaff = Db.Staffs.Count();
-
-        //    double val1 = totalMaleStudent * 100;
-        //    double val2 = totalFemaleStudent * 100;
-
-        //    double boysPercentage = Math.Round(val1 / totalStudent, 2);
-        //    double femalePercentage = Math.Round(val2 / totalStudent, 2);
-
-        //    ViewBag.MaleStudent = totalMaleStudent;
-        //    ViewBag.Femalestudent = totalFemaleStudent;
-        //    ViewBag.TotalStudent = totalStudent;
-        //    ViewBag.TotalStaff = totalStaff;
-        //    ViewBag.BoysPercentage = boysPercentage;
-        //    ViewBag.FemalePercentage = femalePercentage;
-        //    return View();
-        //}
         public async Task<ActionResult> Index()
         {
             ViewBag.PictureList = await Db.HomePageSetUps.AsNoTracking().CountAsync();
@@ -48,8 +25,6 @@ namespace SwiftSkool.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
-            //return new Rotativa.ViewAsPdf();
             return View();
         }
         public async Task<ActionResult> GeneralDashboard()
@@ -57,14 +32,17 @@ namespace SwiftSkool.Controllers
             //get the total number of school that SwiftSkool support
             var numberOfSchools = await Db.Schools.AsNoTracking().CountAsync();
 
+            //total students
+            var students = await Db.Students.AsNoTracking().ToListAsync();
+
             //get the total number of student that SwiftSkool supports
-            var numberOfStudent =await Db.Students.AsNoTracking().Include( s => s.SchoolId).CountAsync();
+            var numberOfStudent = students.Count();
 
             //total number of female student in the software
-            var numberOfFemale = await Db.Students.AsNoTracking().Where(x => x.Gender.Equals("Female")).CountAsync();
+            var numberOfFemale = students.Count(x => x.Gender.ToLower().Equals("female") || x.Gender.ToLower().Equals("f"));
 
             //total number of male student in the application
-            var numberOfMale = await Db.Students.AsNoTracking().Where(x => x.Gender.Equals("Male")).CountAsync();
+            var numberOfMale = students.Count(x => x.Gender.ToLower().Equals("male") || x.Gender.ToLower().Equals("m"));
 
 
             var model = new GeneralDashboardVm();
@@ -72,8 +50,6 @@ namespace SwiftSkool.Controllers
             model.TotlaNumberOfStudents = numberOfStudent;
             model.MaleStudent = numberOfMale;
             model.FemaleStudent = numberOfFemale;
-
-            ViewBag.Message = "Your application description page.";
 
             //return new Rotativa.ViewAsPdf();
             return View(model);

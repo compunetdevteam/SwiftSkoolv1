@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using Microsoft.AspNet.Identity;
+using PagedList;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -94,8 +95,94 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
+            var className = string.Empty;
+            if (Request.IsAuthenticated && User.IsInRole("Student"))
+            {
+                var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
+                var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
+                var studentId = User.Identity.GetUserId();
+                var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
+                                                                                 && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                    .Select(s => s.ClassName)
+                    .FirstOrDefaultAsync();
+                className = myClass;
+            }
 
-            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.AssignSubjectId, s.ClassName, s.Subject.SubjectName, s.TermName }).ToList();
+            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                && x.ClassName.Equals(className))
+                .Select(s => new
+                {
+                    s.AssignSubjectId,
+                    s.ClassName,
+                    s.Subject.SubjectName,
+                    s.TermName
+                }).ToList();
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
+            //}
+            if (!string.IsNullOrEmpty(search))
+            {
+                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.Subject.SubjectName.Equals(search) || x.Class.ClassName.Equals(search)))
+                    .Select(s => new { s.AssignSubjectId, s.ClassName, s.Subject.SubjectName, s.TermName }).ToList();
+            }
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult MyAssignedSubject()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> GetStudentIndex()
+        {
+            #region Server Side filtering
+            //Get parameter for sorting from grid table
+            // get Start (paging start index) and length (page size for paging)
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Get Sort columns values when we click on Header Name of column
+            //getting column name
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //Soring direction(either desending or ascending)
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+            var className = string.Empty;
+            var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
+            var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
+            var studentId = User.Identity.GetUserId();
+            if (Request.IsAuthenticated && User.IsInRole("Student"))
+            {
+
+                var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
+                                                                                 && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                    .Select(s => s.ClassName)
+                    .FirstOrDefaultAsync();
+                className = myClass;
+            }
+
+            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                    && x.ClassName.Equals(className) && x.TermName.Equals(term))
+                .Select(s => new
+                {
+                    s.AssignSubjectId,
+                    s.ClassName,
+                    s.Subject.SubjectName,
+                    s.TermName
+                }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);

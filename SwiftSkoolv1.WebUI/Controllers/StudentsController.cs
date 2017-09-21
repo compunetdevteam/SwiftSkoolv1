@@ -161,15 +161,16 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var studentId = User.Identity.GetUserId();
 
             //fetch the student info frm Db
-            Student student = Db.Students.FirstOrDefault(x => x.StudentId == studentId);
+            Student student = Db.Students.AsNoTracking().FirstOrDefault(x => x.StudentId == studentId);
 
             var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
                                                        && x.StudentId.Equals(studentId)).Select(s => s.ClassName)
                                                         .FirstOrDefaultAsync();
 
-            var male = await Db.AssignedClasses.AsNoTracking().Where(
-                                x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                     && x.ClassName.Equals(myClass)).CountAsync(c => c.Student.Gender.ToUpper().Equals("MALE"));
+            var male = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term)
+                                    && x.SessionName.Equals(session)
+                                     && x.ClassName.Equals(myClass))
+                                     .CountAsync(c => c.Student.Gender.ToUpper().Equals("MALE"));
 
             var female = await Db.AssignedClasses.AsNoTracking().Where(
                 x => x.TermName.Equals(term) && x.SessionName.Equals(session)
@@ -186,13 +187,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             model.MaleStudents = male;
             model.FemaleStudents = female;
             model.TotalStudents = totalStudent;
-
             model.Term = term;
             model.Session = session;
-            // model.Subjects = totalSubjectOffered;
-            //foreach (var students in male)
+
+            //var assignedSubjects = await Db.AssignSubjects.Include(i => i.Subject).AsNoTracking()
+            //                        .Where(x => x.ClassName.Equals(myClass)
+            //                            && x.TermName.Equals(term)
+            //                            && x.SchoolId.Equals(userSchool))
+            //                            .Select(s => s.SubjectId).ToListAsync();
+            //foreach (var subject in assignedSubjects)
             //{
-            //    Db.Students.FirstOrDefault(x => x.StudentId == studentId);
+            //    var subjectName = await Db.Subjects.AsNoTracking().Where(x => x.SubjectId.Equals(subject))
+            //                        .Select(x => x.SubjectName).FirstOrDefaultAsync();
+            //    model.Subjects.Add(subjectName);
             //}
             if (String.IsNullOrEmpty(myClass))
             {
