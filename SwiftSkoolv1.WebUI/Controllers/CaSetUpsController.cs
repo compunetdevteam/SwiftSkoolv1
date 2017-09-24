@@ -32,7 +32,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-        public async Task<ActionResult> GetIndex(string ClassName, string TermName)
+        public ActionResult GetIndex(string ClassName, string TermName)
         {
             #region Server Side filtering
             ////Get parameter for sorting from grid table
@@ -482,12 +482,21 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Request.QueryString[Request.QueryString.AllKeys.First(p => p.ToLower().Contains("casetupid"))];
             }
 
+            //int newCastupId = Convert.ToInt32(caSetUpId);
+            //var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.CaSetUpId != newCastupId
+            //                                                     && x.SchoolId.Equals(userSchool)
+            //                                                     && x.ClassName.Equals(className)
+            //                                                     && x.TermName.Equals(termName))
+            //    .Sum(s => s.CaPercentage);
+
+            //var totalValue = setUpSum + Convert.ToDouble(caPercentage);
+
             int newCastupId = Convert.ToInt32(caSetUpId);
             var setUpSum = Db.CaSetUps.AsNoTracking().Where(x => x.CaSetUpId != newCastupId
-                                                                 && x.SchoolId.Equals(userSchool)
-                                                                 && x.ClassName.Equals(className)
-                                                                 && x.TermName.Equals(termName))
-                .Sum(s => s.CaPercentage);
+                                    && x.SchoolId.Equals(userSchool)
+                                    && x.ClassName.Equals(className)
+                                    && x.TermName.Equals(termName))
+                                    .Sum(s => s.CaPercentage);
 
             var totalValue = setUpSum + Convert.ToDouble(caPercentage);
 
@@ -498,7 +507,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             var caSetUp = await Db.CaSetUps.FindAsync(newCastupId);
             caSetUp.SchoolId = userSchool;
-            caSetUp.MaximumScore = Convert.ToDouble(caPercentage);
+            caSetUp.CaPercentage = Convert.ToDouble(caPercentage);
             Db.Entry(caSetUp).State = EntityState.Modified;
             await Db.SaveChangesAsync();
             return Json(true, JsonRequestBehavior.AllowGet);

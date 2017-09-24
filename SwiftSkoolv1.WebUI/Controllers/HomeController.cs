@@ -42,7 +42,7 @@ namespace SwiftSkool.Controllers
             var numberOfFemale = students.Count(x => x.Gender.ToLower().Equals("female") || x.Gender.ToLower().Equals("f"));
 
             //total number of male student in the application
-            var numberOfMale = students.Count(x => x.Gender.ToLower().Equals("male") || x.Gender.ToLower().Equals("m"));
+            var numberOfMale = students.Count(x => x.Gender.ToLower().Equals("male") || x.Gender.ToLower() != "female");
 
 
             var model = new GeneralDashboardVm();

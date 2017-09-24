@@ -290,6 +290,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709220135445_BehaviouralCategory.cs" />
+    <Compile Include="Migrations\201709220135445_BehaviouralCategory.Designer.cs">
+      <DependentUpon>201709220135445_BehaviouralCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CaSetUp.cs" />
@@ -312,6 +316,7 @@
     <Compile Include="Services\SmsServiceTemp.cs" />
     <Compile Include="Services\Utils.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AdminIndexVm.cs" />
     <Compile Include="ViewModels\AffectiveViewModel.cs" />
     <Compile Include="ViewModels\AssignedClassesViewModel.cs" />
     <Compile Include="ViewModels\AssignSubjectTeacherVM.cs" />
@@ -1123,6 +1128,7 @@
     <Content Include="Views\AssignedClasses\MyClassMate.cshtml" />
     <Content Include="Views\AssignSubjects\MyAssignedSubject.cshtml" />
     <Content Include="Views\Results\StudentSearch.cshtml" />
+    <Content Include="Views\Account\AdminIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1142,6 +1148,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709220135445_BehaviouralCategory.resx">
+      <DependentUpon>201709220135445_BehaviouralCategory.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -17,7 +17,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             return View(await Db.Sessions.AsNoTracking().ToListAsync());
         }
-        public async Task<ActionResult> GetIndex()
+        public ActionResult GetIndex()
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -66,6 +66,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             bool status = false;
             string message = string.Empty;
+            string[] ssizes = session.SessionName.Trim().Split('-');
+            int yearOne = Convert.ToInt16(ssizes[0]);
+            int yearTwo = Convert.ToInt16(ssizes[1]);
+            if (yearTwo - yearOne > 1)
+            {
+                return new JsonResult { Data = new { status = false, message = "Interval between session can only be one year" } };
+
+            }
             if (ModelState.IsValid)
             {
                 if (session.SessionId > 0)

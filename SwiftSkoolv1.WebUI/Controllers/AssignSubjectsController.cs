@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using PagedList;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -14,68 +13,73 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class AssignSubjectsController : BaseController
     {
         // GET: AssignSubjects
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search,
-                                         string ClassName, string TermName, int? page)
+        //public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search,
+        //                                 string ClassName, string TermName, int? page)
+        //{
+
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    if (search == null)
+        //    {
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        search = currentFilter;
+        //    }
+        //    ViewBag.CurrentFilter = search;
+        //    var assignedList = from s in Db.AssignSubjects select s;
+
+        //    if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
+        //    {
+        //        assignedList = assignedList.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
+        //    }
+        //    if (!String.IsNullOrEmpty(search))
+        //    {
+        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(search.ToUpper())
+        //                                               || s.Subject.SubjectName.ToUpper().Equals(search.ToUpper()));
+
+
+        //    }
+        //    else if (!String.IsNullOrEmpty(ClassName) && !String.IsNullOrEmpty(TermName))
+        //    {
+        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
+        //                            && s.TermName.ToUpper().Equals(TermName.ToUpper()));
+
+        //    }
+        //    else if (!String.IsNullOrEmpty(ClassName) || !String.IsNullOrEmpty(TermName))
+        //    {
+        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
+        //                                               || s.TermName.ToUpper().Equals(TermName.ToUpper()));
+
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            assignedList = assignedList.OrderByDescending(s => s.Subject.SubjectName);
+        //            break;
+        //        case "Date":
+        //            assignedList = assignedList.OrderBy(s => s.Subject.SubjectName);
+        //            break;
+        //        default:
+        //            assignedList = assignedList.OrderBy(s => s.ClassName);
+        //            break;
+        //    }
+        //    int pageSize = 17;
+        //    int pageNumber = (page ?? 1);
+
+        //    ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+        //    ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+
+        //    return View(assignedList.ToPagedList(pageNumber, pageSize));
+        //    //return View(await Db.AssignSubjects.ToListAsync());
+        //}
+
+        public async Task<ActionResult> Index()
         {
-
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            if (search == null)
-            {
-                page = 1;
-            }
-            else
-            {
-                search = currentFilter;
-            }
-            ViewBag.CurrentFilter = search;
-            var assignedList = from s in Db.AssignSubjects select s;
-
-            if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-            {
-                assignedList = assignedList.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
-            }
-            if (!String.IsNullOrEmpty(search))
-            {
-                assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(search.ToUpper())
-                                                       || s.Subject.SubjectName.ToUpper().Equals(search.ToUpper()));
-
-
-            }
-            else if (!String.IsNullOrEmpty(ClassName) && !String.IsNullOrEmpty(TermName))
-            {
-                assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-                                    && s.TermName.ToUpper().Equals(TermName.ToUpper()));
-
-            }
-            else if (!String.IsNullOrEmpty(ClassName) || !String.IsNullOrEmpty(TermName))
-            {
-                assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-                                                       || s.TermName.ToUpper().Equals(TermName.ToUpper()));
-
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    assignedList = assignedList.OrderByDescending(s => s.Subject.SubjectName);
-                    break;
-                case "Date":
-                    assignedList = assignedList.OrderBy(s => s.Subject.SubjectName);
-                    break;
-                default:
-                    assignedList = assignedList.OrderBy(s => s.ClassName);
-                    break;
-            }
-            int pageSize = 17;
-            int pageNumber = (page ?? 1);
-
             ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-
-            return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await Db.AssignSubjects.ToListAsync());
+            return View();
         }
-
-
 
         public async Task<ActionResult> GetIndex()
         {
@@ -96,32 +100,30 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
             var className = string.Empty;
+
+
+            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool))
+                                .Select(s => new
+                                {
+                                    s.AssignSubjectId,
+                                    s.ClassName,
+                                    s.Subject.SubjectName,
+                                    s.TermName
+                                }).ToList();
             if (Request.IsAuthenticated && User.IsInRole("Student"))
             {
                 var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
                 var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
                 var studentId = User.Identity.GetUserId();
                 var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                                                                 && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                                            && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
                     .Select(s => s.ClassName)
                     .FirstOrDefaultAsync();
                 className = myClass;
+                v = v.Where(x => x.ClassName.Equals(className)).ToList();
             }
 
-            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
-                                && x.ClassName.Equals(className))
-                .Select(s => new
-                {
-                    s.AssignSubjectId,
-                    s.ClassName,
-                    s.Subject.SubjectName,
-                    s.TermName
-                }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
+
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -164,6 +166,16 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
             var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
             var studentId = User.Identity.GetUserId();
+
+            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                    && x.ClassName.Equals(className) && x.TermName.Equals(term))
+                                    .Select(s => new
+                                    {
+                                        s.AssignSubjectId,
+                                        s.ClassName,
+                                        s.Subject.SubjectName,
+                                        s.TermName
+                                    }).ToList();
             if (Request.IsAuthenticated && User.IsInRole("Student"))
             {
 
@@ -172,22 +184,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     .Select(s => s.ClassName)
                     .FirstOrDefaultAsync();
                 className = myClass;
+                v = v.Where(x => x.ClassName.Equals(className) && x.TermName.Equals(term)).ToList();
+
             }
 
-            var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
-                                    && x.ClassName.Equals(className) && x.TermName.Equals(term))
-                .Select(s => new
-                {
-                    s.AssignSubjectId,
-                    s.ClassName,
-                    s.Subject.SubjectName,
-                    s.TermName
-                }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);

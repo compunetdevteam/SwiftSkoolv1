@@ -16,7 +16,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(await Db.Terms.ToListAsync());
         }
 
-        public async Task<ActionResult> GetIndex()
+        public ActionResult GetIndex()
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -35,15 +35,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             var v = Db.Terms.AsNoTracking().ToList();
 
-            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
+
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -76,16 +70,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 if (model.TermId > 0)
                 {
+                    model.TermName = model.TermName.ToUpper();
                     Db.Entry(model).State = EntityState.Modified;
                     message = "Term Updated Successfully...";
                 }
                 else
                 {
+                    model.TermName = model.TermName.ToUpper();
                     Db.Terms.Add(model);
                     message = "Term Created Successfully...";
                 }
                 await Db.SaveChangesAsync();
-                return new JsonResult { Data = new { status = true, message = "Term Created Successfully..." } };
+                return new JsonResult { Data = new { status = true, message = message } };
             }
             return new JsonResult { Data = new { status = false, message = "Something went wrong" } };
             //return View(subject);
@@ -199,6 +195,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 await Db.SaveChangesAsync();
                 status = true;
                 message = "Term Deleted Successfully...";
+                return new JsonResult { Data = new { status = status, message = message } };
             }
 
             return new JsonResult { Data = new { status = status, message = message } };

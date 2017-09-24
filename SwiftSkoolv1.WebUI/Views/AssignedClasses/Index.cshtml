@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<SwiftSkoolv1.Domain.AssignedClass>
+﻿@*@model PagedList.IPagedList<SwiftSkoolv1.Domain.AssignedClass>*@
 
 @{
     ViewBag.Title = "Assigned Classes";
@@ -82,8 +82,8 @@
                 "datatype": "json"
             },
             "columns": [
-                { "data": "StudentId", "autoWidth": true },
                 { "data": "StudentName", "autoWidth": true },
+                { "data": "StudentId", "autoWidth": true },
                 { "data": "ClassName", "autoWidth": true },
                 { "data": "TermName", "autoWidth": true },
                 { "data": "SessionName", "autoWidth": true },
@@ -92,8 +92,8 @@
                     "data": "AssignedClassId",
                     "autoWidth": true,
                     "render": function (data) {
-                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ><i /></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i /></a>';
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" >Edit</i></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true">Remove</i></a>';
                     }
                 }
                 //{

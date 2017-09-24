@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwiftSkoolv1.Domain
 {
@@ -45,8 +44,8 @@ namespace SwiftSkoolv1.Domain
     public class BehaviorSkillCategory : GeneralSchool
     {
         public int BehaviorSkillCategoryId { get; set; }
-        [Index(IsUnique = true)]
-        [MaxLength(30)]
+        //[Index(IsUnique = true)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         public ICollection<BehaviouralSkill> BehaviouralSkill { get; set; }
@@ -123,7 +122,7 @@ namespace SwiftSkoolv1.Domain
         [Display(Name = "Date")]
         //[Required(ErrorMessage = "Date is required")]
         //[DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
 
     }

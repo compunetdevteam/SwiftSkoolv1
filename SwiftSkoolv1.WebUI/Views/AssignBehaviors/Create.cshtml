@@ -121,9 +121,9 @@
                         $('#actionsList').modal("hide");
                        
                         //window.oTable.ajax.reload(); //run my_fun() ondomready
-                        //window.location.href = "/AssignBehaviors/Index";
                         toastr["success"](data.message);
                         $('#myform')[0].reset();
+                        window.location.href = "/AssignBehaviors/Index";
                     } else {
                         //$('#actionsList').modal("hide");
                         toastr["error"]("Behavior has not been Assigned");

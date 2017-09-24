@@ -8,11 +8,14 @@
 <h3 class="h3-responsive text-center">@Model.Name</h3>
 <p class="text-center grey-text">Active School</p>
 <ul class="striped">
-    <li><strong>Date of Establishment: </strong> @Model.DateOfEstablishment\</li>
+    <li><strong>School Id:</strong> @Model.SchoolId</li>
+    <li><strong>Date of Establishment: </strong> @Model.DateOfEstablishment</li>
     <li><strong>Local Govt Area: </strong> @Model.LocalGovtArea</li>
     <li><strong>Motto: </strong> @Model.Motto</li>
     <li><strong>School Email: </strong> @Model.Email</li>
     <li><strong>Address:</strong> @Model.Address</li>
+    <li><strong>Ownership Type:</strong> @Model.OwernshipType</li>
+
 </ul>
 
 @*@Html.ActionLink("Check Full Details", "Details", new { id = Model.StudentId }, new { @class = "btn btn-primary" })*@

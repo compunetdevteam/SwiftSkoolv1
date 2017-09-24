@@ -345,30 +345,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateCa(List<CaListVm> model)
         {
-            //foreach (var item in model)
-            //{
-            //    if (item.ExamCa > 50)
-            //    {
-            //        ModelState.AddModelError("ExamCa", "Exam Score is greater");
-            //        var myModel = new CaSelectIndexVm
-            //        {
-            //            ClassName = item.ClassName,
-            //            SubjectId = item.SubjectId,
-            //            TermName = item.TermName,
-            //            SessionName = item.SessionName
-
-            //        };
-
-            //        RedirectToAction("CreateCaView", new { model = myModel });
-            //    }
-            //}
-
-            if (ModelState.IsValid)
+           if (ModelState.IsValid)
             {
                 foreach (var item in model)
                 {
                     var myTotal = item.FirstCa + item.SecondCa + item.ThirdCa + item.ForthCa + item.FifthCa +
-                                  item.SixthCa + item.SecondCa + item.EightCa + item.NinthtCa + item.ExamCa;
+                                  item.SixthCa + item.SeventhCa + item.EightCa + item.NinthtCa + item.ExamCa;
                     var caList = new CaList()
                     {
                         CaListId = item.CaListId,
@@ -397,7 +379,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Db.CaLists.AddOrUpdate(caList);
                 }
                 await Db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("CreateCaView");
             }
 
             return RedirectToAction("CreateCaView", new { model = model });
@@ -414,7 +396,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "CaListId,StudentId,TermName,SessionName,SubjectCode,ClassName,FirstCa,SecondCa,ThirdCa,ForthCa,FifthCa,FseventhCa,Eight,NinthtCa,ExamCa")] CaList caList)
+        public async Task<ActionResult> Create(CaList caList)
         {
             if (ModelState.IsValid)
             {

@@ -14,8 +14,8 @@
             </div>
             <div class="col-md-7">
 
-                @using (Html.BeginForm("RegisterAdmin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
+                <form id="myform" onsubmit="return false;">
+            
                     @Html.AntiForgeryToken()
                     <br />
                     <br />
@@ -61,13 +61,13 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10 text-right">
-                            <input type="submit" class="btn btn-default btn-success" value="Register" />
+                            <input id="btnsubmit" type="submit" value="Register Admin" class="btn btn-info" />
                         </div>
                     </div>
 
 
 
-                }
+                </form>
 
             </div>
             <div class="col-md-3">
@@ -82,4 +82,41 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $("#btnsubmit").click(function () {
+
+            var data = $("#myform").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Account/RegisterAdmin",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        toastr["success"](data.message);
+                        $('#myform')[0].reset();
+                      
+                        getConfirmation();
+                    } else {
+                        //$('#actionsList').modal("hide");
+                        toastr["error"]("Subject code and Name are required field");
+                    }
+
+                }
+            });
+        });
+
+        function getConfirmation(){
+            var retVal = confirm("Do you want to Add more Admin ?");
+            if( retVal == true ){
+                return true;
+            }
+            else{
+                window.open('@Url.Action("AdminIndex", "Account")', '_self');
+                return false;
+            }
+        }
+    </script>
 }
+

@@ -1,5 +1,4 @@
-﻿using PagedList;
-using SwiftSkoolv1.Domain;
+﻿using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -12,59 +11,63 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class AssignBehaviorsController : BaseController
     {
         // GET: AssignBehaviors
-        public ActionResult Index(string sortOrder, string currentFilter, string search, string StudentId,
-                                         string SessionName, string TermName, int? page)
+        //public ActionResult Index(string sortOrder, string currentFilter, string search, string StudentId,
+        //                                 string SessionName, string TermName, int? page)
+        //{
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    if (search != null)
+        //    {
+
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        search = currentFilter;
+        //    }
+        //    ViewBag.CurrentFilter = search;
+        //    var assignedList = from s in Db.AssignBehaviors select s;
+        //    if (!String.IsNullOrEmpty(search))
+        //    {
+        //        assignedList = assignedList.AsNoTracking().Where(s => s.StudentId.ToUpper().Contains(search.ToUpper())
+        //                                             || s.SessionName.ToUpper().Contains(search.ToUpper())
+        //                                             || s.TermName.ToUpper().Contains(search.ToUpper()));
+
+        //    }
+        //    else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(StudentId)
+        //                        || !String.IsNullOrEmpty(TermName))
+        //    {
+        //        assignedList = assignedList.AsNoTracking().Where(s => s.SessionName.Contains(SessionName)
+        //                                            && s.TermName.ToUpper().Contains(TermName.ToUpper())
+        //                                            && s.StudentId.ToUpper().Contains(StudentId.ToUpper()));
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            assignedList = assignedList.AsNoTracking().OrderByDescending(s => s.StudentId);
+        //            break;
+        //        case "Date":
+        //            assignedList = assignedList.AsNoTracking().OrderBy(s => s.StudentId);
+        //            break;
+        //        default:
+        //            assignedList = assignedList.AsNoTracking().OrderBy(s => s.StudentId);
+        //            break;
+        //    }
+        //    int pageSize = 15;
+        //    int pageNumber = (page ?? 1);
+
+        //    ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+        //    ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+        //    ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+        //    ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
+        //    //var count = assignedList.Count();
+        //    //TempData["UserMessage"] = $"You Search result contains {count} Records ";
+        //    //TempData["Title"] = "Success.";
+        //    return View(assignedList.AsNoTracking().ToPagedList(pageNumber, pageSize));
+        //    //return View(await Db.AssignedClasses.ToListAsync());
+        //}
+        public ActionResult Index()
         {
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            if (search != null)
-            {
-
-                page = 1;
-            }
-            else
-            {
-                search = currentFilter;
-            }
-            ViewBag.CurrentFilter = search;
-            var assignedList = from s in Db.AssignBehaviors select s;
-            if (!String.IsNullOrEmpty(search))
-            {
-                assignedList = assignedList.AsNoTracking().Where(s => s.StudentId.ToUpper().Contains(search.ToUpper())
-                                                     || s.SessionName.ToUpper().Contains(search.ToUpper())
-                                                     || s.TermName.ToUpper().Contains(search.ToUpper()));
-
-            }
-            else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(StudentId)
-                                || !String.IsNullOrEmpty(TermName))
-            {
-                assignedList = assignedList.AsNoTracking().Where(s => s.SessionName.Contains(SessionName)
-                                                    && s.TermName.ToUpper().Contains(TermName.ToUpper())
-                                                    && s.StudentId.ToUpper().Contains(StudentId.ToUpper()));
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    assignedList = assignedList.AsNoTracking().OrderByDescending(s => s.StudentId);
-                    break;
-                case "Date":
-                    assignedList = assignedList.AsNoTracking().OrderBy(s => s.StudentId);
-                    break;
-                default:
-                    assignedList = assignedList.AsNoTracking().OrderBy(s => s.StudentId);
-                    break;
-            }
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
-
-            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
-            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
-            //var count = assignedList.Count();
-            //TempData["UserMessage"] = $"You Search result contains {count} Records ";
-            //TempData["Title"] = "Success.";
-            return View(assignedList.AsNoTracking().ToPagedList(pageNumber, pageSize));
-            //return View(await Db.AssignedClasses.ToListAsync());
+            return View();
         }
 
         public ActionResult GetIndex()
@@ -92,7 +95,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 s.SchoolId,
                 s.AssignBehaviorId,
                 s.StudentId,
-                s.BehaviouralSkill.SkillName,
+                s.BehaviouralSkillId,
                 s.NoOfAbsence,
                 s.SkillScore,
                 s.TeacherComment,
@@ -103,7 +106,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 v = v.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search)
-                                    || x.SkillName.Equals(search))).ToList();
+                                    || x.BehaviouralSkillId.Equals(search))).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -138,10 +141,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: AssignBehaviors/Create
         public ActionResult Create()
         {
-            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
+            ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking()
+                            .Where(x => x.SchoolId.Equals(userSchool)), "SkillName", "SkillName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
+            ViewBag.StudentId = new SelectList(Db.Students.Where(x => x.SchoolId.Equals(userSchool)).AsNoTracking(), "StudentID", "FullName");
             return View();
         }
 

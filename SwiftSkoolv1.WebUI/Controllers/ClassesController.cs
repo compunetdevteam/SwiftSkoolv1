@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.Controllers;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Data.Entity;
@@ -9,7 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class ClassesController : BaseController
     {
@@ -53,7 +52,7 @@ namespace SwiftSkool.Controllers
             return View(myForm);
         }
 
-        public async Task<ActionResult> GetIndex()
+        public ActionResult GetIndex()
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -72,7 +71,7 @@ namespace SwiftSkool.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new {s.ClassId, s.ClassName, s.ClassType, s.FullClassName}).ToList();
+            var v = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.ClassId, s.ClassName, s.ClassType, s.FullClassName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             //{
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);

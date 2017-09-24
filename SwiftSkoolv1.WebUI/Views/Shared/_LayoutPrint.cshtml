@@ -1,7 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using SwiftSkoolv1.WebUI.ViewModels
+@{
+    BaseViewModel Model = (BaseViewModel)ViewBag.LayoutViewModel;
+
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>@ViewBag.Title - St. Augustine</title>
+    <title>@ViewBag.Title - @Model.Alias</title>
 
     <!-- BEGIN META -->
     <meta charset="utf-8">

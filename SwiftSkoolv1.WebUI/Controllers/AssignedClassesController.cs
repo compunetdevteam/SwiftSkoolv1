@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using PagedList;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -14,83 +13,87 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class AssignedClassesController : BaseController
     {
         // GET: AssignedClasses
-        public ActionResult Index(string sortOrder, string currentFilter, string search,
-                                        string SessionName, string ClassName, string TermName, int? page)
+        //public ActionResult Index(string sortOrder, string currentFilter, string search,
+        //                                string SessionName, string ClassName, string TermName, int? page)
+        //{
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    if (search != null)
+        //    {
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        search = currentFilter;
+        //    }
+        //    var pageSize = 15;
+        //    ViewBag.CurrentFilter = search;
+        //    var assignedList = from s in Db.AssignedClasses select s;
+        //    if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
+        //    {
+        //        assignedList = assignedList.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
+        //    }
+
+        //    if (User.IsInRole("Teacher"))
+        //    {
+        //        var name = User.Identity.GetUserName();
+        //        //var user = Db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
+        //        assignedList = assignedList.AsNoTracking().Where(x => x.ClassName.Equals(name) && x.SchoolId.Equals(userSchool));
+
+        //        //return View(subjectName);
+        //    }
+        //    else
+        //    {
+        //        if (!String.IsNullOrEmpty(search))
+        //        {
+        //            assignedList = assignedList.AsNoTracking().AsNoTracking().Where(s => s.StudentId.ToUpper().Contains(search.ToUpper())
+        //                                                   || s.ClassName.ToUpper().Contains(search.ToUpper())
+        //                                                   || s.TermName.ToUpper().Contains(search.ToUpper()));
+
+        //        }
+        //        else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(ClassName))
+        //        {
+        //            assignedList = assignedList.AsNoTracking().Where(s => s.SessionName.Contains(SessionName)
+        //                                                   && s.ClassName.ToUpper().Contains(ClassName.ToUpper())
+        //                                                   && s.TermName.ToUpper().Contains(TermName.ToUpper()));
+        //            pageSize = assignedList.Count();
+        //        }
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            assignedList = assignedList.AsNoTracking().OrderByDescending(s => s.StudentId);
+        //            break;
+        //        case "Date":
+        //            assignedList = assignedList.AsNoTracking().OrderBy(s => s.SessionName);
+        //            break;
+        //        default:
+        //            assignedList = assignedList.AsNoTracking().OrderBy(s => s.ClassName);
+        //            break;
+        //    }
+
+        //    var pageNumber = (page ?? 1);
+
+        //    if (User.IsInRole("Teacher"))
+        //    {
+        //        var name = User.Identity.GetUserName();
+        //        var subjectList = Db.AssignSubjectTeachers.AsNoTracking().Where(x => x.StaffName.Equals(name));
+        //        ViewBag.ClassName = new SelectList(subjectList.AsNoTracking(), "ClassName", "ClassName");
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ClassName = new SelectList(Db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
+        //    }
+        //    ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+        //    ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+        //    var count = assignedList.Count();
+        //    TempData["Index"] = $"You Search result contains {count} Records ";
+        //    TempData["Title"] = "Success.";
+        //    return View(assignedList.AsNoTracking().ToPagedList(pageNumber, pageSize));
+        //    //return View(await Db.AssignedClasses.ToListAsync());
+        //}
+        public ActionResult Index()
         {
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            if (search != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                search = currentFilter;
-            }
-            var pageSize = 15;
-            ViewBag.CurrentFilter = search;
-            var assignedList = from s in Db.AssignedClasses select s;
-            if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-            {
-                assignedList = assignedList.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
-            }
-
-            if (User.IsInRole("Teacher"))
-            {
-                var name = User.Identity.GetUserName();
-                //var user = Db.Guardians.Where(c => c.UserName.Equals(name)).Select(s => s.Email).FirstOrDefault();
-                assignedList = assignedList.AsNoTracking().Where(x => x.ClassName.Equals(name) && x.SchoolId.Equals(userSchool));
-
-                //return View(subjectName);
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(search))
-                {
-                    assignedList = assignedList.AsNoTracking().AsNoTracking().Where(s => s.StudentId.ToUpper().Contains(search.ToUpper())
-                                                           || s.ClassName.ToUpper().Contains(search.ToUpper())
-                                                           || s.TermName.ToUpper().Contains(search.ToUpper()));
-
-                }
-                else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(ClassName))
-                {
-                    assignedList = assignedList.AsNoTracking().Where(s => s.SessionName.Contains(SessionName)
-                                                           && s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-                                                           && s.TermName.ToUpper().Contains(TermName.ToUpper()));
-                    pageSize = assignedList.Count();
-                }
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    assignedList = assignedList.AsNoTracking().OrderByDescending(s => s.StudentId);
-                    break;
-                case "Date":
-                    assignedList = assignedList.AsNoTracking().OrderBy(s => s.SessionName);
-                    break;
-                default:
-                    assignedList = assignedList.AsNoTracking().OrderBy(s => s.ClassName);
-                    break;
-            }
-
-            var pageNumber = (page ?? 1);
-
-            if (User.IsInRole("Teacher"))
-            {
-                var name = User.Identity.GetUserName();
-                var subjectList = Db.AssignSubjectTeachers.AsNoTracking().Where(x => x.StaffName.Equals(name));
-                ViewBag.ClassName = new SelectList(subjectList.AsNoTracking(), "ClassName", "ClassName");
-            }
-            else
-            {
-                ViewBag.ClassName = new SelectList(Db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-            }
-            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
-            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            var count = assignedList.Count();
-            TempData["Index"] = $"You Search result contains {count} Records ";
-            TempData["Title"] = "Success.";
-            return View(assignedList.AsNoTracking().ToPagedList(pageNumber, pageSize));
-            //return View(await Db.AssignedClasses.ToListAsync());
+            return View();
         }
 
 
@@ -123,7 +126,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.ClassName.Equals(search) || x.StudentName.Equals(search)))
+                v = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                    && (x.ClassName.Equals(search)
+                                    || x.StudentName.Equals(search)
+                                    || x.StudentId.Equals(search)))
                       .Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName, s.StudentId, s.TermName, s.SessionName }).ToList();
             }
             else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(ClassName))

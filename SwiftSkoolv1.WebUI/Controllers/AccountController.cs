@@ -7,6 +7,7 @@ using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -58,11 +59,49 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> GuardianIndex()
+        public ActionResult AdminIndex()
         {
-            var role = await Db.Roles.AsNoTracking().SingleOrDefaultAsync(m => m.Name == "Guardian");
-            //var usersInRole = db.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id));
-            return View(await UserManager.Users.AsNoTracking().Where(m => m.Roles.Any(r => r.RoleId == role.Id)).ToListAsync());
+            return View();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> GetAdmin()
+        {
+            var model = new List<AdminIndexVm>();
+            var role = await Db.Roles.AsNoTracking().SingleOrDefaultAsync(m => m.Name == "Admin");
+            var admin = await UserManager.Users.AsNoTracking()
+                .Where(m => m.Roles.Any(r => r.RoleId == role.Id))
+                .ToListAsync();
+            foreach (var user in admin)
+            {
+                var adminUser = new AdminIndexVm
+                {
+                    Id = user.Id,
+                    SchoolId = user.SchoolId,
+                    Email = user.Email,
+                    SchoolName = await Db.Schools.AsNoTracking().Where(x => x.SchoolId.Equals(user.SchoolId))
+                        .Select(s => s.Name).FirstOrDefaultAsync(),
+                    Password = user.PasswordHash
+                };
+                model.Add(adminUser);
+            }
+
+            return Json(new { data = model }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> DeleteAdmin(string id)
+        {
+            var admin = Db.Users.Find(id);
+            if (admin != null)
+            {
+                Db.Users.Remove(admin);
+                await Db.SaveChangesAsync();
+                return new JsonResult { Data = new { status = true, message = "Admin deleted Successfully" } };
+            }
+            return new JsonResult { Data = new { status = false, message = "Admin not found" } };
+
         }
 
         [AllowAnonymous]
@@ -594,7 +633,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     SchoolId = userSchool
                 };
 
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, "abc123");
                 if (result.Succeeded)
                 {
                     #region Student
@@ -725,9 +764,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("RegisterAdmin", "Account");
+                    return new JsonResult { Data = new { status = true, message = "Admin has been created Successfully" } };
                 }
                 AddErrors(result);
+                return new JsonResult { Data = new { status = true, message = "Couldn't Create Admin because Email is already existing" } };
+
             }
 
             // If we got this far, something failed, redisplay form

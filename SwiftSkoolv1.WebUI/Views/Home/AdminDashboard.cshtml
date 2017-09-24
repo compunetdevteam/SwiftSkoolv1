@@ -573,14 +573,14 @@
                                 <table class="table no-header">
                                     <tbody>
                                     <tr>
-                                        <a onclick="myFunctionParent()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Parents</a>
+                                        <a href="@Url.Action("SendtoAllStudent","Sms")" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Parents</a>
                                     </tr>
                                     <tr>
-                                        <a onclick="myFunctionStaff()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Teachers</a>
+                                        <a href="@Url.Action("SendToStaff","Sms")" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Teachers</a>
                                     </tr>
                                         
                                     <tr>
-                                        <a onclick="myFunctionNumber()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Number</a>
+                                        <a href="@Url.Action("SendSMS","Sms")" class="btn btn-primary"> <i class="fa fa-plus left"></i> Send to Number</a>
                                     </tr>
                                     @*<tr>
                                         <td>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms", "", new { onlick= "myFunction()" })</td>

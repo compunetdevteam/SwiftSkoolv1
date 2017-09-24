@@ -40,14 +40,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    return View();
         //}
 
-      
-        public async Task<PartialViewResult> SendSMS()
+
+        public async Task<ActionResult> SendSMS()
         {
             //SMS sms = new SMS();
             ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
             ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
-            ViewBag.ClassName = new SelectList( await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-            return PartialView();
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            return View();
         }
 
         [HttpPost]
@@ -114,11 +114,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //}
 
         [HttpGet]
-        public PartialViewResult SendToStaff()
+        public ActionResult SendToStaff()
         {
             //SMS sms = new SMS();
             // ViewBag.ContactGroup = new SelectList(Db.Classes, "FullClassName", "FullClassName");
-            return PartialView();
+            return View();
         }
 
 
@@ -167,7 +167,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
-            
+
         //[HttpGet]
         //public ActionResult SendtoAllStudent()
         //{
@@ -179,13 +179,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //}
 
         [HttpGet]
-        public PartialViewResult SendtoAllStudent()
+        public ActionResult SendtoAllStudent()
         {
             //SMS sms = new SMS();
             ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
             ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
-            // ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-            return PartialView();
+
+            return View();
         }
 
 

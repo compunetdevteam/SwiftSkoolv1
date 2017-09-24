@@ -1,5 +1,5 @@
-﻿using System;
-using SwiftSkoolv1.Domain;
+﻿using SwiftSkoolv1.Domain;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -13,12 +13,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
         // GET: BehaviouralSkills
-        public async Task<ActionResult> Index()
+        //public async Task<ActionResult> Index()
+        //{
+        //    var behaviouralSkills = Db.BehaviouralSkills.AsNoTracking().Include(b => b.BehaviorSkillCategories);
+        //    return View(await behaviouralSkills.AsNoTracking().ToListAsync());
+        //}
+        public ActionResult Index()
         {
-            var behaviouralSkills = Db.BehaviouralSkills.AsNoTracking().Include(b => b.BehaviorSkillCategories);
-            return View(await behaviouralSkills.AsNoTracking().ToListAsync());
+            return View();
         }
-
 
         public async Task<ActionResult> GetIndex()
         {
@@ -149,7 +152,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-            ViewBag.BehaviorSkillCategoryId = new SelectList(Db.BehaviorSkillCategories.AsNoTracking(), "Name", "Name");
+            ViewBag.BehaviorSkillCategoryId = new SelectList(Db.BehaviorSkillCategories.AsNoTracking()
+                            .Where(x => x.SchoolId.Equals(userSchool)), "Name", "Name");
             var behaviouralSkill = await Db.BehaviouralSkills.FindAsync(id);
             return PartialView(behaviouralSkill);
         }

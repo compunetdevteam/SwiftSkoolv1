@@ -180,7 +180,7 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>School Admin<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("View Admin", "Index", "Schools")</li>
+                                    <li>@Html.ActionLink("View Admin", "AdminIndex", "Account")</li>
                                     <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
                                    
                                 </ul>
@@ -234,23 +234,14 @@
 
                         <li>
                             <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Manage Guardian</a>
-                            @*<div class="collapsible-body">
-                                    <ul>
-                                        @*<li>@Html.ActionLink("Add Guardian", "Create", "Guardians")</li>
-                                        <li>@Html.ActionLink("List Guardians", "Index", "Guardians")</li>
-                                        <li>@Html.ActionLink("Excel Upload", "UpLoadGuardian", "Guardians")</li>
-                                    </ul>
-                                </div>*@
-                        </li>
+                            
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cc"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    @*<li>@Html.ActionLink("Add Class", "Create", "Classes")</li>*@
                                     <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
                                     <li>@Html.ActionLink("Assign Class", "Index", "AssignedClasses")</li>
-                                    @*<li>@Html.ActionLink("View Student in Class", "Index", "AssignedClasses")</li>*@
-                                    @*<li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>*@
+                                  
                                 </ul>
                             </div>
                         </li>
@@ -258,13 +249,8 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    @*<li>@Html.ActionLink("Add Subject", "Create", "Subjects")</li>*@
                                     <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
-
-                                    @*<li>@Html.ActionLink("Assign Subject to Class", "Create", "AssignSubjects")</li>*@
                                     <li>@Html.ActionLink("Assigned Subjects", "Index", "AssignSubjects")</li>
-
-                                    @*<li>@Html.ActionLink("Assign Student Subject", "Create", "SubjectRegistrations")</li>*@
                                     <li>@Html.ActionLink("Register Student", "Index", "SubjectRegistrations")</li>
                                 </ul>
                             </div>
@@ -275,11 +261,7 @@
                                 <ul>
                                     <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
                                     <li>@Html.ActionLink("Teacher Master", "Index", "Staffs")</li>
-                                    @*<li>@Html.ActionLink("Edit Teacher", "Index", "Staffs")</li>*@
                                     <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
-                                    @*<li>@Html.ActionLink("List Subject Teacher", "Create", "AssignSubjectTeachers")</li>*@
-                                    @*<li>@Html.ActionLink("List Form-Teacher", "Index", "AssignFormTeacherToClasses")</li>
-                                        <li>@Html.ActionLink("Teacher Excel Upload", "UploadTeacher", "Account")</li>*@
                                 </ul>
                             </div>
                         </li>
@@ -289,9 +271,6 @@
                                 <ul>
                                     <li>@Html.ActionLink("Books", "Create", "FeeTypes")</li>
                                     <li>@Html.ActionLink("Issue Book", "Index", "FeeTypes")</li>
-                                    @*<li>@Html.ActionLink("Fee Payment", "Create", "FeePayments")</li>
-                                        <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
-                                        <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>*@
                                 </ul>
                             </div>
                         </li>
@@ -315,9 +294,9 @@
                                     <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
 
                                     <li>@Html.ActionLink("Add C A", "CreateCaView", "CaLists")</li>
-                                    <li>@Html.ActionLink("Check Result", "SearhResult", "Results")</li>
-                                    @*<li>@Html.ActionLink("Termly Setting", "Index", "ContinuousAssessments")</li>
-                                        <li>@Html.ActionLink("Excel Upload", "UploadResult", "ContinuousAssessments")</li>*@
+                                    
+                                    <li>@Html.ActionLink("Check Cummulative", "SearhResult", "Results")</li>
+                                    <li>@Html.ActionLink("Check Result", "SearhResultMain", "Results")</li>
                                 </ul>
                             </div>
                         </li>
@@ -563,8 +542,26 @@
 
             <!-- Breadcrumb-->
             <ol class="breadcrumb hidden-lg-down">
-                <li class="breadcrumb-item active"><a href="#">@Model.SchoolName</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+              @if (User.IsInRole("SuperAdmin"))
+              {
+                  <li class="breadcrumb-item active"><a href="@Url.Action("GeneralDashboard","Home")">@Model.SchoolName</a></li>
+                  <li class="breadcrumb-item active"><a href="@Url.Action("GeneralDashboard","Home")">Dashboard</a></li>
+              }
+              else if (User.IsInRole("Admin"))
+              {
+                  <li class="breadcrumb-item active"><a href="@Url.Action("AdminDashBoard","Home")">@Model.SchoolName</a></li>
+                  <li class="breadcrumb-item active"><a href="@Url.Action("AdminDashBoard","Home")">Dashboard</a></li>
+              }
+              else if (User.IsInRole("Student"))
+              {
+                  <li class="breadcrumb-item active"><a href="@Url.Action("DashBoard","Students")">@Model.SchoolName</a></li>
+                  <li class="breadcrumb-item active"><a href="@Url.Action("DashBoard","Students")">Dashboard</a></li>
+              }
+              else if (User.IsInRole("Teacher"))
+              {
+                  <li class="breadcrumb-item active"><a href="@Url.Action("StaffDashboard","Staffs")">@Model.SchoolName</a></li>
+                  <li class="breadcrumb-item active"><a href="@Url.Action("StaffDashboard","Staffs")">Dashboard</a></li>
+              }
             </ol>
 
             <!--Navbar links-->

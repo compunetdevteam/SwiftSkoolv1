@@ -11,13 +11,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class BehaviorSkillCategoriesController : BaseController
     {
         // GET: BehaviorSkillCategories
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await Db.BehaviorSkillCategories.ToListAsync());
+            //return View(await Db.BehaviorSkillCategories.ToListAsync());
+            return View();
         }
 
-
-        public async Task<ActionResult> GetIndex()
+        public ActionResult GetIndex()
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -36,18 +36,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             var v = Db.BehaviorSkillCategories.Where(x => x.SchoolId == userSchool).Select(s => new { s.BehaviorSkillCategoryId, s.Name }).ToList();
 
-            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
             if (!string.IsNullOrEmpty(search))
             {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
                 v = Db.BehaviorSkillCategories.Where(x => x.SchoolId.Equals(userSchool) && (x.Name.Equals(search)))
                     .Select(s => new { s.BehaviorSkillCategoryId, s.Name }).ToList();
             }
@@ -168,7 +160,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 {
                     behaviorskill.SchoolId = userSchool;
                     Db.Entry(behaviorskill).State = EntityState.Modified;
-                    message = "Subject Updated Successfully...";
+                    message = "Behavioral skill Updated Successfully...";
                 }
                 else
                 {
@@ -179,6 +171,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
                 await Db.SaveChangesAsync();
                 status = true;
+                return new JsonResult { Data = new { status = status, message = message } };
             }
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);

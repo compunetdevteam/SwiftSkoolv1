@@ -23,18 +23,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         // GET: Results
-        public async Task<PartialViewResult> SearhResult()
+        public async Task<ActionResult> SearhResult()
         {
             ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
             ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
-            return PartialView();
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentId", "FullName");
+            return View();
         }
         public async Task<ActionResult> SearhResultMain()
         {
             ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
             ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
-            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
+            ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentId", "FullName");
             return View();
         }
         public async Task<ActionResult> StudentSearch()
@@ -74,8 +74,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var reportModel = new ReportVm();
             var newCalist = new List<ContinuousAssesmentVm>();
             var mySchoolClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                                         && x.FullClassName.Equals(_resultCommand._className))
-                .Select(s => s.ClassName).FirstOrDefault();
+                                                                && x.FullClassName.Equals(_resultCommand._className))
+                                        .Select(s => s.ClassName).FirstOrDefault();
             ;
             foreach (var ca in _resultCommand._studentCa)
             {
@@ -152,8 +152,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var myAggregateList = new List<AggregateList>();
 
-            var classMate = Db.AssignedClasses.AsNoTracking().Where(x => x.ClassName.Equals(_resultCommand._className))
-                .Select(s => s.StudentId).ToList();
+            var classMate = Db.AssignedClasses.AsNoTracking().Where(x => x.ClassName.Equals(_resultCommand._className)
+                                    && x.SchoolId.Equals(userSchool))
+                                .Select(s => s.StudentId).ToList();
             foreach (var student in classMate)
             {
                 var aggregateList = new AggregateList()
