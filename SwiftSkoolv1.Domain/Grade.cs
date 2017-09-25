@@ -33,9 +33,9 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Principal Remark")]
         [Required(ErrorMessage = "Principal Remark is required")]
-        [StringLength(35)]
+        [StringLength(135)]
         public string Remark { get; set; }
-        [StringLength(15)]
+        [StringLength(65)]
         public string ClassName { get; set; }
 
     }
@@ -46,12 +46,12 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Minimum Grade")]
         [Required(ErrorMessage = "Minimum Grade is required")]
-        [Range(1, 100, ErrorMessage = "Value must be between 1.0 and 100.0")]
+        [Range(0, 100, ErrorMessage = "Value must be between 1.0 and 100.0")]
         public double MinimumGrade { get; set; }
 
         [Display(Name = "Maximum Grade")]
         [Required(ErrorMessage = "Maximum Grade is required")]
-        [Range(1, 100, ErrorMessage = "Value must be between 1.0 and 100.0")]
+        [Range(0, 100, ErrorMessage = "Value must be between 1.0 and 100.0")]
         public double MaximumGrade { get; set; }
 
         [Display(Name = "Principal Remark")]
@@ -68,7 +68,7 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Student Id")]
         [Required(ErrorMessage = "Student Id is required")]
-        [StringLength(25)]
+        [StringLength(65)]
         public string StudentId { get; set; }
 
 
@@ -84,10 +84,10 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Teacher's Remark")]
         [Required(ErrorMessage = "Teacher's remark is required")]
-        [StringLength(15)]
+        [StringLength(135)]
         public string Remark { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
     }
 }

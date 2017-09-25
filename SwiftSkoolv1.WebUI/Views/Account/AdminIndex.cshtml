@@ -20,7 +20,7 @@
                 <th>School Id</th>
                 <th>School Name</th>
                 <th>Email</th>
-                <th>Password</th>
+                @*<th>Password</th>*@
                 <th>Action</th>
             </tr>
             </thead>
@@ -48,7 +48,7 @@
                 { "data": "SchoolId", "autoWidth": true },
                 { "data": "SchoolName", "autoWidth": true },
                 { "data": "Email", "autoWidth": true },
-                { "data": "Password", "autoWidth": true },
+                //{ "data": "Password", "autoWidth": true },
                 { "data": "Id", "autoWidth": true,
                     "render": function (data) {
                         return '<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Admin"><i class="fa fa-remove" aria-hidden="true" >Remove</i></a>';
@@ -61,7 +61,7 @@
     });
 
     function Delete(adminId) {
-        window.alert(adminId);
+       // window.alert(adminId);
         var retVal = confirm("Do you want to Remove/Delete this Admin ?");
         if (retVal === true) {
             $.ajax({

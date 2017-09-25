@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OfficeOpenXml;
-using PagedList;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.Services;
@@ -23,64 +22,68 @@ namespace SwiftSkoolv1.WebUI.Controllers
     {
 
         // GET: Students
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page, string whatever, string gender)
+        //public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page, string whatever, string gender)
+        //{
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    if (search != null)
+        //    {
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        search = currentFilter;
+        //    }
+        //    ViewBag.CurrentFilter = search;
+
+        //    //get the gender to the view
+        //    ViewBag.Gender = gender;
+        //    //var studentList = from s in Db.Students.AsNoTracking() select s;
+        //    var studentList = Db.Students.AsNoTracking().Include(g => g.Guardian);
+        //    if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
+        //    {
+        //        studentList = studentList.Where(x => x.SchoolId.Equals(userSchool));
+        //    }
+        //    if (User.IsInRole("Guardian"))
+        //    {
+        //        string name = User.Identity.GetUserName();
+        //        var user = await Db.Users.AsNoTracking().Where(c => c.UserName.Equals(name)).Select(x => x.PhoneNumber).FirstOrDefaultAsync();
+
+        //    }
+        //    else
+        //    {
+        //        if (!String.IsNullOrEmpty(search))
+        //        {
+        //            studentList = studentList.AsNoTracking().Where(s => s.LastName.ToUpper().Contains(search.ToUpper())
+        //                                                 || s.FirstName.ToUpper().Contains(search.ToUpper())
+        //                                                 || s.StudentId.ToUpper().Contains(search.ToUpper()));
+
+        //        }
+        //    }
+
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            studentList = studentList.AsNoTracking().OrderByDescending(s => s.LastName);
+        //            break;
+        //        case "Date":
+        //            studentList = studentList.AsNoTracking().OrderBy(s => s.FirstName);
+        //            break;
+        //        default:
+        //            studentList = studentList.AsNoTracking().OrderBy(s => s.LastName);
+        //            break;
+        //    }
+        //    int pageSize = 10;
+        //    int pageNumber = (page ?? 1);
+        //    ViewBag.Message = whatever;
+        //    return View(studentList.ToPagedList(pageNumber, pageSize));
+        //    //return View(studentList.ToList());
+        //}
+
+        public ActionResult Index(string message)
         {
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            if (search != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                search = currentFilter;
-            }
-            ViewBag.CurrentFilter = search;
-
-            //get the gender to the view
-            ViewBag.Gender = gender;
-            //var studentList = from s in Db.Students.AsNoTracking() select s;
-            var studentList = Db.Students.AsNoTracking().Include(g => g.Guardian);
-            if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-            {
-                studentList = studentList.Where(x => x.SchoolId.Equals(userSchool));
-            }
-            if (User.IsInRole("Guardian"))
-            {
-                string name = User.Identity.GetUserName();
-                var user = await Db.Users.AsNoTracking().Where(c => c.UserName.Equals(name)).Select(x => x.PhoneNumber).FirstOrDefaultAsync();
-
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(search))
-                {
-                    studentList = studentList.AsNoTracking().Where(s => s.LastName.ToUpper().Contains(search.ToUpper())
-                                                         || s.FirstName.ToUpper().Contains(search.ToUpper())
-                                                         || s.StudentId.ToUpper().Contains(search.ToUpper()));
-
-                }
-            }
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    studentList = studentList.AsNoTracking().OrderByDescending(s => s.LastName);
-                    break;
-                case "Date":
-                    studentList = studentList.AsNoTracking().OrderBy(s => s.FirstName);
-                    break;
-                default:
-                    studentList = studentList.AsNoTracking().OrderBy(s => s.LastName);
-                    break;
-            }
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            ViewBag.Message = whatever;
-            return View(studentList.ToPagedList(pageNumber, pageSize));
-            //return View(studentList.ToList());
+            ViewBag.Message = message;
+            return View();
         }
-
-
 
 
         public async Task<ActionResult> GetIndex(string gender)
@@ -413,10 +416,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Db.Entry(student).State = EntityState.Modified;
                 }
                 await Db.SaveChangesAsync();
-                TempData["UserMessage"] = "Student has been Updated Successfully";
-                TempData["Title"] = "Success.";
+                var message = "Student has been Updated Successfully";
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = message });
             }
 
             var role = await Db.Roles.AsNoTracking().SingleOrDefaultAsync(m => m.Name == "Guardian");

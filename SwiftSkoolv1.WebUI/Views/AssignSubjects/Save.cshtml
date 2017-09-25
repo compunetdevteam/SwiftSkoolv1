@@ -1,4 +1,5 @@
 ﻿@model SwiftSkoolv1.WebUI.ViewModels.AssignSubjectViewModel
+<script src="~/Scripts/chosen.jquery.min.js"></script>
 
 
 <form id="myform" onsubmit="return false;">
@@ -21,7 +22,12 @@
                     <h3><i class="fa fa-save"></i> Save</h3>
                 </div>
             }
-
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>This Feature is best Applicable to Junior School or Primary School <br/>
+                    You can select Multiple option for Term Name and Subject Name
+                </strong> 
+            </div>
 
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -32,23 +38,26 @@
 
 
             @Html.ValidationSummary(true, "", new { @class = "form text-danger" })
-
             <div class="md-form">
                 @Html.LabelFor(model => model.ClassName)
-                @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
-               
+                <div class="col-md-10">
+                    @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="md-form">
                 @Html.LabelFor(model => model.TermName)
-                @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "mdb-select", @multiple = "true" })
-                @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
-               
+                <div class="col-md-10">
+                    @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="md-form">
-                @Html.LabelFor(model => model.SubjectId)
-                @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "mdb-select", multiple = true })
-                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                @Html.Label("Subject Name")
+                <div class="col-md-10">
+                    @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                </div>
             </div>
 
 
@@ -71,34 +80,43 @@
 
     </div>
 </form>
-@*@section Scripts {
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}*@
+
+}
 
 <script type="text/javascript">
-    $('.mdb-select').material_select();
-    $("#btnsubmit").click(function () {
+    $(document).ready(function() {
 
-        var data = $("#myform").serialize();
-
-        $.ajax({
-            type: "POST",
-            url: "/AssignSubjects/Save",
-            data: data,
-            success: function (data) {
-                if (data.status) {
-                    $('#actionsList').modal("hide");
-                    
-                    window.oTable.ajax.reload(); //run my_fun() ondomready
-                    toastr["success"](data.message);
-                    $('#myform')[0].reset();
-                } else {
-                    //$('#actionsList').modal("hide");
-                    toastr["error"](data.message);
-                }
-
-            }
+        $(function() {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true
+            });
         });
+        $("#btnsubmit").click(function() {
+
+            var data = $("#myform").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/AssignSubjects/Save",
+                data: data,
+                success: function(data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+
+                        window.oTable.ajax.reload(); //run my_fun() ondomready
+                        toastr["success"](data.message);
+                        $('#myform')[0].reset();
+                    } else {
+                        //$('#actionsList').modal("hide");
+                        toastr["error"](data.message);
+                    }
+
+                }
+            });
+        });
+
     });
 
 

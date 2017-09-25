@@ -1,5 +1,4 @@
-﻿using PagedList;
-using SwiftSkoolv1.Domain;
+﻿using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -12,57 +11,61 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class PrincipalCommentsController : BaseController
     {
         // GET: PrincipalComments
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page,
-            string ClassName)
+        //public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page,
+        //    string ClassName)
+        //{
+        //    int count = 10;
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    if (search != null)
+        //    {
+
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        search = currentFilter;
+        //    }
+        //    ViewBag.CurrentFilter = search;
+        //    var assignedList = from s in Db.PrincipalComments select s;
+        //    if (!String.IsNullOrEmpty(search))
+        //    {
+        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(search.ToUpper()));
+
+
+        //    }
+        //    else if (!String.IsNullOrEmpty(ClassName))
+        //    {
+        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Equals(ClassName.ToUpper()));
+        //        int myCount = await assignedList.CountAsync();
+        //        if (myCount != 0)
+        //        {
+        //            count = myCount;
+        //        }
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            assignedList = assignedList.OrderByDescending(s => s.ClassName);
+        //            break;
+        //        case "Date":
+        //            assignedList = assignedList.OrderBy(s => s.ClassName);
+        //            break;
+        //        default:
+        //            assignedList = assignedList.OrderBy(s => s.ClassName);
+        //            break;
+        //    }
+
+        //    ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+        //    int pageSize = count;
+        //    int pageNumber = (page ?? 1);
+        //    return View(assignedList.ToPagedList(pageNumber, pageSize));
+        //    //return View(await Db.ContinuousAssessments.ToListAsync());
+        //}
+
+        public ActionResult Index()
         {
-            int count = 10;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            if (search != null)
-            {
-
-                page = 1;
-            }
-            else
-            {
-                search = currentFilter;
-            }
-            ViewBag.CurrentFilter = search;
-            var assignedList = from s in Db.PrincipalComments select s;
-            if (!String.IsNullOrEmpty(search))
-            {
-                assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(search.ToUpper()));
-
-
-            }
-            else if (!String.IsNullOrEmpty(ClassName))
-            {
-                assignedList = assignedList.Where(s => s.ClassName.ToUpper().Equals(ClassName.ToUpper()));
-                int myCount = await assignedList.CountAsync();
-                if (myCount != 0)
-                {
-                    count = myCount;
-                }
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    assignedList = assignedList.OrderByDescending(s => s.ClassName);
-                    break;
-                case "Date":
-                    assignedList = assignedList.OrderBy(s => s.ClassName);
-                    break;
-                default:
-                    assignedList = assignedList.OrderBy(s => s.ClassName);
-                    break;
-            }
-
-            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
-            int pageSize = count;
-            int pageNumber = (page ?? 1);
-            return View(assignedList.ToPagedList(pageNumber, pageSize));
-            //return View(await Db.ContinuousAssessments.ToListAsync());
+            return View();
         }
-
 
 
         public async Task<ActionResult> GetIndex()
@@ -126,9 +129,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         // GET: PrincipalComments/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             return View();
         }
 
@@ -207,7 +210,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             var principalComment = await Db.PrincipalComments.FindAsync(id);
             return PartialView(principalComment);
         }

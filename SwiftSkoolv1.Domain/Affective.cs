@@ -67,15 +67,15 @@ namespace SwiftSkoolv1.Domain
     {
         public int AssignBehaviorId { get; set; }
         public string BehaviouralSkillId { get; set; }
-        [StringLength(15)]
+        [StringLength(35)]
         public string SkillScore { get; set; }
         [StringLength(50)]
         public string TeacherComment { get; set; }
-        [StringLength(25)]
+        [StringLength(155)]
         public string StudentId { get; set; }
-        [StringLength(15)]
+        [StringLength(55)]
         public string TermName { get; set; }
-        [StringLength(15)]
+        [StringLength(55)]
         public string SessionName { get; set; }
         public int SchoolOpened { get; set; }
         public int NoOfAbsence { get; set; }

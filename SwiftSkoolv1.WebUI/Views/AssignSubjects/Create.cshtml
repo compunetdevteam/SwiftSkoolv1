@@ -3,11 +3,15 @@
 @{
 	ViewBag.Title = "Assign Subject";
 }
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+
 
 <h2>Assign Subject To Class</h2>
 <div class="alert alert-warning">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>This Feature is best Applicable to Junior School or Primary School</strong> 
+    <strong>This Feature is best Applicable to Junior School or Primary School <br/>
+    You can select Multiple option for Term Name and Subject Name
+    </strong> 
 	</div>
 
 <div class="row">
@@ -15,35 +19,35 @@
 
 	</div>
 	<div class="col-md-6">
-		@using (Html.BeginForm())
-		{
+	    <form id="myform" onsubmit="return false;">
+		
 			@Html.AntiForgeryToken()
 
 			<div class="form-horizontal">
 
 				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-				<div class="form-group">
-					@Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="md-form">
+					@Html.LabelFor(model => model.ClassName)
 					<div class="col-md-10">
 						@Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
 						@Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
 					</div>
 				</div>
-			    <div class="form-group">
-			        @Html.LabelFor(model => model.TermName, "TermName", htmlAttributes: new { @class = "control-label col-md-2" })
-			        <div class="col-md-10">
-			            @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
-			            @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
-			        </div>
-			    </div>
-				<div class="form-group">
-					@Html.LabelFor(model => model.SubjectId, "SubjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="md-form">
+                    @Html.LabelFor(model => model.TermName)
+                    <div class="col-md-10">
+                        @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                        @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+				<div class="md-form">
+					@Html.Label("Subject Name")
 					<div class="col-md-10">
-						@Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "mdb-select", multiple = true })
+						@Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", multiple = true })
 						@Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
 					</div>
 				</div>
-				@*<div class="form-group">
+				@*<div class="md-form">
 						<div class="editor-label control-label col-md-2">
 							@Html.Label("SubjectName")
 						</div>
@@ -52,13 +56,13 @@
 						</div>
 					</div>*@
 
-				<div class="form-group">
+				<div class="md-form">
 					<div class="col-md-offset-2 col-md-10">
-						<input type="submit" value="Assign Subject" class="btn btn-raised btn-primary" />
+					    <input id="btnsubmit" type="submit" value="Assign Subject" class="btn btn-info" />
 					</div>
 				</div>
 			</div>
-		}
+		</form>
 
 	</div>
 	<div class="col-md-3">
@@ -67,11 +71,52 @@
 </div>
 
 
-<div>
-	@Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
+    
 }
 
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        //window.alert("ready");
+        $('.chosen-select').chosen();
+        $(function() {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+
+        $("#btnsubmit").click(function () {
+
+            var data = $("#myform").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/AssignSubjects/Save",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        toastr["success"](data.message);
+                        var url = "/AssignSubjects/Index";
+                        sleep(10000);
+                        window.open(''+url+'', '_self');
+                    } else {
+                        //$('#actionsList').modal("hide");
+                        toastr["error"](data.message);
+                    }
+
+                }
+            });
+        });
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                    break;
+                }
+            }
+        }
+    })
+</script>

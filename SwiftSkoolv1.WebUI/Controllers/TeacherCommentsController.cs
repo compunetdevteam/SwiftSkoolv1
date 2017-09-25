@@ -1,4 +1,5 @@
 ﻿using SwiftSkoolv1.Domain;
+using System;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     TermName = model.TermName,
                     SessionName = model.SessionName,
                     Remark = model.Remark,
-                    Date = model.Date.Date
+                    Date = DateTime.Now
                 };
                 Db.TeacherComments.Add(comment);
                 await Db.SaveChangesAsync();
@@ -84,10 +85,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "TeacherCommentId,StudentId,TermName,SessionName,Remark,Date")] TeacherComment teacherComment)
+        public async Task<ActionResult> Edit(TeacherComment teacherComment)
         {
             if (ModelState.IsValid)
             {
+                teacherComment.Date = DateTime.Now;
                 Db.Entry(teacherComment).State = EntityState.Modified;
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");

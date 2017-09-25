@@ -182,6 +182,7 @@
                                 <ul>
                                     <li>@Html.ActionLink("View Admin", "AdminIndex", "Account")</li>
                                     <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
+                                    <li>@Html.ActionLink("Reset Password", "AdminForgotPassword", "Account")</li>
                                    
                                 </ul>
                             </div>
@@ -239,8 +240,9 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cc"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("List Classes", "Index", "Classes")</li>
-                                    <li>@Html.ActionLink("Assign Class", "Index", "AssignedClasses")</li>
+                                    <li>@Html.ActionLink("Add/List Classes", "Index", "Classes")</li>
+                                    <li>@Html.ActionLink("View Assign Class", "Index", "AssignedClasses")</li>
+                                    <li>@Html.ActionLink("Assign Class", "Create", "AssignedClasses")</li>
                                   
                                 </ul>
                             </div>
@@ -249,8 +251,9 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("List Subjects", "Index", "Subjects")</li>
-                                    <li>@Html.ActionLink("Assigned Subjects", "Index", "AssignSubjects")</li>
+                                    <li>@Html.ActionLink("Add/List Subjects", "Index", "Subjects")</li>
+                                    <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
+                                    <li>@Html.ActionLink("Assigned Subjects", "Create", "AssignSubjects")</li>
                                     <li>@Html.ActionLink("Register Student", "Index", "SubjectRegistrations")</li>
                                 </ul>
                             </div>
@@ -290,10 +293,10 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
-                                    <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
+                                    <li>@Html.ActionLink("Assign Behavioral", "Create", "AssignBehaviors")</li>
+                                    <li>@Html.ActionLink("View Behavioral", "Index", "AssignBehaviors")</li>
 
-                                    <li>@Html.ActionLink("Add C A", "CreateCaView", "CaLists")</li>
+                                    <li>@Html.ActionLink("Add CA", "CreateCaView", "CaLists")</li>
                                     
                                     <li>@Html.ActionLink("Check Cummulative", "SearhResult", "Results")</li>
                                     <li>@Html.ActionLink("Check Result", "SearhResultMain", "Results")</li>
@@ -326,8 +329,8 @@
                                 <ul>
                                     <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
                                     <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
-                                    <li>@Html.ActionLink("Skill SetUp", "Index", "BehaviorSkillCategories")</li>
-                                    <li>@Html.ActionLink("Behaviors", "Index", "BehaviouralSkills")</li>
+                                    <li>@Html.ActionLink("Add/List Category", "Index", "BehaviorSkillCategories")</li>
+                                    <li>@Html.ActionLink("Add/List Behavioural Skill", "Index", "BehaviouralSkills")</li>
                                     <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
                                 </ul>
                             </div>

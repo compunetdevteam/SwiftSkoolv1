@@ -294,6 +294,14 @@
     <Compile Include="Migrations\201709220135445_BehaviouralCategory.Designer.cs">
       <DependentUpon>201709220135445_BehaviouralCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709251304392_PrincipalComment.cs" />
+    <Compile Include="Migrations\201709251304392_PrincipalComment.Designer.cs">
+      <DependentUpon>201709251304392_PrincipalComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709251317462_AssignBehaviour.cs" />
+    <Compile Include="Migrations\201709251317462_AssignBehaviour.Designer.cs">
+      <DependentUpon>201709251317462_AssignBehaviour.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CaSetUp.cs" />
@@ -1129,6 +1137,8 @@
     <Content Include="Views\AssignSubjects\MyAssignedSubject.cshtml" />
     <Content Include="Views\Results\StudentSearch.cshtml" />
     <Content Include="Views\Account\AdminIndex.cshtml" />
+    <Content Include="Views\Account\AdminForgotPassword.cshtml" />
+    <Content Include="Views\Account\AdminForgotPasswordConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1152,6 +1162,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709220135445_BehaviouralCategory.resx">
       <DependentUpon>201709220135445_BehaviouralCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251304392_PrincipalComment.resx">
+      <DependentUpon>201709251304392_PrincipalComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251317462_AssignBehaviour.resx">
+      <DependentUpon>201709251317462_AssignBehaviour.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

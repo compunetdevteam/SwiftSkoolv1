@@ -66,7 +66,7 @@
 
 
                 <div class="md-form">
-                    @Html.LabelFor(model => model.StudentId)
+                    @Html.Label("Student Name")
                     @Html.DropDownList("StudentId", null, new { @class = "form-control chosen-select", @multiple = "true" })
                     @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
 
@@ -84,7 +84,7 @@
                         <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary" />
                     }
 
-                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                    <a href="#" id="btncancel" class="btn btn-danger" data-dismiss="modal">Cancel</a>
 
                 </div>
             </div>
@@ -137,6 +137,10 @@
 
                 }
             });
+        });
+
+        $("#btnsubmit").click(function () {
+            window.open("/AssignedClasses/Index", '_self');
         });
     })
 </script>

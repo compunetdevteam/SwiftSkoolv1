@@ -674,7 +674,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
 
-                    return RedirectToAction("Index", "Students");
+                    return RedirectToAction("Index", "Students", new { message = "Student Created Successfully" });
                 }
                 AddErrors(result);
             }
@@ -791,6 +791,40 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
+        public ActionResult AdminForgotPassword()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AdminForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await Db.Users.Where(x => x.Email.ToLower().Equals(model.Email.ToLower()))
+                                        .FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    return RedirectToAction("AdminForgotPasswordConfirmation", "Account", new { link = callbackUrl });
+                }
+                ViewBag.Message = "User Not found";
+                return View(model);
+
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
+        [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
@@ -812,12 +846,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                //For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                //Send an email with this link
+
+
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account", new { link = callbackUrl });
             }
 
             // If we got this far, something failed, redisplay form
@@ -827,8 +863,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
+        public ActionResult ForgotPasswordConfirmation(string link)
         {
+            ViewBag.Link = link;
+            return View();
+        }
+
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult AdminForgotPasswordConfirmation(string link)
+        {
+            ViewBag.Link = link;
             return View();
         }
 

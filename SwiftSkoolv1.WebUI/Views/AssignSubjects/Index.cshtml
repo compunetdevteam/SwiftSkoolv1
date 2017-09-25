@@ -90,7 +90,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
+        $('.chosen-select').chosen();
+        $(function() {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true
+            });
+        });
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
@@ -142,8 +147,7 @@
     };
     function myFunction() {
         var url = "/AssignSubjects/Save?id=0";
-        //$('#actionsList').modal("show");
-        // window.alert(url);
+    
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
