@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using HopeAcademySMS.Services;
+using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
@@ -11,6 +12,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SwiftSkoolv1.WebUI.Controllers
@@ -52,25 +54,25 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [MultipleButton(Name = "action", Argument = "Index")]
         public async Task<ActionResult> Index(CaSelectIndexVm model)
         {
-            var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(model.ClassName))
-                                        .Select(s => s.ClassName).FirstOrDefault();
-            var calist = Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+            var studentClassName = await Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(model.ClassName))
+                                        .Select(s => s.ClassName).FirstOrDefaultAsync();
+            var calist = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
                                                     x.ClassName.Equals(model.ClassName)
                                                     && x.TermName.Equals(model.TermName)
                                                     && x.SubjectId.Equals(model.SubjectId)
                                                     && x.SessionName.Equals(model.SessionName))
-                                                    .ToList();
+                                                    .ToListAsync();
             var myCalist = new CaListIndexVm()
             {
                 CaList = calist,
-                CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
+                CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
                                                  && x.SchoolId.Equals(userSchool)
                                                  && x.ClassName.Equals(studentClassName)
                                                  && x.TermName.Equals(model.TermName))
-                    .OrderBy(o => o.CaOrder).ToList(),
+                    .OrderBy(o => o.CaOrder).ToListAsync(),
 
             };
-            ViewBag.SetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true)
+            ViewBag.SetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
                                                         && x.SchoolId.Equals(userSchool)
                                                         && x.TermName.Equals(model.TermName)
                                                         && x.ClassName.Equals(studentClassName));
@@ -345,7 +347,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateCa(List<CaListVm> model)
         {
-           if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 foreach (var item in model)
                 {
@@ -852,6 +854,229 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
             // return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public ActionResult UploadResult()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UploadResult(HttpPostedFileBase excelfile)
+        {
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                ViewBag.Error = "Please Select a excel file <br/>";
+                TempData["UserMessage"] = "Please Select a excel file.";
+                TempData["Title"] = "Error.";
+
+                return View("Index");
+            }
+            HttpPostedFileBase file = Request.Files["excelfile"];
+            if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+            {
+                double firstCa = 0, secondCa = 0, thirdCa = 0, forthCa = 0, fifthCa = 0, sixthCa = 0, seventhCa = 0,
+                                        eightCa = 0, ninthCa = 0, examCa = 0;
+                string lastrecord = "";
+                int recordCount = 0;
+                string message = "";
+                string fileContentType = file.ContentType;
+                byte[] fileBytes = new byte[file.ContentLength];
+                var data = file.InputStream.Read(fileBytes, 0, Convert.ToInt32(file.ContentLength));
+
+                // Read data from excel file
+                using (var package = new ExcelPackage(file.InputStream))
+                {
+                    var continiousAssesmentVmList = new List<CaListVm>();
+                    ExcelValidation myExcel = new ExcelValidation();
+                    var currentSheet = package.Workbook.Worksheets;
+                    var workSheet = currentSheet.First();
+                    var noOfCol = workSheet.Dimension.End.Column;
+                    var noOfRow = workSheet.Dimension.End.Row;
+                    //int requiredField = 12;
+
+                    //string validCheck = myExcel.ValidateExcel(noOfRow, workSheet, requiredField);
+                    //if (!validCheck.Equals("Success"))
+                    //{
+                    //    //string row = "";
+                    //    //string column = "";
+                    //    string[] ssizes = validCheck.Split(' ');
+                    //    string[] myArray = new string[2];
+                    //    for (int i = 0; i < ssizes.Length; i++)
+                    //    {
+                    //        myArray[i] = ssizes[i];
+                    //        // myArray[i] = ssizes[];
+                    //    }
+                    //    string lineError = $"Line/Row number {myArray[0]}  and column {myArray[1]} is not rightly formatted, Please Check for anomalies ";
+                    //    //ViewBag.LineError = lineError;
+                    //    TempData["UserMessage"] = lineError;
+                    //    TempData["Title"] = "Error.";
+                    //    return View("ErrorException");
+                    //}
+                    for (int row = 2; row <= noOfRow; row++)
+                    {
+                        int caId = Convert.ToInt32(workSheet.Cells[row, 1].Value.ToString().Trim());
+                        string studentName = workSheet.Cells[row, 2].Value.ToString().Trim();
+                        string studentId = workSheet.Cells[row, 3].Value.ToString().Trim();
+                        string subjectName = workSheet.Cells[row, 4].Value.ToString().Trim();
+                        string termName = workSheet.Cells[row, 5].Value.ToString().Trim();
+                        string sessionName = workSheet.Cells[row, 6].Value.ToString().Trim();
+                        string className = await GetClassName(studentId, termName, sessionName);
+                        var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
+                            .Select(s => s.ClassName).FirstOrDefault();
+                        var caSetup = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
+                                                && x.SchoolId.Equals(userSchool)
+                                                && x.ClassName.Equals(studentClassName)
+                                                && x.TermName.Equals(termName))
+                                                .CountAsync();
+                        var subjectId = await Db.Subjects.AsNoTracking()
+                                            .Where(x => x.SchoolId.Equals(userSchool) &&
+                                            x.SubjectName.ToUpper().Equals(subjectName.ToUpper()))
+                                            .Select(s => s.SubjectId).FirstOrDefaultAsync();
+                        if (caSetup == 2)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                        }
+                        if (caSetup == 3)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                        }
+                        if (caSetup == 4)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                        }
+                        if (caSetup == 5)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            forthCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 11].Value.ToString().Trim());
+                        }
+                        if (caSetup == 6)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            forthCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                            fifthCa = Convert.ToDouble(workSheet.Cells[row, 11].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 12].Value.ToString().Trim());
+                        }
+                        if (caSetup == 7)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            forthCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                            fifthCa = Convert.ToDouble(workSheet.Cells[row, 11].Value.ToString().Trim());
+                            sixthCa = Convert.ToDouble(workSheet.Cells[row, 12].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 13].Value.ToString().Trim());
+                        }
+                        if (caSetup == 8)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            forthCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                            fifthCa = Convert.ToDouble(workSheet.Cells[row, 11].Value.ToString().Trim());
+                            sixthCa = Convert.ToDouble(workSheet.Cells[row, 12].Value.ToString().Trim());
+                            seventhCa = Convert.ToDouble(workSheet.Cells[row, 13].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 14].Value.ToString().Trim());
+                        }
+                        if (caSetup == 9)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            forthCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                            fifthCa = Convert.ToDouble(workSheet.Cells[row, 11].Value.ToString().Trim());
+                            sixthCa = Convert.ToDouble(workSheet.Cells[row, 12].Value.ToString().Trim());
+                            seventhCa = Convert.ToDouble(workSheet.Cells[row, 14].Value.ToString().Trim());
+                            eightCa = Convert.ToDouble(workSheet.Cells[row, 15].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 16].Value.ToString().Trim());
+                        }
+                        if (caSetup == 10)
+                        {
+                            firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
+                            secondCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
+                            thirdCa = Convert.ToDouble(workSheet.Cells[row, 9].Value.ToString().Trim());
+                            forthCa = Convert.ToDouble(workSheet.Cells[row, 10].Value.ToString().Trim());
+                            fifthCa = Convert.ToDouble(workSheet.Cells[row, 11].Value.ToString().Trim());
+                            sixthCa = Convert.ToDouble(workSheet.Cells[row, 12].Value.ToString().Trim());
+                            seventhCa = Convert.ToDouble(workSheet.Cells[row, 14].Value.ToString().Trim());
+                            eightCa = Convert.ToDouble(workSheet.Cells[row, 15].Value.ToString().Trim());
+                            ninthCa = Convert.ToDouble(workSheet.Cells[row, 16].Value.ToString().Trim());
+                            examCa = Convert.ToDouble(workSheet.Cells[row, 17].Value.ToString().Trim());
+                        }
+
+                        try
+                        {
+                            var myTotal = firstCa + secondCa + thirdCa + forthCa + fifthCa +
+                                          sixthCa + seventhCa + eightCa + ninthCa + examCa;
+
+                            var caList = new CaList()
+                            {
+                                CaListId = caId,
+                                StudentId = studentId,
+                                StudentName = studentName,
+                                TermName = termName,
+                                SessionName = sessionName,
+                                SubjectId = subjectId,
+                                ClassName = className,
+                                FirstCa = firstCa,
+                                SecondCa = secondCa,
+                                ThirdCa = thirdCa,
+                                ForthCa = forthCa,
+                                FifthCa = fifthCa,
+                                SixthCa = sixthCa,
+                                SeventhCa = seventhCa,
+                                EightCa = eightCa,
+                                NinthtCa = ninthCa,
+                                ExamCa = examCa,
+                                Total = myTotal,
+                                Grading = _myGradeRemark.Grading(myTotal, className, userSchool),
+                                Remark = _myGradeRemark.Remark(myTotal, className, userSchool),
+
+                                SchoolId = userSchool,
+                            };
+                            Db.CaLists.AddOrUpdate(caList);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ViewBag.ErrorInfo = "The programme code in the excel doesn't exist";
+                            ViewBag.ErrorMessage = ex.Message;
+                            return View("Error1");
+                        }
+                    }
+                    await Db.SaveChangesAsync();
+
+                }
+                return RedirectToAction("CreateCaView");
+            }
+
+            ViewBag.Error = $"File type is Incorrect <br/>";
+            return View("Index");
+        }
+
+        private async Task<string> GetClassName(string studentId, string termName, string sessionName)
+        {
+            var className = await Db.AssignedClasses.AsNoTracking().Where(
+                                x => x.StudentId.ToUpper().Equals(studentId.ToUpper())
+                                     && x.TermName.ToUpper().Equals(termName.ToUpper())
+                                     && x.SessionName.ToUpper().Equals(sessionName.ToUpper()))
+                                     .Select(s => s.ClassName).FirstOrDefaultAsync();
+
+            return className;
         }
 
         protected override void Dispose(bool disposing)

@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "UploadResult";
+}
+<br/>
+<div class="card">
+    <div class="card-block">
+       
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-pencil-square-o"></i>Upload Continuous Assessment
+            </h3>
+        </div>
+
+
+        @using (Html.BeginForm("UploadResult", "CaLists", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+        {
+            @Html.Raw(ViewBag.Error)
+            <span>Excel File </span> <input type="file" name="excelfile" />
+            <br />
+            <input id="btnsubmit" type="submit" value="Import" class="btn btn-success" />
+        }
+    </div>
+</div>
+
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#theform').submit(function () {
+                    $("input[type='submit']", this)
+                        .val("Uploading Please Wait...")
+                        .attr('disabled', 'disabled');
+                    return true;
+                });
+            });
+        </script>
+
+    </div>
+</div>

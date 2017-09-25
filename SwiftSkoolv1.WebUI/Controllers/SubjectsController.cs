@@ -13,15 +13,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: Subjects
         public async Task<ActionResult> Index()
         {
-            //if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-            //{
-            //    return View(Db.Subjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)));
-            //}
-            //return View(await Db.Subjects.AsNoTracking().ToListAsync());
             return View();
         }
 
-        public async Task<ActionResult> GetIndex()
+        public ActionResult GetIndex()
         {
             #region Server Side filtering
             //Get parameter for sorting from grid table
@@ -40,18 +35,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             var v = Db.Subjects.Where(x => x.SchoolId == userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
 
-            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
+
             if (!string.IsNullOrEmpty(search))
             {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
                 v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) && (x.SubjectName.Equals(search) || x.SubjectCode.Equals(search)))
                                     .Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             }
@@ -90,7 +78,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "SubjectId,SubjectCode,SubjectName")] Subject subject)
+        public async Task<ActionResult> Create(Subject subject)
         {
 
             if (ModelState.IsValid)
@@ -107,6 +95,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
 
                 subject.SchoolId = userSchool;
+                subject.SubjectName = subject.SubjectName.ToUpper();
                 Db.Subjects.Add(subject);
                 await Db.SaveChangesAsync();
 
@@ -140,11 +129,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "SubjectId,SubjectCode,SubjectName")] Subject subject)
+        public async Task<ActionResult> Edit(Subject subject)
         {
             if (ModelState.IsValid)
             {
                 subject.SchoolId = userSchool;
+                subject.SubjectName = subject.SubjectName.ToUpper();
                 Db.Entry(subject).State = EntityState.Modified;
                 await Db.SaveChangesAsync();
 
@@ -176,11 +166,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 if (subject.SubjectId > 0)
                 {
                     subject.SchoolId = userSchool;
+                    subject.SubjectName = subject.SubjectName.ToUpper();
                     Db.Entry(subject).State = EntityState.Modified;
                     message = "Subject Updated Successfully...";
                 }
                 else
                 {
+                    subject.SubjectName = subject.SubjectName.ToUpper();
                     subject.SchoolId = userSchool;
                     Db.Subjects.Add(subject);
                     message = "Subject Created Successfully...";

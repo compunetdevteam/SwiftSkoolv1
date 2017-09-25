@@ -680,6 +680,7 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\SwiftSkoolJos - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Rotativa\msvcp120.dll" />
     <Content Include="Rotativa\msvcr120.dll" />
@@ -1139,6 +1140,7 @@
     <Content Include="Views\Account\AdminIndex.cshtml" />
     <Content Include="Views\Account\AdminForgotPassword.cshtml" />
     <Content Include="Views\Account\AdminForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\CaLists\UploadResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

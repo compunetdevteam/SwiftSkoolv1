@@ -124,12 +124,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         return new JsonResult { Data = new { status = false, message = "Class Already Exist in Database" } };
                     }
                     classes.SchoolId = userSchool;
+                    classes.ClassName = classes.ClassName.ToUpper();
                     Db.Entry(classes).State = EntityState.Modified;
                     message = "Class Updated Successfully...";
                 }
                 else
                 {
                     classes.SchoolId = userSchool;
+                    classes.ClassName = classes.ClassName.ToUpper();
                     Db.Classes.Add(classes);
                     message = "Class Created Successfully...";
                 }

@@ -335,6 +335,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.FirstName = model.FirstName.ToUpper();
+                model.LastName = model.LastName.ToUpper();
+                model.MiddleName = model.MiddleName.ToUpper();
                 var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -623,6 +626,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             if (ModelState.IsValid)
             {
+                model.FirstName = model.FirstName.ToUpper();
+                model.LastName = model.LastName.ToUpper();
+                model.MiddleName = model.MiddleName.ToUpper();
                 string studentUpdated = "";
                 var user = new ApplicationUser
                 {
