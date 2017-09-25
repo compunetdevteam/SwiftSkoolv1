@@ -1,6 +1,6 @@
-﻿using System;
-using SwiftSkoolv1.Domain;
+﻿using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -103,7 +103,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (Db.FeeCategories.Any(fc => fc.CategoryName.Equals(feeCategory.CategoryName)))
             {
-                ModelState.AddModelError("Error", "A Fee Category already exists with the name you have supplied or your or the name is blank! Please fill a valid name for the category!");
+                ModelState.AddModelError("Error", "A Fee Category already exists with " +
+                                                  "the name you have supplied or your or the name is blank! " +
+                                                  "Please fill a valid name for the category!");
                 return View(feeCategory);
             }
 

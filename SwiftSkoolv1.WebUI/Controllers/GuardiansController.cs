@@ -19,7 +19,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
         // GET: Guardians
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             //var guardians = Db.Guardians.AsNoTracking().Include(g => g.Student);
             //var studentId = User.Identity.GetUserId();

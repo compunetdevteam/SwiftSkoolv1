@@ -100,9 +100,6 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
@@ -139,18 +136,10 @@
             });
         });
 
-        $("#btnsubmit").click(function () {
-            window.open("/AssignedClasses/Index", '_self');
-        });
+        //$("#btnsubmit").click(function () {
+        //    window.open("/AssignedClasses/Index", '_self');
+        //});
     })
 </script>
 
-<script type="text/javascript">
-    //window.alert(5 + 6);
-    $('.chosen-select').chosen();
-    $(function () {
-        $('.listbox').multiselect({
-            includeSelectAllOption: true
-        });
-    });
-</script>
+

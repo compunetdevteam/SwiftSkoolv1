@@ -127,8 +127,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && (x.Subject.SubjectName.Equals(search) || x.Class.ClassName.Equals(search)))
-                    .Select(s => new { s.AssignSubjectId, s.ClassName, s.Subject.SubjectName, s.TermName }).ToList();
+                v = v.Where(x => x.SubjectName.Equals(search) || x.ClassName.Equals(search)).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -211,7 +210,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.SubjectId = new MultiSelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
             ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             ViewBag.TermName = new MultiSelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            return PartialView(assignSubject);
+            if (assignSubject != null)
+            {
+                var model = new AssignSubjectViewModel
+                {
+                    AssignSubjectId = assignSubject.AssignSubjectId
+                };
+                return PartialView(model);
+            }
+            return PartialView();
         }
 
 
@@ -242,8 +249,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         foreach (var item in model.SubjectId)
                         {
                             var CA = Db.AssignSubjects.Where(x => x.ClassName.Equals(model.ClassName)
-                                                                  && x.SubjectId.Equals(item) &&
-                                                                  x.SchoolId.Equals(userSchool));
+                                                                  && x.SubjectId.Equals(item) 
+                                                                  && x.TermName.Equals(term)
+                                                                  && x.SchoolId.Equals(userSchool));
                             var countFromDb = await CA.CountAsync();
                             if (countFromDb >= 1)
                             {

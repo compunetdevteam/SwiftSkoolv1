@@ -37,7 +37,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.StudentId = new SelectList(await _query.StudentListAsync(userSchool), "StudentId", "FullName");
             return View();
         }
-        public async Task<ActionResult> StudentSearch()
+        public ActionResult StudentSearch()
         {
             ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
             ViewBag.TermName = new SelectList(_query.TermList(), "TermName", "TermName");
@@ -50,9 +50,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 StudentId = User.Identity.GetUserId();
             }
-            var id = StudentId;
-            var termName = TermName;
-            var sessionName = SessionName;
+            var id = StudentId.Trim();
+            var termName = TermName.Trim();
+            var sessionName = SessionName.Trim();
 
             var reportModel = await GenerateTermReport(id, termName, sessionName);
             return new ViewAsPdf("DownloadResult", reportModel);
@@ -74,7 +74,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var reportModel = new ReportVm();
             var newCalist = new List<ContinuousAssesmentVm>();
             var mySchoolClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                                && x.FullClassName.Equals(_resultCommand._className))
+                                        && x.FullClassName.Equals(_resultCommand._className))
                                         .Select(s => s.ClassName).FirstOrDefault();
             ;
             foreach (var ca in _resultCommand._studentCa)
@@ -164,7 +164,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                                                        && x.ClassName.Equals(_resultCommand._className)
                                                                        && x.TermName.Equals(termName) &&
                                                                        x.SessionName.Equals(sessionName))
-                        .SumAsync(s => s.Total),
+                                                                        .SumAsync(s => s.Total),
                     StudentId = student
                 };
                 myAggregateList.Add(aggregateList);
@@ -182,9 +182,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var summaryCaList = new List<SummaryCa>();
             cModel.Student = await Db.Students.FindAsync(StudentId);
             var noOfStudentInClass = 0;
-            var className = string.Empty;
+            var className = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
+                                           && x.StudentId.ToUpper().Trim().Equals(StudentId)
+                                           && x.TermName.ToUpper().Equals("THIRD")
+                                           && x.SessionName.ToUpper().Equals(SessionName))
+                                            .Select(y => y.ClassName).FirstOrDefault();
 
-            var subjectOffered = await GetSubjectId("JSS1 ALPHA", cModel.Student.StudentId);
+            var subjectOffered = await GetSubjectId(className, StudentId);
             foreach (var subject in subjectOffered)
             {
                 var resultSummaryCmd = new ResultSummaryCmd(StudentId, SessionName, subject, userSchool);
@@ -226,12 +230,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<List<int>> GetSubjectId(string _className, string _studentId)
         {
             var subjectAssigned = await Db.AssignSubjects.AsNoTracking().Where(c => c.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                                                    && c.ClassName.ToUpper().Trim().Equals(_className)
-                                                                                    && c.TermName.Equals("FIRST"))
-                                                                                .Select(s => s.Subject.SubjectId).ToListAsync();
+                                                    && c.ClassName.ToUpper().Trim().Equals(_className)
+                                                    && c.TermName.ToUpper().Equals("FIRST"))
+                                                    .Select(s => s.Subject.SubjectId).ToListAsync();
             var subjectregistration = await Db.SubjectRegistrations.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
-                                                                                              && x.StudentId.ToUpper().Trim().Equals(_studentId.ToUpper().Trim()))
-                .Select(s => s.Subject.SubjectId).ToListAsync();
+                                                    && x.StudentId.ToUpper().Trim().Equals(_studentId.ToUpper().Trim()))
+                                                    .Select(s => s.Subject.SubjectId).ToListAsync();
             if (subjectregistration.Count > 1)
             {
                 return subjectregistration;

@@ -185,6 +185,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     var assigClass = new AssignedClass()
                     {
                         AssignedClassId = model.AssignedClassId,
+                        StudentName = studentName,
                         StudentId = model.StudentId.ToString(),
                         ClassName = model.ClassName,
                         TermName = model.TermName.ToString(),
@@ -204,7 +205,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         foreach (var item in model.StudentId)
                         {
                             var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(
-                                x => x.TermName.Equals(model.TermName.ToString())
+                                x => x.SchoolId.Equals(userSchool)
+                                     && x.TermName.Equals(model.TermName.ToString())
                                      && x.SessionName.Equals(model.SessionName)
                                      && x.StudentId.Equals(item));
 
@@ -214,8 +216,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 return new JsonResult { Data = new { status = false, message = message } };
                             }
                             var studentName = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(item))
-                                .Select(s => s.FullName)
-                                .FirstOrDefaultAsync();
+                                                .Select(s => s.FullName).FirstOrDefaultAsync();
                             var assigClass = new AssignedClass
                             {
                                 StudentId = item,
@@ -230,10 +231,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             theClass = model.ClassName;
                         }
                         message = $"You have Assigned to {counter} Student(s) to {theClass} Successfully.";
+                        await Db.SaveChangesAsync();
+                        return new JsonResult { Data = new { status = true, message = message } };
                     }
+
                 }
-                await Db.SaveChangesAsync();
-                status = true;
+
             }
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
@@ -307,7 +310,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     string theClass = "";
                     foreach (var item in model.StudentId)
                     {
-                        var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(x => x.TermName.Equals(model.TermName.ToString())
+                        var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(x => x.SchoolId.Equals(userSchool)
+                                                            && x.TermName.Equals(model.TermName.ToString())
                                                               && x.SessionName.Equals(model.SessionName)
                                                               && x.StudentId.Equals(item));
 
@@ -321,26 +325,21 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
                             return View(model);
                         }
-                        else
+                        var studentName = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(item))
+                                            .Select(s => s.FullName).FirstOrDefaultAsync();
+                        var assigClass = new AssignedClass()
                         {
-                            var studentName = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(item))
-                                                .Select(s => s.FullName)
-                                                .FirstOrDefaultAsync();
-                            var assigClass = new AssignedClass()
-                            {
-                                StudentId = item,
-                                ClassName = model.ClassName,
-                                TermName = model.TermName,
-                                SessionName = model.SessionName,
-                                StudentName = studentName,
-                                SchoolId = userSchool
-                            };
-                            Db.AssignedClasses.Add(assigClass);
-                            counter += 1;
-                            theClass = model.ClassName;
-                        }
+                            StudentId = item,
+                            ClassName = model.ClassName,
+                            TermName = model.TermName,
+                            SessionName = model.SessionName,
+                            StudentName = studentName,
+                            SchoolId = userSchool
+                        };
+                        Db.AssignedClasses.Add(assigClass);
+                        counter += 1;
+                        theClass = model.ClassName;
                     }
-
                     await Db.SaveChangesAsync();
                     TempData["UserMessage"] = $"You have Assigned to {counter} Student(s) to {theClass} Successfully.";
                     TempData["Title"] = "Success.";

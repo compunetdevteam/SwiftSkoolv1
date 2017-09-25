@@ -13,13 +13,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
         // GET: SchoolClasses
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            //if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-            //{
-            //    return View(await Db.SchoolClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).ToListAsync());
-            //}
-            return View(await Db.SchoolClasses.AsNoTracking().ToListAsync());
+            // return View(await Db.SchoolClasses.AsNoTracking().ToListAsync());
+            return View();
         }
 
         public async Task<ActionResult> GetIndex()
@@ -41,12 +38,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = Db.SchoolClasses.AsNoTracking().ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
+            var v = await Db.SchoolClasses.AsNoTracking().ToListAsync();
+
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);

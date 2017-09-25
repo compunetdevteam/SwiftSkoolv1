@@ -27,7 +27,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                 _studentId = studentId.Trim();
                 _className = GetClassName();
                 _subjectId = subjectCode;
-                ClassName = "JSS1 ALPHA";
+                ClassName = _className;
                 FirstTermScore = GetFirstTermScore();
                 FirstTermSubjectGrade = _myGradeRemark.Grading(FirstTermScore, _className, _schoolId).ToString();
 
@@ -128,7 +128,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                                           && x.SessionName.Equals(_sessionName)
                                           && x.ClassName.Equals(_className)
                                           && x.SubjectId.Equals(_subjectId))
-                .Select(y => y.Total).FirstOrDefault();
+                                        .Select(y => y.Total).FirstOrDefault();
 
         }
 
@@ -146,20 +146,12 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         #endregion
 
 
-        //private double SummaryTotalScorePerStudent(string studentId, string className, string session)
-        //{
-        //    var summaryTotalSum = _db.SessionSubjectTotals.Where(x => x.StudentId.Equals(studentId) && x.ClassName.Equals(className)
-        //                                                              && x.SessionName.Equals(session))
-        //        .Sum(y => y.WeightedScores);
-        //    return summaryTotalSum;
-        //}
-
         private int NumberOfStudentPerClass()
         {
             var studentPerClass = _db.AssignedClasses.AsNoTracking().Count(x => x.SchoolId.Equals(_schoolId) &&
                                                                 x.ClassName.Equals(_className) &&
-                                                                 x.TermName.ToUpper().Equals("THIRD") &&
-                                                                 x.SessionName.Equals(_sessionName));
+                                                                x.TermName.ToUpper().Equals("THIRD") &&
+                                                                x.SessionName.Equals(_sessionName));
             return studentPerClass;
         }
 
@@ -172,61 +164,12 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         private string GetClassName()
         {
             var className = _db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(_schoolId)
-                                                                          && x.StudentId.Equals(_studentId) && x.TermName
-                                                                              .ToUpper().Equals("THIRD"))
-                                                                    .Select(y => y.ClassName).FirstOrDefault();
+                                    && x.StudentId.Equals(_studentId) && x.TermName.ToUpper().Equals("THIRD"))
+                                    .Select(y => y.ClassName).FirstOrDefault();
             return className;
         }
 
-        #region CommentedCode
 
-
-        //private int SubjectOfferedByStudent(string studentId)
-        //{
-        //    var className =
-        //        db.AssignedClasses.Where(x => x.StudentId.Equals(studentId))
-        //            .Select(y => y.ClassName)
-        //            .FirstOrDefault();
-
-
-        //    var subjectPerStudent = db.AssignSubjects.Count(x => x.ClassName.Equals(className));
-        //    return subjectPerStudent;
-        //}
-
-        //private double SummaryTotalScorePerSubject(string subject, string className, string term, string session)
-        //{
-        //    var sumPerSubject = db.ContinuousAssessments.Where(x => x.SubjectCode.Equals(subject)
-        //                                                            && x.ClassName.Equals(className)
-        //                                                            && x.TermName.Equals(term) &&
-        //                                                            x.SessionName.Equals(session)).Sum(y => y.SummaryTotal);
-        //    return sumPerSubject;
-        //}
-
-
-        //private int NumberOfStudentPerClass(string className, string term, string session, string subject)
-        //{
-        //    var studentPerClass = db.ContinuousAssessments.Count(x => x.ClassName.Equals(className) &&
-        //                                                        x.TermName.Equals(term) &&
-        //                                                        x.SessionName.Equals(session) &&
-        //                                                        x.SubjectCode.Equals(subject));
-        //    return studentPerClass;
-        //}
-        //private int NumberOfStudentPerClass(string className, string term, string session)
-        //{
-        //    var studentPerClass = db.AssignedClasses.Count(x => x.ClassName.Equals(className) &&
-        //                                                        x.TermName.Equals(term) &&
-        //                                                        x.SessionName.Equals(session));
-        //    return studentPerClass;
-        //}
-
-        //public void FindAggregatePosition(string className, string term, string session)
-        //{
-        //    var myAggregatePosition = db.Results.Where(x => x.ClassName.Equals(className) &&
-        //                                                             x.Term.Equals(term) &&
-        //                                                             x.SessionName.Equals(session))
-        //                                                        .OrderByDescending(y => y.AggretateScore);
-        //} 
-        #endregion
 
         #region Subjects positions
         private void FindSubjectPositionForFirstTerm()
@@ -301,31 +244,6 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         }
 
         #endregion
-
-
-        //private void FindAggregatePosition(string studentId, string className, string term, string session)
-        //{
-        //    var resultPosition = _db.ReportSummarys.Where(x => x.StudentId.Equals(studentId)
-        //                                                       && x.ClassName.Equals(className)
-        //                                                       && x.SessionName.Equals(session));
-        //    //.OrderByDescending(y => y.WeightedScores);
-        //    var q = from s in resultPosition
-        //            orderby s.WeightedScores descending
-        //            select new
-        //            {
-        //                Name = s.StudentId,
-        //                Rank = (from o in resultPosition
-        //                        where o.WeightedScores > s.WeightedScores
-        //                        select o).Count() + 1
-        //            };
-
-        //    foreach (var item in q.Where(s => s.Name.Equals(studentId)))
-        //    {
-        //        ThirdTermSubjectPosition = item.Rank;
-        //    }
-        //}
-
-
 
     }
 }

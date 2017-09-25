@@ -140,22 +140,22 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,MinimumGrade,MaximumGrade,Remark,ClassName")] PrincipalCommentVm model)
+        public async Task<ActionResult> Create(PrincipalCommentVm model)
         {
             if (ModelState.IsValid)
             {
                 foreach (var item in model.ClassName)
                 {
                     var myGrade = await Db.PrincipalComments.CountAsync(x => x.MaximumGrade.Equals(model.MaximumGrade)
-                                                                             && x.MinimumGrade.Equals(model.MinimumGrade)
-                                                                             && x.ClassName.Equals(item));
+                                                            && x.MinimumGrade.Equals(model.MinimumGrade)
+                                                            && x.ClassName.Equals(item));
 
                     if (myGrade >= 1)
                     {
                         TempData["UserMessage"] = "Principal Comment Already Exist in Database.";
                         TempData["Title"] = "Error.";
                         ViewBag.ClassName = new SelectList(Db.SchoolClasses, "ClassCode", "ClassCode");
-                        return View(model);
+                        return View();
                     }
                     var principalComment = new PrincipalComment()
                     {
@@ -172,7 +172,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
             }
-            return View(model);
+            return View();
         }
 
         // GET: PrincipalComments/Edit/5

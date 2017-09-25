@@ -38,12 +38,10 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
 
             _mYclassName = GetClassName();
 
-            _className = GetClassName().Select(y => y.ClassName).FirstOrDefault();
+            _className = _mYclassName.Select(y => y.ClassName).FirstOrDefault();
 
             _caList = GetCaLists();
-            _studentCa = _caList.Where(x => x.StudentId.ToUpper().Trim().Equals(_studentId)
-                            && x.TermName.ToUpper().Equals(_termName)
-                            && x.SessionName.ToUpper().Equals(_sessionName)).ToList();
+            _studentCa = _caList.Where(x => x.StudentId.ToUpper().Trim().Equals(_studentId)).ToList();
 
         }
 
@@ -51,20 +49,20 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         private List<CaList> GetCaLists()
         {
             return _db.CaLists.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(_schoolId)
-                                                         //&& x.StudentId.ToUpper().Trim().Equals(_studentId)
-                                                         && x.ClassName.ToUpper().Trim().Equals(_className)
-                                                         && x.TermName.ToUpper().Trim().Equals(_termName)
-                                                         && x.SessionName.ToUpper().Trim().Equals(_sessionName))
-                                                            .ToList();
+                                                //&& x.StudentId.ToUpper().Trim().Equals(_studentId)
+                                                && x.ClassName.ToUpper().Trim().Equals(_className)
+                                                && x.TermName.ToUpper().Trim().Equals(_termName)
+                                                && x.SessionName.ToUpper().Trim().Equals(_sessionName))
+                                                .ToList();
         }
 
 
         private IQueryable<AssignedClass> GetClassName()
         {
             return _db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(_schoolId)
-                                                                 && x.StudentId.ToUpper().Trim().Equals(_studentId)
-                                                                 && x.TermName.ToUpper().Trim().Equals(_termName)
-                                                                 && x.SessionName.ToUpper().Trim().Equals(_sessionName));
+                                            && x.StudentId.ToUpper().Trim().Equals(_studentId)
+                                            && x.TermName.ToUpper().Trim().Equals(_termName)
+                                            && x.SessionName.ToUpper().Trim().Equals(_sessionName));
 
         }
 
@@ -107,7 +105,6 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public double TotalScorePerStudent()
         {
             var totalSum = _caList.Where(x => x.StudentId.ToUpper().Trim().Equals(_studentId)).Sum(y => y.Total);
-
             return Math.Round(totalSum, 2);
         }
 
@@ -158,9 +155,9 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public async Task<int> NumberOfStudentPerClass()
         {
             return await _db.AssignedClasses.AsNoTracking().CountAsync(x => x.SchoolId.ToUpper().Trim().Equals(_schoolId)
-                                                          && x.ClassName.ToUpper().Trim().Equals(_className)
-                                                          && x.TermName.ToUpper().Trim().Equals(_termName)
-                                                          && x.SessionName.ToUpper().Trim().Equals(_sessionName));
+                                            && x.ClassName.ToUpper().Trim().Equals(_className)
+                                            && x.TermName.ToUpper().Trim().Equals(_termName)
+                                            && x.SessionName.ToUpper().Trim().Equals(_sessionName));
             //return await _mYclassName.CountAsync();
         }
 
@@ -237,23 +234,6 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
             var studentInClass = await NumberOfStudentPerClass();
             return Math.Round((scorePerSubject / studentInClass), 2);
         }
-
-        //public async Task<double> TotalQualityPoint(string studentId, string className, string term, string sessionName)
-        //{
-
-        //    var totalPoint = await _db.ContinuousAssessments.AsNoTracking().Where(x => x.ClassName.ToUpper().Trim().Equals(className.ToUpper().Trim()) &&
-        //                                                        x.TermName.ToUpper().Trim().Equals(term.ToUpper().Trim()) &&
-        //                                                        x.SessionName.ToUpper().Trim().Equals(sessionName.ToUpper().Trim()) &&
-        //                                                        x.StudentId.ToUpper().Trim().Equals(studentId.ToUpper().Trim()))
-        //                                                        .SumAsync(c => c.QualityPoint);
-        //    return totalPoint;
-        //}
-
-        //public async Task<double> TotalcreditUnit(string className)
-        //{
-        //    var totalCredit = await _db.AssignSubjects.AsNoTracking().CountAsync(s => s.ClassName.ToUpper().Trim().Equals(className.ToUpper().Trim()));
-        //    return totalCredit * 2;
-        //}
 
 
 

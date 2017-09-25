@@ -19,7 +19,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class CaListsController : BaseController
     {
-        private GradeRemark _myGradeRemark = new GradeRemark();
+        private readonly GradeRemark _myGradeRemark = new GradeRemark();
 
         public async Task<ActionResult> CreateCaView()
         {
@@ -38,12 +38,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 ViewBag.SubjectId = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
                 ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             }
-            //var myCalist = new CaListIndexVm()
-            //{
-            //    CaList = await Db.CaLists.ToListAsync(),
-            //    CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
-            //                && x.SchoolId.Equals(userSchool)).OrderBy(o => o.CaOrder).ToList()
-            //};
+
             ViewBag.SetUpCount = 0;
             //return View(myCalist);
             return View();
@@ -66,10 +61,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 CaList = calist,
                 CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
-                                                 && x.SchoolId.Equals(userSchool)
-                                                 && x.ClassName.Equals(studentClassName)
-                                                 && x.TermName.Equals(model.TermName))
-                    .OrderBy(o => o.CaOrder).ToListAsync(),
+                                        && x.SchoolId.Equals(userSchool)
+                                        && x.ClassName.Equals(studentClassName)
+                                        && x.TermName.Equals(model.TermName))
+                                        .OrderBy(o => o.CaOrder).ToListAsync()
 
             };
             ViewBag.SetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
@@ -151,13 +146,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         ClassName = list.ClassName,
                         TermName = list.TermName,
                         SessionName = list.SessionName,
-                        CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
+                        CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
                                                          && x.SchoolId.Equals(userSchool)
                                                          && x.ClassName.Equals(studentClassName)
                                                          && x.TermName.Equals(model.TermName))
-                                                        .OrderBy(o => o.CaOrder).ToList(),
+                                                        .OrderBy(o => o.CaOrder).ToListAsync(),
 
-                        CaSetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true)
+                        CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
                                                               && x.SchoolId.Equals(userSchool)
                                                               && x.TermName.Equals(model.TermName)
                                                         && x.ClassName.Equals(studentClassName)),
@@ -188,17 +183,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         ClassName = model.ClassName,
                         TermName = model.TermName,
                         SessionName = model.SessionName,
-                        CaSetUp = Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
+                        CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
                                                          && x.SchoolId.Equals(userSchool)
                                                          && x.ClassName.Equals(studentClassName)
                                                          && x.TermName.Equals(model.TermName))
-                                                        .OrderBy(o => o.CaOrder).ToList(),
+                                                        .OrderBy(o => o.CaOrder).ToListAsync(),
 
 
-                        CaSetUpCount = Db.CaSetUps.Count(x => x.IsTrue.Equals(true)
-                                                                             && x.SchoolId.Equals(userSchool)
-                                                                             && x.TermName.Equals(model.TermName)
-                                                                             && x.ClassName.Equals(studentClassName)),
+                        CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
+                                                    && x.SchoolId.Equals(userSchool)
+                                                    && x.TermName.Equals(model.TermName)
+                                                    && x.ClassName.Equals(studentClassName))
                     };
                     myCalist.Add(ca);
                 }
@@ -430,7 +425,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CaListId,StudentId,TermName,SessionName,SubjectCode,ClassName,FirstCa,SecondCa,ThirdCa,ForthCa,FifthCa,FseventhCa,Eight,NinthtCa,ExamCa")] CaList caList)
+        public async Task<ActionResult> Edit(CaList caList)
         {
             if (ModelState.IsValid)
             {
@@ -898,24 +893,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     var noOfRow = workSheet.Dimension.End.Row;
                     //int requiredField = 12;
 
-                    //string validCheck = myExcel.ValidateExcel(noOfRow, workSheet, requiredField);
-                    //if (!validCheck.Equals("Success"))
-                    //{
-                    //    //string row = "";
-                    //    //string column = "";
-                    //    string[] ssizes = validCheck.Split(' ');
-                    //    string[] myArray = new string[2];
-                    //    for (int i = 0; i < ssizes.Length; i++)
-                    //    {
-                    //        myArray[i] = ssizes[i];
-                    //        // myArray[i] = ssizes[];
-                    //    }
-                    //    string lineError = $"Line/Row number {myArray[0]}  and column {myArray[1]} is not rightly formatted, Please Check for anomalies ";
-                    //    //ViewBag.LineError = lineError;
-                    //    TempData["UserMessage"] = lineError;
-                    //    TempData["Title"] = "Error.";
-                    //    return View("ErrorException");
-                    //}
+                    
                     for (int row = 2; row <= noOfRow; row++)
                     {
                         int caId = Convert.ToInt32(workSheet.Cells[row, 1].Value.ToString().Trim());
@@ -1071,7 +1049,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         private async Task<string> GetClassName(string studentId, string termName, string sessionName)
         {
             var className = await Db.AssignedClasses.AsNoTracking().Where(
-                                x => x.StudentId.ToUpper().Equals(studentId.ToUpper())
+                                    x => x.StudentId.ToUpper().Equals(studentId.ToUpper())
                                      && x.TermName.ToUpper().Equals(termName.ToUpper())
                                      && x.SessionName.ToUpper().Equals(sessionName.ToUpper()))
                                      .Select(s => s.ClassName).FirstOrDefaultAsync();
