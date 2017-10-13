@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using HopeAcademySMS.Services;
+using Microsoft.AspNet.Identity;
+using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -6,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SwiftSkoolv1.WebUI.Controllers
@@ -288,6 +291,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             }
+
             ViewBag.StudentId = new MultiSelectList(await _query.StudentListAsync(userSchool), "StudentID", "FullName");
             ViewBag.SessionName = new SelectList(_query.SessionList(), "SessionName", "SessionName");
             // ViewBag.ClassName = new SelectList(Db.Classes, "FullClassName", "FullClassName");
@@ -356,23 +360,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         // GET: AssignedClasses/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<PartialViewResult> Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return PartialView();
             }
             AssignedClass assignedClass = await Db.AssignedClasses.FindAsync(id);
-            if (assignedClass == null)
-            {
-                return HttpNotFound();
-            }
+
             var myModel = new AssignedClassesViewModel();
             myModel.AssignedClassId = assignedClass.AssignedClassId;
             ViewBag.StudentId = new MultiSelectList(Db.Students.AsNoTracking(), "StudentID", "FullName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
             ViewBag.ClassName = new SelectList(Db.Classes.AsNoTracking(), "FullClassName", "FullClassName");
-            return View(myModel);
+            return PartialView(myModel);
         }
 
         // POST: AssignedClasses/Edit/5
@@ -436,6 +437,122 @@ namespace SwiftSkoolv1.WebUI.Controllers
             TempData["Title"] = "Deleted.";
             return RedirectToAction("Index");
         }
+
+        [AllowAnonymous]
+        public PartialViewResult AssignClassUpload()
+        {
+            return PartialView();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> AssignClassUpload(HttpPostedFileBase excelfile)
+        {
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                ViewBag.Error = "Please Select a excel file <br/>";
+                return View("AssignClassUpload");
+            }
+            HttpPostedFileBase file = Request.Files["excelfile"];
+            if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+            {
+                string lastrecord = "";
+                int recordCount = 0;
+                string message = "";
+                string fileContentType = file.ContentType;
+                byte[] fileBytes = new byte[file.ContentLength];
+                var data = file.InputStream.Read(fileBytes, 0, Convert.ToInt32(file.ContentLength));
+
+                // Read data from excel file
+                using (var package = new ExcelPackage(file.InputStream))
+                {
+                    ExcelValidation myExcel = new ExcelValidation();
+                    var currentSheet = package.Workbook.Worksheets;
+                    var workSheet = currentSheet.First();
+                    var noOfCol = workSheet.Dimension.End.Column;
+                    var noOfRow = workSheet.Dimension.End.Row;
+                    int requiredField = 4;
+
+                    string validCheck = myExcel.ValidateExcel(noOfRow, workSheet, requiredField);
+                    if (!validCheck.Equals("Success"))
+                    {
+                        //string row = "";
+                        //string column = "";
+                        string[] ssizes = validCheck.Split(' ');
+                        string[] myArray = new string[2];
+                        for (int i = 0; i < ssizes.Length; i++)
+                        {
+                            myArray[i] = ssizes[i];
+                            // myArray[i] = ssizes[];
+                        }
+                        string lineError = $"Line/Row number {myArray[0]}  and column {myArray[1]} is not rightly formatted, Please Check for anomalies ";
+                        //ViewBag.LineError = lineError;
+                        ViewBag.Message = lineError;
+                        RedirectToAction("Index", "AssignedClasses");
+                    }
+
+                    for (int row = 2; row <= noOfRow; row++)
+                    {
+                        try
+                        {
+                            string studentId = workSheet.Cells[row, 1].Value.ToString().Trim();
+                            string classname = workSheet.Cells[row, 2].Value.ToString().Trim();
+                            string termName = workSheet.Cells[row, 3].Value.ToString().Trim();
+                            string sessionName = workSheet.Cells[row, 4].Value.ToString().Trim();
+
+
+                            var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(x => x.SchoolId.Equals(userSchool)
+                                                                                                      && x.TermName.Equals(termName.ToString())
+                                                                                                      && x.SessionName.Equals(sessionName)
+                                                                                                      && x.StudentId.Equals(studentId));
+
+                            if (countFromDb >= 1)
+                            {
+                                TempData["UserMessage"] = "";
+                                TempData["Title"] = "Error.";
+
+                                ViewBag.ErrorMessage = $"You have already Assigned Class to the student in row {row} of the excel";
+                                return View("Error3");
+                            }
+
+                            var assigClass = new AssignedClass()
+                            {
+                                StudentId = studentId,
+                                ClassName = classname,
+                                TermName = termName,
+                                SessionName = sessionName,
+                                SchoolId = userSchool
+                            };
+                            Db.AssignedClasses.Add(assigClass);
+
+
+                        }
+                        catch (Exception e)
+                        {
+                            ViewBag.ErrorMessage = $"Error Saving Record for row {row}{e.Message}";
+                            return View("Error3");
+                        }
+
+                    }
+                    try
+                    {
+                        await Db.SaveChangesAsync();
+                        message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
+                        ViewBag.Message = message;
+                        return RedirectToAction("Index", "AssignedClasses");
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.ErrorMessage = $"Student Id in record doesn't exist. {e.Message}";
+                        return View("Error3");
+                    }
+
+                }
+            }
+            ViewBag.Error = "File type is Incorrect <br/>";
+            return View("AssignClassUpload");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

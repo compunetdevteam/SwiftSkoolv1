@@ -30,7 +30,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public ResultCommandManager(string studentId, string termName, string sessionName, string schoolId)
         {
 
-            _schoolId = schoolId.ToUpper().Trim();
+            _schoolId = schoolId;
             _termName = termName.ToUpper().Trim();
             _sessionName = sessionName.Trim();
             _studentId = studentId.Trim();

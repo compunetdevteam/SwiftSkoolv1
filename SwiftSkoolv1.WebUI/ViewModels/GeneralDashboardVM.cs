@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-
-namespace SwiftSkoolv1.WebUI.ViewModels
+﻿namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class GeneralDashboardVm
     {
@@ -12,5 +6,6 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         public int TotlaNumberOfStudents { get; set; }
         public int MaleStudent { get; set; }
         public int FemaleStudent { get; set; }
-}
+        public int UnRecognisedGender { get; set; }
+    }
 }

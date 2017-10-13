@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain
 {
@@ -17,19 +16,6 @@ namespace SwiftSkoolv1.Domain
         [StringLength(65)]
         public string StudentName { get; set; }
 
-        //[Display(Name = "Class Name")]
-        //[Required(ErrorMessage = "Class Name cannot be empty")]
-        //[StringLength(15)]
-        //public string ClassName { get; set; }
-
-        //[Display(Name = "Term Name")]
-        //[Required(ErrorMessage = "Term Name cannot be empty")]
-        //[StringLength(15)]
-        //public string TermName { get; set; }
-
-        //[Display(Name = "Session Name")]
-        //[Required(ErrorMessage = "Session Name cannot be empty")]
-        //public string SessionName { get; set; }
 
         [Display(Name = "Subject Name")]
         [Required(ErrorMessage = "Subject Name cannot be empty")]

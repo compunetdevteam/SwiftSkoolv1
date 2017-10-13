@@ -225,6 +225,43 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    var loadFile = function (event) {
+        var fileUpload = document.getElementById("File");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 20) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output = document.getElementById('output');
+                output.src = "#";
+            } else {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+
+    };
+    var loadFile2 = function (event) {
+        var fileUpload = document.getElementById("BannerFile");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 30) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output2 = document.getElementById('output2');
+                output2.src = "#";
+            } else {
+                var output2 = document.getElementById('output2');
+                output2.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    };
+</script>

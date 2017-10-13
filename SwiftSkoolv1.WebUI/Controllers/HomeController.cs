@@ -39,17 +39,19 @@ namespace SwiftSkool.Controllers
             var numberOfStudent = students.Count();
 
             //total number of female student in the software
-            var numberOfFemale = students.Count(x => x.Gender.ToLower().Equals("female") || x.Gender.ToLower().Equals("f"));
+            var numberOfFemale = students.Count(x => x.Gender.ToLower().Trim().Equals("female") || x.Gender.ToLower().Trim().Equals("f"));
 
             //total number of male student in the application
-            var numberOfMale = students.Count(x => x.Gender.ToLower().Equals("male") || x.Gender.ToLower() != "female");
-
+            var numberOfMale = students.Count(x => x.Gender.ToLower().Trim().Equals("male") || x.Gender.ToLower().Trim().Equals("m"));
+            var noGenger = students.Count(x => x.Gender.Trim().ToLower() != "male" && x.Gender.Trim().ToLower() != "m" &&
+                                               x.Gender.Trim().ToLower() != "female" && x.Gender.Trim().ToLower() != "f");
 
             var model = new GeneralDashboardVm();
             model.TotalNumberOfSchools = numberOfSchools;
             model.TotlaNumberOfStudents = numberOfStudent;
             model.MaleStudent = numberOfMale;
             model.FemaleStudent = numberOfFemale;
+            model.UnRecognisedGender = noGenger;
 
             //return new Rotativa.ViewAsPdf();
             return View(model);

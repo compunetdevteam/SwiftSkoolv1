@@ -863,7 +863,7 @@
     <Content Include="Views\AssignedClasses\Create.cshtml" />
     <Content Include="Views\AssignedClasses\Delete.cshtml" />
     <Content Include="Views\AssignedClasses\Details.cshtml" />
-    <Content Include="Views\AssignedClasses\Edit.cshtml" />
+    <Content Include="Views\AssignedClasses\Edit2.cshtml" />
     <Content Include="Views\AssignedClasses\Index.cshtml" />
     <Content Include="Views\AssignedClasses\Save.cshtml" />
     <Content Include="Views\AssignFormTeacherToClasses\AddFormTeacher.cshtml" />
@@ -1141,6 +1141,8 @@
     <Content Include="Views\Account\AdminForgotPassword.cshtml" />
     <Content Include="Views\Account\AdminForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\CaLists\UploadResult.cshtml" />
+    <Content Include="Views\AssignedClasses\Edit.cshtml" />
+    <Content Include="Views\AssignedClasses\AssignClassUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

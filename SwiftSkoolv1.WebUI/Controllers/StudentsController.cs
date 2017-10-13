@@ -105,24 +105,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-
-            /*
-             * get the student base on the studen type eithr
-             * male or female
-             */
-
-
-
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
+            
             var v = Db.Students.Where(x => x.SchoolId == userSchool)
                 .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
-
-            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
 
             if (!string.IsNullOrWhiteSpace(gender))
             {
@@ -131,7 +116,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             if (!string.IsNullOrEmpty(search))
             {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
                 v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) &&
                                            (x.StudentId.Equals(search) || x.FullName.Equals(search)))
                     .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();

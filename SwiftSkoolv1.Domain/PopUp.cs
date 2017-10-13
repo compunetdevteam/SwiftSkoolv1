@@ -56,6 +56,11 @@ namespace SwiftSkoolv1.Domain
         Kwande, Logo, Makurdi, Obi, Ogbadibo, Ohimini, Oju, Okpokwu, Otukpo, Tarka, Ukum,
         Ushongo, Vandeikya
     }
+    //public enum LGA
+    //{
+    //    Jos_North = 1, Jos_South, Barkin_Ladi, Bassa, Bokkos, Jos_East, Kanam, Kanke, Langtang_North,
+    //    Langtang_South, Mangu, Mikang, Pankshin, Quaan_Pan, Ryom, Shendam, Wase
+    //}
 
     public enum OwershipType
     {
@@ -79,6 +84,8 @@ namespace SwiftSkoolv1.Domain
         Abuja, Gombe, Imo, Jigawa, Kaduna, Kano, Katsina, Kebbi, Kogi, Kwara, Lagos, Nasarawa, Niger, Ogun, Ondo, Osun,
         Oyo, Plateau, Rivers, Sokoto, Taraba, Yobe, Zamfara
     }
+
+
 
     public enum GradeStatus
     {
@@ -115,5 +122,7 @@ namespace SwiftSkoolv1.Domain
     {
         JSS1 = 1, JSS2, JSS3, SS1, SS2, SS3
     }
+
+
 
 }

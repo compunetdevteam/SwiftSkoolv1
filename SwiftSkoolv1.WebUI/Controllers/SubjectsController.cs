@@ -11,7 +11,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class SubjectsController : BaseController
     {
         // GET: Subjects
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View();
         }

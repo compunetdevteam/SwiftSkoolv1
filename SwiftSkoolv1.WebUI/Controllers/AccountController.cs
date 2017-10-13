@@ -634,7 +634,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 {
                     Id = model.StudentId,
                     UserName = model.UserName,
-                    //Email = model.Email.Trim(),
+                    Email = $"{model.StudentId}@compunet.com",
                     PhoneNumber = model.PhoneNumber.Trim(),
                     SchoolId = userSchool
                 };
