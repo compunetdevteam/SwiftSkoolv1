@@ -123,6 +123,16 @@ namespace SwiftSkoolv1.Domain
         JSS1 = 1, JSS2, JSS3, SS1, SS2, SS3
     }
 
+    public enum FileType
+    {
+        PDf = 1, MP4, MP3
+    }
+
+    public enum ReportCardType
+    {
+        WithoutPositionPrimary, WithPositionPrimary, WithoutPositionSecondary, WithPositionSecondary
+    }
+
 
 
 }

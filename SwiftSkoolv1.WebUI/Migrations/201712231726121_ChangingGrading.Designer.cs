@@ -7,13 +7,13 @@ namespace SwiftSkoolv1.WebUI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class PrincipalComment : IMigrationMetadata
+    public sealed partial class ChangingGrading : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PrincipalComment));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangingGrading));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709251304392_PrincipalComment"; }
+            get { return "201712231726121_ChangingGrading"; }
         }
         
         string IMigrationMetadata.Source

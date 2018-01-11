@@ -4,7 +4,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class GradeViewModel
     {
-
+      
         public int GradeId { get; set; }
 
         [Display(Name = "Grade Name")]
@@ -32,7 +32,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         // [Display(Name = "School Remark")]
         // [Required(ErrorMessage = "Remark is required")]
-        //// public string[] ClassName { get; set; }
+        public string[] ClassName { get; set; }
 
     }
 

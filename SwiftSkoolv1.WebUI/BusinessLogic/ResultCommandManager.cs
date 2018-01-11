@@ -1,4 +1,5 @@
-﻿using SwiftSkoolv1.Domain;
+﻿using Microsoft.Ajax.Utilities;
+using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -13,6 +14,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
     {
 
         private readonly SwiftSkoolDbContext _db;
+        private readonly QueryManager _queryManager;
         private readonly string _studentId;
         private readonly IQueryable<AssignedClass> _mYclassName;
         public readonly string _className;
@@ -29,7 +31,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         }
         public ResultCommandManager(string studentId, string termName, string sessionName, string schoolId)
         {
-
+            _queryManager = new QueryManager();
             _schoolId = schoolId;
             _termName = termName.ToUpper().Trim();
             _sessionName = sessionName.Trim();
@@ -48,12 +50,19 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
 
         private List<CaList> GetCaLists()
         {
-            return _db.CaLists.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(_schoolId)
-                                                //&& x.StudentId.ToUpper().Trim().Equals(_studentId)
-                                                && x.ClassName.ToUpper().Trim().Equals(_className)
-                                                && x.TermName.ToUpper().Trim().Equals(_termName)
-                                                && x.SessionName.ToUpper().Trim().Equals(_sessionName))
-                                                .ToList();
+            var myCas = new List<CaList>();
+            var subjectList = _queryManager.GetStudentSubject(_studentId, _schoolId, _className, _termName);
+            foreach (var subject in subjectList)
+            {
+                myCas.AddRange(_db.CaLists.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(_schoolId)
+                                                            && x.SubjectId.Equals(subject.SubjectId)
+                                                            && x.ClassName.ToUpper().Trim().Equals(_className)
+                                                            && x.TermName.ToUpper().Trim().Equals(_termName)
+                                                            && x.SessionName.ToUpper().Trim().Equals(_sessionName))
+                                                            .ToList().DistinctBy(x => x.StudentId));
+            }
+
+            return myCas;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using Microsoft.Ajax.Utilities;
+using PagedList;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
@@ -61,7 +62,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     break;
             }
 
-            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(userSchool), "ClassCode", "ClassCode");
             int pageSize = count;
             int pageNumber = (page ?? 1);
             return View(assignedList.ToPagedList(pageNumber, pageSize));
@@ -90,14 +91,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int totalRecords = 0;
 
 
-            var v = Db.Grades.Where(x => x.SchoolId == userSchool).Select(g => new { g.GradeId, g.GradeName, g.MinimumValue, g.MaximumValue, g.Remark }).ToList();
+            var v = Db.Grades.Where(x => x.SchoolId == userSchool).Select(g => new { g.GradeId, g.ClassName, g.GradeName, g.MinimumValue, g.MaximumValue, g.Remark }).ToList();
 
 
             if (!string.IsNullOrEmpty(search))
             {
 
-                v = Db.Grades.Where(x => x.SchoolId.Equals(userSchool) && (x.GradeName.Equals(search) || x.Remark.Equals(search)))
-                    .Select(g => new { g.GradeId, g.GradeName, g.MinimumValue, g.MaximumValue, g.Remark }).ToList();
+                v = v.Where(x => x.ClassName.Equals(search) || x.GradeName.Equals(search) || x.Remark.Equals(search)).ToList();
             }
             totalRecords = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
@@ -113,7 +113,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: Grades/Create
         public ActionResult Create()
         {
-            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(userSchool), "ClassCode", "ClassCode");
             return View();
         }
 
@@ -163,7 +163,21 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<PartialViewResult> Save(int id)
         {
             var grade = await Db.Grades.FindAsync(id);
-            return PartialView(grade);
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).AsEnumerable().DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassName = new MultiSelectList(className, "ClassName", "ClassName");
+            if (grade != null)
+            {
+                var gradevm = new GradeViewModel
+                {
+                    GradeId = grade.GradeId,
+                    GradeName = grade.GradeName,
+                    Remark = grade.Remark,
+                    MinimumValue = grade.MinimumValue,
+                    MaximumValue = grade.MaximumValue
+                };
+                return PartialView(gradevm);
+            }
+            return PartialView();
         }
 
         // POST: Subjects/Save/5
@@ -171,23 +185,58 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(Grade grade)
+        public async Task<ActionResult> Save(GradeViewModel model)
         {
             bool status = false;
             string message = string.Empty;
             if (ModelState.IsValid)
             {
-                if (grade.GradeId > 0)
+                if (model.GradeId > 0)
                 {
-                    grade.SchoolId = userSchool;
-                    Db.Entry(grade).State = EntityState.Modified;
+                    var grade = await Db.Grades.FindAsync(model.GradeId);
+                    if (grade != null)
+                    {
+                        grade.SchoolId = userSchool;
+                        grade.ClassName = model.ClassName[0];
+                        grade.GradeName = model.GradeName;
+                        grade.MaximumValue = model.MaximumValue;
+                        grade.MinimumValue = model.MinimumValue;
+                        grade.Remark = model.Remark;
+                        Db.Entry(grade).State = EntityState.Modified;
+                    }
                     message = "Grade Updated Successfully...";
                 }
                 else
                 {
-                    grade.SchoolId = userSchool;
-                    Db.Grades.Add(grade);
-                    message = "Grade Created Successfully...";
+                    foreach (var className in model.ClassName)
+                    {
+                        var myGrade = await Db.Grades.CountAsync(x => x.GradeName.Trim().Equals(model.GradeName.Trim())
+                                                        && x.ClassName.Equals(className) && x.SchoolId.Equals(userSchool));
+
+                        if (myGrade >= 1)
+                        {
+                            TempData["UserMessage"] = "Grade Already Exist in Database.";
+                            TempData["Title"] = "Error.";
+                            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+                            return View(model);
+                        }
+
+                        var grade = new Grade
+                        {
+                            GradeName = model.GradeName.Trim().ToUpper(),
+                            MinimumValue = model.MinimumValue,
+                            MaximumValue = model.MaximumValue,
+                            //GradePoint = model.GradePoint,
+                            Remark = model.Remark,
+                            SchoolId = userSchool,
+                            ClassName = className
+                        };
+                        Db.Grades.Add(grade);
+                        grade.SchoolId = userSchool;
+                        Db.Grades.Add(grade);
+                        message = "Grade Created Successfully...";
+                    }
+
 
                 }
                 await Db.SaveChangesAsync();
@@ -222,7 +271,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
             };
-            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new MultiSelectList(_query.SchoolClassListAsync(userSchool), "ClassCode", "ClassCode");
             return View(myGrade);
         }
 
@@ -253,25 +302,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+            ViewBag.ClassName = new SelectList(_query.SchoolClassListAsync(userSchool), "ClassCode", "ClassCode");
             return View(model);
         }
 
 
 
         // GET: Classes/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<PartialViewResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Grade @class = await Db.Grades.FindAsync(id);
-            if (@class == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@class);
+            return PartialView(@class);
         }
 
         // POST: Classes/Delete/5

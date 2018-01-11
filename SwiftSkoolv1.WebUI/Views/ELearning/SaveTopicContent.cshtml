@@ -1,0 +1,140 @@
+﻿@using SwiftKampus.Extensions
+@model SwiftKampusModel.Classroom.TopicMaterial
+
+
+
+
+@using (Html.BeginForm("SaveTopicContent", "ELearning", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                @if (Model != null && Model.TopicMaterialId > 0)
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            <i class="fa fa-save"></i> Update Record
+                        </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3><i class="fa fa-save"></i> Save Topic Content
+                        </h3>
+                    </div>
+                }
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            @if (Model != null && Model.TopicMaterialId > 0)
+            {
+                @Html.HiddenFor(model => model.TopicMaterialId)
+            }
+
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TopicId)
+                @Html.DropDownList("TopicId", null, htmlAttributes: new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.TopicId, "", new {@class = "text-danger"})
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FileType)
+                @Html.EnumDropDownListFor(model => model.FileType, htmlAttributes: new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.FileType, "", new {@class = "text-danger"})
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name)
+                @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NoteBody)
+                @Html.EditorFor(model => model.NoteBody, new {htmlAttributes = new {@id = "ckeditor", @class="form-control control-12-rows", @placeholder="Enter text ..."}})
+                @*<textarea name="NoteBody" id="ckeditor" class="form-control control-12-rows" placeholder="Enter text ...">@Model.NoteBody</textarea>*@
+                @Html.ValidationMessageFor(model => model.NoteBody, "", new {@class = "text-danger"})
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Author)
+                @Html.EditorFor(model => model.Author, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Author, "", new {@class = "text-danger"})
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description)
+                @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.File, htmlAttributes: new {@class = "control-label col-md-3"})
+
+                <div class="editor-field">
+                    @Html.FileFor(model => model.File)
+                    @Html.ValidationMessageFor(model => model.File)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end .card-body -->
+    
+   
+}
+@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+@*<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+
+        var file = $("File").get(0).files;
+
+        var data = new FormData;
+        data.append("File", file[0]);
+        //var data = $("#myform3").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/ELearning/SaveTopicContent",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                    window.TopicDetails(data.id);
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>*@
+
+
+
+

@@ -12,6 +12,35 @@
     </div>
     <br/>
     <br/>
+    <form id="formFilter" onsubmit="return false;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-1">
+                        
+                    </div>
+                    <div class="col-md-3">
+                        <div class="md-form">
+                            <label for="ClassName">Class Name</label>
+                            @Html.DropDownList("ClassName", null, htmlAttributes: new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="md-form">
+                            <label for="TermName">Term Name</label>
+                            @Html.DropDownList("TermName", null, htmlAttributes: new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" id="btn-search" class="btn btn-raised btn-default-light ink-reaction">Search/View</button>
+
+                    </div>
+                </div>
+               
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+        @*<em class="text-caption">Inline layout</em>*@
+    </form>
 
     <div class="tablecontainer" style="width: 90%; margin: 0 auto">
         @*<a class="popup" href="/AssignedClasses/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
@@ -71,14 +100,17 @@
 
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
-            "serverSide": true, // if it is true the preocess is done on server side
-            "filter": true, // disables search box
-            "info": true,
-            "stateSave": true,
-            "orderMulti": false, // disable multiple column loading at once
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
             "ajax": {
                 "url": "/AssignedClasses/GetIndex",
                 "type": "POST",
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
                 "datatype": "json"
             },
             "columns": [
@@ -129,4 +161,9 @@
         var url = "/AssignedClasses/Create";    
         window.open(url, '_self');
     };
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+
+    });
 </script>

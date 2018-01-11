@@ -1,4 +1,6 @@
-﻿using SwiftSkoolv1.Domain;
+﻿using Microsoft.Ajax.Utilities;
+using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Models;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -10,6 +12,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class PrincipalCommentsController : BaseController
     {
+
+        GradeRemark remark = new GradeRemark();
         // GET: PrincipalComments
         //public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search, int? page,
         //    string ClassName)
@@ -131,7 +135,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: PrincipalComments/Create
         public async Task<ActionResult> Create()
         {
-            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            //ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassName = new SelectList(className, "ClassName", "ClassName");
             return View();
         }
 
@@ -167,7 +173,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Db.PrincipalComments.Add(principalComment);
                 }
                 await Db.SaveChangesAsync();
-                ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+                //ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+                var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+                ViewBag.ClassName = new SelectList(className, "ClassName", "ClassName");
                 TempData["UserMessage"] = "Principal Comment Added Successfully.";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Index");
@@ -187,7 +195,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassName = new SelectList(className, "ClassName", "ClassName");
+            //ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
             return View(principalComment);
         }
 
@@ -210,7 +220,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).AsEnumerable().DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassName = new SelectList(className, "ClassName", "ClassName");
+            //ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             var principalComment = await Db.PrincipalComments.FindAsync(id);
             return PartialView(principalComment);
         }
@@ -229,12 +241,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 if (principalComment.Id > 0)
                 {
                     principalComment.SchoolId = userSchool;
+                    principalComment.ClassName = principalComment.ClassName;
                     Db.Entry(principalComment).State = EntityState.Modified;
                     message = "Comment Updated Successfully...";
                 }
                 else
                 {
                     principalComment.SchoolId = userSchool;
+                    principalComment.ClassName = principalComment.ClassName;
                     Db.PrincipalComments.Add(principalComment);
                     message = "Comment Created Successfully...";
 

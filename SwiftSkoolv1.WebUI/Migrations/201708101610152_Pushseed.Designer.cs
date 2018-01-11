@@ -7,18 +7,18 @@ namespace SwiftSkoolv1.WebUI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class BehaviouralCategory : IMigrationMetadata
+    public sealed partial class Pushseed : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(BehaviouralCategory));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Pushseed));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709220135445_BehaviouralCategory"; }
+            get { return "201708101610152_Pushseed"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

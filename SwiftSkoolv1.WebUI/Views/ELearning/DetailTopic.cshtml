@@ -1,0 +1,147 @@
+﻿@using SwiftKampus.Models
+@model SwiftKampusModel.Classroom.Module
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                Selected Module Details
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <table table-responsive>
+            <tr>
+                <td>Module Name:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.ModuleName)</th>
+            </tr>
+            <tr>
+                <td>Description:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.ModuleDescription)</th>
+            </tr>
+            <tr>
+                <td>Time:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.ExpectedTime)</th>
+            </tr>
+        </table>
+
+        <table class="table-responsive table-striped table-hover">
+            <tr>
+                <th>Topic Name</th>
+                <th>&nbsp;&nbsp;&nbsp;</th>
+                <th>Expected Time</th>
+
+                <th></th>
+
+            </tr>
+            @foreach (var item in Model.Topics)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TopicName)
+                    </td>
+                    <th>&nbsp;&nbsp;</th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpectedTime)&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            @if (User.IsInRole(RoleName.Academic))
+                            {
+                                
+                                
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        View <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" onclick="ViewTopicContent('@item.TopicId')"><i class="fa fa-eye">Topic Content</i> </a></li>
+                                        <li><a href="#" onclick="ViewTopicAssignment('@item.TopicId')"><i class="fa fa-eye">Topic Assignment</i> </a></li>
+
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        Topic <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" data-toggle="modal" data-target="#actionsList" onclick="EditTopic('@item.TopicId')"> <i class="fa fa-pencil-square-o">Topic</i> </a></li>
+                                        <li><a href="#" onclick="AddTopicContent('@item.TopicId')"><i class="fa fa-plus-circle">Topic Content</i> </a></li>
+
+                                        <li><a href="#" onclick="AddTopicAssignment('@item.TopicId')"><i class="fa fa-plus-circle">Topic Assignment</i> </a></li>
+
+                                    </ul>
+                                </div>
+                            }
+                            else if (User.IsInRole(RoleName.Student))
+                            {
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        Topic <span class="caret"></span>
+                                    </button>
+                                
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" onclick="ViewTopicContent('@item.TopicId')"><i class="fa fa-eye">Topic Content</i> </a></li>
+                                        <li><a href="#" onclick="TakeQuiz('@item.TopicId')"><i class="fa fa-outdent">Take Quiz</i> </a></li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function AddTopicContent(topicId) {
+        var url = "/ELearning/SaveTopicContent?id=" + topicId;
+        $('#topicContentDetail').load(url);
+      
+    };
+    function EditTopic(topicId) {
+        var url = "/ELearning/EditTopic?id=" + topicId;
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+    };
+    function ViewTopicContent(topicId) {
+        var url = "/ELearning/ViewTopic?id=" + topicId;
+        //document.getElementById('mydetailBody3').scrollIntoView();
+        $('#mydetailBody3').load(url);
+        $('html, body').animate({ scrollTop: $('#mydetailBody3').offset().top }, 'slow');
+       
+
+    };
+    function ViewTopicAssignment(topicId) {
+        var url = "/ELearning/ViewTopic?id=" + topicId;
+        //document.getElementById('mydetailBody3').scrollIntoView();
+        $('#mydetailBody3').load(url);
+        $('html, body').animate({ scrollTop: $('#mydetailBody3').offset().top }, 'slow');
+       
+
+    };
+    function AddTopicAssignment(topicId) {
+        var url = "/ELearning/ViewTopic?id=" + topicId;
+      
+        $('#mydetailBody3').load(url);
+        $('html, body').animate({ scrollTop: $('#mydetailBody3').offset().top }, 'slow');
+    };
+
+    function TakeQuiz(topicId) {
+        var url = "/TakeQuiz/SelectSubject?topicid=" + topicId;
+        window.open(url, '_self');
+       
+    };
+
+
+
+</script>

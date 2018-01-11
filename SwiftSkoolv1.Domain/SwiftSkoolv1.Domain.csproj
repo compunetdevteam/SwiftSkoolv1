@@ -48,6 +48,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -81,6 +82,7 @@
     <Compile Include="AssignSubject.cs" />
     <Compile Include="AssignTeacherToClass.cs" />
     <Compile Include="Book.cs" />
+    <Compile Include="BookCategory.cs" />
     <Compile Include="BookIssue.cs" />
     <Compile Include="Calender\Event.cs" />
     <Compile Include="CaList.cs" />
@@ -94,6 +96,10 @@
     <Compile Include="Class.cs" />
     <Compile Include="ClassAssignments.cs" />
     <Compile Include="ClassRoom\Classroom.cs" />
+    <Compile Include="ClassRoom\ClassRoomAnnoucement.cs" />
+    <Compile Include="ClassRoom\Module.cs" />
+    <Compile Include="ClassRoom\Topic.cs" />
+    <Compile Include="ClassRoom\TopicMaterial.cs" />
     <Compile Include="ContinuousAssessment.cs" />
     <Compile Include="FeeCategory.cs" />
     <Compile Include="FeePayment.cs" />
@@ -108,11 +114,13 @@
     <Compile Include="Objects\Tag.cs" />
     <Compile Include="PopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportCardSetting.cs" />
     <Compile Include="ReportSetting.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ResultAvailability.cs" />
     <Compile Include="School.cs" />
     <Compile Include="SchoolClass.cs" />
+    <Compile Include="SchoolEvent.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SMS.cs" />
     <Compile Include="Staff.cs" />
@@ -121,6 +129,7 @@
     <Compile Include="SubjectRegistration.cs" />
     <Compile Include="Term.cs" />
     <Compile Include="TimeTable.cs" />
+    <Compile Include="ValidateFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

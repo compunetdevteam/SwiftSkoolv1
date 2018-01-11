@@ -2,7 +2,7 @@
 
 namespace SwiftSkoolv1.Domain
 {
-    public class SchoolClass
+    public class SchoolClass : GeneralSchool
     {
         public int SchoolClassId { get; set; }
 

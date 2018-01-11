@@ -1,0 +1,57 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.ReportCardSetting>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ResumptionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClosingDate)
+        </th>
+        <th>
+            No of Times School Opened
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrincipalSignature)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SchoolId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResumptionDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClosingDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfTimesSchoolOpened)
+        </td>
+        <td>
+            <img src="@Url.Action("RenderPrincipalSign","ReportCardSettings", new { schoolId = item.SchoolId})" height="100" align="middle" /> <span></span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchoolId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ReportCardSettingId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ReportCardSettingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ReportCardSettingId })
+        </td>
+    </tr>
+}
+
+</table>

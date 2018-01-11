@@ -121,7 +121,8 @@
                     "autoWidth": true,
                     "render": function(data) {
                         return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true" ></i></a>' +
-                            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true" ><i/></a>';
+                            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
+                        '<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Staff"><i class="fa fa-remove" aria-hidden="true" ></i></a>';
                     }
                 }
                 //{ "data": "EmailID", "autoWidth": true },
@@ -157,4 +158,28 @@
     function AddNew() {
         window.open('@Url.Action("RegisterStaff", "Account")', '_self');
     };
+
+    function Delete(adminId) {
+        // window.alert(adminId);
+        var retVal = confirm("Do you want to Remove/Delete this Teacher?");
+        if (retVal === true) {
+            $.ajax({
+                type: "POST",
+                url: "/Staffs/Delete?id=" + adminId,
+                success: function(data) {
+                    if (data.status) {
+                        window.oTable.ajax.reload(); //run my_fun() ondomready
+                        toastr["info"](data.message);
+                    } else {
+                        toastr["error"](data.message);
+                    }
+
+                }
+            });
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 </script>

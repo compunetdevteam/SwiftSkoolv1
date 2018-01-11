@@ -1,0 +1,87 @@
+﻿@using SwiftKampus.Models
+@using SwiftKampusModel
+@model SwiftKampusModel.Classroom.Topic
+    
+<div class="card">
+<div class="card-head style-primary">
+    <header>
+        <h3>
+            Topic Materials
+        </h3>
+    </header>
+
+</div><!--end .card-head -->
+    <div class="card-body">
+        <table table-responsive>
+            <tr>
+                <td>Module Name:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.Module.ModuleName)</th>
+            </tr>
+            <tr>
+                <td>Topic Name::&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.TopicName)</th>
+            </tr>
+            <tr>
+                <td>Expected Time:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.ExpectedTime)</th>
+            </tr>
+        </table>
+
+        <table class="table table-responsive">
+            <tr>
+                <th>
+                    Material Name
+                </th>
+                <th >
+                    FileType Name
+                </th>
+
+
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.TopicMaterials)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FileType)
+                    </td>
+
+
+
+                    <td>
+                        @if (User.IsInRole(RoleName.Academic))
+                        {
+                            <a data-toggle="modal" data-target="#actionsList" onclick="EditTopicContent('@item.TopicMaterialId')"> <i class="fa fa-pencil-square-o">Topic Content</i> </a>
+
+                        }
+                        <a onclick="TopicContentDetails('@item.TopicMaterialId')"><i class="fa-info-circle">Content Details</i> </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    </div>
+
+<script type="text/javascript">
+
+    function EditTopicContent(topicId) {
+        var url = "/ELearning/SaveTopicContent?id=" + topicId;
+        $('#topicContentDetail').load(url);
+     
+    };
+   
+    function TopicContentDetails(topicId) {
+        var url = "/ELearning/DetailTopicContent?id=" + topicId;
+       // document.getElementById('topicContentDetail').scrollIntoView();
+        $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+ 
+
+    };
+
+</script>

@@ -13,8 +13,7 @@
         </div>
         <div class="card">
             <div class="card-block">
-
-                @using (Html.BeginForm("Index", "CaSetUps", FormMethod.Get, new {@class = "form-inline"}))
+                @using (Html.BeginForm("Index", "CaSetUps", FormMethod.Get))
                 {
                     <!-- BEGIN INLINE FORM -->
                     <div class="row">
@@ -38,40 +37,11 @@
                                 <label for="TermName">Term Name</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                        <input type="submit" class="btn btn-primary" value="Search" />
                         <span><a href="#" onclick="myFunction()" class="btn btn-primary">Add New SetUp</a></span>
                     </div><!--end .card-body -->
                 }
-
-
-
-
-                <!-- Modal -->
-                <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <!--Content-->
-                        <div class="modal-content">
-                            <!--Header-->
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <div class="flex-center">
-                                    <h4 class="modal-title">CA Test</h4>
-                                </div>
-                            </div>
-                            <!--Body-->
-                            <div class="modal-body" id="myModalDivBody">
-
-                            </div>
-                        </div>
-                        <!--/.Content-->
-                    </div>
-                </div>
-                <!-- /.Modal-->
-
-
-
+             
 
                 <div class="row">
                     <table class="table table-responsive">
@@ -136,6 +106,33 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">CA Test</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+
         <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
         <script type="text/javascript">
@@ -184,8 +181,7 @@
             });
             function Edit(caSetUpId) {
                 var url = "/CaSetUps/Save?id=" + caSetUpId;
-                //$('#actionsList').modal("show");
-                //window.alert(url);
+               
                 $('#myModalDivBody').load(url,
                     function () {
                         $('#actionsList').modal("show");
@@ -193,8 +189,7 @@
             };
             function Delete(caSetUpId) {
                 var url = "/CaSetUps/Delete?id=" + caSetUpId;
-                //$('#actionsList').modal("show");
-                //window.alert(url);
+              
                 $('#myModalDivBody').load(url,
                     function () {
                         $('#actionsList').modal("show");
@@ -202,8 +197,6 @@
             };
             function myFunction() {
                 var url = "/CaSetUps/SelectEdit";
-                //$('#actionsList').modal("show");
-                // window.alert(url);
                 $('#myModalDivBody').load(url,
                     function () {
                         $('#actionsList').modal("show");

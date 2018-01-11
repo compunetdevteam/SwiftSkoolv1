@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNet.Identity;
+using SwiftSkool.Services;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using SwiftSkool.Services;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -148,7 +147,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = User.Identity.GetUserId();
             }
             Staff staff = await Db.Staffs.FindAsync(id);
             if (staff == null)
@@ -188,7 +187,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Salutation,FirstName,MiddleName,LastName,PhoneNumber,Email,Gender,Address,StateOfOrigin,Designation,StaffPassport,DateOfBirth,MaritalStatus,Qualifications")] Staff staff)
+        public async Task<ActionResult> Create(Staff staff)
         {
             if (ModelState.IsValid)
             {
@@ -205,7 +204,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = User.Identity.GetUserId();
             }
             Staff staff = await Db.Staffs.FindAsync(id);
 
@@ -237,10 +236,25 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var staff = new Staff()
-                {
+                Staff staff = await Db.Staffs.FindAsync(model.StaffId);
 
-                };
+                staff.Salutation = model.Salutation.ToString();
+                staff.FirstName = model.FirstName;
+                staff.MiddleName = model.MiddleName;
+                staff.LastName = model.LastName;
+                staff.Email = model.Email;
+                staff.PhoneNumber = model.PhoneNumber;
+                staff.Address = model.Address;
+                staff.MaritalStatus = model.MaritalStatus.ToString();
+                staff.DateOfBirth = model.DateOfBirth;
+                staff.Designation = model.Designation;
+                staff.Qualifications = model.Qualifications.ToString();
+                staff.StaffPassport = model.StaffPassport;
+                staff.StateOfOrigin = model.StateOfOrigin.ToString();
+                staff.Gender = model.Gender.ToString();
+                staff.Password = model.Password;
+                staff.SchoolId = userSchool;
+
                 Db.Entry(staff).State = EntityState.Modified;
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -249,29 +263,33 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         // GET: Staffs/Delete/5
-        public async Task<ActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Staff staff = await Db.Staffs.FindAsync(id);
-            if (staff == null)
-            {
-                return HttpNotFound();
-            }
-            return View(staff);
-        }
+        //public async Task<ActionResult> Delete(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Staff staff = await Db.Staffs.FindAsync(id);
+        //    if (staff == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(staff);
+        //}
 
         // POST: Staffs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
         {
             Staff staff = await Db.Staffs.FindAsync(id);
-            if (staff != null) Db.Staffs.Remove(staff);
-            await Db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (staff != null)
+            {
+                Db.Staffs.Remove(staff);
+                await Db.SaveChangesAsync();
+                return new JsonResult { Data = new { status = true, message = "Teacher deleted Successfully" } };
+            }
+            return new JsonResult { Data = new { status = true, message = "Staff ID Couldn't be found" } };
+
         }
 
         public async Task<ActionResult> RenderImage(string id)

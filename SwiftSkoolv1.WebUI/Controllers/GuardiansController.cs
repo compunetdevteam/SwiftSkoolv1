@@ -1,5 +1,4 @@
-﻿using HopeAcademySMS.Services;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.ViewModels;
@@ -10,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using SwiftSkoolv1.WebUI.Services;
 
 
 namespace SwiftSkoolv1.WebUI.Controllers

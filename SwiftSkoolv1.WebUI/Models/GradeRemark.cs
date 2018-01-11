@@ -12,24 +12,31 @@ namespace SwiftSkoolv1.WebUI.Models
         }
 
 
-        private string GetschoolClass(string className)
-        {
-            var myClass = _db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
-                                .Select(s => s.SchoolName).FirstOrDefault();
-            return myClass;
+        //private string GetschoolClass(string className)
+        //{
+        //    var myClass = _db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
+        //                        .Select(s => s.SchoolName).FirstOrDefault();
+        //    return myClass;
 
-        }
+        //}
+        //public string GetschoolClassName(string className, string schoolId)
+        //{
+        //    var myClass = _db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId) &&
+        //                        x.FullClassName.Equals(className)).Select(s => s.ClassName).FirstOrDefault();
+        //    return myClass;
+
+        //}
 
 
         // This can be private now
         public string Grading(double summaryTotal, string className, string schoolId)
         {
-            string myclassName = GetschoolClass(className);
+            //string myclassName = GetschoolClass(className);
             string gradeValue = "";
             int mySummaryTotal = (int)summaryTotal;
 
             // var myGrade = _db.Grades.AsNoTracking().Where(x => x.ClassName.Equals(myclassName)).ToList();
-            var myGrade = _db.Grades.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId)).ToList();
+            var myGrade = _db.Grades.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId) && x.ClassName.Equals(className)).ToList();
             foreach (var item in myGrade)
             {
                 if (mySummaryTotal <= item.MaximumValue && mySummaryTotal >= item.MinimumValue)
@@ -46,12 +53,12 @@ namespace SwiftSkoolv1.WebUI.Models
 
         public string Remark(double summaryTotal, string className, string schoolId)
         {
-            string myclassName = GetschoolClass(className);
+            //string myclassName = GetschoolClass(className);
             string remarkValue = "";
 
             int mySummaryTotal = (int)summaryTotal;
             //var myGrade = _db.Grades.AsNoTracking().Where(x => x.ClassName.Equals(myclassName)).ToList();
-            var myGrade = _db.Grades.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId)).ToList();
+            var myGrade = _db.Grades.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId) && x.ClassName.Equals(className)).ToList();
             foreach (var item in myGrade)
             {
                 if (mySummaryTotal <= item.MaximumValue && mySummaryTotal >= item.MinimumValue)
@@ -90,11 +97,11 @@ namespace SwiftSkoolv1.WebUI.Models
 
         public string PrincipalRemark(double summaryTotal, string className, string schoolId)
         {
-            string myclassName = GetschoolClass(className);
+            // string myclassName = GetschoolClassName(className, schoolId);
             string remarkValue = "";
 
             //int mySummaryTotal = (int)summaryTotal;
-            var myGrade = _db.PrincipalComments.AsNoTracking().Where(x => x.ClassName.Equals(myclassName)
+            var myGrade = _db.PrincipalComments.AsNoTracking().Where(x => x.ClassName.Equals(className)
                             && x.SchoolId.Equals(schoolId)).ToList();
             foreach (var item in myGrade)
             {
@@ -104,7 +111,7 @@ namespace SwiftSkoolv1.WebUI.Models
                 }
             }
 
-            return !string.IsNullOrEmpty(remarkValue) ? remarkValue : "Enter Value between 1.0 - 9.0";
+            return !string.IsNullOrEmpty(remarkValue) ? remarkValue : "Enter Value between 0 - 100";
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using SwiftSkoolv1.Domain.CBT;
+using SwiftSkoolv1.Domain.ClassRoom;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,9 +17,10 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Current Term")]
         public bool ActiveTerm { get; set; }
-       // public virtual ICollection<CaSetUp> SchoolCas { get; set; }
         public ICollection<ExamLog> ExamLogs { get; set; }
         public ICollection<ExamSetting> ExamSettings { get; set; }
         public ICollection<ResultAvailability> ResultAvailabilities { get; set; }
+        public ICollection<Module> Modules { get; set; }
+
     }
 }

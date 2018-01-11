@@ -38,7 +38,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = await Db.SchoolClasses.AsNoTracking().ToListAsync();
+            var v = await Db.SchoolClasses.Where(x => x.SchoolId.Equals(userSchool)).AsNoTracking().ToListAsync();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -74,17 +74,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 if (model.SchoolClassId > 0)
                 {
+                    model.SchoolId = userSchool;
                     Db.Entry(model).State = EntityState.Modified;
                     message = "School Class Updated Successfully...";
                 }
                 else
                 {
-                    var myClass = Db.SchoolClasses.Where(x => x.ClassCode.Equals(model.ClassCode));
+                    //var myClass = Db.SchoolClasses.Where(x => x.ClassCode.Equals(model.ClassCode));
 
-                    if (myClass.Any())
-                    {
-                        return new JsonResult { Data = new { status = false, message = "School Class Already Exist in Database" } };
-                    }
+                    //if (myClass.Any())
+                    //{
+                    //    return new JsonResult { Data = new { status = false, message = "School Class Already Exist in Database" } };
+                    //}
+                    model.SchoolId = userSchool;
                     Db.SchoolClasses.Add(model);
                 }
                 await Db.SaveChangesAsync();
@@ -138,8 +140,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 var schoolClass = new SchoolClass()
                 {
                     ClassName = model.ClassName.Trim(),
-                    ClassCode = model.ClassCode.Trim()
+                    ClassCode = model.ClassCode.Trim(),
+                    SchoolId = userSchool
                 };
+
                 Db.SchoolClasses.Add(schoolClass);
 
                 await Db.SaveChangesAsync();
@@ -172,10 +176,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "SchoolClassId,ClassCode,ClassName")] SchoolClass schoolClass)
+        public async Task<ActionResult> Edit(SchoolClass schoolClass)
         {
             if (ModelState.IsValid)
             {
+                schoolClass.SchoolId = userSchool;
                 Db.Entry(schoolClass).State = EntityState.Modified;
                 await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "School Class Updated Successfully.";

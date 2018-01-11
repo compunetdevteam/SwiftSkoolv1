@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "ThirdTermResult";
+}
+
+<h2>ThirdTermResult</h2>
+<a href="@Url.Action("Download","FileDownload", new{studentId = User.Identity.GetUserId()})">Download</a>

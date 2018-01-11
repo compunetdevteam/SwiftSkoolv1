@@ -1,0 +1,119 @@
+﻿@model SwiftKampusModel.Classroom.Module
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<form id="myform">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                @if (Model != null && Model.ModuleId > 0)
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            <i class="fa fa-save"></i> Update Record
+                        </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3><i class="fa fa-save"></i> Save</h3>
+                    </div>
+                }
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.ModuleId > 0)
+            {
+                @Html.HiddenFor(model => model.ModuleId)
+            }
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+          
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CourseId)
+                @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ModuleName)
+                @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ModuleDescription)
+                @Html.EditorFor(model => model.ModuleDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ModuleDescription, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExpectedTime)
+                @Html.EditorFor(model => model.ExpectedTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExpectedTime, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            <div class="md-form">
+
+                @if (Model != null && Model.ModuleId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</form>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+    <script type="text/javascript">
+
+        $("#btnsubmit").click(function () {
+
+            var data = $("#myform").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/ELearning/SaveModule",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+                        window.oTable.ajax.reload(); //run my_fun() ondomready
+                        window.CourseDetails(data.id);
+                        toastr["success"](data.message);
+                        $('#myform')[0].reset();
+                    } else {
+                        toastr["error"](data.message);
+                        $('#actionsList').modal("hide");
+
+                    }
+
+                }
+            });
+        });
+    </script>

@@ -1,4 +1,5 @@
 ﻿using SwiftSkoolv1.Domain.CBT;
+using SwiftSkoolv1.Domain.ClassRoom;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,6 +37,7 @@ namespace SwiftSkoolv1.Domain
         public ICollection<ExamSetting> ExamSettings { get; set; }
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
         public ICollection<ResultDivision> ResultDivisions { get; set; }
+        public ICollection<Module> Modules { get; set; }
 
 
     }

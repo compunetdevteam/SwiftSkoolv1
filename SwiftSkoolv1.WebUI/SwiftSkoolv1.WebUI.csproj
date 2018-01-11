@@ -243,6 +243,7 @@
     <Compile Include="Controllers\AssignBehaviorsController.cs" />
     <Compile Include="Controllers\AssignedClassesController.cs" />
     <Compile Include="Controllers\AssignFormTeacherToClassesController.cs" />
+    <Compile Include="Controllers\AssignReportCardsController.cs" />
     <Compile Include="Controllers\AssignSubjectsController.cs" />
     <Compile Include="Controllers\AssignSubjectTeachersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Controllers\ChartTypeController.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\ContinuousAssessmentsController.cs" />
+    <Compile Include="Controllers\ELearningController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\FeeCategoriesController.cs" />
     <Compile Include="Controllers\FeedResult.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="Controllers\PrincipalCommentsController.cs" />
     <Compile Include="Controllers\PsychomotorsController.cs" />
     <Compile Include="Controllers\ReportCardsController.cs" />
+    <Compile Include="Controllers\ReportCardSettingsController.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\ResultSummaryController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
@@ -290,17 +293,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709220135445_BehaviouralCategory.cs" />
-    <Compile Include="Migrations\201709220135445_BehaviouralCategory.Designer.cs">
-      <DependentUpon>201709220135445_BehaviouralCategory.cs</DependentUpon>
+    <Compile Include="Migrations\201711061350527_NewMIGRATION.cs" />
+    <Compile Include="Migrations\201711061350527_NewMIGRATION.Designer.cs">
+      <DependentUpon>201711061350527_NewMIGRATION.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709251304392_PrincipalComment.cs" />
-    <Compile Include="Migrations\201709251304392_PrincipalComment.Designer.cs">
-      <DependentUpon>201709251304392_PrincipalComment.cs</DependentUpon>
+    <Compile Include="Migrations\201711070824327_Event.cs" />
+    <Compile Include="Migrations\201711070824327_Event.Designer.cs">
+      <DependentUpon>201711070824327_Event.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709251317462_AssignBehaviour.cs" />
-    <Compile Include="Migrations\201709251317462_AssignBehaviour.Designer.cs">
-      <DependentUpon>201709251317462_AssignBehaviour.cs</DependentUpon>
+    <Compile Include="Migrations\201712071823598_ReportModelUpdate.cs" />
+    <Compile Include="Migrations\201712071823598_ReportModelUpdate.Designer.cs">
+      <DependentUpon>201712071823598_ReportModelUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712072054028_NoOfTimeSchoolOpened.cs" />
+    <Compile Include="Migrations\201712072054028_NoOfTimeSchoolOpened.Designer.cs">
+      <DependentUpon>201712072054028_NoOfTimeSchoolOpened.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712231726121_ChangingGrading.cs" />
+    <Compile Include="Migrations\201712231726121_ChangingGrading.Designer.cs">
+      <DependentUpon>201712231726121_ChangingGrading.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -678,7 +689,6 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkoolJos - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -800,7 +810,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1143,9 +1155,42 @@
     <Content Include="Views\CaLists\UploadResult.cshtml" />
     <Content Include="Views\AssignedClasses\Edit.cshtml" />
     <Content Include="Views\AssignedClasses\AssignClassUpload.cshtml" />
+    <Content Include="Views\Results\ThirdTermResult.cshtml" />
+    <Content Include="Views\AssignSubjectTeachers\TeacherIndex.cshtml" />
+    <Content Include="Views\Account\StaffIndex.cshtml" />
+    <Content Include="Views\ELearning\CourseDetails.cshtml" />
+    <Content Include="Views\ELearning\DetailTopic.cshtml" />
+    <Content Include="Views\ELearning\DetailTopicContent.cshtml" />
+    <Content Include="Views\ELearning\EditModule.cshtml" />
+    <Content Include="Views\ELearning\EditTopic.cshtml" />
+    <Content Include="Views\ELearning\Index.cshtml" />
+    <Content Include="Views\ELearning\MyCourses.cshtml" />
+    <Content Include="Views\ELearning\SaveModule.cshtml" />
+    <Content Include="Views\ELearning\SaveTopic.cshtml" />
+    <Content Include="Views\ELearning\SaveTopicContent.cshtml" />
+    <Content Include="Views\ELearning\StudentsIndex.cshtml" />
+    <Content Include="Views\ELearning\ViewTopic.cshtml" />
+    <Content Include="Views\ReportCardSettings\Create.cshtml" />
+    <Content Include="Views\ReportCardSettings\Delete.cshtml" />
+    <Content Include="Views\ReportCardSettings\Details.cshtml" />
+    <Content Include="Views\ReportCardSettings\Edit.cshtml" />
+    <Content Include="Views\ReportCardSettings\Index.cshtml" />
+    <Content Include="Views\AssignReportCards\Create.cshtml" />
+    <Content Include="Views\AssignReportCards\Delete.cshtml" />
+    <Content Include="Views\AssignReportCards\Details.cshtml" />
+    <Content Include="Views\AssignReportCards\Edit.cshtml" />
+    <Content Include="Views\AssignReportCards\Index.cshtml" />
+    <Content Include="Views\Results\WithoutPositionPrimary.cshtml" />
+    <Content Include="Views\Results\WithPositionPrimary.cshtml" />
+    <Content Include="Views\Results\WithoutPositionSecondary.cshtml" />
+    <Content Include="Views\Results\WithPositionSecondary.cshtml" />
+    <Content Include="Views\CaLists\SearchView.cshtml" />
+    <Content Include="Views\CaLists\DeleteCa.cshtml" />
+    <Content Include="Views\Account\RemoveUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="MyFiles\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
@@ -1164,14 +1209,20 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709220135445_BehaviouralCategory.resx">
-      <DependentUpon>201709220135445_BehaviouralCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711061350527_NewMIGRATION.resx">
+      <DependentUpon>201711061350527_NewMIGRATION.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709251304392_PrincipalComment.resx">
-      <DependentUpon>201709251304392_PrincipalComment.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711070824327_Event.resx">
+      <DependentUpon>201711070824327_Event.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709251317462_AssignBehaviour.resx">
-      <DependentUpon>201709251317462_AssignBehaviour.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712071823598_ReportModelUpdate.resx">
+      <DependentUpon>201712071823598_ReportModelUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712072054028_NoOfTimeSchoolOpened.resx">
+      <DependentUpon>201712072054028_NoOfTimeSchoolOpened.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712231726121_ChangingGrading.resx">
+      <DependentUpon>201712231726121_ChangingGrading.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

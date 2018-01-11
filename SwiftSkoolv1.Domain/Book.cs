@@ -1,5 +1,4 @@
-﻿using SwiftSkool.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain
 {
@@ -7,24 +6,22 @@ namespace SwiftSkoolv1.Domain
     {
         public int BookId { get; set; }
 
+        public int BookCategoryId { get; set; }
+
         [Key]
         [Display(Name = "Accession Number")]
         [Required(ErrorMessage = "Accession No is required")]
-        [StringLength(25)]
         public string AccessionNo { get; set; }
 
         [Display(Name = "Book Title")]
         [Required(ErrorMessage = "Title is required")]
-        [StringLength(50)]
         public string Title { get; set; }
 
         [Display(Name = "Book Author")]
         [Required(ErrorMessage = "Author is required")]
-        [StringLength(50)]
         public string Author { get; set; }
 
         [Display(Name = "Joint Author")]
-        [StringLength(50)]
         public string JointAuthor { get; set; }
 
         [Display(Name = "Book Subject")]
@@ -50,7 +47,8 @@ namespace SwiftSkoolv1.Domain
         [StringLength(35)]
         public string PlaceOfPublish { get; set; }
 
-        public virtual BookIssue BookIssue { get; set; }
+        public BookIssue BookIssue { get; set; }
+        public BookCategory BookCategory { get; set; }
 
     }
 }

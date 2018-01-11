@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Rotativa;
+using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using SwiftSkoolv1.WebUI.ViewModels;
@@ -20,6 +21,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ResultsController()
         {
             _gradeRemark = new GradeRemark();
+        }
+
+        public ActionResult ThirdTermResult()
+        {
+            return View();
         }
 
         // GET: Results
@@ -55,9 +61,49 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var sessionName = SessionName.Trim();
 
             var reportModel = await GenerateTermReport(id, termName, sessionName);
+
+            var cardSetting = await Db.AssignReportCards.AsNoTracking().Where(x => x.ClassName.Equals(reportModel.ClassName))
+                                    .Select(s => s.ReportCardType).FirstOrDefaultAsync();
+            if (cardSetting.ToString().Equals(ReportCardType.WithPositionPrimary.ToString()))
+            {
+                return new ViewAsPdf("WithPositionPrimary", reportModel);
+            }
+            if (cardSetting.ToString().Equals(ReportCardType.WithoutPositionPrimary.ToString()))
+            {
+                return new ViewAsPdf("WithoutPositionPrimary", reportModel);
+            }
+            if (cardSetting.ToString().Equals(ReportCardType.WithPositionSecondary.ToString()))
+            {
+                return new ViewAsPdf("WithPositionSecondary", reportModel);
+            }
+            if (cardSetting.ToString().Equals(ReportCardType.WithoutPositionSecondary.ToString()))
+            {
+                return new ViewAsPdf("WithoutPositionSecondary", reportModel);
+            }
+
             return new ViewAsPdf("DownloadResult", reportModel);
         }
+        #region Result Templates
+        public ActionResult WithoutPositionPrimary(ReportCardVm reportModel)
+        {
+            return new ViewAsPdf("WithoutPositionPrimary", reportModel);
+        }
+        public ActionResult WithPositionPrimary(ReportCardVm reportModel)
+        {
+            return new ViewAsPdf("WithPositionPrimary", reportModel);
+        }
+        public ActionResult WithoutPositionSecondary(ReportCardVm reportModel)
+        {
 
+            return new ViewAsPdf("WithoutPositionSecondary", reportModel);
+        }
+        public ActionResult WithPositionSecondary(ReportCardVm reportModel)
+        {
+            return new ViewAsPdf("WithPositionSecondary", reportModel);
+        }
+
+
+        #endregion
 
         public async Task<ActionResult> ViewResult(string StudentId, string TermName, string SessionName)
         {
@@ -73,10 +119,16 @@ namespace SwiftSkoolv1.WebUI.Controllers
             _resultCommand = new ResultCommandManager(id, termName, sessionName, userSchool);
             var reportModel = new ReportVm();
             var newCalist = new List<ContinuousAssesmentVm>();
+
+            reportModel.ReportCardSetting = await Db.ReportCardSettings.AsNoTracking()
+                                    .Where(x => x.SchoolId.Equals(userSchool)).FirstOrDefaultAsync();
+
             var mySchoolClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.ToUpper().Trim().Equals(userSchool)
                                         && x.FullClassName.Equals(_resultCommand._className))
                                         .Select(s => s.ClassName).FirstOrDefault();
-            ;
+            reportModel.SchoolClassName = mySchoolClassName;
+
+
             foreach (var ca in _resultCommand._studentCa)
             {
                 var caVm = new ContinuousAssesmentVm
@@ -138,8 +190,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
             //ViewBag.Class = 
-            reportModel.PrincipalComment =
-                _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
+            reportModel.PrincipalComment = _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
             reportModel.TermName = termName;
             reportModel.SessionName = sessionName;
             reportModel.ClassName = _resultCommand._className;
@@ -157,16 +208,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 .Select(s => s.StudentId).ToList();
             foreach (var student in classMate)
             {
-                var aggregateList = new AggregateList()
-                {
-                    Score = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
-                                                                       x.StudentId.Equals(student)
-                                                                       && x.ClassName.Equals(_resultCommand._className)
-                                                                       && x.TermName.Equals(termName) &&
-                                                                       x.SessionName.Equals(sessionName))
-                                                                        .SumAsync(s => s.Total),
-                    StudentId = student
-                };
+                var aggregateList = new AggregateList();
+                var sumValue = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                                                          x.StudentId.Equals(student) && x.ClassName.Equals(_resultCommand._className)
+                                                                          && x.TermName.Equals(termName) && x.SessionName.Equals(sessionName))
+                                   .SumAsync(s => (double?)s.Total) ?? 0;
+                aggregateList.Score = Convert.ToDouble(sumValue);
+                aggregateList.StudentId = student;
+
                 myAggregateList.Add(aggregateList);
             }
 

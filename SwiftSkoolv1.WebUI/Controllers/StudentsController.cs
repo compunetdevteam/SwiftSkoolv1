@@ -1,5 +1,4 @@
-﻿using HopeAcademySMS.Services;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
@@ -105,7 +104,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            
+
             var v = Db.Students.Where(x => x.SchoolId == userSchool)
                 .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
 

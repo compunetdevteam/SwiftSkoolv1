@@ -1,0 +1,56 @@
+﻿@model SwiftSkoolv1.Domain.AssignReportCard
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class="card contact-card card-cascade narrower mb-r">
+    <div class="admin-panel info-admin-panel">
+        <!-- Card title -->
+        <div class="view primary-color">
+            <h5>Report Card Setting</h5>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="md-form">
+                    @Html.LabelFor(model => model.ReportCardType)
+                    <div class="col-md-6">
+                        @Html.EnumDropDownListFor(model => model.ReportCardType, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ReportCardType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="md-form">
+                    @Html.Label("Class Name")
+                    <div class="col-md-6">
+                        @Html.DropDownList("ClassId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

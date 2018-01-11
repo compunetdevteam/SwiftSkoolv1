@@ -38,7 +38,6 @@ namespace SwiftSkoolv1.Domain
         public virtual ICollection<AssignedClass> AssignedClasses { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
-        public virtual ICollection<InviteTeacher> InviteTeacher { get; set; }
     }
 
 }

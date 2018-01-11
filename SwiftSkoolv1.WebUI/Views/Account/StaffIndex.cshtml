@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "StaffIndex";
+}
+
+<div class="card contact-card card-cascade narrower mb-r">
+    <div class="admin-panel info-admin-panel">
+        <!-- Card title -->
+        <div class="view primary-color">
+            <h5>List of School Staff</h5>
+        </div>
+        <br/>
+        <br/>
+    
+
+
+        <table id="Jdatatable" class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>School Id</th>
+                <th>School Name</th>
+                <th>Email</th>
+                @*<th>Password</th>*@
+                <th>Action</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/Account/GetStaff",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "SchoolId", "autoWidth": true },
+                { "data": "SchoolName", "autoWidth": true },
+                { "data": "Email", "autoWidth": true },
+                //{ "data": "Password", "autoWidth": true },
+                { "data": "Id", "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Admin"><i class="fa fa-remove" aria-hidden="true" >Remove</i></a>';
+                    }
+                }
+            ]
+        });
+
+       
+    });
+
+    function Delete(adminId) {
+        // window.alert(adminId);
+        var retVal = confirm("Do you want to Remove/Delete this Teacher?");
+        if (retVal === true) {
+            $.ajax({
+                type: "POST",
+                url: "/Account/DeleteAdmin?id=" + adminId,
+                success: function(data) {
+                    if (data.status) {
+                        window.oTable.ajax.reload(); //run my_fun() ondomready
+                        toastr["info"](data.message);
+                        $('#myform')[0].reset();
+                    } else {
+                        toastr["error"](data.message);
+                    }
+
+                }
+            });
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+</script>
+

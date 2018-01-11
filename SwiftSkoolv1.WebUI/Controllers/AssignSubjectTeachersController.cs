@@ -86,7 +86,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-
+        public ActionResult TeacherIndex()
+        {
+            return View();
+        }
 
         public async Task<ActionResult> GetIndex()
         {
@@ -108,7 +111,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int totalRecords = 0;
 
             //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.AssignSubjectTeachers.Where(x => x.SchoolId == userSchool).Select(s => new { s.Id, s.StaffName, s.ClassName, s.Subject.SubjectName }).ToList();
+            var v = Db.AssignSubjectTeachers.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.Id, s.StaffName, s.ClassName, s.Subject.SubjectName }).ToList();
 
             //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
             //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -116,6 +119,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
             //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
             //}
+            var userId = User.Identity.GetUserName();
+            if (User.IsInRole("Teacher"))
+            {
+                v = v.Where(x => x.StaffName.Equals(userId)).ToList();
+            }
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -155,11 +163,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 if (model.Id > 0)
                 {
                     var assignSubjectTeacher = await Db.AssignSubjectTeachers.FindAsync(model.Id);
-                    assignSubjectTeacher.SchoolId = userSchool;
-                    assignSubjectTeacher.ClassName = model.ClassName[0];
-                    assignSubjectTeacher.SubjectId = model.SubjectId;
-                    assignSubjectTeacher.StaffName = model.StaffName;
-                    Db.Entry(assignSubjectTeacher).State = EntityState.Modified;
+                    if (assignSubjectTeacher != null)
+                    {
+                        assignSubjectTeacher.SchoolId = userSchool;
+                        assignSubjectTeacher.ClassName = model.ClassName[0];
+                        assignSubjectTeacher.SubjectId = model.SubjectId;
+                        assignSubjectTeacher.StaffName = model.StaffName;
+                        Db.Entry(assignSubjectTeacher).State = EntityState.Modified;
+                    }
                     message = "Subject Assigned to Teacher was Updated Successfully...";
                 }
                 else
@@ -173,9 +184,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         {
 
                             var countFromDb = await Db.AssignSubjectTeachers.AsNoTracking().CountAsync(x => x.ClassName.Equals(item)
-                                                                                                            && x.SubjectId.Equals(model.SubjectId));
+                                                && x.SubjectId.Equals(model.SubjectId) && x.SchoolId.Equals(userSchool));
                             var subject = await Db.Subjects.FindAsync(model.SubjectId);
-
 
                             // var countFromDb = CA.Count();
 
@@ -319,7 +329,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,SubjectId,ClassName,StaffName")] AssignSubjectTeacher assignSubjectTeacher)
+        public async Task<ActionResult> Edit(AssignSubjectTeacher assignSubjectTeacher)
         {
             if (ModelState.IsValid)
             {

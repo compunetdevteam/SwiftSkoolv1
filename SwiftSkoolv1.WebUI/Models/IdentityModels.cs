@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.Domain.Calender;
 using SwiftSkoolv1.Domain.CBT;
+using SwiftSkoolv1.Domain.ClassRoom;
 using SwiftSkoolv1.Domain.Objects;
 using System.Data.Entity;
 using System.Security.Claims;
@@ -102,6 +103,15 @@ namespace SwiftSkoolv1.WebUI.Models
         public DbSet<Event> Events { get; set; }
         public DbSet<ResultAvailability> ResultAvailabilities { get; set; }
         public DbSet<TimeTable> TimeTables { get; set; }
+
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<TopicMaterial> TopicMaterials { get; set; }
+        public DbSet<SchoolEvent> SchoolEvents { get; set; }
+
+        public System.Data.Entity.DbSet<SwiftSkoolv1.Domain.ReportCardSetting> ReportCardSettings { get; set; }
+
+        public System.Data.Entity.DbSet<SwiftSkoolv1.Domain.AssignReportCard> AssignReportCards { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    //Configure domain classes using modelBuilder here

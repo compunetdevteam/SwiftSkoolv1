@@ -6,6 +6,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 {
     public class ReportVm
     {
+        public string SchoolClassName { get; set; }
         public string ClassName { get; set; }
         public string TermName { get; set; }
         public string SessionName { get; set; }
@@ -27,6 +28,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         public ReportCard ReportCard { get; set; }
 
         public List<CaSetUp> CaSetUp { get; set; }
+        public ReportCardSetting ReportCardSetting { get; set; }
         public int CaSetUpCount { get; set; }
 
         //public double GPA { get; set; }

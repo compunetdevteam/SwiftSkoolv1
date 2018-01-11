@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Student Index";
+}
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+
+            <div class="card">
+                <div class="card-head style-primary">
+                    <header>
+                        <h3>
+                            Assigned Courses
+                        </h3>
+                    </header>
+
+                </div><!--end .card-head -->
+                <div class="card-body">
+
+                    <table id="Jdatatable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>Course Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="row" id="mydetailBody">
+
+
+            </div>
+
+
+            <div class="row" id="mydetailBody2">
+
+
+            </div>
+
+            <div class="row" id="mydetailBody3">
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <div class="col-md-9"  id="topicContentDetail">
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">ASSIGNED COURSE</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var message = "@ViewBag.Message";
+        if (message) {
+            toastr["success"](message);
+        }
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/ELearning/MyCourses",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+
+                { "data": "CourseName", "autoWidth": true },
+                //{ "data": "LevelName", "autoWidth": true },
+                //{ "data": "ProgrammeName", "autoWidth": true },
+
+                {
+                    "data": "CourseId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="CourseDetails(' +data +')" >  <i class="fa fa-asterisk" aria-hidden="true" >&nbsp;Details</i></a>&nbsp;&nbsp;' +
+                       '<a href="#" onclick="ViewForum(' + data + ')" >  <i class="fa fa-eye" aria-hidden="true" >&nbsp;Forum</i></a>' ;
+                        //'<a class="text-danger" data-toggle="modal" data-target="#actionsList"  onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+    });
+    //$(window).scroll(function(){
+    //    $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+    //});
+
+    function CourseDetails(courseId) {
+        var url = "/ELearning/CourseDetails?id=" + courseId;
+        //document.getElementById('mydetailBody').scrollIntoView();
+        $('#mydetailBody').load(url);
+        $('html, body').animate({ scrollTop: $('#mydetailBody').offset().top }, 'slow');
+
+    };
+
+    function AddModule(courseId) {
+        var url = "/ELearning/SaveModule?id=" + courseId;
+        // $('#mydetailBody').load(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal('show');
+            });
+    };
+    function ViewForum(courseId) {
+        var url = "/Forums/GetForum?id=" + courseId;
+       
+        $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+    };
+
+
+</script>
+

@@ -44,6 +44,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 s.Address,
                 s.OwernshipType,
             }).ToListAsync();
+            if (User.IsInRole("Admin"))
+            {
+                v = v.Where(x => x.SchoolId.Equals(userSchool)).ToList();
+            }
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -77,7 +81,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = userSchool;
             }
             var school = await Db.Schools.FindAsync(id);
             if (school == null)
@@ -129,7 +133,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = userSchool;
             }
             var model = await Db.Schools.FindAsync(id);
 
@@ -212,6 +216,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var school = await Db.Schools.FindAsync(studentId);
 
             byte[] photoBack = school.Logo;
+
+            return File(photoBack, "image/png");
+        }
+        [AllowAnonymous]
+        public async Task<ActionResult> RenderBanner(string schoolId)
+        {
+            var school = await Db.Schools.FindAsync(schoolId);
+
+            byte[] photoBack = school.SchoolBanner;
 
             return File(photoBack, "image/png");
         }

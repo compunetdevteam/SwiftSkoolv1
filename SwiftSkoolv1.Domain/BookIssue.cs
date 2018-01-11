@@ -10,12 +10,10 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Student's Name")]
         [Required(ErrorMessage = "Student's Name is required")]
-        [StringLength(25)]
         public string StudentId { get; set; }
 
         [Display(Name = "Accession Number")]
         [Required(ErrorMessage = "Accession No is required")]
-        [StringLength(25)]
         public string AccessionNo { get; set; }
 
         [Display(Name = "Issued Date Number")]

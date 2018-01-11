@@ -1,0 +1,117 @@
+﻿@model SwiftSkoolv1.Domain.ReportCardSetting
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="card contact-card card-cascade narrower mb-r">
+<div class="admin-panel info-admin-panel">
+    <!-- Card title -->
+    <div class="view primary-color">
+        <h5>Report Card Setting</h5>
+    </div>
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-11">
+
+
+    @using (Html.BeginForm("Create", "ReportCardSettings", FormMethod.Post, new { enctype = "multipart/form-data", id = "myform" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="md-form">
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.ResumptionDate)
+                    @Html.EditorFor(model => model.ResumptionDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ResumptionDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="md-form">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.ClosingDate)
+                    @Html.EditorFor(model => model.ClosingDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ClosingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="md-form">
+                <div class="col-md-6">
+                    @Html.Label("No of Times School Opened")
+                    @Html.EditorFor(model => model.NoOfTimesSchoolOpened, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NoOfTimesSchoolOpened, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-6">
+                    <div class="card contact-card card-cascade narrower mb-r">
+                        <div class="admin-panel info-admin-panel">
+                            <!-- Card title -->
+                            <div class="view primary-color">
+                                <h5>Add Principal Signature</h5>
+                            </div>
+                            <!-- /.Card title -->
+                            <!-- Card content -->
+                            <div class="card-block text-center">
+
+                                <img id="output" alt="Signature" class="rounded-circle contact-avatar my-2 mx-auto" />
+
+                                <p class="text-muted">
+                                    <small>photo will be changed automatically</small>
+                                </p>
+
+                                <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
+                                <label for="File" class="btn btn-primary btn-block">Upload Logo</label>
+
+
+                            </div>
+                            <!-- /.Card content -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <input type="submit" value="Save Settings" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    var loadFile = function (event) {
+        var fileUpload = document.getElementById("File");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 100) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output = document.getElementById('output');
+                output.src = "#";
+            } else {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+
+    };
+
+</script>
+
+

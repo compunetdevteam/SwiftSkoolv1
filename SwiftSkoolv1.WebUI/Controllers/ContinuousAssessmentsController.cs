@@ -1,5 +1,4 @@
-﻿using HopeAcademySMS.Services;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using PagedList;
 using SwiftSkoolv1.Domain;
@@ -12,6 +11,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using SwiftSkoolv1.WebUI.Services;
 
 //using Excel = Microsoft.Office.Interop.Excel;
 

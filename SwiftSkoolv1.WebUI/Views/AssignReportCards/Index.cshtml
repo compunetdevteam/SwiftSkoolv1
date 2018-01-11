@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.AssignReportCard>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="card contact-card card-cascade narrower mb-r">
+    <div class="admin-panel info-admin-panel">
+        <!-- Card title -->
+        <div class="view primary-color">
+            <h5>List Card Setting</h5>
+        </div>
+    </div>
+    <br />
+    <br />
+   
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table table-responsive">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Class.ClassName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReportCardType)
+                </th>
+               
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class.ClassName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReportCardType)
+                    </td>
+                   
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id = item.AssignReportCardId}) |
+                        @Html.ActionLink("Details", "Details", new {id = item.AssignReportCardId}) |
+                        @Html.ActionLink("Delete", "Delete", new {id = item.AssignReportCardId})
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

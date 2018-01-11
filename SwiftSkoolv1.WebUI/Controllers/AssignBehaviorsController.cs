@@ -1,4 +1,5 @@
-﻿using SwiftSkoolv1.Domain;
+﻿using Microsoft.AspNet.Identity;
+using SwiftSkoolv1.Domain;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -133,11 +134,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-
-
-
-
-
         // GET: AssignBehaviors/Create
         public ActionResult Create()
         {
@@ -145,6 +141,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             .Where(x => x.SchoolId.Equals(userSchool)), "SkillName", "SkillName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+
+            string name = User.Identity.GetUserName();
+            var classList = Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
+                                .Where(x => x.SchoolId.Equals(userSchool) && x.StaffName.Equals(name))
+                                .Select(x => x.ClassName).Distinct().ToList();
+            Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
+
             ViewBag.StudentId = new SelectList(Db.Students.Where(x => x.SchoolId.Equals(userSchool)).AsNoTracking(), "StudentID", "FullName");
             return View();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -25,10 +26,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 caSetUps = caSetUps.Where(x => x.TermName.Equals(TermName)
                                                || x.ClassName.Equals(ClassId));
             }
-
-            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassName = new SelectList(className, "ClassName", "ClassName");
+            //ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
-            return View(await caSetUps.OrderBy(o => o.CaOrder).ToListAsync());
+            return View(await caSetUps.OrderBy(o => o.ClassName).ToListAsync());
         }
 
 
@@ -102,7 +104,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<PartialViewResult> Save(int id)
         {
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassName", "ClassName");
             ViewBag.TermId = new SelectList(Db.Terms, "TermId", "TermName");
 
             var caSetUp = await Db.CaSetUps.FindAsync(id);
@@ -143,9 +146,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
 
-        public async Task<PartialViewResult> SelectEdit()
+        public PartialViewResult SelectEdit()
         {
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassName", "ClassName");
             ViewBag.TermId = new SelectList(_query.TermList(), "TermName", "TermName");
             return PartialView();
         }
@@ -250,8 +254,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
                 await Db.SaveChangesAsync();
             }
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassName", "ClassName");
-            ViewBag.TermId = new SelectList(_query.TermList(), "TermName", "TermName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassName", "ClassName"); ViewBag.TermId = new SelectList(_query.TermList(), "TermName", "TermName");
             return View(caSetUps);
         }
 
@@ -282,8 +286,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
-            ViewBag.TermId = new SelectList(_query.TermList(), "TermId", "TermName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassName", "ClassName"); ViewBag.TermId = new SelectList(_query.TermList(), "TermId", "TermName");
             return View(model);
         }
 
@@ -305,7 +309,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: CaSetUps/Create
         public async Task<ActionResult> Create()
         {
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassId", "ClassName");
+            //ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
             ViewBag.TermId = new SelectList(Db.Terms, "TermId", "TermName");
             return View();
         }
@@ -324,8 +330,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassId", "ClassName");
+            //ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
             ViewBag.TermId = new SelectList(Db.Terms, "TermId", "TermName");
             return View(caSetUp);
         }
@@ -342,7 +349,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassId", "ClassName");
+            //ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
             ViewBag.TermId = new SelectList(Db.Terms, "TermId", "TermName");
             return View(caSetUp);
         }
@@ -361,7 +370,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            var className = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).DistinctBy(x => x.ClassName).ToList();
+            ViewBag.ClassId = new SelectList(className, "ClassId", "ClassName");
+            //ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
             ViewBag.TermId = new SelectList(Db.Terms, "TermId", "TermName");
             return View(caSetUp);
         }

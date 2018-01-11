@@ -98,7 +98,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<PartialViewResult> Save(int id)
         {
             var classes = await Db.Classes.FindAsync(id);
-            ViewBag.SchoolName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+            ViewBag.SchoolName = new SelectList(_query.SchoolClassListAsync(userSchool), "ClassCode", "ClassCode");
 
             return PartialView(classes);
         }
@@ -161,7 +161,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: Classes/Create
         public async Task<ActionResult> Create()
         {
-            ViewBag.SchoolName = new SelectList(_query.SchoolClassListAsync(), "ClassCode", "ClassCode");
+            ViewBag.SchoolName = new SelectList(_query.SchoolClassListAsync(userSchool), "ClassCode", "ClassCode");
             return View();
         }
 

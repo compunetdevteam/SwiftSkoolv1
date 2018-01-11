@@ -1,89 +1,94 @@
 ﻿
-@model SwiftSkoolv1.Domain.Grade
+@model SwiftSkoolv1.WebUI.ViewModels.GradeViewModel
 
 <div class="card">
-<div class="card-block">
-    @if (Model != null && Model.GradeId > 0)
-    {
-        <div class="form-header  purple darken-4">
-            <h3>
-                <i class="fa fa-save"></i> Update Record
-            </h3>
-        </div>
-    }
-    else
-    {
-        <div class="form-header  purple darken-4">
-            <h3><i class="fa fa-save"></i> Save</h3>
-        </div>
-    }
-
-
-
-    <form id="myform" onsubmit="return false;">
-                    
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-                       
-                       
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            @if(Model != null && Model.GradeId > 0)
-            {
-                @Html.HiddenFor(model => model.GradeId)
-            }
-
-            <div class="md-form">
-                @Html.LabelFor(model => model.GradeName)
-                @Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
-
+    <div class="card-block">
+        @if (Model != null && Model.GradeId > 0)
+        {
+            <div class="form-header  purple darken-4">
+                <h3>
+                    <i class="fa fa-save"></i> Update Record
+                </h3>
             </div>
-     
-            <div class="md-form">
-                @Html.LabelFor(model => model.MinimumValue)
-                @Html.EditorFor(model => model.MinimumValue, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.MinimumValue, "", new {@class = "text-danger"})
+        }
+        else
+        {
+            <div class="form-header  purple darken-4">
+                <h3><i class="fa fa-save"></i> Save</h3>
             </div>
-        
-            <div class="md-form">
-                @Html.LabelFor(model => model.MaximumValue)
-                @Html.EditorFor(model => model.MaximumValue, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.MaximumValue, "", new {@class = "text-danger"})
-            </div>
-        
-            <div class="md-form">
-                @Html.LabelFor(model => model.Remark)
-                @Html.EditorFor(model => model.Remark, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Remark, "", new {@class = "text-danger"})
-            </div>
-       
+        }
 
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.SubjectUnit, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
 
-            <div class="md-form">
-              
+
+        <form id="myform" onsubmit="return false;">
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @if (Model != null && Model.GradeId > 0)
+                {
+                    @Html.HiddenFor(model => model.GradeId)
+                }
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.GradeName)
+                    @Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.ClassName)
+                    @Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.MinimumValue)
+                    @Html.EditorFor(model => model.MinimumValue, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MinimumValue, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.MaximumValue)
+                    @Html.EditorFor(model => model.MaximumValue, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaximumValue, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.Remark)
+                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                </div>
+
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SubjectUnit, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="md-form">
+
                     @if (Model != null && Model.GradeId > 0)
                     {
-                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-info" />
                     }
                     else
                     {
                         <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
                     }
                     <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
-              
+
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
@@ -91,7 +96,7 @@
 }
 
 <script type="text/javascript">
- 
+
 
     $("#btnsubmit").click(function () {
 
@@ -108,7 +113,7 @@
                     //$.fn.oTable();
                     window.oTable.ajax.reload(); //run my_fun() ondomready
                     //window.location.href = "/Subjects/Index";
-                        
+
                     toastr["success"](data.message);
                     $('#myform')[0].reset();
                 } else {
@@ -120,5 +125,5 @@
         });
     });
 
- 
+
 </script>

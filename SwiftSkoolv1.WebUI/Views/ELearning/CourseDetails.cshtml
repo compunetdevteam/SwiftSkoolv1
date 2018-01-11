@@ -1,0 +1,134 @@
+﻿@using SwiftKampus.Models
+@model SwiftKampusModel.Course
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                List of Modules for Selected Course
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <table table-responsive>
+            <tr>
+                <td>Dept Name:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.Programme.ProgrammeName)</th>
+            </tr>
+            <tr>
+                <td>Course Name:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.CourseName)</th>
+            </tr>
+            <tr>
+                <td>Description:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.CourseDescription)</th>
+            </tr>
+        </table>
+
+        <header>
+            <h4> List of Modules</h4>
+        </header>
+
+        <table style="margin: 10px" class="table-responsive table-striped">
+            <tr>
+                <th style="width:auto">Modules Name</th>
+                <th>&nbsp; &nbsp;</th>
+
+                <th style="width:auto">Actions</th>
+
+            </tr>
+            @foreach (var item in Model.Modules)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModuleName)
+                    </td>
+
+                    <th>&nbsp; &nbsp;</th>
+                    <td>
+                        <div class="btn-group">
+                            @if (User.IsInRole(RoleName.Academic))
+                            {
+                                <a class="btn btn-primary" onclick="EditModule('@item.ModuleId')"><i class="fa fa-pencil-square-o">Module</i> </a>
+
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        Topic <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a data-toggle="modal" data-target="#actionsList" onclick="AddTopic('@item.ModuleId')"><i class="fa fa-plus-circle">Topic</i> </a></li>
+                                        <li><a onclick="TopicDetails('@item.ModuleId')"><i class="fa fa-eye">Topics</i> </a>&nbsp;</li>
+
+                                    </ul>
+                                </div>
+                            }
+                            else if (User.IsInRole(RoleName.Student))
+                            {
+                                <a onclick="TopicDetails('@item.ModuleId')"><i class="fa fa-eye">Topics</i> </a>
+                            }
+                        </div>
+
+
+                    </td>
+                </tr>
+            }
+        </table>
+
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">TOPIC</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script type="text/javascript">
+
+    function EditModule(moduleId) {
+        var url = "/ELearning/EditModule?id=" + moduleId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+
+    function AddTopic(moduleId) {
+        var url = "/ELearning/SaveTopic?id=" + moduleId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function TopicDetails(moduleId) {
+        var url = "/ELearning/DetailTopic?id=" + moduleId;
+        $('#mydetailBody2').load(url);
+        $('html, body').animate({ scrollTop: $('#mydetailBody2').offset().top }, 'slow');
+
+    };
+
+
+</script>

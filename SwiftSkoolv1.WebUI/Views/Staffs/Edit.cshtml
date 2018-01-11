@@ -4,6 +4,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.StaffId)
 
@@ -26,7 +27,7 @@
                                 <!-- Card content -->
                                 <div class="card-block text-center">
 
-                                    <img id="output" alt="School Logo" class="rounded-circle contact-avatar my-2 mx-auto" />
+                                    <img id="output" alt="Staff Image" class="rounded-circle contact-avatar my-2 mx-auto" />
 
                                     <p class="text-muted">
                                         <small>Passport will be changed automatically</small>
@@ -149,14 +150,14 @@
                                     <div class="row">
                                         <div class="col-md-4">
 
-                                            <div class="form-group">
+                                            <div class="md-form">
                                                 @Html.LabelFor(model => model.Gender)
                                                 @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "mdb-select" })
                                                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="form-group">
+                                            <div class="md-form">
                                                 @Html.LabelFor(model => model.StateOfOrigin)
                                                 @Html.EnumDropDownListFor(model => model.StateOfOrigin, htmlAttributes: new { @class = "mdb-select" })
                                                 @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
@@ -164,7 +165,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="form-group">
+                                            <div class="md-form">
                                                 @Html.LabelFor(model => model.MaritalStatus)
                                                 @Html.EnumDropDownListFor(model => model.MaritalStatus, htmlAttributes: new { @class = "mdb-select" })
                                                 @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })

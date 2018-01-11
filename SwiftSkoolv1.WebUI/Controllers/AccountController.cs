@@ -1,10 +1,10 @@
-﻿using HopeAcademySMS.Services;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -65,10 +65,41 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult StaffIndex()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         public async Task<ActionResult> GetAdmin()
         {
             var model = new List<AdminIndexVm>();
             var role = await Db.Roles.AsNoTracking().SingleOrDefaultAsync(m => m.Name == "Admin");
+            var admin = await UserManager.Users.AsNoTracking()
+                .Where(m => m.Roles.Any(r => r.RoleId == role.Id))
+                .ToListAsync();
+            foreach (var user in admin)
+            {
+                var adminUser = new AdminIndexVm
+                {
+                    Id = user.Id,
+                    SchoolId = user.SchoolId,
+                    Email = user.Email,
+                    SchoolName = await Db.Schools.AsNoTracking().Where(x => x.SchoolId.Equals(user.SchoolId))
+                        .Select(s => s.Name).FirstOrDefaultAsync(),
+                    Password = user.PasswordHash
+                };
+                model.Add(adminUser);
+            }
+
+            return Json(new { data = model }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> GetStaff()
+        {
+            var model = new List<AdminIndexVm>();
+            var role = await Db.Roles.AsNoTracking().SingleOrDefaultAsync(m => m.Name == "Teacher");
             var admin = await UserManager.Users.AsNoTracking()
                 .Where(m => m.Roles.Any(r => r.RoleId == role.Id))
                 .ToListAsync();
@@ -505,8 +536,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 await this.UserManager.AddToRoleAsync(user.Id, "Teacher");
 
                                 recordCount++;
-                                lastrecord = $"The last Updated record has the Last Name {lastName} and First Name {firstName} with staff phonenumber {phoneNumber}";
+                                lastrecord =
+                                    $"The last Updated record has the Last Name {lastName} and First Name {firstName} with staff phonenumber {phoneNumber}";
 
+                            }
+                            else
+                            {
+                                ViewBag.Message = $"This user has already been Uploaded {firstName} {lastName}";
+                                return View("Error2");
                             }
                             #endregion
                             await Db.SaveChangesAsync();
@@ -514,10 +551,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             TempData["UserMessage"] = message;
                             TempData["Title"] = "Success.";
                         }
+                        return RedirectToAction("Index", "Staffs");
 
                     }
-
-                    return RedirectToAction("Index", "Staffs");
                 }
                 else
                 {
@@ -577,8 +613,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     {
                         var user = new ApplicationUser
                         {
-                            UserName = student.FullName,
-                            Email = student.PhoneNumber,
+                            UserName = student.StudentId,
+                            Email = $"{student.StudentId}@compunet.com",
                             SchoolId = userSchool,
                             Id = student.StudentId
                         };
@@ -1197,6 +1233,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 ModelState.AddModelError("", result.Errors.First());
 
             }
+        }
+
+        public async Task<ActionResult> RemoveUser()
+        {
+            var students = await Db.Students.AsNoTracking().Where(x => x.SchoolId.Equals(".")).ToListAsync();
+            foreach (var student in students)
+            {
+                var myUser = await Db.Users.AsNoTracking().Where(x => x.Id.Equals(student.StudentId))
+                                    .FirstOrDefaultAsync();
+                if (myUser != null)
+                {
+                    Db.Entry(myUser).State = EntityState.Deleted;
+                }
+
+                student.Active = false;
+                Db.Entry(student).State = EntityState.Modified;
+            }
+
+            await Db.SaveChangesAsync();
+            ViewBag.Message = $"No of students modified is {students.Count}";
+            return View();
         }
     }
 }

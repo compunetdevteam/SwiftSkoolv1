@@ -1,5 +1,4 @@
-﻿using HopeAcademySMS.Services;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
@@ -21,7 +20,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
     {
         private readonly GradeRemark _myGradeRemark = new GradeRemark();
 
-        public async Task<ActionResult> CreateCaView()
+        public async Task<ActionResult> CreateCaView(string message)
         {
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
@@ -29,16 +28,29 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (User.IsInRole("Teacher"))
             {
                 string name = User.Identity.GetUserName();
-                var subjectList = Db.AssignSubjectTeachers.AsNoTracking().Where(x => x.StaffName.Equals(name));
-                ViewBag.SubjectId = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
-                ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+                var subjectList = Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
+                    .Where(x => x.StaffName.Equals(name)).Select(x => x.Subject).Distinct().ToList();
+
+                var subject = new List<Subject>();
+                var classes = new List<Class>();
+
+                var classList = Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
+                    .Where(x => x.StaffName.Equals(name)).Select(x => x.ClassName).Distinct().ToList();
+                foreach (var item in classList)
+                {
+                    classes.Add(Db.Classes.AsNoTracking().FirstOrDefault(x => x.FullClassName.Equals(item)));
+                }
+
+                subject.AddRange(subjectList);
+                ViewBag.SubjectId = new SelectList(subject, "SubjectId", "SubjectName");
+                ViewBag.ClassName = new SelectList(classes, "FullClassName", "FullClassName");
             }
             else
             {
                 ViewBag.SubjectId = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
                 ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             }
-
+            ViewBag.Message = message;
             ViewBag.SetUpCount = 0;
             //return View(myCalist);
             return View();
@@ -95,6 +107,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             var myCalist = await GenerateCaList(model);
             //return RedirectToAction("SelectIndex", myCalist.ToList());
+            if (myCalist == null)
+            {
+                return RedirectToAction("CreateCaView", new { message = "Subject Not Assigned to Class" });
+            }
 
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
@@ -124,81 +140,89 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(model.ClassName))
                                                 .Select(s => s.ClassName).FirstOrDefault();
-            var subject = await Db.Subjects.FindAsync(model.SubjectId);
-            var calist = Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
-                                                              x.ClassName.Equals(model.ClassName)
-                                                              && x.TermName.Equals(model.TermName)
-                                                              && x.SubjectId.Equals(model.SubjectId)
-                                                              && x.SessionName.Equals(model.SessionName))
-                                                              .ToList();
-            var myCalist = new List<CaListVm>();
-            if (calist.Any())
+            var textStudent = students.Select(s => s.StudentId).FirstOrDefault();
+            var subjectList = _query.GetStudentSubject(textStudent, userSchool, model.ClassName, model.TermName);
+
+            var subject = subjectList.FirstOrDefault(x => x.SubjectId.Equals(model.SubjectId));
+            if (subject != null)
             {
-                foreach (var list in calist)
+                var calist = Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                                                  x.ClassName.Equals(model.ClassName)
+                                                                  && x.TermName.Equals(model.TermName)
+                                                                  && x.SubjectId.Equals(model.SubjectId)
+                                                                  && x.SessionName.Equals(model.SessionName))
+                    .ToList();
+                var myCalist = new List<CaListVm>();
+                if (calist.Any())
                 {
-                    var ca = new CaListVm()
+                    foreach (var list in calist)
                     {
-                        CaListId = list.CaListId,
-                        StudentName = list.StudentName,
-                        StudentId = list.StudentId,
-                        SubjectId = model.SubjectId,
-                        SubjectName = subject.SubjectName,
-                        ClassName = list.ClassName,
-                        TermName = list.TermName,
-                        SessionName = list.SessionName,
-                        CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
-                                                         && x.SchoolId.Equals(userSchool)
-                                                         && x.ClassName.Equals(studentClassName)
-                                                         && x.TermName.Equals(model.TermName))
-                                                        .OrderBy(o => o.CaOrder).ToListAsync(),
+                        var ca = new CaListVm()
+                        {
+                            CaListId = list.CaListId,
+                            StudentName = list.StudentName,
+                            StudentId = list.StudentId,
+                            SubjectId = model.SubjectId,
+                            SubjectName = subject.SubjectName,
+                            ClassName = list.ClassName,
+                            TermName = list.TermName,
+                            SessionName = list.SessionName,
+                            CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
+                                                                   && x.SchoolId.Equals(userSchool)
+                                                                   && x.ClassName.Equals(studentClassName)
+                                                                   && x.TermName.Equals(model.TermName))
+                                .OrderBy(o => o.CaOrder).ToListAsync(),
 
-                        CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
-                                                              && x.SchoolId.Equals(userSchool)
-                                                              && x.TermName.Equals(model.TermName)
-                                                        && x.ClassName.Equals(studentClassName)),
-                        FirstCa = list.FirstCa,
-                        SecondCa = list.SecondCa,
-                        ThirdCa = list.ThirdCa,
-                        ForthCa = list.ForthCa,
-                        FifthCa = list.FifthCa,
-                        SixthCa = list.SixthCa,
-                        SeventhCa = list.SeventhCa,
-                        EightCa = list.EightCa,
-                        NinthtCa = list.NinthtCa,
-                        ExamCa = list.ExamCa
-                    };
-                    myCalist.Add(ca);
+                            CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
+                                                                             && x.SchoolId.Equals(userSchool)
+                                                                             && x.TermName.Equals(model.TermName)
+                                                                             && x.ClassName.Equals(studentClassName)),
+                            FirstCa = list.FirstCa,
+                            SecondCa = list.SecondCa,
+                            ThirdCa = list.ThirdCa,
+                            ForthCa = list.ForthCa,
+                            FifthCa = list.FifthCa,
+                            SixthCa = list.SixthCa,
+                            SeventhCa = list.SeventhCa,
+                            EightCa = list.EightCa,
+                            NinthtCa = list.NinthtCa,
+                            ExamCa = list.ExamCa
+                        };
+                        myCalist.Add(ca);
+                    }
                 }
-            }
-            else
-            {
-                foreach (var student in students)
+                else
                 {
-                    var ca = new CaListVm()
+                    foreach (var student in students)
                     {
-                        StudentName = student.Student.FullName,
-                        StudentId = student.Student.StudentId,
-                        SubjectId = model.SubjectId,
-                        SubjectName = subject.SubjectName,
-                        ClassName = model.ClassName,
-                        TermName = model.TermName,
-                        SessionName = model.SessionName,
-                        CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
-                                                         && x.SchoolId.Equals(userSchool)
-                                                         && x.ClassName.Equals(studentClassName)
-                                                         && x.TermName.Equals(model.TermName))
-                                                        .OrderBy(o => o.CaOrder).ToListAsync(),
+                        var ca = new CaListVm()
+                        {
+                            StudentName = student.Student.FullName,
+                            StudentId = student.Student.StudentId,
+                            SubjectId = model.SubjectId,
+                            SubjectName = subject.SubjectName,
+                            ClassName = model.ClassName,
+                            TermName = model.TermName,
+                            SessionName = model.SessionName,
+                            CaSetUp = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
+                                                                   && x.SchoolId.Equals(userSchool)
+                                                                   && x.ClassName.Equals(studentClassName)
+                                                                   && x.TermName.Equals(model.TermName))
+                                .OrderBy(o => o.CaOrder).ToListAsync(),
 
 
-                        CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
-                                                    && x.SchoolId.Equals(userSchool)
-                                                    && x.TermName.Equals(model.TermName)
-                                                    && x.ClassName.Equals(studentClassName))
-                    };
-                    myCalist.Add(ca);
+                            CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
+                                                                             && x.SchoolId.Equals(userSchool)
+                                                                             && x.TermName.Equals(model.TermName)
+                                                                             && x.ClassName.Equals(studentClassName))
+                        };
+                        myCalist.Add(ca);
+                    }
                 }
+                return myCalist;
             }
-            return myCalist;
+            return null;
+
         }
 
         [HttpPost]
@@ -348,6 +372,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 {
                     var myTotal = item.FirstCa + item.SecondCa + item.ThirdCa + item.ForthCa + item.FifthCa +
                                   item.SixthCa + item.SeventhCa + item.EightCa + item.NinthtCa + item.ExamCa;
+                    var className = await Db.Classes.AsNoTracking().Where(x =>
+                                    x.SchoolId.Equals(userSchool) && x.FullClassName.Equals(item.ClassName))
+                                    .Select(x => x.ClassName).FirstOrDefaultAsync();
                     var caList = new CaList()
                     {
                         CaListId = item.CaListId,
@@ -368,8 +395,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         NinthtCa = item.NinthtCa,
                         ExamCa = item.ExamCa,
                         Total = myTotal,
-                        Grading = _myGradeRemark.Grading(myTotal, item.ClassName, userSchool),
-                        Remark = _myGradeRemark.Remark(myTotal, item.ClassName, userSchool),
+                        Grading = _myGradeRemark.Grading(myTotal, className, userSchool),
+                        Remark = _myGradeRemark.Remark(myTotal, className, userSchool),
 
                         SchoolId = userSchool,
                     };
@@ -893,7 +920,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     var noOfRow = workSheet.Dimension.End.Row;
                     //int requiredField = 12;
 
-                    
+
                     for (int row = 2; row <= noOfRow; row++)
                     {
                         int caId = Convert.ToInt32(workSheet.Cells[row, 1].Value.ToString().Trim());
@@ -903,8 +930,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         string termName = workSheet.Cells[row, 5].Value.ToString().Trim();
                         string sessionName = workSheet.Cells[row, 6].Value.ToString().Trim();
                         string className = await GetClassName(studentId, termName, sessionName);
-                        var studentClassName = Db.Classes.AsNoTracking().Where(x => x.FullClassName.Equals(className))
-                            .Select(s => s.ClassName).FirstOrDefault();
+                        var studentClassName = Db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                                    x.FullClassName.Equals(className))
+                                                    .Select(s => s.ClassName).FirstOrDefault();
                         var caSetup = await Db.CaSetUps.Where(x => x.IsTrue.Equals(true)
                                                 && x.SchoolId.Equals(userSchool)
                                                 && x.ClassName.Equals(studentClassName)
@@ -914,8 +942,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                             .Where(x => x.SchoolId.Equals(userSchool) &&
                                             x.SubjectName.ToUpper().Equals(subjectName.ToUpper()))
                                             .Select(s => s.SubjectId).FirstOrDefaultAsync();
+                        var iscCaExist = Db.CaLists.AsNoTracking().Any(x => x.StudentId.Equals(studentId)
+                                                    && x.ClassName.Equals(className) && x.SubjectId.Equals(subjectId)
+                                                    && x.TermName.Equals(termName) && x.SessionName.Equals(sessionName));
+                        if (iscCaExist)
+                        {
+                            ViewBag.ErrorInfo = "Record Already Exist, Please Download and Update again";
+                            ViewBag.ErrorMessage = "You can add the same student record twice, please Update...";
+                            return View("Error1");
+                        }
                         if (caSetup == 2)
                         {
+                            //var checkedResult = GetValidation(className, 8, termName, caSetup.ToString(), 0.0, ninthtCa);
                             firstCa = Convert.ToDouble(workSheet.Cells[row, 7].Value.ToString().Trim());
                             examCa = Convert.ToDouble(workSheet.Cells[row, 8].Value.ToString().Trim());
                         }
@@ -1021,8 +1059,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 NinthtCa = ninthCa,
                                 ExamCa = examCa,
                                 Total = myTotal,
-                                Grading = _myGradeRemark.Grading(myTotal, className, userSchool),
-                                Remark = _myGradeRemark.Remark(myTotal, className, userSchool),
+                                Grading = _myGradeRemark.Grading(myTotal, studentClassName, userSchool),
+                                Remark = _myGradeRemark.Remark(myTotal, studentClassName, userSchool),
 
                                 SchoolId = userSchool,
                             };
@@ -1055,6 +1093,73 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                      .Select(s => s.ClassName).FirstOrDefaultAsync();
 
             return className;
+        }
+
+        public async Task<ActionResult> SearchView()
+        {
+            ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+            ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
+
+            if (User.IsInRole("Teacher"))
+            {
+                string name = User.Identity.GetUserName();
+                var subjectList = Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
+                    .Where(x => x.StaffName.Equals(name)).Select(x => x.Subject).Distinct().ToList();
+
+                var subject = new List<Subject>();
+                var classes = new List<Class>();
+
+                var classList = Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
+                    .Where(x => x.StaffName.Equals(name)).Select(x => x.ClassName).Distinct().ToList();
+                foreach (var item in classList)
+                {
+                    classes.Add(Db.Classes.AsNoTracking().FirstOrDefault(x => x.FullClassName.Equals(item)));
+                }
+
+                subject.AddRange(subjectList);
+                ViewBag.SubjectId = new SelectList(subject, "SubjectId", "SubjectName");
+                ViewBag.ClassName = new SelectList(classes, "FullClassName", "FullClassName");
+            }
+            else
+            {
+                ViewBag.SubjectId = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectId", "SubjectName");
+                ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
+            }
+
+            ViewBag.SetUpCount = 0;
+            //return View(myCalist);
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> DeleteCa(CaSelectIndexVm model)
+        {
+            var subjectName = await Db.AssignSubjects.AsNoTracking().Where(x => x.ClassName.Equals(model.ClassName))
+                                    .ToListAsync();
+            var myClasit = new List<CaList>();
+            foreach (var subject in subjectName)
+            {
+                //var subjectId = await Db.Subjects.AsNoTracking().Where(x => x.SubjectName.Equals(subject.s))
+                //    .FirstOrDefaultAsync();
+                var calist = await Db.CaLists.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) &&
+                                        x.ClassName.Equals(model.ClassName)
+                                        && x.TermName.Equals(model.TermName)
+                                        && x.SubjectId.Equals(subject.SubjectId)
+                                        && x.SessionName.Equals(model.SessionName))
+                                        .ToListAsync();
+                myClasit.AddRange(calist);
+            }
+
+            //var applicants = await _db.Applicants.GroupBy(i => i.ApplicantId)
+            //    .Where(x => x.Count() > 1).Select(s => s.Key).ToListAsync();
+            ViewBag.Message = $"{myClasit.Count} records deleted successfully";
+            foreach (var ca in myClasit)
+            {
+                Db.Entry(ca).State = EntityState.Deleted;
+            }
+            await Db.SaveChangesAsync();
+
+
+            return View(myClasit);
         }
 
         protected override void Dispose(bool disposing)

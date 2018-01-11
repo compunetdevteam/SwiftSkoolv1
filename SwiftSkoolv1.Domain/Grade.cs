@@ -13,7 +13,7 @@ namespace SwiftSkoolv1.Domain
         //public int GradePoint { get; set; }
         [StringLength(25)]
         public string Remark { get; set; }
-        // public string ClassName { get; set; }
+        public string ClassName { get; set; }
 
     }
 
@@ -23,7 +23,7 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Minimum Grade")]
         [Required(ErrorMessage = "Minimum Grade is required")]
-        [Range(1, 100, ErrorMessage = "Value must be between 1.0 and 100.0")]
+        [Range(0, 100, ErrorMessage = "Value must be between 1.0 and 100.0")]
         public double MinimumGrade { get; set; }
 
         [Display(Name = "Maximum Grade")]
@@ -42,7 +42,7 @@ namespace SwiftSkoolv1.Domain
 
     public class PrincipalCommentVm
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Display(Name = "Minimum Grade")]
         [Required(ErrorMessage = "Minimum Grade is required")]

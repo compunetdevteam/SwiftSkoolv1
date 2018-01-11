@@ -1,4 +1,5 @@
 ﻿using SwiftSkoolv1.Domain.CBT;
+using SwiftSkoolv1.Domain.ClassRoom;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -42,15 +43,15 @@ namespace SwiftSkoolv1.Domain
         // public string ClassName => $"{this.SchoolName.ToString()}{this.ClassLevel}";
         //public string FullClassName => $"{this.ClassName} {this.ClassType.ToString()}";
 
-        public virtual AssignedClass AssignClass { get; set; }
-        public virtual ICollection<Subject> Subjects { get; set; }
-        //public virtual ICollection<CaSetUp> SchoolCas { get; set; }
-        public virtual ICollection<TimeTable> TimeTables { get; set; }
+        public AssignedClass AssignClass { get; set; }
+        public ICollection<Subject> Subjects { get; set; }
+        public ICollection<TimeTable> TimeTables { get; set; }
         public ICollection<ExamLog> ExamLogs { get; set; }
         public ICollection<ExamRule> ExamRules { get; set; }
         public ICollection<ExamSetting> ExamSettings { get; set; }
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
         public ICollection<ResultDivision> ResultDivisions { get; set; }
-        //public virtual ICollection<CaSetUp> AssignCas { get; set; }
+        public ICollection<Module> Modules { get; set; }
+        public virtual ICollection<AssignReportCard> AssignReportCards { get; set; }
     }
 }

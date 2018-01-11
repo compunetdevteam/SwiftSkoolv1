@@ -3,27 +3,38 @@
 @using (Html.BeginForm("EditAll", "CaSetUps", FormMethod.Get, new { @class = "form-inline" }))
 
 
-{ 
+{
     <div class="card">
         <div class="card-block">
-              <div class="form-header  purple darken-4">
-                    <h3>
-                        <i class="fa fa-save"></i> SetUp CA 
-                    </h3>
-                </div>
-           
-           
+            <div class="form-header  purple darken-4">
+                <h3>
+                    <i class="fa fa-save"></i> SetUp CA
+                </h3>
+            </div>
 
-           
+
+
+
             <div class="md-form">
-                @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "mdb-select" })             
-               
+                    @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.DropDownList("ClassId", (SelectList)ViewBag.ClassId, "", new { @class = "form-control" })
+
+                </div>
+                <div class="md-form">
+                    @Html.Label("Term Name", htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "form-control" })
+                </div>
+            @*<div class="md-form">
+                @Html.Label("Class Name")
+                @Html.DropDownList("ClassId", null, htmlAttributes: new { @class = "form-control" })
             </div>
-            <div class="md-form">
+
+            <div class="form-group">
                 @Html.Label("Term Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("TermId", (SelectList)ViewBag.TermId, "", new { @class = "mdb-select" })
-            </div>
+                <div class="col-md-10">
+                    @Html.DropDownList("TermId", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>*@
 
             <div class="md-form">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
@@ -34,39 +45,4 @@
 
     </div>
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-<script type="text/javascript">
-    $('.mdb-select').material_select();
-    $("#btnsubmit").click(function () {
-
-        var data = $("#myform").serialize();
-
-        $.ajax({
-            type: "POST",
-            url: "/AssignSubjects/Save",
-            data: data,
-            success: function (data) {
-                if (data.status) {
-                    $('#actionsList').modal("hide");
-
-                    window.oTable.ajax.reload(); //run my_fun() ondomready
-                    toastr["success"](data.message);
-                    $('#myform')[0].reset();
-                } else {
-                    //$('#actionsList').modal("hide");
-                    toastr["error"](data.message);
-                }
-
-            }
-        });
-    });
-
-
-</script>
-
-
-
 
