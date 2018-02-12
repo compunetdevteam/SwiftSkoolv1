@@ -40,6 +40,51 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    return View();
         //}
 
+        public ActionResult SendToNumbers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendToNumbers(SmstoNumbersVm model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var numbers = model.Numbers.Split(',');
+                foreach (var student in numbers)
+                {
+                    SMS sms = new SMS()
+                    {
+                        SenderId = model.SenderId,
+                        Message = model.Message,
+                        Numbers = student.Trim()
+                    };
+                    try
+                    {
+                        bool isSuccess = false;
+                        string errMsg = null;
+                        string response = _smsService.Send(sms); //Send sms
+
+                        string code = _smsService.GetResponseMessage(response, out isSuccess, out errMsg);
+
+                        if (!isSuccess)
+                        {
+                            ModelState.AddModelError("", errMsg);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", ex.Message);
+                    }
+                }
+                ViewBag.Message = "Message was successfully sent.";
+                return View();
+            }
+
+            return View(model);
+        }
+
 
         public async Task<ActionResult> SendSMS()
         {
@@ -67,8 +112,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         Db.Students.Where(s => s.StudentId.Equals(student)).Select(x => x.PhoneNumber).ToList();
                     foreach (var guardian in guardianNumber)
                     {
-                        //var guardianContact = Db.Guardians.Where(x => x.GuardianEmail.Equals(guardian))
-                        //                        .Select(y => y.PhoneNumber).FirstOrDefault();
 
                         SMS sms = new SMS()
                         {
@@ -104,14 +147,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return View(model);
         }
-
-        //[HttpGet]
-        //public ActionResult SendToStaff()
-        //{
-        //    //SMS sms = new SMS();
-        //    // ViewBag.ContactGroup = new SelectList(Db.Classes, "FullClassName", "FullClassName");
-        //    return View();
-        //}
 
         [HttpGet]
         public ActionResult SendToStaff()
@@ -168,15 +203,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
 
-        //[HttpGet]
-        //public ActionResult SendtoAllStudent()
-        //{
-        //    //SMS sms = new SMS();
-        //    ViewBag.Term = new SelectList(_query.TermList(), "TermName", "TermName");
-        //    ViewBag.Session = new SelectList(_query.SessionList(), "SessionName", "SessionName");
-        //    // ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-        //    return View();
-        //}
 
         [HttpGet]
         public ActionResult SendtoAllStudent()
@@ -201,12 +227,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     .Select(y => y.PhoneNumber).ToList();
                 foreach (var student in studentList)
                 {
-                    //var guardianList = Db.Guardians.Where(x => x.StudentId.Equals(student))
-                    //                                .Select(y => y.GuardianEmail).ToList();
-                    //foreach (var guardian in guardianList)
-                    //{
-                    //    var guardianContact = Db.Guardians.Where(x => x.GuardianEmail.Equals(guardian))
-                    //                            .Select(y => y.PhoneNumber).FirstOrDefault();
 
                     SMS sms = new SMS()
                     {

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.Domain.ClassRoom;
-using SwiftSkoolv1.WebUI.BusinessLogic;
-using SwiftSkoolv1.WebUI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,14 +10,13 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
-namespace SwiftKampus.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     [Authorize]
 
     public class ELearningController : BaseController
     {
 
-        public QueryManager myQuery = new QueryManager();
         // GET: ELearning
         public ActionResult Index(string message)
         {
@@ -42,8 +39,10 @@ namespace SwiftKampus.Controllers
             if (User.IsInRole("Teacher"))
             {
                 var id = User.Identity.GetUserId();
+                var staff = await Db.Staffs.FindAsync(id);
                 var assignedCourse = await Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
-                                        .Where(x => x.StaffName.Equals(id))
+                                        .Where(x => x.StaffName.Equals(staff.Username))
+                                        //.Where(x => x.SchoolId.Equals(userSchool))
                                         .Select(s => s.Subject).ToListAsync();
                 foreach (var courseId in assignedCourse)
                 {
@@ -53,10 +52,19 @@ namespace SwiftKampus.Controllers
             if (User.IsInRole("Student"))
             {
                 var id = User.Identity.GetUserId();
-                string currentterm = myQuery.CurrentTerm();
-                var currentClass = myQuery.GetMyClass(userSchool, id);
+                string currentterm = _query.CurrentTerm();
+                var currentClass = _query.GetMyClass(userSchool, id);
                 var student = await Db.Students.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool) && x.StudentId.Equals(id)).FirstOrDefaultAsync();
-                courseList = myQuery.GetStudentSubject(id, userSchool, currentClass, currentterm);
+                courseList = _query.GetStudentSubject(id, userSchool, currentClass, currentterm);
+            }
+            if (User.IsInRole("Admin"))
+            {
+                var assignedCourse = await Db.Subjects.AsNoTracking()
+                    .Where(x => x.SchoolId.Equals(userSchool)).ToListAsync();
+                foreach (var courseId in assignedCourse)
+                {
+                    courseList.Add(courseId);
+                }
             }
             var data = courseList.Select(s => new
             {
@@ -79,7 +87,9 @@ namespace SwiftKampus.Controllers
         {
             var course = await Db.Subjects.AsNoTracking().Where(x => x.SubjectId.Equals(id))
                      .ToListAsync();
-            ViewBag.CourseId = new SelectList(course, "SubjectId", "SubjectName");
+            ViewBag.SubjectId = new SelectList(course, "SubjectId", "SubjectName");
+            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            ViewBag.TermId = new SelectList(_query.TermList(), "TermId", "TermName");
             return PartialView();
         }
         public async Task<PartialViewResult> EditModule(int id)
@@ -88,7 +98,9 @@ namespace SwiftKampus.Controllers
 
             var course = await Db.Subjects.AsNoTracking().Where(x => x.SubjectId.Equals(module.SubjectId))
                                 .ToListAsync();
-            ViewBag.CourseId = new SelectList(course, "SubjectId", "SubjectName");
+            ViewBag.SubjectId = new SelectList(course, "SubjectId", "SubjectName");
+            ViewBag.ClassId = new SelectList(await _query.ClassListAsync(userSchool), "ClassId", "FullClassName");
+            ViewBag.TermId = new SelectList(_query.TermList(), "TermId", "TermName");
             return PartialView(module);
         }
 
@@ -110,6 +122,8 @@ namespace SwiftKampus.Controllers
                         module.ModuleName = model.ModuleName;
                         module.ModuleDescription = model.ModuleDescription;
                         module.ExpectedTime = model.ExpectedTime;
+                        module.TermId = model.TermId;
+                        model.ClassId = model.ClassId;
                         module.SchoolId = userSchool;
                         Db.Entry(module).State = EntityState.Modified;
                     }
@@ -255,10 +269,42 @@ namespace SwiftKampus.Controllers
             return PartialView(content);
         }
 
-        //public ActionResult AssignmentTab()
-        //{
-        //    return View();
-        //}
+        public async Task<PartialViewResult> SaveLesssonNote(int id)
+        {
+            var topic = await Db.Topics.AsNoTracking().Where(x => x.TopicId.Equals(id)).ToListAsync();
+            ViewBag.TopicId = new SelectList(topic, "TopicId", "TopicName");
+            return PartialView();
+        }
+
+        // POST: Modules/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveLesssonNote(LessonNote model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (model.TopicId > 0)
+                {
+                    var lessonNote = await Db.LessonNotes.AsNoTracking().Where(x => x.TopicId.Equals(model.TopicId)).FirstOrDefaultAsync();
+                    lessonNote.Note = model.Note;
+                    lessonNote.SchoolId = userSchool;
+                    Db.Entry(lessonNote).State = EntityState.Modified;
+                    await Db.SaveChangesAsync();
+                    return new JsonResult { Data = new { status = true, message = $"{model.TopicId} is updated successfully", id = model.TopicId } };
+                }
+
+                model.SchoolId = userSchool;
+                Db.LessonNotes.Add(model);
+                await Db.SaveChangesAsync();
+                var message = $"{model.TopicId} Added Successfully";
+                return new JsonResult { Data = new { status = true, message = message, id = model.TopicId } };
+                // return RedirectToAction("Index", new { message = message });
+            }
+            return new JsonResult { Data = new { status = false, message = "Model Not Correct" } };
+        }
 
 
     }

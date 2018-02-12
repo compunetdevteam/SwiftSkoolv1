@@ -1,4 +1,4 @@
-﻿@model SwiftKampusModel.Classroom.Module
+﻿@model SwiftSkoolv1.Domain.ClassRoom.Module
 
 @{
     ViewBag.Title = "Create";
@@ -38,33 +38,41 @@
             }
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-          
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CourseId)
-                @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            <div class="md-form">
+                @Html.Label("Class Name")
+                @Html.DropDownList("ClassId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+            </div>
+            <div class="md-form">
+                @Html.Label("Term Name")
+                @Html.DropDownList("TermId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TermId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
+                @Html.Label("Subject Name")
+                @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="md-form">
                 @Html.LabelFor(model => model.ModuleName)
-                @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ModuleName, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.ModuleName, "", new {@class = "text-danger"})
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.ModuleDescription)
                 @Html.EditorFor(model => model.ModuleDescription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ModuleDescription, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.ExpectedTime)
                 @Html.EditorFor(model => model.ExpectedTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpectedTime, "", new { @class = "text-danger" })
             </div>
-
-
 
             <div class="md-form">
 
@@ -103,7 +111,7 @@
             success: function (data) {
                 if (data.status) {
                     $('#actionsList').modal("hide");
-                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    //window.oTable.ajax.reload(); //run my_fun() ondomready
                     window.CourseDetails(data.id);
                     toastr["success"](data.message);
                     $('#myform')[0].reset();

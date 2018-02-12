@@ -1,0 +1,28 @@
+﻿
+@model CompunetCbte.ViewModels.CBTE.DisplayQuestionViewModel
+@{
+    ViewBag.Title = "Exam";
+}
+
+<h6>Question No: @Model.QuestionNo</h6>
+@using (Html.BeginForm(Html.BeginForm("Exam", "TakeExam", FormMethod.Post, new { @class = "form-horizontal", role = "form" })))
+{
+    @Html.HiddenFor(model => model.QuestionNo)
+
+    @Html.DisplayFor(model => model.Question)
+    <br />
+    @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option1) @Model.Option1
+    <br />
+    @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option2) @Model.Option2
+    <br />
+    @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option3) @Model.Option3
+    <br />
+    @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option4) @Model.Option4
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Next" class="btn btn-default" />
+        </div>
+    </div>
+}

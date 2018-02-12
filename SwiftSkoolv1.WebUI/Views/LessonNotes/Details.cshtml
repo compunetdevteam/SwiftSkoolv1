@@ -1,0 +1,42 @@
+﻿@model SwiftSkoolv1.Domain.ClassRoom.LessonNote
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LessonNote</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Topic.TopicName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Topic.TopicName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TopicId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

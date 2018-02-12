@@ -267,7 +267,12 @@
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomePageSetUpsController.cs" />
+    <Compile Include="Controllers\JambExamController.cs" />
+    <Compile Include="Controllers\JambQuestionAnswersController.cs" />
+    <Compile Include="Controllers\JambSubjectsController.cs" />
+    <Compile Include="Controllers\LessonNotesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\PrincipalCommentsController.cs" />
     <Compile Include="Controllers\PsychomotorsController.cs" />
@@ -275,6 +280,7 @@
     <Compile Include="Controllers\ReportCardSettingsController.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\ResultSummaryController.cs" />
+    <Compile Include="Controllers\ResultUploadsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\SchoolClassesController.cs" />
     <Compile Include="Controllers\SchoolsController.cs" />
@@ -287,31 +293,12 @@
     <Compile Include="Controllers\SummaryScoreController.cs" />
     <Compile Include="Controllers\TeacherCommentsController.cs" />
     <Compile Include="Controllers\TermsController.cs" />
+    <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Controllers\Web Api\BaseApiController.cs" />
     <Compile Include="Controllers\Web Api\StudentsController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711061350527_NewMIGRATION.cs" />
-    <Compile Include="Migrations\201711061350527_NewMIGRATION.Designer.cs">
-      <DependentUpon>201711061350527_NewMIGRATION.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711070824327_Event.cs" />
-    <Compile Include="Migrations\201711070824327_Event.Designer.cs">
-      <DependentUpon>201711070824327_Event.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712071823598_ReportModelUpdate.cs" />
-    <Compile Include="Migrations\201712071823598_ReportModelUpdate.Designer.cs">
-      <DependentUpon>201712071823598_ReportModelUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712072054028_NoOfTimeSchoolOpened.cs" />
-    <Compile Include="Migrations\201712072054028_NoOfTimeSchoolOpened.Designer.cs">
-      <DependentUpon>201712072054028_NoOfTimeSchoolOpened.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712231726121_ChangingGrading.cs" />
-    <Compile Include="Migrations\201712231726121_ChangingGrading.Designer.cs">
-      <DependentUpon>201712231726121_ChangingGrading.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -348,6 +335,10 @@
     <Compile Include="ViewModels\GeneralDashboardVM.cs" />
     <Compile Include="ViewModels\GradeViewModel.cs" />
     <Compile Include="ViewModels\GuardianViewModel.cs" />
+    <Compile Include="ViewModels\JambExam\JambDisplayQuestionVm.cs" />
+    <Compile Include="ViewModels\JambExam\JambExamLogVm.cs" />
+    <Compile Include="ViewModels\JambExam\JambSelectSubjectVm.cs" />
+    <Compile Include="ViewModels\JambExam\JambQuestionAnswerVm.cs" />
     <Compile Include="ViewModels\ReportCardVm.cs" />
     <Compile Include="ViewModels\ReportVm.cs" />
     <Compile Include="ViewModels\RestViewModel.cs" />
@@ -689,6 +680,20 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
+    <Content Include="ExcelTemplate\ResultUploadTemplate.xlsx" />
+    <Content Include="MyFiles\AVA-0001-012-006-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-001-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-002-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-003-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-004-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-005-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-006-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-007-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-008-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-009-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-010-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-012-171ST.pdf" />
+    <Content Include="MyFiles\AVA-0001-017-013-171ST.pdf" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkoolJos - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -1187,10 +1192,54 @@
     <Content Include="Views\CaLists\SearchView.cshtml" />
     <Content Include="Views\CaLists\DeleteCa.cshtml" />
     <Content Include="Views\Account\RemoveUser.cshtml" />
+    <Content Include="Views\ResultUploads\Create.cshtml" />
+    <Content Include="Views\ResultUploads\Delete.cshtml" />
+    <Content Include="Views\ResultUploads\Details.cshtml" />
+    <Content Include="Views\ResultUploads\Edit.cshtml" />
+    <Content Include="Views\ResultUploads\Index.cshtml" />
+    <Content Include="Views\ResultUploads\UploadResult.cshtml" />
+    <Content Include="Views\Sms\SendToNumbers.cshtml" />
+    <Content Include="Views\Modules\Create.cshtml" />
+    <Content Include="Views\Modules\Delete.cshtml" />
+    <Content Include="Views\Modules\Details.cshtml" />
+    <Content Include="Views\Modules\Edit.cshtml" />
+    <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Views\Topics\Create.cshtml" />
+    <Content Include="Views\Topics\Delete.cshtml" />
+    <Content Include="Views\Topics\Details.cshtml" />
+    <Content Include="Views\Topics\Edit.cshtml" />
+    <Content Include="Views\Topics\Index.cshtml" />
+    <Content Include="Views\LessonNotes\Create.cshtml" />
+    <Content Include="Views\LessonNotes\Delete.cshtml" />
+    <Content Include="Views\LessonNotes\Details.cshtml" />
+    <Content Include="Views\LessonNotes\Edit.cshtml" />
+    <Content Include="Views\LessonNotes\Index.cshtml" />
+    <Content Include="Views\ELearning\SaveLesssonNote.cshtml" />
+    <Content Include="Views\JambExam\Exam.cshtml" />
+    <Content Include="Views\JambExam\ExamIndex.cshtml" />
+    <Content Include="Views\JambExam\FinishExam.cshtml" />
+    <Content Include="Views\JambExam\MainExam.cshtml" />
+    <Content Include="Views\JambExam\SelectExamIndex.cshtml" />
+    <Content Include="Views\JambExam\SelectSubject.cshtml" />
+    <Content Include="Views\JambExam\_Exam.cshtml" />
+    <Content Include="Views\JambExam\Menu.cshtml" />
+    <Content Include="Views\JambExam\ShowNumbers.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\Create.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\Delete.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\Details.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\DownloadTranscript.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\Edit.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\Index.cshtml" />
+    <Content Include="Views\JambQuestionAnswers\UploadQuestion.cshtml" />
+    <Content Include="Views\Shared\ErrorException.cshtml" />
+    <Content Include="Views\JambSubjects\Create.cshtml" />
+    <Content Include="Views\JambSubjects\Delete.cshtml" />
+    <Content Include="Views\JambSubjects\Details.cshtml" />
+    <Content Include="Views\JambSubjects\Edit.cshtml" />
+    <Content Include="Views\JambSubjects\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="MyFiles\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
@@ -1207,23 +1256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711061350527_NewMIGRATION.resx">
-      <DependentUpon>201711061350527_NewMIGRATION.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711070824327_Event.resx">
-      <DependentUpon>201711070824327_Event.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712071823598_ReportModelUpdate.resx">
-      <DependentUpon>201712071823598_ReportModelUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712072054028_NoOfTimeSchoolOpened.resx">
-      <DependentUpon>201712072054028_NoOfTimeSchoolOpened.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712231726121_ChangingGrading.resx">
-      <DependentUpon>201712231726121_ChangingGrading.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

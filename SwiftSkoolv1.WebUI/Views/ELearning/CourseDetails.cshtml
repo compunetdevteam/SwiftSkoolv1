@@ -1,37 +1,32 @@
-﻿@using SwiftKampus.Models
-@model SwiftKampusModel.Course
+﻿@using SwiftSkoolv1.WebUI.Models
+@model SwiftSkoolv1.Domain.Subject
 <div class="card">
     <div class="card-head style-primary">
-        <header>
-            <h3>
-                List of Modules for Selected Course
-            </h3>
-        </header>
-
-    </div><!--end .card-head -->
+      </div><!--end .card-head -->
     <div class="card-body">
         <table table-responsive>
             <tr>
-                <td>Dept Name:&nbsp;</td>
-                <th>@Html.DisplayFor(model => model.Programme.ProgrammeName)</th>
+                <td>Subject Name:&nbsp;</td>
+                <th>@Html.DisplayFor(model => model.SubjectName)</th>
             </tr>
-            <tr>
+            @*<tr>
                 <td>Course Name:&nbsp;</td>
                 <th>@Html.DisplayFor(model => model.CourseName)</th>
             </tr>
             <tr>
                 <td>Description:&nbsp;</td>
                 <th>@Html.DisplayFor(model => model.CourseDescription)</th>
-            </tr>
+            </tr>*@
         </table>
 
         <header>
             <h4> List of Modules</h4>
         </header>
 
-        <table style="margin: 10px" class="table-responsive table-striped">
+        <table class="table-responsive table-striped">
             <tr>
                 <th style="width:auto">Modules Name</th>
+                <th style="width:auto">Description</th>
                 <th>&nbsp; &nbsp;</th>
 
                 <th style="width:auto">Actions</th>
@@ -44,38 +39,38 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ModuleName)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModuleDescription)
+                    </td>
 
                     <th>&nbsp; &nbsp;</th>
                     <td>
-                        <div class="btn-group">
-                            @if (User.IsInRole(RoleName.Academic))
+                        @*<div class="btn-group">*@
+                            @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
                             {
-                                <a class="btn btn-primary" onclick="EditModule('@item.ModuleId')"><i class="fa fa-pencil-square-o">Module</i> </a>
-
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                        Topic <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a data-toggle="modal" data-target="#actionsList" onclick="AddTopic('@item.ModuleId')"><i class="fa fa-plus-circle">Topic</i> </a></li>
-                                        <li><a onclick="TopicDetails('@item.ModuleId')"><i class="fa fa-eye">Topics</i> </a>&nbsp;</li>
-
-                                    </ul>
-                                </div>
+                                <a title="Edit Module" onclick="EditModule('@item.ModuleId')"> <i class="fa fa-pencil">Edit</i>&nbsp; </a> 
+                                <a title="Add Topic" data-toggle="modal" onclick="AddTopic('@item.ModuleId')"><i class="fa fa-plus-circle">Topic &nbsp;</i> </a>
+                                <a title="View Topics" onclick="TopicDetails('@item.ModuleId')"><i class="fa fa-eye">Topics</i> </a>
+                               
                             }
-                            else if (User.IsInRole(RoleName.Student))
+                            else if (User.IsInRole("Student"))
                             {
                                 <a onclick="TopicDetails('@item.ModuleId')"><i class="fa fa-eye">Topics</i> </a>
                             }
-                        </div>
+                        @*</div>*@
 
 
                     </td>
+                   
                 </tr>
+               
             }
+           
         </table>
 
-
+        <br />
+        <br />
+     
     </div>
 </div>
 
@@ -91,8 +86,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <div class="flex-center">
-                    <h4 class="modal-title">TOPIC</h4>
-                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                    <h4 class="modal-title"></h4>
                 </div>
             </div>
             <!--Body-->

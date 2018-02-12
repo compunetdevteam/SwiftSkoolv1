@@ -59,7 +59,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public List<Term> TermList()
         {
             return _db.Terms.AsNoTracking().ToList()
-                .Select(x => new Term { TermName = x.TermName }).ToList();
+                .Select(x => new Term {TermId = x.TermId, TermName = x.TermName }).ToList();
         }
 
         public string GetId()

@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "SaveLesssonNote";
+}
+
+@model SwiftSkoolv1.Domain.ClassRoom.LessonNote
+
+
+<form id="myform" onsubmit="return false;">
+    
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <div class="form-header  purple darken-4">
+                    <h3>
+                        <i class="fa fa-save"></i> Save Topic Content
+                    </h3>
+                </div>
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.TopicId > 0)
+            {
+                @Html.HiddenFor(model => model.TopicId)
+            }
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="md-form">
+                <div class="col-md-10">
+                    @Html.Label("Topic Name")
+                    @Html.DropDownList("TopicId", null, htmlAttributes: new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.TopicId, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="md-form">
+                @Html.Label("Lesson Note")
+                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+               
+            </div>
+            <div class="md-form">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add Lesson Note" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end .card-body -->
+    </form>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <script type="text/javascript">
+            $("#btnsubmit").click(function () {
+               
+                var data = $("#myform").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/ELearning/SaveLesssonNote",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.status) {
+                            $('#actionsList').modal("hide");
+
+                            window.oTable.ajax.reload(); //run my_fun() ondomready
+                            toastr["success"](data.message);
+                            $('#myform')[0].reset();
+                            window.TopicDetails(data.id);
+                        } else {
+                            //$('#actionsList').modal("hide");
+                            toastr["error"](data.message);
+                        }
+
+                    }
+                });
+            });
+        </script>
+
+
+
+
+
+

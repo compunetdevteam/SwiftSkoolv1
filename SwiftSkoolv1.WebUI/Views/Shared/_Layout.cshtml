@@ -236,7 +236,6 @@
 
                         <li>
                             <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Manage Guardian</a>
-                            
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cc"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
@@ -299,7 +298,8 @@
 
                                     <li>@Html.ActionLink("View/Add CA", "CreateCaView", "CaLists")</li>
                                     <li>@Html.ActionLink("Upload CA", "UploadResult", "CaLists")</li>
-                                    <li>@Html.ActionLink("Pdf Result", "Index", "FileDownload")</li>
+                                    @*<li>@Html.ActionLink("Upload Pdf Result", "Index", "FileDownload")</li>*@
+                                    <li>@Html.ActionLink("Upload Pdf Result", "UploadResult", "ResultUploads")</li>
                                     <li>@Html.ActionLink("Check Result", "SearhResultMain", "Results")</li>
                                     
                                     <li>@Html.ActionLink("Check Cummulative", "SearhResult", "Results")</li>
@@ -307,6 +307,9 @@
                                 </ul>
                             </div>
                         </li>
+                        <li>
+                        <a href="@Url.Action("Index", "ELearning")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>E-Learning</a>
+                        <li>
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-newspaper-o"></i>News/Article<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
@@ -320,6 +323,7 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-commenting"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
+                                    <li>@Html.ActionLink("Send to Numbers", "SendToNumbers", "Sms")</li>
                                     <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
                                     <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
                                     <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
@@ -393,7 +397,12 @@
                             <a href="@Url.Action("TeacherIndex", "AssignSubjectTeachers")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Subjects</a>
                         </li>
                        
-                       
+                        <li>
+                        <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Manage Guardian</a>
+                        <li>
+                        <li>
+                        <a href="@Url.Action("Index", "ELearning")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>E-Learning</a>
+                        <li>
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
@@ -436,11 +445,7 @@
                                 </ul>
                             </div>
                         </li>
-                        @*<li>
-                            <a href="@Url.Action("Create", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Add New Post</a>
-                            <a href="@Url.Action("Index", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>News/Articles</a>
-
-                        </li>*@
+                     
                        
                     </ul>
                 </li>
@@ -499,6 +504,9 @@
                                 </ul>
                             </div>
                         </li>
+                        <li>
+                        <a href="@Url.Action("StudentsIndex", "ELearning")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>E-Learning</a>
+                        <li>
                        
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
@@ -510,6 +518,7 @@
                                 </ul>
                             </div>
                         </li>
+
                         <li>
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> My fee<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
@@ -523,7 +532,7 @@
                             <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> My Result<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    @*<li>@Html.ActionLink("Check Result", "Index", "FileDownload")</li>*@
+                                    <li>@Html.ActionLink("Check Result", "Index", "ResultUploads")</li>
                                     <li>@Html.ActionLink("Check result", "StudentSearch", "Results")</li>
                                 </ul>
                             </div>

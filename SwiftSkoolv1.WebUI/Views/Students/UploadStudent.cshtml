@@ -1,10 +1,7 @@
-﻿
-
-
-@{
+﻿@{
     ViewBag.Title = "UploadFile";
 }
-
+<a href="~/ExcelTemplate/ResultUploadTemplate.xlsx">~/ExcelTemplate/ResultUploadTemplate.xlsx</a>
 <h2>Upload Student Record</h2>
 
 @using (Html.BeginForm("UploadStudent", "Students", FormMethod.Post, new { enctype = "multipart/form-data", id= "theform" }))

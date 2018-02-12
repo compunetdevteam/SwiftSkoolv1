@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.JambPractice.JambQuestionAnswer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+<div class="table-responsive">
+    <table id="Jdatatable" class="table table-responsive table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Subject Code</th>
+                <th>Question</th>
+                <th>Option 1</th>
+                <th>Option 2</th>
+                <th>Option 3</th>
+                <th>Option 4</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#Jdatatable').DataTable({
+                "ajax": {
+                    "url": "/JambQuestionAnswers/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "SubjectName", "autoWidth": true },
+                    { "data": "Question", "autoWidth": true },
+                    { "data": "Option1", "autoWidth": true },
+                    { "data": "Option2", "autoWidth": true },
+                    { "data": "Option3", "autoWidth": true },
+                    { "data": "Option4", "autoWidth": true },
+                    //{ "data": "City", "autoWidth": true },
+                    //{ "data": "PostalCode", "autoWidth": true }
+                ]
+            });
+        });
+
+    </script>
+}

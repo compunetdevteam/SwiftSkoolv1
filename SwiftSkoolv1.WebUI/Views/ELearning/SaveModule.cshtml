@@ -1,18 +1,18 @@
-﻿@model SwiftKampusModel.Classroom.Module
+﻿@model SwiftSkoolv1.Domain.ClassRoom.Module
 
 @{
     ViewBag.Title = "Create";
 }
 
 
-<form id="myform">
+<form id="myform" onsubmit="return false;">
     @Html.AntiForgeryToken()
 
 
     <div class="card">
         <div class="card-head style-primary">
             <header>
-                @if (Model != null && Model.ModuleId > 0)
+                @if (Model != null && Model.SubjectId > 0)
                 {
                     <div class="form-header  purple darken-4">
                         <h3>
@@ -23,7 +23,7 @@
                 else
                 {
                     <div class="form-header  purple darken-4">
-                        <h3><i class="fa fa-save"></i> Save</h3>
+                        <h3><i class="fa fa-save"></i> Save Module</h3>
                     </div>
                 }
             </header>
@@ -32,33 +32,42 @@
         <div class="card-body">
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @if (Model != null && Model.ModuleId > 0)
+            @if (Model != null && Model.SubjectId > 0)
             {
-                @Html.HiddenFor(model => model.ModuleId)
+                @Html.HiddenFor(model => model.SubjectId)
             }
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-          
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CourseId)
-                @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            <div class="md-form">
+                @Html.Label("Class Name")
+                @Html.DropDownList("ClassId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+            </div>
+            <div class="md-form">
+                @Html.Label("Term Name")
+                @Html.DropDownList("TermId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TermId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
+                @Html.Label("Subject Name")
+                @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="md-form">
                 @Html.LabelFor(model => model.ModuleName)
-                @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ModuleName, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.ModuleName, "", new {@class = "text-danger"})
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.ModuleDescription)
                 @Html.EditorFor(model => model.ModuleDescription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ModuleDescription, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.ExpectedTime)
                 @Html.EditorFor(model => model.ExpectedTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpectedTime, "", new { @class = "text-danger" })
@@ -68,13 +77,13 @@
 
             <div class="md-form">
 
-                @if (Model != null && Model.ModuleId > 0)
+                @if (Model != null && Model.SubjectId > 0)
                 {
-                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                    <input href="#" id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
                 }
                 else
                 {
-                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                    <input href="#" id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
                 }
                 <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
             </div>
@@ -95,7 +104,7 @@
         $("#btnsubmit").click(function () {
 
             var data = $("#myform").serialize();
-
+            //window.alert(data);
             $.ajax({
                 type: "POST",
                 url: "/ELearning/SaveModule",

@@ -36,6 +36,8 @@ namespace SwiftSkoolv1.Domain
     {
         SingleChoice, MultiChoice, BlankChoice
     }
+
+   
     public enum Religion
     {
         Christianity = 1, Muslim, Others
@@ -50,17 +52,17 @@ namespace SwiftSkoolv1.Domain
         Single = 1, Married, Divorced
     }
 
-    public enum LGA
-    {
-        Ado = 1, Agatu, Apa, Buruku, Gboko, Guma, Gwer_East, Gwer_West, Kastina_Ala, Konshisha,
-        Kwande, Logo, Makurdi, Obi, Ogbadibo, Ohimini, Oju, Okpokwu, Otukpo, Tarka, Ukum,
-        Ushongo, Vandeikya
-    }
     //public enum LGA
     //{
-    //    Jos_North = 1, Jos_South, Barkin_Ladi, Bassa, Bokkos, Jos_East, Kanam, Kanke, Langtang_North,
-    //    Langtang_South, Mangu, Mikang, Pankshin, Quaan_Pan, Ryom, Shendam, Wase
+    //    Ado = 1, Agatu, Apa, Buruku, Gboko, Guma, Gwer_East, Gwer_West, Kastina_Ala, Konshisha,
+    //    Kwande, Logo, Makurdi, Obi, Ogbadibo, Ohimini, Oju, Okpokwu, Otukpo, Tarka, Ukum,
+    //    Ushongo, Vandeikya
     //}
+    public enum LGA
+    {
+        Jos_North = 1, Jos_South, Barkin_Ladi, Bassa, Bokkos, Jos_East, Kanam, Kanke, Langtang_North,
+        Langtang_South, Mangu, Mikang, Pankshin, Quaan_Pan, Ryom, Shendam, Wase
+    }
 
     public enum OwershipType
     {

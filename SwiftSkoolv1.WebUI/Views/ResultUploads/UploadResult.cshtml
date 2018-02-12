@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Upload Result";
+}
+<div class="card contact-card card-cascade narrower mb-r">
+    <div class="admin-panel info-admin-panel">
+        <!-- Card title -->
+        <div class="view primary-color">
+            <h5>Upload Pdf Result</h5>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <h3><a href="~/ExcelTemplate/ResultUploadTemplate.xlsx">Download Template</a></h3>
+                <br />
+                <br />
+                @using (Html.BeginForm("UploadResult", "ResultUploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+                {
+                    @Html.Raw(ViewBag.Error)
+                   
+                    <span>Excel File </span> <input type="file" name="excelfile" />
+                    <br />
+                    <input id="btnsubmit" type="submit" value="Import" class="btn btn-success" />
+                }
+
+            </div>
+        </div>
+       
+
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#theform').submit(function () {
+                    $("input[type='submit']", this)
+                        .val("Uploading Please Wait...")
+                        .attr('disabled', 'disabled');
+                    return true;
+                });
+            });
+        </script>
+    </div>
+</div>

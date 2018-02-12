@@ -1,0 +1,20 @@
+﻿
+@model IEnumerable<ExamSolutionModel.CBTE.StudentQuestion>
+@{
+    ViewBag.Title = "ShowNumbers";
+}
+
+@foreach (var item in Model)
+{
+    if (item.SelectedAnswer == null)
+    {
+        @Html.ActionLink(item.QuestionNumber.ToString(), "Exam", new { questionNo = item.QuestionNumber, courseId = item.CourseId, studentid = item.StudentId, examtype = item.ExamTypeId })
+    @*<a href="" class="btn-success"> @item.QuestionNumber</a>*@
+    }
+    else if(item.SelectedAnswer != null)
+    {
+        @Html.ActionLink(item.QuestionNumber.ToString(), "Exam", new { questionNo = item.QuestionNumber, courseId = item.CourseId, studentid = item.StudentId, examtype = item.ExamTypeId })
+    @*<button class="btn-danger"> @item.QuestionNumber</button>*@
+    }
+
+}

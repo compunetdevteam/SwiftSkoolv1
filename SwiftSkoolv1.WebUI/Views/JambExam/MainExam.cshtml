@@ -1,0 +1,21 @@
+﻿@model CompunetCbte.ViewModels.CBTE.DisplayQuestionViewModel
+@{
+    ViewBag.Title = "Exam";
+}
+
+@{
+    ViewBag.Title = "MainExam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MainExam</h2>
+
+
+
+@{
+    Html.RenderAction("Exam", new
+    {
+        questionNo = ViewBag.QuestionNumber, courseId = ViewBag.CourseId,
+        studentid = ViewBag.StudentId
+    });
+}

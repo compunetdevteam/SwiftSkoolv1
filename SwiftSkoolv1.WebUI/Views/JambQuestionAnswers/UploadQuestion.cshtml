@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "UploadQuestion";
+}
+
+<a class="btn btn-primary" href="~/ExcelTemplate/CbteQuestionUpload.xlsx">Download Excel Template</a>
+<h2>Upload Question Record</h2>
+
+@using (Html.BeginForm("UploadQuestion", "JambQuestionAnswers", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+{
+    @Html.Raw(ViewBag.Error)
+    <span>Excel File </span> <input type="file" name="excelfile" />
+    <br />
+    <input id="btnsubmit" type="submit" value="Upload Question" class="btn btn-primary" />
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#theform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>
+
+
+

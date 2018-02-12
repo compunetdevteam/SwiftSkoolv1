@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SwiftSkoolv1.Domain.JambPractice;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SwiftSkoolv1.Domain.CEPractice;
 
 namespace SwiftSkoolv1.Domain
 {
@@ -63,5 +65,13 @@ namespace SwiftSkoolv1.Domain
         public virtual ICollection<AssignedClass> AssignedClasses { get; set; }
         public virtual ICollection<SubjectRegistration> SubjectRegistrations { get; set; }
         public virtual ICollection<CaList> CaList { get; set; }
+        public ICollection<JambExamLog> JambExamLogs { get; set; }
+        public ICollection<JambExamRule> JambExamRules { get; set; }
+        public ICollection<JambQuestionAnswer> JambQuestionAnswers { get; set; }
+        public ICollection<JambStudentQuestion> JambStudentQuestions { get; set; }
+        public ICollection<CEExamLog> CEExamLogs { get; set; }
+        public ICollection<CEExamRule> CEExamRules { get; set; }
+        public ICollection<CEQuestionAnswer> CEQuestionAnswers { get; set; }
+        public ICollection<CEStudentQuestion> CEStudentQuestions { get; set; }
     }
 }

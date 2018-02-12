@@ -1,6 +1,7 @@
-﻿@using SwiftKampus.Models
-@model SwiftKampusModel.Classroom.Module
-
+﻿@model SwiftSkoolv1.Domain.ClassRoom.Module
+<br/>
+<br/>
+<br/>
 <div class="card">
     <div class="card-head style-primary">
         <header>
@@ -48,17 +49,17 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            @if (User.IsInRole(RoleName.Academic))
+                            @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
                             {
-                                
-                                
+
+
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                         View <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#" onclick="ViewTopicContent('@item.TopicId')"><i class="fa fa-eye">Topic Content</i> </a></li>
-                                        <li><a href="#" onclick="ViewTopicAssignment('@item.TopicId')"><i class="fa fa-eye">Topic Assignment</i> </a></li>
+                                        <li><a href="#" onclick="ViewTopicContent('@item.TopicId')"><i class="fa fa-eye">Lesson Note</i> </a></li>
+                                        <li><a href="#" onclick="ViewTopicAssignment('@item.TopicId')"><i class="fa fa-eye">Assignment</i> </a></li>
 
                                     </ul>
                                 </div>
@@ -67,21 +68,21 @@
                                         Topic <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#" data-toggle="modal" data-target="#actionsList" onclick="EditTopic('@item.TopicId')"> <i class="fa fa-pencil-square-o">Topic</i> </a></li>
-                                        <li><a href="#" onclick="AddTopicContent('@item.TopicId')"><i class="fa fa-plus-circle">Topic Content</i> </a></li>
+                                        <li><a href="#" data-toggle="modal" onclick="EditTopic('@item.TopicId')"> <i class="fa fa-pencil-square-o">Topic</i> </a></li>
+                                        <li><a href="#" onclick="AddTopicContent('@item.TopicId')"><i class="fa fa-plus-circle">Lesson Note</i> </a></li>
 
-                                        <li><a href="#" onclick="AddTopicAssignment('@item.TopicId')"><i class="fa fa-plus-circle">Topic Assignment</i> </a></li>
+                                        <li><a href="#" onclick="AddTopicAssignment('@item.TopicId')"><i class="fa fa-plus-circle">Assignment</i> </a></li>
 
                                     </ul>
                                 </div>
                             }
-                            else if (User.IsInRole(RoleName.Student))
+                            else if (User.IsInRole("Student"))
                             {
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                         Topic <span class="caret"></span>
                                     </button>
-                                
+
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="#" onclick="ViewTopicContent('@item.TopicId')"><i class="fa fa-eye">Topic Content</i> </a></li>
                                         <li><a href="#" onclick="TakeQuiz('@item.TopicId')"><i class="fa fa-outdent">Take Quiz</i> </a></li>
@@ -100,9 +101,9 @@
 <script type="text/javascript">
 
     function AddTopicContent(topicId) {
-        var url = "/ELearning/SaveTopicContent?id=" + topicId;
+        var url = "/ELearning/SaveLesssonNote?id=" + topicId;
         $('#topicContentDetail').load(url);
-      
+
     };
     function EditTopic(topicId) {
         var url = "/ELearning/EditTopic?id=" + topicId;
@@ -118,7 +119,7 @@
         //document.getElementById('mydetailBody3').scrollIntoView();
         $('#mydetailBody3').load(url);
         $('html, body').animate({ scrollTop: $('#mydetailBody3').offset().top }, 'slow');
-       
+
 
     };
     function ViewTopicAssignment(topicId) {
@@ -126,12 +127,12 @@
         //document.getElementById('mydetailBody3').scrollIntoView();
         $('#mydetailBody3').load(url);
         $('html, body').animate({ scrollTop: $('#mydetailBody3').offset().top }, 'slow');
-       
+
 
     };
     function AddTopicAssignment(topicId) {
         var url = "/ELearning/ViewTopic?id=" + topicId;
-      
+
         $('#mydetailBody3').load(url);
         $('html, body').animate({ scrollTop: $('#mydetailBody3').offset().top }, 'slow');
     };
@@ -139,7 +140,7 @@
     function TakeQuiz(topicId) {
         var url = "/TakeQuiz/SelectSubject?topicid=" + topicId;
         window.open(url, '_self');
-       
+
     };
 
 

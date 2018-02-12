@@ -127,8 +127,8 @@ namespace SwiftSkoolv1.WebUI.Services
 
             //Form the command for sending message. You can download the API documentation for full list of commands
             //from http://smslive247.com
-            string smsCmd = String.Format("?cmd=sendmsg&sessionid={0}&message={1}&sender={2}" +
-                                          "&sendto={3}&msgtype=0", sessionId, sms.Message, sms.SenderId, sms.Numbers);
+            string smsCmd = $"?cmd=sendmsg&sessionid={sessionId}&message={sms.Message}&sender={sms.SenderId}" +
+                            $"&sendto={sms.Numbers}&msgtype=0";
 
             bool isSuccess = false;
             string errMsg = null;
@@ -145,8 +145,8 @@ namespace SwiftSkoolv1.WebUI.Services
                 _cache.Remove(sessionId_cahe_key);//delete the session id from the cache
 
                 sessionId = GetSessionId(); //Get the session id
-                smsCmd = String.Format("?cmd=sendmsg&sessionid={0}&message={1}&sender={2}" +
-                                          "&sendto={3}&msgtype=0", sessionId, sms.Message, sms.SenderId, sms.Numbers);
+                smsCmd = $"?cmd=sendmsg&sessionid={sessionId}&message={sms.Message}&sender={sms.SenderId}" +
+                         $"&sendto={sms.Numbers}&msgtype=0";
 
                 return makeHttpRequest(smsUrl + smsCmd);//resend the sms to the gateway
             }

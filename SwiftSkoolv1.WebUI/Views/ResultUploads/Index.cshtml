@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.ResultUpload>
+
+@{
+    ViewBag.Title = "Student Uploaded Result";
+}
+
+<div class="card contact-card card-cascade narrower mb-r">
+<div class="admin-panel info-admin-panel">
+    <!-- Card title -->
+    <div class="view primary-color">
+        <h5>Download Pdf Result</h5>
+    </div>
+    <br />
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentId)
+            </th>
+            <th>
+                Session Name
+            </th>
+            <th>
+                Term Name
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SessionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TermName)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Download Now", "Details", new { id = item.ResultUploadId }) |
+                    @*@Html.ActionLink("Details", "Details", new { id=item.ResultUploadId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ResultUploadId })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+</div>

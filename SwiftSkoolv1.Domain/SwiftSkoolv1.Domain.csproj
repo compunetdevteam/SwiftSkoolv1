@@ -93,10 +93,16 @@
     <Compile Include="CBT\QuestionAnswer.cs" />
     <Compile Include="CBT\ResultDivision.cs" />
     <Compile Include="CBT\StudentQuestion.cs" />
+    <Compile Include="CEPractice\CEExamLog.cs" />
+    <Compile Include="CEPractice\CEExamRule.cs" />
+    <Compile Include="CEPractice\CEQuestionAnswer.cs" />
+    <Compile Include="CEPractice\CEStudentQuestion.cs" />
+    <Compile Include="CEPractice\CESubject.cs" />
     <Compile Include="Class.cs" />
     <Compile Include="ClassAssignments.cs" />
     <Compile Include="ClassRoom\Classroom.cs" />
     <Compile Include="ClassRoom\ClassRoomAnnoucement.cs" />
+    <Compile Include="ClassRoom\LessonNote.cs" />
     <Compile Include="ClassRoom\Module.cs" />
     <Compile Include="ClassRoom\Topic.cs" />
     <Compile Include="ClassRoom\TopicMaterial.cs" />
@@ -108,6 +114,11 @@
     <Compile Include="Grade.cs" />
     <Compile Include="Guardian.cs" />
     <Compile Include="HomePageSetUp.cs" />
+    <Compile Include="JambPractice\JambExamLog.cs" />
+    <Compile Include="JambPractice\JambExamRule.cs" />
+    <Compile Include="JambPractice\JambQuestionAnswer.cs" />
+    <Compile Include="JambPractice\JambStudentQuestion.cs" />
+    <Compile Include="JambPractice\JambSubject.cs" />
     <Compile Include="Objects\Administrator.cs" />
     <Compile Include="Objects\Comment.cs" />
     <Compile Include="Objects\Post.cs" />
@@ -118,6 +129,7 @@
     <Compile Include="ReportSetting.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ResultAvailability.cs" />
+    <Compile Include="ResultUpload.cs" />
     <Compile Include="School.cs" />
     <Compile Include="SchoolClass.cs" />
     <Compile Include="SchoolEvent.cs" />

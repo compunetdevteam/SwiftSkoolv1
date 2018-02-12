@@ -1,0 +1,113 @@
+﻿@model SwiftSkoolv1.Domain.JambPractice.JambQuestionAnswer
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>QuestionAnswer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.JambSubject.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JambSubject.SubjectName)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Level.LevelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Level.LevelName)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Option1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Option1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Option2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Option2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Option3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Option3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Option4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Option4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Answer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuestionHint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuestionHint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFillInTheGag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsFillInTheGag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsMultiChoiceAnswer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsMultiChoiceAnswer)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

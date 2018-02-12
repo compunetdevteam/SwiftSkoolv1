@@ -1,0 +1,69 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.ClassRoom.Module>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Class.SchoolName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject.SubjectCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Term.TermName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModuleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModuleDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpectedTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SchoolId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Class.SchoolName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject.SubjectCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Term.TermName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModuleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModuleDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpectedTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchoolId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ModuleId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ModuleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ModuleId })
+        </td>
+    </tr>
+}
+
+</table>

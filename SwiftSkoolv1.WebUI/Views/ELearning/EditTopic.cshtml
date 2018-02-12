@@ -1,5 +1,4 @@
-﻿@model SwiftKampusModel.Classroom.Topic
-
+﻿@model SwiftSkoolv1.Domain.ClassRoom.Topic
 
 
 <form id="myform" onsubmit="return false;">
@@ -37,19 +36,19 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.ModuleId)
                 @Html.DropDownList("ModuleId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ModuleId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.TopicName)
                 @Html.EditorFor(model => model.TopicName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TopicName, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="md-form">
                 @Html.LabelFor(model => model.ExpectedTime)
                 @Html.EditorFor(model => model.ExpectedTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpectedTime, "", new { @class = "text-danger" })
