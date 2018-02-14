@@ -32,31 +32,31 @@
             {
                 @Html.HiddenFor(model => model.Id)
             }
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.MinimumGrade)
                 @Html.EditorFor(model => model.MinimumGrade, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MinimumGrade, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.MaximumGrade)
                 @Html.EditorFor(model => model.MaximumGrade, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MaximumGrade, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.Remark)
                 @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.ClassName)
                 @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                
                     @if (Model != null && Model.Id > 0)
                     {

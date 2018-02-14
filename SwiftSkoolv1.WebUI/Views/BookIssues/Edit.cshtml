@@ -42,7 +42,7 @@
         
 
         <div class="col-md-6">
-            <div class="md-form">
+            <div class="form-group">
                 @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control datepicker"} })
                 @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
             </div>
@@ -58,7 +58,7 @@
         
 
         <div class="col-md-6">
-            <div class="md-form">
+            <div class="form-group">
                 @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Due Date to return book" } })
                 @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
             </div>

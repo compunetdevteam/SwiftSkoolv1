@@ -1,31 +1,18 @@
 ﻿
 @model PagedList.IPagedList<SwiftSkoolv1.Domain.Grade>
 
-
-<style>
-    span.field-validation-error {
-        color: red;
-    }
-</style>
-
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-
-
-<div class="card contact-card card-cascade narrower mb-r">
-<div class="admin-panel info-admin-panel">
-    <!-- Card title -->
-    <div class="view primary-color">
-        <h5>Grade</h5>
-    </div>
-    <br/>
-    <br/>
+<div class="card">
+    <div class="card-block">
+       
+        <div class="form-header  purple darken-4">
+            <h3>
+               Grade <span><a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Grade</a>
+                </span>
+            </h3>
+        </div>
 
     <div class="tablecontainer" style="width: 90%; margin: 0 auto">
-        <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Grade</a>
-        @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-        <table id="Jdatatable" class="table table-striped table-hover">
+        <table id="Jdatatable" class="table table-responsive table-striped table-hover">
             <thead>
             <tr>
                 <th class="sort-alpha">Class Name</th>
@@ -71,8 +58,6 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-      
-
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
@@ -95,28 +80,18 @@
                     "data": "GradeId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>' +
+                        return '<a href="#" onclick="Edit(' + data +')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
                             '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ></i>Remove</a>';
 
                     }
                 }
-                //{
-                //    "data": "GradeId",
-                //    "autoWidth": true,
-                //    "render": function(data) {
-                //        return '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
-                //    }
-                //}
-                //{ "data": "EmailID", "autoWidth": true },
-                //{ "data": "Phone", "autoWidth": true },
-            ]
+               
+               ]
         });
       
     });
     function Edit(GradeId) {
         var url = "/Grades/Save?id=" + GradeId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -124,8 +99,6 @@
     };
     function Delete(GradeId) {
         var url = "/Grades/Delete?id=" + GradeId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -133,8 +106,6 @@
     };
     function myFunction() {
         var url = "/Grades/Save?id=0";
-        //$('#actionsList').modal("show");
-        // window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");

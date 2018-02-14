@@ -26,26 +26,26 @@ else
             @Html.HiddenFor(model => model.CaSetUpId)
         }
 
-        <div class="md-form">
+        <div class="form-group">
             @Html.LabelFor(model => model.TermName)
             @Html.EditorFor(model => model.TermName, new {htmlAttributes = new {@class = "form-control"}})
             @Html.ValidationMessageFor(model => model.TermName, "", new {@class = "text-danger"})
 
         </div>
      
-        <div class="md-form">
+        <div class="form-group">
             @Html.LabelFor(model => model.CaOrder)
             @Html.EditorFor(model => model.CaOrder, new {htmlAttributes = new {@class = "form-control"}})
             @Html.ValidationMessageFor(model => model.CaOrder, "", new {@class = "text-danger"})
         </div>
         
-        <div class="md-form">
+        <div class="form-group">
             @Html.LabelFor(model => model.CaCaption)
             @Html.EditorFor(model => model.CaCaption, new {htmlAttributes = new {@class = "form-control"}})
             @Html.ValidationMessageFor(model => model.CaCaption, "", new {@class = "text-danger"})
         </div>
         
-        <div class="md-form">
+        <div class="form-group">
             @Html.LabelFor(model => model.ClassName)
             @Html.EditorFor(model => model.ClassName, new {htmlAttributes = new {@class = "form-control"}})
             @Html.ValidationMessageFor(model => model.ClassName, "", new {@class = "text-danger"})

@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "School Fee Defaulters";
+}
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                Query Parameters
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <!-- BEGIN INLINE FORM -->
+        <div class="row">
+            <div class="col-lg-12">
+            </div><!--end .col -->
+            <div class="col-lg-7">
+            </div><!--end .col -->
+            <div class="col-lg-12">
+                <form class="form-inline" id="formFilter" onsubmit="return false;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                @Html.DropDownList("FeeCategory", (SelectList)ViewBag.FeeCategory, new { @class = "form-control" })
+                                <label for="LevelId">Level Name</label>
+                            </div>
+                            <div class="form-group">
+                                @Html.DropDownList("DepartmentId", (SelectList) ViewBag.DepartmentId, "", new {@class = "form-control"})
+                                <label for="DepartmentId">Department Name</label>
+                            </div>
+                            <div class="form-group">
+                                @*@Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })*@
+                                @Html.DropDownList("SessionId", (SelectList) ViewBag.SessionId, "", new {@class = "form-control"})
+                                <label for="SessionName">Session Name</label>
+                            </div>
+                            <div class="form-group">
+                                @Html.DropDownList("LevelId", (SelectList) ViewBag.LevelId, "", new {@class = "form-control"})
+                                <label for="LevelId">Level Name</label>
+                            </div>
+                            @*<div class="checkbox checkbox-styled">
+                                    <label>
+                                        <input id="Indegeneous" name="Indegeneous" type="checkbox" value="true">
+                                        <span>Indegeneous Student</span>
+                                    </label>
+                                </div>*@
+                            @*<div class="form-group">
+                                    @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "..Select..", new { @class = "form-control" })
+                                    <label for="LevelId">Level Name</label>
+                                </div>*@
+
+                            <button type="submit" id="btn-search" class="btn btn-raised btn-default-light ink-reaction">Search/View</button>
+                            <button type="submit" id="btn-dwn" class="btn btn-raised btn-default-light ink-reaction">Export To Pdf</button>
+                            <button type="submit" id="btn-excel" class="btn btn-raised btn-default-light ink-reaction">Export to Excel</button>
+                        </div><!--end .card-body -->
+                    </div><!--end .card -->
+                    @*<em class="text-caption">Inline layout</em>*@
+                </form>
+            </div><!--end .col -->
+        </div><!--end .row -->
+        <!-- END INLINE FORM -->
+    </div>
+</div>
+
+
+<!-- BEGIN DATATABLE 2 -->
+<div class="row">
+    <div class="col-md-12">
+
+    </div><!--end .col -->
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table id="Jdatatable" class="table order-column hover">
+                <thead>
+                    <tr>
+                        <th>Matric No</th>
+                        <th>FullName</th>
+                        <th>Gender</th>
+                        <th>Department</th>
+                        <th>Programme Name</th>
+                        <th>Level</th>
+                        <th>PhoneNumber</th>
+                    </tr>
+                </thead>
+            </table>
+        </div><!--end .table-responsive -->
+    </div><!--end .col -->
+</div><!--end .row -->
+<!-- END DATATABLE 2 -->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/SchoolFeePayments/GetSchoolFeeDefaulter",
+                "type": "POST",
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "MatricNo", "autoWidth": true },
+                { "data": "FullName", "autoWidth": true },
+                { "data": "Gender", "autoWidth": true },
+                { "data": "DeptName", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "PhoneNumber", "autoWidth": true }
+
+            ]
+        });
+
+
+        $("#btn-search").click(function () {
+            // window.alert("sem:" + $('#SemesterId').val() + " sess:" + $('#SessionId').val());
+            window.oTable.ajax.reload();
+
+        });
+        $("#btn-dwn").click(function () {
+            var url = "/Students/DownloadGraduatePdfReport?SessionName=" + $('#SessionName').val() + "&DepartmentId=" + $('#DepartmentId').val() + "&Indegeneous=" + $('#Indegeneous').val();
+            window.open(url, '_blank');
+
+        });
+        $("#btn-excel").click(function () {
+
+            var url = "/Students/DownloadGraduateExcelReport?SessionName=" + $('#SessionName').val() + "&DepartmentId=" + $('#DepartmentId').val() + "&Indegeneous=" + $('#Indegeneous').val();
+            window.open(url, '_self');
+        });
+
+
+    });
+
+
+</script>
+
+

@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "PrintReceipt";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+@using SwiftKampusModel
+@model SwiftKampus.ViewModels.Fee_Management.SchoolFeeReciept
+
+
+<div class="transparentbox">
+    <div style="text-align: center;">
+        <img src="~/Content/Images/UNIBEN.png" />
+    </div>
+    @if (Model.FeeCategory.Equals(SchoolFeeCategory.Acceptance.ToString()))
+    {
+        <h4 class="text-center"> SCHOOL ACCEPTANCE FEE RECIEPT </h4>
+    }
+    else if (Model.FeeCategory.Equals(SchoolFeeCategory.Acceptance.ToString()))
+    {
+        <br />
+        <h4 class="text-center"> SCHOOL FEE RECIEPT </h4>
+        <br />
+       
+    }
+</div>
+<table style="width: 100%">
+    <tr>
+        <th>
+
+            <div class="col-md-3">
+                <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+            </div>
+        </th>
+        <th>
+            <div class="col-md-4">
+                <table class="table table-banded no-margin table-responsive">
+                    <tbody>
+                        <tr><td>FULLNAME: <strong> @Model.Student.FullName</strong></td></tr>
+                        <tr><td>MATRIC NO: <strong> @Model.Student.MatricNo</strong></td></tr>
+                        <tr><td>SEX: <strong> @Model.Student.Gender</strong></td></tr>
+                        <tr><td>SESSION: <strong> @Model.SchoolFeePayment.Session.SessionName</strong></td></tr>
+                        <tr><td>SEMESTER: <strong>@Model.SchoolFeePayment.Semester.SemesterName</strong></td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </th>
+        <th>
+            <div class="col-md-4">
+                <table class="table table-banded no-margin table-responsive">
+                    <tbody>
+                        <tr><td>FACULTY: <strong> @Model.Student.Programme.Department.Faculty.FacultyName</strong></td></tr>
+                        <tr><td>DEPARTMENT: <strong> @Model.Student.Programme.Department.DeptName</strong></td></tr>
+                        <tr><td>LEVEL: <strong>@Model.Student.Level.LevelName</strong></td></tr>
+                        <tr><td>DEPT OPTION:<strong> @Model.Student.Programme.ProgrammeName</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </th>
+    </tr>
+</table>
+<table style="width: 100%">
+    <tr>
+        <td>
+            PAYMENT DETAILS
+            <table style="width: 100%">
+                <tr><td>RRR:<i class="text-left">@Html.DisplayFor(modelItem => Model.SchoolFeePayment.ReferenceNo)</i></td></tr>
+
+                <tr><td>Payment Date:<i class="text-left">@Html.DisplayFor(modelItem => Model.SchoolFeePayment.Date)</i></td></tr>
+                <tr><td>Payment Status: @Html.DisplayFor(modelItem => Model.SchoolFeePayment.PaymentStatus)</td></tr>
+                <tr><td>Amount Paid: @Html.DisplayFor(modelItem => Model.SchoolFeePayment.TotalAmount)</td></tr>
+            </table>
+        </td>
+        <td>
+            <table style="width: 100%">
+                SCHOOL FEE BREAKDOWN
+                <tr>
+                    <th>
+                        Fee Name
+                    </th>
+
+                    <th>Amount</th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.SchoolFeeTypes)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FeeName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};
+</script>
+
+
+

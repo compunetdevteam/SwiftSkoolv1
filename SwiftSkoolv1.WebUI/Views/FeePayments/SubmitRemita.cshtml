@@ -1,0 +1,40 @@
+﻿@model SwiftKampus.ViewModels.Fee_Management.ConfirmPaymentVm
+
+@{
+    ViewBag.Title = "SubmitRemita";
+}
+
+
+
+<img src="~/Content/Images/processing.gif" />
+@*<form id="form1" method="POST" action="https://login.remita.net/remita/ecomm/init.reg">*@
+<form id="form1" method="POST" action="http://www.remitademo.net/remita/ecomm/init.reg">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <hr/>
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        @Html.HiddenFor(model => model.payerName)
+        @Html.HiddenFor(model => model.payerEmail)
+        @Html.HiddenFor(model => model.payerPhone)
+        @Html.HiddenFor(model => model.orderId),
+        @Html.HiddenFor(model => model.merchantId)
+        @Html.HiddenFor(model => model.serviceTypeId)
+        @Html.HiddenFor(model => model.responseurl)
+        @Html.HiddenFor(model => model.amt)
+        @Html.HiddenFor(model => model.hash)
+        @Html.HiddenFor(model => model.paymenttype)
+
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">document.getElementById("form1").submit();</script>
+
+
+

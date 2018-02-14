@@ -30,26 +30,26 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        @Html.DropDownList("SubjectId", (SelectList) ViewBag.SubjectCode, "", new {@class = "mdb-select"})
+                        @Html.DropDownList("SubjectId", (SelectList) ViewBag.SubjectCode, "", new {@class = "form-control"})
                         <label>Subject Name</label>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "mdb-select"})
+                        @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "form-control"})
                         <label>ClassName</label>
                     </div>
                 </div>
                 <div class="col-md-3">
 
                     <div class="form-group">
-                        @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "mdb-select"})
+                        @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "form-control"})
                         <label>Term Name</label>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        @Html.DropDownList("SessionName", (SelectList) ViewBag.SessionName, "", new {@class = "mdb-select"})
+                        @Html.DropDownList("SessionName", (SelectList) ViewBag.SessionName, "", new {@class = "form-control"})
 
                         @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
                         <label>SessionName</label>

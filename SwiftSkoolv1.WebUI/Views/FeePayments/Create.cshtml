@@ -1,120 +1,166 @@
-﻿@model SwiftSkoolv1.Domain.FeePayment
+﻿@model SwiftKampus.ViewModels.Fee_Management.ConfirmPaymentVm
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Confirm Payment";
 }
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Confirm Fee Payment</h2>
 
-<h2>Create</h2>
-
-
-<form id="myform">
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>FeePayment</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.StudentId, "StudentId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.FeeName, "Fee Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.DropDownList("FeeName", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.FeeName, "", new { @class = "text-danger" })
-            </div>
-        </div>   
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Term, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.DropDownList("Term", (SelectList)ViewBag.Term, "", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Session, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.DropDownList("Session", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Session, "", new { @class = "text-danger" })
-            </div>
-        </div> 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaidFee, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.PaidFee, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PaidFee, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EnumDropDownListFor(model => model.PaymentMode, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @*@Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })*@
-            <div class="col-md-5">
-                @Html.Editor("Date", (string)(ViewBag.Date), new { htmlAttributes = new { @class = "form-control", @readonly = "true", @type = "hidden" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
- 
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-5">
-                <input type="reset" id="btnform" value="Create" class="btn btn-default btn-success" />
-            </div>
-        </div>
     </div>
-</form>
+    <div class="col-lg-2">
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>
+<br/>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-head style-primary">
+                <header>
+                    <div class="form-header  purple darken-4">
+                        <h3>Fee Breakdown</h3>
+                    </div>
+
+                </header>
+
+            </div><!--end .card-head -->
+            <div class="card-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <th>
+                            Fee Name
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.FeeLists)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeeTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <th>Total</th>
+                        <th>@Model.FeeLists.Sum(s => s.Amount)</th>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+
+        <div class="card">
+            <div class="card-head style-primary">
+                <header>
+                    <div class="form-header  purple darken-4">
+                        <h3> PROCEED TO PAYMENT</h3>
+                    </div>
+
+                </header>
+
+            </div><!--end .card-head -->
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.StudentId)
+                    @Html.HiddenFor(m => m.SessionId)
+                    @Html.HiddenFor(m => m.SemesterId)
+                    @Html.HiddenFor(m => m.FeeCategory)
+
+                    @Html.HiddenFor(model => model.payerName)
+                    @Html.HiddenFor(model => model.payerEmail)
+                    @Html.HiddenFor(model => model.payerPhone)
+                    @Html.HiddenFor(model => model.orderId)
+                    @Html.HiddenFor(model => model.merchantId)
+                    @Html.HiddenFor(model => model.serviceTypeId)
+                    @Html.HiddenFor(model => model.responseurl)
+                    @Html.HiddenFor(model => model.amt)
+                    @Html.HiddenFor(model => model.paymenttype)
+
+
+                    <div class="form-horizontal">
+                        <img class="img-responsive" src="~/Content/Images/remita-payment-logo-horizonal.png" width="475" />
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.Label("Student Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @*@Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control" })*@
+                                @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                @*@Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Semester Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SemesterName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                @Html.ValidationMessageFor(model => model.SemesterName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Session Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SessionName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TotalAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Payment Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EnumDropDownListFor(model => model.RemitaPaymentType, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RemitaPaymentType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="CONFIRM AND PROCEED" class="btn btn-primary btn-lg" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        //window.alert("ready");
-
-        $("#btnsubmit").click(function() {
-            // window.alert("ready");
-
-            $("#loaderDiv").show();
-
-            var data = $("#myform").serialize();
-            debugger
-            $.ajax({
-                type: "POST",
-                url: "/FeePayments/Create",
-                data: data,
-                success: function(response) {
-                    $("#loaderDiv").hide();
-                    alertify.success('Payment Created Successfully');
-                }
-            });
-        });
-    })
-</script>
 

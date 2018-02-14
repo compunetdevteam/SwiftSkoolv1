@@ -1,88 +1,90 @@
 ﻿@model SwiftSkoolv1.WebUI.ViewModels.AssignSubjectViewModel
 
 @{
-	ViewBag.Title = "Assign Subject";
+    ViewBag.Title = "Assign Subject";
 }
+<link href="~/Content/chosen.min.css" rel="stylesheet" />
 <script src="~/Scripts/chosen.jquery.min.js"></script>
 
 
 <h2>Assign Subject To Class</h2>
 <div class="alert alert-warning">
-		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>This Feature is best Applicable to Junior School or Primary School <br/>
-    You can select Multiple option for Term Name and Subject Name
-    </strong> 
-	</div>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>
+        This Feature is best Applicable to Junior School or Primary School <br />
+        You can select Multiple option for Term Name and Subject Name
+    </strong>
+</div>
 
 <div class="row">
-	<div class="col-md-1">
+    <div class="col-md-1">
 
-	</div>
-	<div class="col-md-6">
-	    <form id="myform" onsubmit="return false;">
-		
-			@Html.AntiForgeryToken()
+    </div>
+    <div class="col-md-6">
+        <form id="myform" onsubmit="return false;">
 
-			<div class="form-horizontal">
+            @Html.AntiForgeryToken()
 
-				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-				<div class="md-form">
-					@Html.LabelFor(model => model.ClassName)
-					<div class="col-md-10">
-						@Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
-					</div>
-				</div>
-                <div class="md-form">
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassName)
+                    <div class="col-md-10">
+                        @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(model => model.TermName)
                     <div class="col-md-10">
                         @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
                         @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
                     </div>
                 </div>
-				<div class="md-form">
-					@Html.Label("Subject Name")
-					<div class="col-md-10">
-						@Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", multiple = true })
-						@Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
-					</div>
-				</div>
-				@*<div class="md-form">
-						<div class="editor-label control-label col-md-2">
-							@Html.Label("SubjectName")
-						</div>
-						<div class="col-md-10 editor-field">
-							@Html.ListBox("SubjectName", (MultiSelectList)ViewBag.SubjectName, new { size = 10, @class = "listbox" })
-						</div>
-					</div>*@
+                <div class="form-group">
+                    @Html.Label("Subject Name")
+                    <div class="col-md-10">
+                        @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", multiple = true })
+                        @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <div class="editor-label control-label col-md-2">
+                            @Html.Label("SubjectName")
+                        </div>
+                        <div class="col-md-10 editor-field">
+                            @Html.ListBox("SubjectName", (MultiSelectList)ViewBag.SubjectName, new { size = 10, @class = "listbox" })
+                        </div>
+                    </div>*@
 
-				<div class="md-form">
-					<div class="col-md-offset-2 col-md-10">
-					    <input id="btnsubmit" type="submit" value="Assign Subject" class="btn btn-info" />
-					</div>
-				</div>
-			</div>
-		</form>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnsubmit" type="submit" value="Assign Subject" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+        </form>
 
-	</div>
-	<div class="col-md-3">
+    </div>
+    <div class="col-md-3">
 
-	</div>
+    </div>
 </div>
 
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    
+
 }
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         //window.alert("ready");
         $('.chosen-select').chosen();
-        $(function() {
+        $(function () {
             $('.listbox').multiselect({
                 includeSelectAllOption: true
             });
@@ -101,7 +103,7 @@
                         toastr["success"](data.message);
                         var url = "/AssignSubjects/Index";
                         sleep(10000);
-                        window.open(''+url+'', '_self');
+                        window.open('' + url + '', '_self');
                     } else {
                         //$('#actionsList').modal("hide");
                         toastr["error"](data.message);
@@ -113,7 +115,7 @@
         function sleep(milliseconds) {
             var start = new Date().getTime();
             for (var i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds){
+                if ((new Date().getTime() - start) > milliseconds) {
                     break;
                 }
             }

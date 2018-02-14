@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "RemoveTransaction";
+}
+
+<h2>Remove Transaction</h2>
+<h2>@ViewBag.Message</h2>
+
+@using (Html.BeginForm("RemoveTransaction", "SchoolFeePayments", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "", role = "form" }))
+{
+
+    <br />
+    <input id="studentId" name="studentId" class="form-control" type="text" placeholder="Type your Jamb Reg No" />
+
+
+    <button class="btn" type="submit">Remove Transaction<span class="icon-more-icon"></span></button>
+
+}
+
+

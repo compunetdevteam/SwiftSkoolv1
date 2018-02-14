@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SwiftSkoolv1.Domain
@@ -6,7 +7,6 @@ namespace SwiftSkoolv1.Domain
     public class School
     {
         [Key]
-        [StringLength(35)]
         public string SchoolId { get; set; }
 
         [StringLength(105)]
@@ -48,6 +48,9 @@ namespace SwiftSkoolv1.Domain
 
         public byte[] Logo { get; set; }
         public byte[] SchoolBanner { get; set; }
+
+        public virtual ICollection<RemitaFeeSetting> RemitaFeeSettings { get; set; }
+        public virtual ICollection<FeeType> FeeTypes { get; set; }
 
     }
 

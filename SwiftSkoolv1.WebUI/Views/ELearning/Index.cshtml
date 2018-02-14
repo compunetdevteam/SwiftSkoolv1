@@ -12,9 +12,7 @@
 
         <!-- First row -->
         <div class="row">
-            <!-- First column -->
-            <div class="col-md-6">
-                <div class="card">
+            <div class="card">
                     <div class="card-head style-primary">
                         <header>
                             <h3>
@@ -24,8 +22,7 @@
 
                     </div><!--end .card-head -->
                     <div class="card-body">
-
-                        <table id="Jdatatable" class="table table-striped table-hover">
+                        <table id="Jdatatable" class="table table-responsive table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Subject Code</th>
@@ -38,38 +35,37 @@
                     </div>
                 </div>
             </div>
-            <!-- Second column -->
-            <div class="col-md-6">
+           
+       
+   
 
-                <div class="card-body" id="mydetailBody">
-
-                </div>
-
-
-            </div>
-            <!-- /.Second column -->
-
-        </div>
-
-
-        <!-- Second row -->
         <div class="row">
+            <div class="col-sm-6">
+
+                <div class="card-head" id="mydetailBody">
+
+                </div>
+
+
+            </div>
             <!-- First column -->
-            <div class="col-md-7">
-                <div class="card-body" id="mydetailBody2">
+            <div class="col-sm-6">
+                <div class="card" id="mydetailBody2">
 
                 </div>
 
             </div>
-            <!-- Second column -->
-            <div class="col-md-5">
-                <div class="card-body" id="mydetailBody3">
-
-                </div>
-            </div>
-            <!-- /.Second column -->
-
+          
         </div>
+       
+        <div class="row">
+            <div class="card" id="mydetailBody3">
+
+            </div>
+        </div>
+      
+
+       
 
 
 
@@ -81,8 +77,8 @@
 
             </div>
         </div>
-
-    </div>
+</div>
+   
 </div>
 
 
@@ -121,11 +117,7 @@
         }
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
-            //"serverSide": true, // if it is true the preocess is done on server side
-            //"filter": true, // disables search box
-            //"info": true,
-            //"stateSave": true,
-            //"orderMulti": false, // disable multiple column loading at once
+          
             "ajax": {
                 "url": "/ELearning/MyCourses",
                 "type": "POST",
@@ -146,8 +138,7 @@
                     }
                 }
 
-                //{ "data": "EmailID", "autoWidth": true },
-                //{ "data": "Phone", "autoWidth": true },
+           
             ]
         });
 
@@ -159,7 +150,7 @@
     function CourseDetails(courseId) {
         var url = "/ELearning/CourseDetails?id=" + courseId;
         $('#mydetailBody').load(url);
-
+        $('html, body').animate({ scrollTop: $('#mydetailBody').offset().top }, 'slow');
     };
 
     function AddModule(courseId) {

@@ -18,14 +18,11 @@
             </div>
         }
 
-
-
         <form id="myform" onsubmit="return false;">
 
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -34,46 +31,37 @@
                     @Html.HiddenFor(model => model.GradeId)
                 }
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.GradeName)
                     @Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.ClassName)
                     @Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
                     @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.MinimumValue)
                     @Html.EditorFor(model => model.MinimumValue, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.MinimumValue, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.MaximumValue)
                     @Html.EditorFor(model => model.MaximumValue, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.MaximumValue, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.Remark)
                     @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                 </div>
 
-
-                @*<div class="form-group">
-                        @Html.LabelFor(model => model.SubjectUnit, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.SubjectUnit, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.SubjectUnit, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
-
-                <div class="md-form">
+                <div class="form-group">
 
                     @if (Model != null && Model.GradeId > 0)
                     {
@@ -109,10 +97,7 @@
             success: function (data) {
                 if (data.status) {
                     $('#actionsList').modal("hide");
-                    // debugger
-                    //$.fn.oTable();
                     window.oTable.ajax.reload(); //run my_fun() ondomready
-                    //window.location.href = "/Subjects/Index";
 
                     toastr["success"](data.message);
                     $('#myform')[0].reset();

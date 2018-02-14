@@ -1,0 +1,131 @@
+﻿
+@model SwiftSkoolv1.Domain.FeeType
+
+<div class="card">
+    <div class="card-block">
+        @if (Model != null && Model.FeeTypeId > 0)
+        {
+            <div class="form-header  purple darken-4">
+                <h3>
+                    <i class="fa fa-pencil-square-o"></i> Update Record
+                </h3>
+            </div>
+        }
+        else
+        {
+            <div class="form-header  purple darken-4">
+                <h3><i class="fa fa-save"></i> Save</h3>
+            </div>
+        }
+
+        <form id="myform" onsubmit="return false;">
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<a href="~/Views/Subjects/Save.cshtml">~/Views/Subjects/Save.cshtml</a>*@
+            @if (Model != null && Model.FeeTypeId > 0)
+            {
+                @Html.HiddenFor(model => model.FeeTypeId)
+            }
+
+            <div class="form-group">
+                @Html.Label("Class Name")
+                @Html.DropDownList("ClassName", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Term Name")
+                @Html.DropDownList("TermName", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Fee Category")
+                @Html.DropDownList("FeeCategory", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FeeCategory, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Fee Name")
+                @Html.EditorFor(model => model.FeeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FeeName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Student Type")
+                @Html.DropDownList("StudentType", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentType, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Amount)
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Amount in Words")
+                @Html.EditorFor(model => model.AmountInWords, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AmountInWords, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description)
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+
+                @if (Model != null && Model.FeeTypeId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-info" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-info" />
+                }
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/FeeTypes/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>

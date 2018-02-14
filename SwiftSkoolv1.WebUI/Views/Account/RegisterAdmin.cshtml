@@ -2,11 +2,21 @@
 @{
     ViewBag.Title = "RegisterAdmin";
 }
-<div class="card contact-card card-cascade narrower mb-r">
+<header class="section-header">
+    <div class="tbl">
+        <div class="tbl-row">
+            <div class="tbl-cell">
+                <h2>Register Admin</h2>
+                <div class="subtitle">Create admin for Schools</div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="card">
     <div class="admin-panel info-admin-panel">
         <!-- Card title -->
         <div class="view primary-color">
-            <h5>Register Admin</h5>
+            <h5></h5>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -42,15 +52,15 @@
 
 
 
-                    <div class="md-form">
+                    <div class="form-group">
                         @Html.Label("School Name")
-                        @Html.DropDownList("SchoolId", null, htmlAttributes: new { @class = "mdb-select" })
+                        @Html.DropDownList("SchoolId", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.SchoolId, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(m => m.Password)
-                        @Html.PasswordFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                     </div>
@@ -60,8 +70,8 @@
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10 text-right">
-                            <input id="btnsubmit" type="submit" value="Register Admin" class="btn btn-info" />
+                        <div class="col-md-offset-2 text-center">
+                            <input id="btnsubmit" type="submit" value="Register Admin" class="btn btn-lg btn-info" />
                         </div>
                     </div>
 

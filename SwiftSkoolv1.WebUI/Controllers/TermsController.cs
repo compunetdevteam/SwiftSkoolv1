@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
+    [Authorize]
     public class TermsController : BaseController
     {
         // GET: Terms

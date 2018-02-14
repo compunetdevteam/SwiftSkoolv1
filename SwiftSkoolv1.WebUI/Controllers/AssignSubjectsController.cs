@@ -81,24 +81,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetIndex()
+        public async Task<ActionResult> GetIndex(string ClassName, string TermName)
         {
-            #region Server Side filtering
-            //Get parameter for sorting from grid table
-            // get Start (paging start index) and length (page size for paging)
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-            //Get Sort columns values when we click on Header Name of column
-            //getting column name
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            //Soring direction(either desending or ascending)
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
-
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
+           
             var className = string.Empty;
 
 
@@ -112,30 +97,31 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 }).ToList();
             if (Request.IsAuthenticated && User.IsInRole("Student"))
             {
-                var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
-                var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
+                var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName)
+                    .FirstOrDefaultAsync();
+                var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName)
+                    .FirstOrDefaultAsync();
                 var studentId = User.Identity.GetUserId();
-                var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                            && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                var myClass = await Db.AssignedClasses.AsNoTracking().Where(x =>
+                        x.TermName.Equals(term) && x.SessionName.Equals(session)
+                        && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
                     .Select(s => s.ClassName)
                     .FirstOrDefaultAsync();
                 className = myClass;
                 v = v.Where(x => x.ClassName.Equals(className)).ToList();
             }
-
-
-            if (!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(ClassName))
             {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = v.Where(x => x.SubjectName.Equals(search) || x.ClassName.Equals(search)).ToList();
+                v = v.Where(x => x.ClassName.Equals(ClassName)).ToList();
             }
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
+            if (!string.IsNullOrEmpty(TermName))
+            {
+                v = v.Where(x => x.TermName.Equals(TermName)).ToList();
+            }
 
-            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+            var data = v.ToList();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
 
-            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MyAssignedSubject()
@@ -249,7 +235,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         foreach (var item in model.SubjectId)
                         {
                             var CA = Db.AssignSubjects.Where(x => x.ClassName.Equals(model.ClassName)
-                                                                  && x.SubjectId.Equals(item) 
+                                                                  && x.SubjectId.Equals(item)
                                                                   && x.TermName.Equals(term)
                                                                   && x.SchoolId.Equals(userSchool));
                             var countFromDb = await CA.CountAsync();

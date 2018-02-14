@@ -1,23 +1,23 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.SchoolClass>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "School Class";
 }
 
-<div class="card contact-card card-cascade narrower mb-r">
-<div class="admin-panel info-admin-panel">
-    <!-- Card title -->
-    <div class="view primary-color">
-        <h5>School Class</h5>
-    </div>
-    <br/>
-    <br/>
+<div class="card">
+    <div class="card-block">
+       
+        <div class="form-header  purple darken-4">
+            <h3>
+                School Class <span><a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Class</a>
+                </span>
+            </h3>
+        </div>
 
     <div class="tablecontainer" style="width: 90%; margin: 0 auto">
         @*<a class="popup" href="/Classes/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-        <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Class</a>
 
-        <table id="Jdatatable" class="table table-hover">
+        <table id="Jdatatable" class="table table-responsive table-hover">
             <thead>
             <tr>
                 <th>School Class Code</th>
@@ -59,24 +59,7 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
-                //debugger;
-                //$("#Jdatatable").DataTable({
-                //    "processing": true, // for show progress bar while loading
-                //    "serverSide": true, // if it is true the preocess is done on server side
-                //    "filter": false, // disables search box
-                //    "orderMulti": false, // disable multiple column loading at once
-                //    "ajax": {
-                //        "url": "/Sessions/GetIndex",
-                //        "type": "POST",
-                //        "datatype": "json"
-                //    },
-                //var oTable = $("#Jdatatable").DataTable({
-                //    // "processing": true, // for show progress bar while loading
-                //    "ajax": {
-                //        "url": "/Subjects/GetIndex",
-                //        "type": "GET",
-                //        "datatype": "json"
-                //    },
+               
                 window.oTable = $("#Jdatatable").DataTable({
                     "processing": true, // for show progress bar while loading
                     "serverSide": true, // if it is true the preocess is done on server side
@@ -97,7 +80,7 @@
                             "data": "SchoolClassId",
                             "autoWidth": true,
                             "render": function (data) {
-                                return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>' +
+                                return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
                                     '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ></i>Remove</a>';
                             }
                         }

@@ -1,21 +1,28 @@
 ﻿@model SwiftSkoolv1.Domain.Session
 
-<div class="card">
-<div class="card-block">
-    @if (Model != null && Model.SessionId > 0)
-    {
-        <div class="form-header  purple darken-4">
-            <h3>
-                <i class="fa fa-pencil-square-o"></i> Update Record
-            </h3>
+<header class="activity-line-item-header">
+    <div class="activity-line-item-user">
+        <div class="activity-line-item-user-photo">
+            <a href="activity.html#">
+                <img src="img/photo-64-2.jpg" alt="">
+            </a>
         </div>
-    }
-    else
-    {
-        <div class="form-header  purple darken-4">
-            <h3><i class="fa fa-save"></i> Save</h3>
+        <div class="activity-line-item-user-name">
+            @if (Model != null && Model.SessionId > 0)
+            {
+                <h5>
+                    <i class="fa fa-pencil-square-o"></i> Update Record
+                </h5>
+            }
+            else
+            {
+                <h3><i class="fa fa-save"></i> Save</h3>
+            }
         </div>
-    }
+       
+    </div>
+</header>
+   
 
     <form id="myform" onsubmit="return false;">
 
@@ -31,20 +38,14 @@
             }
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.SessionName)
                 @Html.EditorFor(model => model.SessionName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
          
             </div>
 
-            @*<div class="md-form">
-                @Html.LabelFor(model => model.ActiveSession)
-                @Html.EditorFor(model => model.ActiveSession)
-                @Html.ValidationMessageFor(model => model.ActiveSession, "", new { @class = "text-danger" })
-            </div>*@
-
-            <div class="md-form">
+           <div class="form-group">
                 
                 @if (Model != null && Model.SessionId > 0)
                 {
@@ -59,8 +60,7 @@
             </div>
         </div>
     </form>
-</div>
-</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
@@ -78,11 +78,7 @@
             success: function (data) {
                 if (data.status) {
                     $('#actionsList').modal("hide");
-                    // debugger
-                    //$.fn.oTable();
                     window.oTable.ajax.reload(); //run my_fun() ondomready
-                    //window.location.href = "/Subjects/Index";
-
                     toastr["success"](data.message);
                     $('#myform')[0].reset();
                 } else {

@@ -6,223 +6,230 @@
 }
 
 
+<div class="card">
+    <div class="card-block">
+
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-pencil-square-o"></i> Continuous Assessment
+            </h3>
+        </div>
+
+        @using (Html.BeginForm("Edit", "Students", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="container-fluid">
+                    <!-- Section: Edit Account -->
+                    <section class="section">
+                        <!-- First row -->
+                        <div class="row">
+                            <!-- First column -->
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <!-- Card -->
+                                    <div class="card contact-card card-cascade narrower mb-r">
+                                        <div class="admin-panel info-admin-panel">
+                                            <!-- Card title -->
+                                            @*<div class="view primary-color">
+                                                    <h5>Add Passport</h5>
+                                                </div>*@
+                                            <!-- /.Card title -->
+                                            <!-- Card content -->
+                                            <div class="card-block text-center">
+
+                                                <img id="output" alt="Passport Picture" class="rounded-circle contact-avatar my-2 mx-auto" />
+
+                                                <p class="text-muted">
+                                                    <small>photo will be changed automatically</small>
+                                                    <small><br />Image Size not more than 25kb</small>
+                                                </p>
+
+                                                <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
+                                                <label for="File" class="btn btn-primary btn-block">Upload Passport</label>
 
 
-@using (Html.BeginForm("Edit", "Students", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+                                            </div>
+                                            <!-- /.Card content -->
+                                        </div>
+                                    </div>
+                                    <!-- /.Card -->
+                                </div>
 
-    <div class="form-horizontal">
-       
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
-    <div class="container-fluid">
-    <!-- Section: Edit Account -->
-    <section class="section">
-    <!-- First row -->
-    <div class="row">
-    <!-- First column -->
-    <div class="col-lg-4">
-        <div class="row">
-            <!-- Card -->
-            <div class="card contact-card card-cascade narrower mb-r">
-                <div class="admin-panel info-admin-panel">
-                    <!-- Card title -->
-                    <div class="view primary-color">
-                        <h5>Add Passport</h5>
-                    </div>
-                    <!-- /.Card title -->
-                    <!-- Card content -->
-                    <div class="card-block text-center">
-
-                        <img id="output" alt="Passport Picture" class="rounded-circle contact-avatar my-2 mx-auto" />
-
-                        <p class="text-muted">
-                            <small>photo will be changed automatically</small>
-                            <small><br />Image Size not more than 25kb</small>
-                        </p>
-
-                        <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
-                        <label for="File" class="btn btn-primary btn-block">Upload Passport</label>
+                            </div>
+                            <!-- /.First column -->
+                            <!-- Second column -->
+                            <div class="col-lg-8">
+                                <!--Card-->
+                                <div class="card card-cascade narrower mb-r">
+                                    <div class="admin-panel info-admin-panel">
+                                        <!--Card image-->
+                                        @*<div class="view primary-color">
+                                                <h5>Student Profile</h5>
+                                            </div>*@
+                                        <!--/Card image-->
+                                        <!--Card content-->
+                                        <div class="card-block">
+                                            <!-- Edit Form -->
+                                            <form>
+                                                <!--Zero row-->
+                                                <div class="row">
+                                                    <!--First column-->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.StudentId)
+                                                            @Html.EditorFor(model => model.StudentId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                                                        </div>
 
 
-                    </div>
-                    <!-- /.Card content -->
+                                                    </div>
+                                                    <!--Second column-->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            @Html.Label("Admission Date")
+                                                            @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Addmission Date", @readonly = "true" } })
+                                                            @Html.ValidationMessageFor(model => model.AdmissionDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/.First row-->
+                                                <!--First row-->
+                                                <div class="row">
+                                                    <!--First column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.LastName)
+                                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    <!--Second column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.FirstName)
+                                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <!--Third column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="MiddleName">Other Names </label>
+                                                            @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/.First row-->
+                                                <!--First row-->
+                                                <div class="row">
+                                                    <!--First column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.Label("Gender")
+                                                            @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                    </div>
+                                                    <!--Second column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.StateOfOrigin)
+                                                            @Html.EnumDropDownListFor(model => model.StateOfOrigin, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <!--Third column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Religion)
+                                                            @Html.EnumDropDownListFor(model => model.Religion, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Religion, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!--/.First row-->
+                                                <!--Second row-->
+                                                <div class="row">
+                                                    <!--First column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.Label("Date of Birth")
+                                                            @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Date of Birth" } })
+                                                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <!--Second column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.PlaceOfBirth)
+                                                            @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.PlaceOfBirth, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <!--Third column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Tribe)
+                                                            @Html.EditorFor(model => model.Tribe, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Tribe, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/.Second row-->
+                                                <!--Third row-->
+                                                <div class="row">
+                                                    <!--First column-->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.PhoneNumber)
+                                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                </div>
+                                                <!--/.Third row-->
+                                                <!-- Fourth row -->
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <input type="submit" id="btnsubmit" value="Update Student" class="btn btn-primary btn-lg">
+                                                    </div>
+                                                </div>
+                                                <!-- /.Fourth row -->
+                                            </form>
+                                            <!-- Edit Form -->
+                                        </div>
+                                        <!--/.Card content-->
+                                    </div>
+                                </div>
+                                <!--/.Card-->
+                            </div>
+                            <!-- /.Second column -->
+                        </div>
+                        <!-- /.First row -->
+                    </section>
+                    <!-- /.Section: Edit Account -->
+
                 </div>
             </div>
-            <!-- /.Card -->
-        </div>
-                  
-    </div>
-    <!-- /.First column -->
-    <!-- Second column -->
-    <div class="col-lg-8">
-        <!--Card-->
-        <div class="card card-cascade narrower mb-r">
-            <div class="admin-panel info-admin-panel">
-                <!--Card image-->
-                <div class="view primary-color">
-                    <h5>Student Profile</h5>
-                </div>
-                <!--/Card image-->
-                <!--Card content-->
-                <div class="card-block">
-                    <!-- Edit Form -->
-                    <form>
-                        <!--Zero row-->
-                        <div class="row">
-                            <!--First column-->
-                            <div class="col-md-6">
-                                <div class="md-form">
-                                    @Html.LabelFor(model => model.StudentId)
-                                    @Html.EditorFor(model => model.StudentId, new {htmlAttributes = new {@class = "form-control", @readonly="true"}})
-                                    @Html.ValidationMessageFor(model => model.StudentId, "", new {@class = "text-danger"})
-                                </div>
 
-
-                            </div>
-                            <!--Second column-->
-                            <div class="col-md-6">
-                                <div class="md-form">
-                                    @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Addmission Date", @readonly = "true" } })
-                                    @Html.ValidationMessageFor(model => model.AdmissionDate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <!--/.First row-->
-                        <!--First row-->
-                        <div class="row">
-                            <!--First column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.LabelFor(model => model.LastName)
-                                    @Html.EditorFor(model => model.LastName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
-                                    @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
-
-                                </div>
-
-
-                            </div>
-                            <!--Second column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.LabelFor(model => model.FirstName)
-                                    @Html.EditorFor(model => model.FirstName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
-                                    @Html.ValidationMessageFor(model => model.FirstName, "", new {@class = "text-danger"})
-                                </div>
-                            </div>
-                            <!--Third column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    <label for="MiddleName">Other Names </label>
-                                    @Html.EditorFor(model => model.MiddleName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
-                                    @Html.ValidationMessageFor(model => model.MiddleName, "", new {@class = "text-danger"})
-                                </div>
-                            </div>
-                        </div>
-                        <!--/.First row-->
-                        <!--First row-->
-                        <div class="row">
-                            <!--First column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @*@Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })*@
-                                    @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "mdb-select" })
-                                    @Html.LabelFor(model => model.Gender)
-                                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-
-                                </div>
-                            </div>
-                            <!--Second column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.EnumDropDownListFor(model => model.StateOfOrigin, htmlAttributes: new { @class = "mdb-select" })
-                                    @Html.LabelFor(model => model.StateOfOrigin)
-                                    @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <!--Third column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.EnumDropDownListFor(model => model.Religion, htmlAttributes: new { @class = "mdb-select" })
-                                    @Html.LabelFor(model => model.Religion)
-                                    @Html.ValidationMessageFor(model => model.Religion, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                                       
-                        </div>
-                        <!--/.First row-->
-                        <!--Second row-->
-                        <div class="row">
-                            <!--First column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Date of Birth" } })
-                                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <!--Second column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.LabelFor(model => model.PlaceOfBirth)
-                                    @Html.ValidationMessageFor(model => model.PlaceOfBirth, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <!--Third column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.EditorFor(model => model.Tribe, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.LabelFor(model => model.Tribe)
-                                    @Html.ValidationMessageFor(model => model.Tribe, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <!--/.Second row-->
-                        <!--Third row-->
-                        <div class="row">
-                            <!--First column-->
-                            <div class="col-md-4">
-                                <div class="md-form">
-                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.LabelFor(model => model.PhoneNumber)
-                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            
-
-                            
-                        </div>
-                        <!--/.Third row-->
-                        <!-- Fourth row -->
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <input type="submit" id="btnsubmit" value="Update Student" class="btn btn-primary">
-                            </div>
-                        </div>
-                        <!-- /.Fourth row -->
-                    </form>
-                    <!-- Edit Form -->
-                </div>
-                <!--/.Card content-->
-            </div>
-        </div>
-        <!--/.Card-->
-    </div>
-    <!-- /.Second column -->
-    </div>
-    <!-- /.First row -->
-    </section>
-    <!-- /.Section: Edit Account -->
+        }
 
     </div>
-    </div>
-
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
 

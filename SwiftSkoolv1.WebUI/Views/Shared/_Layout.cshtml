@@ -3,7 +3,6 @@
 @using SwiftSkoolv1.WebUI.ViewModels
 @{
     BaseViewModel Model = (BaseViewModel)ViewBag.LayoutViewModel;
-
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -12,786 +11,512 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@ViewBag.Title -@Model.Alias</title>
-    <!-- Meta OG -->
-    @*<meta property="og:title" content="Premium Admin Templates Dashboard">
-        <meta property="og:description" content="Clear and intuitive data categorization coming along with unique and user friendly layout.">
-        <meta property="og:image" content="../../../../img/Live/MDB/dashboard-na-fb-share.jpg">
-        <meta property="og:url" content="analytics.html">
-        <meta property="og:site_name" content="mdbootstrap.com">*@
-    <!-- /Meta OG -->
-    <!-- Twitter Card -->
-    @*<meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:description" content="Clear and intuitive data categorization coming along with unique and user friendly layout." />
-        <meta name="twitter:title" content="Premium Admin Templates Dashboard" />*@
-    @*<meta name="twitter:site" content="@MDBootstrap" />
-        <meta name="twitter:image" content="../../../../img/Live/MDB/dashboard-na-fb-share.jpg" />
-        <meta name="twitter:creator" content="@MDBootstrap" />*@
-    <!-- /Twitter Card -->
-    <!-- Font Awesome -->
-    @*@Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")*@
-    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- Bootstrap core CSS -->
-    <link href="~/Content/MdCss/bootstrap.min.css" rel="stylesheet" />
-    <!-- Material Design Bootstrap -->
-    <link href="~/Content/MdCss/mdb.css" rel="stylesheet" />
-    <link href="~/Content/chosen.min.css" rel="stylesheet" />
-    <!-- Customizer -->
-    <link href="~/Content/MdCss/customizer.min.css" rel="stylesheet" />
 
-    <!-- Your custom styles (optional) -->
-    @*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />*@
-    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
-    <link href="~/Content/MdCss/style.css" rel="stylesheet" />
-    <link href="~/Content/chosen.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/StartUI/css/lib/lobipanel/lobipanel.min.css">
+    <link rel="stylesheet" href="~/StartUI/css/separate/vendor/lobipanel.min.css">
+    <link rel="stylesheet" href="~/StartUI/css/lib/jqueryui/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/StartUI/css/separate/pages/widgets.min.css">
+    <link rel="stylesheet" href="~/StartUI/css/lib/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="~/StartUI/css/lib/bootstrap/bootstrap.min.css">
+    <link href="~/StartUI/css/lib/datatables-net/datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/StartUI/css/main.css">
+    <!-- Toastr style -->
+    <link href="~/Content/toastr.min.css" rel="stylesheet">
 </head>
-@{
-    string myColor = "white-skin";
-}
-<body class="fixed-sn @myColor">
-    @if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
-    {
-    <!-- Customizer -->
-        @*<div id="customizer" class="z-depth-1">
-            <a href="#" id="toggle" data-toggle="tooltip" data-placement="left" title="Customize your template!"><i class="fa fa-cog" aria-hidden="true"></i></a>
-            <div class="inner">
-                <p class="text-center customizer-heading">Pick a skin color</p>
-                <ul class="skins-list">
-                    <li><a href="#" data-skin-color="deep-purple-skin"><span class="color skin-deep-purple"></span></a></li>
-                    <li><a href="#" data-skin-color="navy-blue-skin"><span class="color skin-navy-blue"></span></a></li>
-                    <li><a href="#" data-skin-color="cyan-skin"><span class="color skin-cyan"></span></a></li>
-                    <li><a href="#" data-skin-color="pink-skin"><span class="color skin-pink"></span></a></li>
-                    <li><a href="#" data-skin-color="indigo-skin"><span class="color skin-indigo"></span></a></li>
-                    <li><a href="#" data-skin-color="light-blue-skin"><span class="color skin-light-blue"></span></a></li>
-                    <li><a href="#" data-skin-color="grey-skin"><span class="color skin-grey"></span></a></li>
-                    <li><a href="#" data-skin-color="white-skin"><span class="color skin-white"></span></a></li>
-                    <li><a href="#" data-skin-color="black-skin"><span class="color skin-black"></span></a></li>
-                    <li><a href="#" data-skin-color="mdb-skin"><span class="color skin-mdb"></span></a></li>
-                </ul>
-                <p class="text-center customizer-heading">SideNav Background Type</p>
-                <form class="form-inline">
-                    <fieldset class="form-group">
-                        <input name="group1" type="radio" id="radio11" value="flat">
-                        <label for="radio11">Flat</label>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input name="group1" type="radio" id="radio21" value="gradient">
-                        <label for="radio21">Gradient</label>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input name="group1" type="radio" id="radio31" value="background" checked="checked">
-                        <label for="radio31">Image</label>
-                    </fieldset>
-                </form>
-                <div id="bg-option">
-                    <p class="text-center customizer-heading">Background Image</p>
-                    <div class="bg-img-preview">
-                        <label for="radio12"><img class="img-fluid" src="../../../../img/Others/sidenav1-min.jpg" alt="Option 1"></label>
-                        <label for="radio22"><img class="img-fluid" src="../../../../img/Others/sidenav2-min.jpg" alt="Option 2"></label>
-                        <label for="radio32"><img class="img-fluid" src="../../../../img/Others/sidenav3-min.jpg" alt="Option 3"></label>
-                        <label for="radio42"><img class="img-fluid" src="../../../../img/Others/sidenav4-min.jpg" alt="Option 4"></label>
-                    </div>
-                    <form class="form-inline bg-img-options">
-                        <fieldset class="form-group">
-                            <input name="group2" type="radio" id="radio12" value="1" checked="checked">
-                            <label for="radio12"></label>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input name="group2" type="radio" id="radio22" value="2">
-                            <label for="radio22"></label>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input name="group2" type="radio" id="radio32" value="3">
-                            <label for="radio32"></label>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input name="group2" type="radio" id="radio42" value="4">
-                            <label for="radio42"></label>
-                        </fieldset>
-                    </form>
-                    <p class="text-center customizer-heading">Mask opacity</p>
-                    <form class="form-inline">
-                        <fieldset class="form-group">
-                            <input name="group3" type="radio" id="radio13" value="strong" checked="checked">
-                            <label for="radio13">Strong</label>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input name="group3" type="radio" id="radio23" value="light">
-                            <label for="radio23">Light</label>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input name="group3" type="radio" id="radio33" value="slight">
-                            <label for="radio33">Slight</label>
-                        </fieldset>
-                    </form>
-                </div>
-                <div>
-                    <p class="text-center customizer-heading d-inline">Fixed sidenav</p>
-                    <div class="switch d-inline-block float-right">
-                        <label>
-                            Off
-                            <input type="checkbox" checked="checked">
-                            <span class="lever"></span> On
-                        </label>
-                    </div>
-                </div>
-                <a href="../../../../product/admin-theme/index.html" type="button" class="btn light-blue darken-2 btn-block">Buy now</a>
-            </div>
-        </div>*@
-    <!-- /.Customizer -->
-    }
+<body class="with-side-menu control-panel control-panel-compact">
+    <header class="site-header">
+        @if (Request.IsAuthenticated)
+        {
+            <div class="container-fluid">
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("AdminDashBoard","Home")" class="site-logo">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="hidden-md-down">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="hidden-lg-down">
+                    </a>
+                }
+                else if (User.IsInRole("Student"))
+                {
+                    <a href="@Url.Action("DashBoard","Students")" class="site-logo">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="hidden-md-down">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="hidden-lg-down">
+                    </a>
+                }
+                else if (User.IsInRole("Teacher"))
+                {
+                    <a href="@Url.Action("StaffDashboard","Staffs")" class="site-logo">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="hidden-md-down">
+                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="hidden-lg-down">
+                    </a>
+                }
+                else if (User.IsInRole("SuperAdmin"))
+                {
+                    <a href="@Url.Action("GeneralDashboard","Home")" class="site-logo">
+                        <img src="~/Content/images/swiftskool.png" class="hidden-md-down">
+                        <img src="~/Content/images/swiftskool.png" class="hidden-lg-down">
+                    </a>
+                }
+                
+                <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
+                    <span>toggle menu</span>
+                </button>
 
-    <!--Double navigation-->
-    <header>
-        <!-- Sidebar navigation -->
+                <button class="hamburger hamburger--htla">
+                    <span>toggle menu</span>
+                </button>
+                <div class="site-header-content">
+                    <div class="site-header-content-in">
+                        
+                        <div class="site-header-shown">
+                            <div class="dropdown dropdown-notification notif">
+                                <div class="dropdown">
+                                    @if (User.IsInRole("Teacher"))
+                                    {
+
+                                        <span class="profile-info">
+                                            Hi, Staff
+                                            <small>@User.Identity.GetUserName()</small>
+                                        </span>
+                                    }
+                                    else if (User.IsInRole("Student"))
+                                    {
+
+                                        <span class="profile-info">
+                                            Hi, Student
+                                            <small>@User.Identity.GetUserName()</small>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="profile-info">
+                                            Hi,
+                                            <small>@User.Identity.GetUserName()</small>
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="dropdown user-menu">
+                                <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="img/avatar-2-64.png" alt="img">
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
+                                    <a class="dropdown-item" href="index.html#"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>
+                                    <a class="dropdown-item" href="index.html#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a>
+                                    <a class="dropdown-item" href="index.html#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a>
+                                    <div class="dropdown-divider"></div>
+                                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <a class="btn btn-primary" href="javascript:document.getElementById('logoutForm').submit()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
+                                }
+                            </div>
+                            <button type="button" class="burger-right">
+                                <i class="font-icon-menu-addl"></i>
+                            </button>
+                        </div><!--.site-header-shown-->
+
+                        <div class="mobile-menu-right-overlay"></div>
+                        <div class="site-header-collapsed">
+                            <div class="site-header-collapsed-in">
+                                @*<a class="btn btn-nav btn-rounded btn-inline btn-danger-outline" href="http://themeforest.net/item/startui-premium-bootstrap-4-admin-dashboard-template/15228250?ref=themesanytime">
+                                    Buy Theme
+                                </a>*@
+                            </div><!--.site-header-collapsed-in-->
+                        </div>
+                        <!--.site-header-collapsed-->
+
+                    </div><!--site-header-content-in-->
+                </div><!--.site-header-content-->
+            </div>
+            <!--.container-fluid-->
+        }
+    </header><!--.site-header-->
+    <div class="mobile-menu-left-overlay"></div>
+
+    <nav class="side-menu">
         @if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
         {
-            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
-                <!-- Logo -->
-                <li>
-                    <div class="user-box">
-                        <img src="~/Content/images/swiftskool.png" class="img-fluid img-responsive">
-                        @*<p class="user text-center black-text">@Model.Alias</p>*@
-                    </div>
+            <ul class="side-menu-list">
+                <li class="red">
+                    <a href="mail.html">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">Dashboard</span>
+                    </a>
                 </li>
-                <!--/. Logo -->
-                <!-- Side navigation links -->
-                <li>
-
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i>School<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("View Schools", "Index", "Schools")</li>
-                                    <li>@Html.ActionLink("Add School", "Create", "Schools")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Sessions")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Session</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Terms")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Term</a>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>School Admin<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("View Admin", "AdminIndex", "Account")</li>
-                                    <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
-                                    <li>@Html.ActionLink("View Staff Account", "AdminIndex", "Account")</li>
-                                    <li>@Html.ActionLink("Reset Password", "StaffIndex", "Account")</li>
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "SchoolClasses")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>School Class</a>
-                        </li>
-
+                <li class="grey with-sub">
+                    <span>
+                        <i class="font-icon font-icon-dashboard"></i>
+                        <span class="lbl">School</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("View Schools", "Index", "Schools")</li>
+                        <li>@Html.ActionLink("Add School", "Create", "Schools")</li>
                     </ul>
                 </li>
-                <!--/. Side navigation links -->
 
-                <div class="footer-copyright">
-                    <div class="container-fluid">
-                        <a href="https://www.CompunetLimited.org"> <img class="img-responsive" src="~/Content/images/comlogo.png" height="25" width="150" /> </a>
-                    </div>
-                </div>
+                <li class="red">
+                    <a href="@Url.Action("Index", "Sessions")">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">Sessions</span>
+                    </a>
+                </li>
 
-                <div class="sidenav-bg mask-strong"></div>
+
+                <li class="pink-red">
+                    <a href="@Url.Action("Index", "Terms")">
+                        <i class="font-icon font-icon-zigzag"></i>
+                        <span class="lbl">Terms</span>
+                    </a>
+                </li>
+                <li class="blue with-sub">
+                    <span>
+                        <i class="font-icon font-icon-user"></i>
+                        <span class="lbl">School Admin</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("View Admin", "AdminIndex", "Account")</li>
+                        <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
+                        <li>@Html.ActionLink("View Staff Account", "AdminIndex", "Account")</li>
+                        <li>@Html.ActionLink("Reset Password", "StaffIndex", "Account")</li>
+                    </ul>
+                </li>
+
+                <li class="red">
+                    <a href="@Url.Action("Index", "SchoolClasses")" class="label-right">
+                        <i class="font-icon font-icon-contacts"></i>
+                        <span class="lbl">School Class</span>
+
+                    </a>
+                </li>
             </ul>
-        <!--/. Sidebar navigation -->
         }
-
         else if (Request.IsAuthenticated && User.IsInRole("Admin"))
         {
-            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
-                <!-- Logo -->
-                <li>
-                    <div class="user-box">
-                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
-                        <p class="user text-center black-text">@Model.Alias</p>
-                    </div>
+            <ul class="side-menu-list">
+                <li class="pink-red">
+                    <a href="@Url.Action("AdminDashBoard","Home")">
+                        <i class="font-icon font-icon-zigzag"></i>
+                        <span class="lbl">DashBoard</span>
+                    </a>
                 </li>
-                <!--/. Logo -->
-                <!-- Side navigation links -->
-                <li>
-
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> Student<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
-                                    <li>@Html.ActionLink("List Students", "Index", "Students")</li>
-                                    <li>@Html.ActionLink("Activate Student", "ActivateStudent", "Account")</li>
-                                    @*<li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>*@
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Manage Guardian</a>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cc"></i> Manage Class<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add/List Classes", "Index", "Classes")</li>
-                                    <li>@Html.ActionLink("View Assign Class", "Index", "AssignedClasses")</li>
-                                    <li>@Html.ActionLink("Assign Class", "Create", "AssignedClasses")</li>
-                                  
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> Manage Subject<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add/List Subjects", "Index", "Subjects")</li>
-                                    <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
-                                    <li>@Html.ActionLink("Assigned Subjects", "Create", "AssignSubjects")</li>
-                                    <li>@Html.ActionLink("Register Student", "Index", "SubjectRegistrations")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bar-chart"></i> Manage Teacher<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
-                                    <li>@Html.ActionLink("View Teacher", "Index", "Staffs")</li>
-                                    <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Books", "Create", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("Issue Book", "Index", "FeeTypes")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> Manage fee<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add Fees Type", "Create", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("List Fees Types", "Index", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("Fee Payment", "Create", "FeePayments")</li>
-                                    <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
-                                    <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> Manage Result<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Assign Behavioral", "Create", "AssignBehaviors")</li>
-                                    <li>@Html.ActionLink("View Behavioral", "Index", "AssignBehaviors")</li>
-
-                                    <li>@Html.ActionLink("View/Add CA", "CreateCaView", "CaLists")</li>
-                                    <li>@Html.ActionLink("Upload CA", "UploadResult", "CaLists")</li>
-                                    @*<li>@Html.ActionLink("Upload Pdf Result", "Index", "FileDownload")</li>*@
-                                    <li>@Html.ActionLink("Upload Pdf Result", "UploadResult", "ResultUploads")</li>
-                                    <li>@Html.ActionLink("Check Result", "SearhResultMain", "Results")</li>
-                                    
-                                    <li>@Html.ActionLink("Check Cummulative", "SearhResult", "Results")</li>
-                                  
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                        <a href="@Url.Action("Index", "ELearning")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>E-Learning</a>
-                        <li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-newspaper-o"></i>News/Article<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add News", "Create", "Posts")</li>
-                                    <li>@Html.ActionLink("View News", "Index", "Posts")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-commenting"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Send to Numbers", "SendToNumbers", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-cogs"></i>School Setting<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("School Details", "Index", "Schools")</li>
-                                    <li>@Html.ActionLink("Edit School Details", "Edit", "Schools")</li>
-                                    <li>@Html.ActionLink("Add/List School Class", "Index", "SchoolClasses")</li>
-                                    <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
-                                    <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
-                                    <li>@Html.ActionLink("Add/List Category", "Index", "BehaviorSkillCategories")</li>
-                                    <li>@Html.ActionLink("Add/List Behavioural Skill", "Index", "BehaviouralSkills")</li>
-                                    <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
-
-                                    <li>@Html.ActionLink("Principal Signature", "Index", "ReportCardSettings")</li>
-
-                                    <li>@Html.ActionLink("Assign Card Template", "Index", "AssignReportCards")</li>
-                                </ul>
-                            </div>
-                        </li>
+                <li class="grey with-sub">
+                    <span>
+                        <i class="font-icon font-icon-dashboard"></i>
+                        <span class="lbl">Student</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
+                        <li>@Html.ActionLink("List Students", "Index", "Students")</li>
+                        <li>@Html.ActionLink("Activate Student", "ActivateStudent", "Account")</li>
+                        @*<li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>*@
                     </ul>
                 </li>
-                <!--/. Side navigation links -->
-
-                <div class="footer-copyright">
-                    <div class="container-fluid">
-                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> </a>
-                    </div>
-                </div>
-
-                <div class="sidenav-bg mask-strong"></div>
-            </ul>
-        }
-        else if (Request.IsAuthenticated && User.IsInRole("Teacher"))
-        {
-            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
-                <!-- Logo -->
-                <li>
-                    <div class="user-box">
-                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
-                        <p class="user text-center black-text">@Model.Alias</p>
-                    </div>
+                <li class="red">
+                    <a href="@Url.Action("Index", "Guardians")">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">Guardian</span>
+                    </a>
                 </li>
-                <!--/. Logo -->
-                <!-- Side navigation links -->
-                <li>
+                <li class="brown with-sub">
+                    <span>
+                        <i class="font-icon glyphicon glyphicon-tint"></i>
+                        <span class="lbl">Manage Class</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add/List Classes", "Index", "Classes")</li>
+                        <li>@Html.ActionLink("View Assign Class", "Index", "AssignedClasses")</li>
+                        <li>@Html.ActionLink("Assign Class", "Create", "AssignedClasses")</li>
+                    </ul>
+                </li>
+                <li class="purple with-sub">
+                    <span>
+                        <i class="font-icon font-icon-comments active"></i>
+                        <span class="lbl">Manage Subject</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add/List Subjects", "Index", "Subjects")</li>
+                        <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
+                        <li>@Html.ActionLink("Assigned Subjects", "Create", "AssignSubjects")</li>
+                        <li>@Html.ActionLink("Register Student", "Create", "SubjectRegistrations")</li>
+                        <li>@Html.ActionLink("View Student Subject", "Index", "SubjectRegistrations")</li>
+                    </ul>
+                </li>
 
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> My Profile<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("View", "Details", "Staffs")</li>
-                                    <li>@Html.ActionLink("Edit", "Edit", "Staffs")</li>
-                                    <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
-                                    <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
-                                    <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "AssignedClasses")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Students</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("TeacherIndex", "AssignSubjectTeachers")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Subjects</a>
-                        </li>
-                       
-                        <li>
-                        <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>Manage Guardian</a>
-                        <li>
-                        <li>
-                        <a href="@Url.Action("Index", "ELearning")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>E-Learning</a>
-                        <li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Search Book", "Index", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("Borrow Book", "Create", "FeeTypes")</li>
-
-                                </ul>
-                            </div>
-                        </li>
-                        @*<li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> My fee<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Fee BreakDown", "Create", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("My Wallet", "Index", "FeeTypes")</li>
-                                </ul>
-                            </div>
-                        </li>*@
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> Class Result<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Add C A", "CreateCaView", "CaLists")</li>
-                                    <li>@Html.ActionLink("Upload CA", "UploadResult", "CaLists")</li>
-                                    <li>@Html.ActionLink("View Result", "SearhResultMain", "Results")</li>
-                                    <li>@Html.ActionLink("View Cummulative", "SearhResult", "Results")</li>
-                                    <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
-                                    <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-commenting"></i>SMS<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
-                                    <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
-                                </ul>
-                            </div>
-                        </li>
-                     
+                <li class="gold with-sub">
+                    <span>
+                        <i class="font-icon font-icon-edit"></i>
+                        <span class="lbl">Manage Teacher</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add Teacher", "RegisterStaff", "Account")</li>
+                        <li>@Html.ActionLink("View Teacher", "Index", "Staffs")</li>
+                        <li>@Html.ActionLink("Subject Teacher", "Index", "AssignSubjectTeachers")</li>
+                    </ul>
+                </li>
+                <li class="blue with-sub">
+                    <span>
+                        <i class="font-icon font-icon-cloud-download"></i>
+                        <span class="lbl">E-Learning</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("E-Learning", "Index", "ELearning")</li>
                        
                     </ul>
                 </li>
-                <!--/. Side navigation links -->
+                <li class="gold with-sub">
+                    <span>
+                        <i class="font-icon font-icon-edit"></i>
+                        <span class="lbl">Library</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Books", "Create", "FeeTypes")</li>
+                        <li>@Html.ActionLink("Issue Book", "Index", "FeeTypes")</li>
+                    </ul>
+                </li>
+                <li class="blue with-sub">
+                    <span>
+                        <i class="font-icon font-icon-user"></i>
+                        <span class="lbl">Fee Management</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("List Fees Types", "Index", "FeeTypes")</li>
+                        <li>@Html.ActionLink("Fee Payment", "Index", "FeePayments")</li>
+                        <li>@Html.ActionLink("Remita Settings", "Index", "RemitaFeeSettings")</li>
+                        <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
+                        <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>
+                    </ul>
+                </li>
 
-                <div class="footer-copyright">
-                    <div class="container-fluid">
-                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> </a>
-                    </div>
-                </div>
+                <li class="green with-sub">
+                    <span>
+                        <i class="font-icon font-icon-widget"></i>
+                        <span class="lbl">Result Management</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Assign Behavioral", "Create", "AssignBehaviors")</li>
+                        <li>@Html.ActionLink("View Behavioral", "Index", "AssignBehaviors")</li>
 
-                <div class="sidenav-bg mask-strong"></div>
+                        <li>@Html.ActionLink("View/Add CA", "CreateCaView", "CaLists")</li>
+                        <li>@Html.ActionLink("Upload CA", "UploadResult", "CaLists")</li>
+                        <li>@Html.ActionLink("Pdf Result", "Index", "FileDownload")</li>
+                        <li>@Html.ActionLink("Check Result", "SearhResultMain", "Results")</li>
+
+                        <li>@Html.ActionLink("Check Cummulative", "SearhResult", "Results")</li>
+                    </ul>
+                </li>
+                <li class="grey with-sub">
+                    <span>
+                        <span class="glyphicon glyphicon-duplicate"></span>
+                        <span class="lbl">News/Article</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add News", "Create", "Posts")</li>
+                        <li>@Html.ActionLink("View News", "Index", "Posts")</li>
+                    </ul>
+                </li>
+
+                <li class="brown with-sub">
+                    <span>
+                        <span class="font-icon font-icon-chart"></span>
+                        <span class="lbl">SMS</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Send to Numbers", "SendToNumbers", "Sms")</li>
+                        <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
+                        <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                        <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                    </ul>
+                </li>
+
+                <li class="orange-red with-sub">
+                    <span>
+                        <i class="font-icon font-icon-help"></i>
+                        <span class="lbl">Settings</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("School Details", "Index", "Schools")</li>
+                        <li>@Html.ActionLink("Edit School Details", "Edit", "Schools")</li>
+                        <li>@Html.ActionLink("Add/List School Class", "Index", "SchoolClasses")</li>
+                        <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
+                        <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
+                        <li>@Html.ActionLink("Add/List Category", "Index", "BehaviorSkillCategories")</li>
+                        <li>@Html.ActionLink("Add/List Behavioural Skill", "Index", "BehaviouralSkills")</li>
+                        <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
+                    </ul>
+                </li>
+                <li class="red">
+
+
+
+
             </ul>
         }
         else if (Request.IsAuthenticated && User.IsInRole("Student"))
         {
-            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
-                <!-- Logo -->
-                <li>
-                    <div class="user-box">
-                        <img src="@Url.Action("RenderImage", "Schools", new {studentId = Model.SchoolId})" class="img-fluid rounded-circle">
-                        <p class="user text-center black-text">@Model.Alias</p>
-                    </div>
-                </li>
-                <!--/. Logo -->
-                <!-- Side navigation links -->
-                <li>
 
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa fa-graduation-cap"></i> My Profile<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("View", "Details", "Students")</li>
-                                    <li>@Html.ActionLink("Edit", "Edit", "Students")</li>
-                                    <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
-                                    <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
-                                    <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
-                                </ul>
-                            </div>
-                        </li>
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("Teacher"))
+        {
 
-                        <li>
-                            <a href="@Url.Action("Index", "Guardians")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My Guardian</a>
-                         
-                        </li>
-                        <li>
-                            <a href="@Url.Action("MyClassMate", "AssignedClasses")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>My ClassMates</a>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-lock"></i> My Subject<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("My Subjects", "MyAssignedSubject", "AssignSubjects")</li>
-                                    <li>@Html.ActionLink("My Subjects Teachers", "Index", "Subjects")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                        <a href="@Url.Action("StudentsIndex", "ELearning")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>E-Learning</a>
-                        <li>
-                       
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Library<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Search Book", "Index", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("Borrow Book", "Create", "FeeTypes")</li>
+        }
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                <a href="https://www.CompunetLimited.org"> <img class="img-responsive" src="~/Content/images/comlogo.png" height="25" width="150" /> </a>
+            </div>
+        </div>
+    </nav><!--.side-menu-->
 
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-money"></i> My fee<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Fee BreakDown", "Create", "FeeTypes")</li>
-                                    <li>@Html.ActionLink("My Wallet", "Index", "FeeTypes")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="collapsible-header waves-effect arrow-r"><i class="fa fa-address-card"></i> My Result<i class="fa fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>@Html.ActionLink("Check Result", "Index", "ResultUploads")</li>
-                                    <li>@Html.ActionLink("Check result", "StudentSearch", "Results")</li>
-                                </ul>
-                            </div>
-                        </li>
-                        
-                       
-                        <li>
-                            <a href="@Url.Action("Index", "Posts")" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i>News/Articles</a>
-                         
-                        </li>
-                       
-                    </ul>
-                </li>
-                <!--/. Side navigation links -->
-
-                <div class="footer-copyright">
-                    <div class="container-fluid">
-                        © @DateTime.Now.Year Copyright:<a href="https://www.CompunetLimited.org"> </a>
+    <div class="page-content">
+        <div class="container-fluid">
+            @RenderBody()
+        </div><!--.container-fluid-->
+    </div><!--.page-content-->
+    <div class="control-panel-container">
+        <ul>
+            <li class="tasks">
+                <div class="control-item-header">
+                    <a href="index.html#" class="icon-toggle">
+                        <span class="caret-down fa fa-caret-down"></span>
+                        <span class="icon fa fa-tasks"></span>
+                    </a>
+                    <span class="text">Task list</span>
+                    <div class="actions">
+                        <a href="index.html#">
+                            <span class="fa fa-refresh"></span>
+                        </a>
+                        <a href="index.html#">
+                            <span class="fa fa-cog"></span>
+                        </a>
+                        <a href="index.html#">
+                            <span class="fa fa-trash"></span>
+                        </a>
                     </div>
                 </div>
-
-                <div class="sidenav-bg mask-strong"></div>
-            </ul>
-        }
-        <!-- Navbar -->
-        <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
-
-            <!-- SideNav slide-out button -->
-            <div class="float-left">
-                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
-            </div>
-
-            <!-- Breadcrumb-->
-            <ol class="breadcrumb hidden-lg-down">
-              @if (User.IsInRole("SuperAdmin"))
-              {
-                  <li class="breadcrumb-item active"><a href="@Url.Action("GeneralDashboard","Home")">@Model.SchoolName</a></li>
-                  <li class="breadcrumb-item active"><a href="@Url.Action("GeneralDashboard","Home")">Dashboard</a></li>
-              }
-              else if (User.IsInRole("Admin"))
-              {
-                  <li class="breadcrumb-item active"><a href="@Url.Action("AdminDashBoard","Home")">@Model.SchoolName</a></li>
-                  <li class="breadcrumb-item active"><a href="@Url.Action("AdminDashBoard","Home")">Dashboard</a></li>
-              }
-              else if (User.IsInRole("Student"))
-              {
-                  <li class="breadcrumb-item active"><a href="@Url.Action("DashBoard","Students")">@Model.SchoolName</a></li>
-                  <li class="breadcrumb-item active"><a href="@Url.Action("DashBoard","Students")">Dashboard</a></li>
-              }
-              else if (User.IsInRole("Teacher"))
-              {
-                  <li class="breadcrumb-item active"><a href="@Url.Action("StaffDashboard","Staffs")">@Model.SchoolName</a></li>
-                  <li class="breadcrumb-item active"><a href="@Url.Action("StaffDashboard","Staffs")">Dashboard</a></li>
-              }
-            </ol>
-
-            <!--Navbar links-->
-            <ul class="nav navbar-nav nav-flex-icons ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link"><i class="fa fa-comments-o"></i> <span class="hidden-sm-down">Support</span></a>
-                </li>
-                @if (!Request.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                }
-                else
-                {
-                    <li class="nav-item dropdown">
-
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user"></i> <span class="hidden-sm-down">
-                                @if (User.IsInRole("Teacher"))
-                                {
-
-                                    <span class="profile-info">
-                                        Hi, Staff
-                                        <small>@User.Identity.GetUserName()</small>
-                                    </span>
-                                }
-                                else if (User.IsInRole("Student"))
-                                {
-
-                                    <span class="profile-info">
-                                        Hi, Student
-                                        <small>@User.Identity.GetUserName()</small>
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="profile-info">
-                                        Hi,
-                                        <small>@User.Identity.GetUserName()</small>
-                                    </span>
-                                }
-                            </span>
+                <div class="control-item-content">
+                    <div class="control-item-content-text">You don't have pending tasks.</div>
+                </div>
+            </li>
+            <li class="sticky-note">
+                <div class="control-item-header">
+                    <a href="index.html#" class="icon-toggle">
+                        <span class="caret-down fa fa-caret-down"></span>
+                        <span class="icon fa fa-file"></span>
+                    </a>
+                    <span class="text">Sticky Note</span>
+                    <div class="actions">
+                        <a href="index.html#">
+                            <span class="fa fa-refresh"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-ins dropdown-menu-right" aria-labelledby="userDropdown">
-
-                            <a class="dropdown-item" href="@Url.Action("Index", "Manage")">My account</a>
-                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                            {
-                                @Html.AntiForgeryToken()
-
-                                <a href="javascript:document.getElementById('logoutForm').submit()"> <i class="fa-power-off text-danger"></i> Logout</a>
-                            }
-                        </div>
-                    </li>
-                }
-            </ul>
-            <!--/Navbar links-->
-        </nav>
-        <!-- /.Navbar -->
-    </header>
-    <!--/.Double navigation-->
-    <!--Main layout-->
-    <main class="">
-        <div class="container-fluid">
-
-            @RenderBody()
-        </div>
-    </main>
-
-    <!--Footer-->
-    @*<footer id="footer">
-          <a  href="https://www.CompunetLimited.org"><img class="img-responsive" src="~/Content/images/comlogo.png" height="40" width="250" /></a> 
-    </footer>*@
-    <!--/.Footer-->
-    <!-- SCRIPTS -->
-    <!-- SCRIPTS -->
-    <!-- JQuery -->
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
-@*<script src="~/Scripts/jquery-1.11.3.min.js"></script>*@
-    <script src="~/Scripts/MdJs/jquery-3.1.1.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script src="~/Scripts/MdJs/tether.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script src="~/Scripts/MdJs/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script src="~/Scripts/MdJs/mdb.min.js"></script>
-
-    <!-- Customizer -->
-    <script src="~/Scripts/MdJs/customizer.min.js"></script>
-    <script src="~/Scripts/chosen.jquery.min.js"></script>
-    <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-
-    <script>
-    $(function() {
-        var data = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(0,0,0,.15)",
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    backgroundColor: "#4CAF50"
-                }, {
-                    label: "My Second dataset",
-                    fillColor: "rgba(255,255,255,.25)",
-                    strokeColor: "rgba(255,255,255,.75)",
-                    pointColor: "#fff",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(0,0,0,.15)",
-                    data: [28, 48, 40, 19, 86, 27, 90]
-                }
-            ]
-        };
-
-        var dataPie = [
-            {
-                value: 300,
-                color: "#F7464A",
-                highlight: "#FF5A5E",
-                label: "Red"
-            }, {
-                value: 50,
-                color: "#46BFBD",
-                highlight: "#5AD3D1",
-                label: "Green"
-            }, {
-                value: 100,
-                color: "#FDB45C",
-                highlight: "#FFC870",
-                label: "Yellow"
-            }
-        ]
-
-        var option = {
-            responsive: true,
-            // set font color
-            scaleFontColor: "#fff",
-            // font family
-            defaultFontFamily: "'Roboto', sans-serif",
-            // background grid lines color
-            scaleGridLineColor: "rgba(255,255,255,.1)",
-            // hide vertical lines
-            scaleShowVerticalLines: false,
-        };
-
-        // Get the context of the canvas element we want to select
-        var ctx = document.getElementById("sales").getContext('2d');
-        var myLineChart = new Chart(ctx).Line(data, option); //'Line' defines type of the chart.
-    });
-    </script>
-
-    <script>
-    $(function() {
-        $('.min-chart#chart-sales').easyPieChart({
-            barColor: "#4caf50",
-            onStep: function(from, to, percent) {
-                $(this.el).find('.percent').text(Math.round(percent));
-            }
-        });
-    });
-    </script>
-
-    <script>
-    // Data Picker Initialization
-    $('.datepicker').pickadate();
-
-    // Material Select Initialization
-    $(document).ready(function() {
-        $('.mdb-select').material_select();
-        toastr.options = {
-            "closeButton": true, // true/false
-            "debug": false, // true/false
-            "newestOnTop": false, // true/false
-            "progressBar": true, // true/false
-            "positionClass": "toast-top-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
-            "preventDuplicates": false, //true/false
-            "onclick": null,
-            "showDuration": "3000", // in milliseconds
-            "hideDuration": "1000", // in milliseconds
-            "timeOut": "5000", // in milliseconds
-            "extendedTimeOut": "1000", // in milliseconds
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-    });
-
-    // Sidenav Initialization
-    $(".button-collapse").sideNav();
-
-    // Tooltips Initialization
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('#toggle').tooltip('show');
-    });
-    </script>
-
+                        <a href="index.html#">
+                            <span class="fa fa-cog"></span>
+                        </a>
+                        <a href="index.html#">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="control-item-content">
+                    <div class="control-item-content-text">
+                        StartUI – a full featured, premium web application admin dashboard built with Twitter Bootstrap 4, JQuery and CSS
+                    </div>
+                </div>
+            </li>
+            <li class="emails">
+                <div class="control-item-header">
+                    <a href="index.html#" class="icon-toggle">
+                        <span class="caret-down fa fa-caret-down"></span>
+                        <span class="icon fa fa-envelope"></span>
+                    </a>
+                    <span class="text">Recent e-mails</span>
+                    <div class="actions">
+                        <a href="index.html#">
+                            <span class="fa fa-refresh"></span>
+                        </a>
+                        <a href="index.html#">
+                            <span class="fa fa-cog"></span>
+                        </a>
+                        <a href="index.html#">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="control-item-content">
+                    <section class="control-item-actions">
+                        <a href="index.html#" class="link">My e-mails</a>
+                        <a href="index.html#" class="mark">Mark visible as read</a>
+                    </section>
+                    <ul class="control-item-lists">
+                        <li>
+                            <a href="index.html#">
+                                <h6>Welcome to the Community!</h6>
+                                <div>Hi, welcome to the my app...</div>
+                                <div>
+                                    Message text
+                                </div>
+                            </a>
+                            <a href="index.html#" class="reply-all">Reply all</a>
+                        </li>
+                        <li>
+                            <a href="index.html#">
+                                <h6>Welcome to the Community!</h6>
+                                <div>Hi, welcome to the my app...</div>
+                                <div>
+                                    Message text
+                                </div>
+                            </a>
+                            <a href="index.html#" class="reply-all">Reply all</a>
+                        </li>
+                        <li>
+                            <a href="index.html#">
+                                <h6>Welcome to the Community!</h6>
+                                <div>Hi, welcome to the my app...</div>
+                                <div>
+                                    Message text
+                                </div>
+                            </a>
+                            <a href="index.html#" class="reply-all">Reply all</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="add">
+                <div class="control-item-header">
+                    <a href="index.html#" class="icon-toggle no-caret">
+                        <span class="icon fa fa-plus"></span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <a class="control-panel-toggle">
+            <span class="fa fa-angle-double-left"></span>
+        </a>
+    </div>
+    <script src="~/StartUI/js/lib/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/StartUI/js/lib/popper/popper.min.js"></script>
+    <script src="~/StartUI/js/lib/tether/tether.min.js"></script>
+    <script src="~/StartUI/js/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="~/StartUI/js/plugins.js"></script>
+    <script type="text/javascript" src="~/StartUI/js/lib/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/StartUI/js/lib/lobipanel/lobipanel.min.js"></script>
+    <script type="text/javascript" src="~/StartUI/js/lib/match-height/jquery.matchHeight.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Toastr -->
+    <script src="~/Content/toastr.min.js"></script>
+    <script src="~/StartUI/js/lib/datatables-net/datatables.min.js"></script>
+    <script src="~/StartUI/js/app.js"></script>
     @RenderSection("scripts", required: false)
+
 </body>
+
 </html>

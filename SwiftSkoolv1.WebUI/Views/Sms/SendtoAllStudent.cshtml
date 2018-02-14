@@ -27,21 +27,21 @@
 
                 </div>
                 <div class="col-md-12">
-                    <div class="md-form">
+                    <div class="form-group">
                         @Html.LabelFor(model => model.Term, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
                             @Html.DropDownList("Term", (SelectList)ViewBag.Term, "", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="md-form">
+                    <div class="form-group">
                         @Html.LabelFor(model => model.Session, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
                             @Html.DropDownList("Session", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Session, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="md-form">
+                    <div class="form-group">
                         @Html.Label("Sender's Name", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
                             @Html.EditorFor(model => model.SenderId, new { htmlAttributes = new { @class = "form-control" } })
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="md-form">
+                    <div class="form-group">
                         @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
                             @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
@@ -58,7 +58,7 @@
                     </div>
 
 
-                    <div class="md-form">
+                    <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" class="btn btn-default btn-success" value="Send Message" />
                         </div>

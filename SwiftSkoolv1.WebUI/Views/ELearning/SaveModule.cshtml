@@ -38,44 +38,44 @@
             }
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="md-form">
+            <div class="form-group">
                 @Html.Label("Class Name")
                 @Html.DropDownList("ClassId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
             </div>
-            <div class="md-form">
+            <div class="form-group">
                 @Html.Label("Term Name")
                 @Html.DropDownList("TermId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TermId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                 @Html.Label("Subject Name")
                 @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
-                @Html.LabelFor(model => model.ModuleName)
+            <div class="form-group">
+                @Html.Label("Module Name")
                 @Html.EditorFor(model => model.ModuleName, new {htmlAttributes = new {@class = "form-control"}})
                 @Html.ValidationMessageFor(model => model.ModuleName, "", new {@class = "text-danger"})
             </div>
 
-            <div class="md-form">
-                @Html.LabelFor(model => model.ModuleDescription)
+            <div class="form-group">
+                @Html.Label("Module Description")
                 @Html.EditorFor(model => model.ModuleDescription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ModuleDescription, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
-                @Html.LabelFor(model => model.ExpectedTime)
+            <div class="form-group">
+                @Html.Label("Expected Time")
                 @Html.EditorFor(model => model.ExpectedTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpectedTime, "", new { @class = "text-danger" })
             </div>
 
 
 
-            <div class="md-form">
+            <div class="form-group">
 
                 @if (Model != null && Model.SubjectId > 0)
                 {
@@ -111,11 +111,11 @@
                 data: data,
                 success: function (data) {
                     if (data.status) {
-                        $('#actionsList').modal("hide");
                         window.oTable.ajax.reload(); //run my_fun() ondomready
                         window.CourseDetails(data.id);
                         toastr["success"](data.message);
-                        $('#myform')[0].reset();
+                        $('#actionsList').modal("hide");
+
                     } else {
                         toastr["error"](data.message);
                         $('#actionsList').modal("hide");

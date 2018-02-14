@@ -4,14 +4,15 @@
     ViewBag.Title = "Assigned Classes";
 }
 
-<div class="card contact-card card-cascade narrower mb-r">
-<div class="admin-panel info-admin-panel">
-    <!-- Card title -->
-    <div class="view primary-color">
-        <h5>Class List</h5>
-    </div>
-    <br/>
-    <br/>
+<div class="card">
+    <div class="card-block">
+       
+        <div class="form-header  purple darken-4">
+            <h3>
+                Assigned Class <span><a href="#" onclick="myFunction()" class="btn btn-primary">Assign Class</a></span>
+
+            </h3>
+        </div>
     <form id="formFilter" onsubmit="return false;">
         <div class="card">
             <div class="card-body">
@@ -20,33 +21,31 @@
                         
                     </div>
                     <div class="col-md-3">
-                        <div class="md-form">
+                        <div class="form-group">
                             <label for="ClassName">Class Name</label>
                             @Html.DropDownList("ClassName", null, htmlAttributes: new {@class = "form-control"})
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="md-form">
+                        <div class="form-group">
                             <label for="TermName">Term Name</label>
                             @Html.DropDownList("TermName", null, htmlAttributes: new {@class = "form-control"})
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" id="btn-search" class="btn btn-raised btn-default-light ink-reaction">Search/View</button>
+                        <br/>
+                        <button type="submit" id="btn-search" class="btn btn-default btn-lg">Search/View</button>
 
                     </div>
                 </div>
                
             </div><!--end .card-body -->
         </div><!--end .card -->
-        @*<em class="text-caption">Inline layout</em>*@
     </form>
 
     <div class="tablecontainer" style="width: 90%; margin: 0 auto">
-        @*<a class="popup" href="/AssignedClasses/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-
-        @*<a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Class</a>*@
-        <table id="Jdatatable" class="table table-striped table-hover">
+      
+        <table id="Jdatatable" class="table table-responsive table-striped table-hover">
             <thead>
             <tr>
                 <th>Student Name</th>
@@ -82,15 +81,7 @@
     </div>
     <!-- /.Modal-->
 
-    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large red">
-            <i class="fa fa-plus"></i>
-        </a>
-
-        <ul>
-            <li><a href="#" onclick="myFunction()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
-        </ul>
-    </div>
+   
 </div>
 </div>
 <script src="~/Scripts/jquery-1.11.3.min.js"></script>
@@ -100,11 +91,7 @@
 
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
-            //"serverSide": true, // if it is true the preocess is done on server side
-            //"filter": true, // disables search box
-            //"info": true,
-            //"stateSave": true,
-            //"orderMulti": false, // disable multiple column loading at once
+           
             "ajax": {
                 "url": "/AssignedClasses/GetIndex",
                 "type": "POST",

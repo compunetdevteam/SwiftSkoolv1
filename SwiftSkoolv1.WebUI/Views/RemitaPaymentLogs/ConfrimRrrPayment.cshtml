@@ -1,0 +1,36 @@
+﻿@model SwiftKampus.Services.RemitaResponse
+
+@{
+    ViewBag.Title = "ConfrimRrrPayment";
+}
+
+<div class="card">
+<div class="card-head style-primary">
+    <header>
+        <h3>
+            Payment Information
+        </h3>
+    </header>
+
+</div><!--end .card-head -->
+    <div class="card-body">
+        <ul style="list-style-type: none">
+            <li><i class="md-radio-button-on">&nbsp;</i>RRR: @Model.Rrr</li>
+            <li><i class="md-radio-button-on">&nbsp;</i>Order Id: @Model.OrderId</li>
+            <li><i class="md-radio-button-on">&nbsp;</i>Status: @Model.Status</li>
+            @if (Model.Status.Equals("01"))
+            {
+                <li class="text-success"><i class="md-radio-button-on">&nbsp;</i>Transaction Message: @Model.Message</li>
+
+            }
+            else
+            {
+                <li class="text-danger"><i class="md-radio-button-on">&nbsp;</i>Transaction Message: @Model.Message</li>
+
+            }
+
+
+        </ul>
+        <p>Please, click to print receipt for this transaction <a class="btn btn-sm btn-success" href="@Url.Action("Index", "SchoolFeePayments")">School Fee</a> | <a class="btn btn-sm btn-success" href="@Url.Action("Index", "FacultyFeePayments")">Faculty Fee</a> | <a class="btn btn-sm btn-success" href="@Url.Action("Index", "DepartmentFeePayments")">Department Fee</a> </p>
+    </div>
+</div>

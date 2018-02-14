@@ -2,28 +2,19 @@
 @model IEnumerable<SwiftSkoolv1.Domain.Class>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List of Classes";
 }
-<div class="card contact-card card-cascade narrower mb-r">
-<div class="admin-panel info-admin-panel">
-    <!-- Card title -->
-    <div class="view primary-color">
-        <h5>Class List</h5>
-    </div>
-    <br/>
-    <br/>
+<div class="card">
+    <div class="card-block">
+       
+        <div class="form-header  purple darken-4">
+            <h3>
+                Class List <span><a onclick="myFunction()" class="btn btn-primary"> Add Class</a>
+                </span>
+            </h3>
+        </div>
     <!-- First row -->
     <div class="row">
-
-        <!-- First column -->
-        <div class="col-md-1"> 
-            <div class="card-body">
-                       
-                <a onclick="myFunction()" class="btn btn-primary"> Add Class</a>
-        
-            </div>
-        </div>
-        <!-- /.First column -->
         
         <!-- Second column -->
         <div class="col-md-10 offset-md-1 white z-depth-1 py-1 pt-1">
@@ -82,55 +73,15 @@
     </div>
 </div>
 <!-- /.Modal-->
-<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red">
-        <i class="fa fa-pencil"></i>
-    </a>
-
-    <ul>
-        <li><a href="#" onclick="myFunction()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
-    </ul>
-</div>
 
 
-@*<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        @{
-            //foreach (var item in ViewBag.Model)
-            //{
-            //    Html.RenderAction("Area", "ChartTypes", new { model =  item});  
-            //}
-           
-            Html.RenderAction("Area", "ChartTypes", new { model = barModel });
-        } 
-    </div>
-    <div class="col-md-3"></div>
-</div>*@
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 
 <script type="text/javascript">
     $(document).ready(function() {
-        //debugger;
-        //$("#Jdatatable").DataTable({
-        //    "processing": true, // for show progress bar while loading
-        //    "serverSide": true, // if it is true the preocess is done on server side
-        //    "filter": false, // disables search box
-        //    "orderMulti": false, // disable multiple column loading at once
-        //    "ajax": {
-        //        "url": "/Sessions/GetIndex",
-        //        "type": "POST",
-        //        "datatype": "json"
-        //    },
-        //var oTable = $("#Jdatatable").DataTable({
-        //    // "processing": true, // for show progress bar while loading
-        //    "ajax": {
-        //        "url": "/Subjects/GetIndex",
-        //        "type": "GET",
-        //        "datatype": "json"
-        //    },
+       
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
@@ -148,24 +99,16 @@
                 { "data": "ClassName", "autoWidth": true },
                 { "data": "ClassType", "autoWidth": true },
                 { "data": "FullClassName", "autoWidth": true },
-               
-                //{
-                //    "data": "ClassId",
-                //    "autoWidth": true,
-                //    "render": function(data) {
-                //        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ><i/> </a>';
-                //    }
-                //},
+          
                 {
                     "data": "ClassId",
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                        return '<a href="#" title="Edit Class" onclick="Edit(' + data +')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
+                            '<a class="text-danger" title="Remove Class" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/>Remove</a>';
                     }
                 }
-                //{ "data": "EmailID", "autoWidth": true },
-                //{ "data": "Phone", "autoWidth": true },
+            
             ]
         });
 
@@ -173,8 +116,6 @@
     });
     function Edit(subjecId) {
         var url = "/Classes/Save?id=" + subjecId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -182,8 +123,6 @@
     };
     function Delete(subjecId) {
         var url = "/Classes/Delete?id=" + subjecId;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -191,8 +130,6 @@
     };
     function myFunction() {
         var url = "/Classes/Save?id=0";
-        //$('#actionsList').modal("show");
-        // window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");

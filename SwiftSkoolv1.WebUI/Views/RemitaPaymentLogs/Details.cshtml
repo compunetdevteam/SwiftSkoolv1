@@ -1,0 +1,82 @@
+﻿@model SwiftKampusModel.RemitaPaymentLog
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RemitaPaymentLog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rrr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rrr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransactionMessage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionMessage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PayerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayerName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RemitaPaymentLogId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

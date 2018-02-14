@@ -1,4 +1,4 @@
-﻿@model SwiftSkoolv1.Domain.FeePayment
+﻿@model SwiftKampusModel.Payment.SchoolFeePayment
 
 @{
     ViewBag.Title = "Details";
@@ -7,39 +7,39 @@
 <h2>Details</h2>
 
 <div>
-    <h4>FeePayment</h4>
+    <h4>SchoolFeePayment</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.StudentId)
+            @Html.DisplayNameFor(model => model.FeeCategory)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StudentId)
+            @Html.DisplayFor(model => model.FeeCategory)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FeeName)
+            @Html.DisplayNameFor(model => model.Semester.SemesterName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FeeName)
+            @Html.DisplayFor(model => model.Semester.SemesterName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Term)
+            @Html.DisplayNameFor(model => model.Session.SessionName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Term)
+            @Html.DisplayFor(model => model.Session.SessionName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Session)
+            @Html.DisplayNameFor(model => model.Students.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Session)
+            @Html.DisplayFor(model => model.Students.FirstName)
         </dd>
 
         <dt>
@@ -74,9 +74,25 @@
             @Html.DisplayFor(model => model.Date)
         </dd>
 
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Remaining)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remaining)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentStatus)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.FeePaymentId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SchoolFeePaymentId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

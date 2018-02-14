@@ -1,39 +1,123 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.FeeType>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List of Fee Types";
 }
 
-<h2>Index</h2>
+<div class="card">
+    <div class="card-block">
 
-<p>SS
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FeeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
+        <div class="form-header  purple darken-4">
+            <h3>
+                Fee Type <span>
+                    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Fee Type</a>
+                </span>
+            </h3>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FeeName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+        <div class="tablecontainer" style="width: 90%; margin: 0 auto">
+            <table id="Jdatatable" class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Term Name</th>
+                        <th>Student Type</th>
+                        <th>Fee Category</th>
+                        <th>Fee Name</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Actions</th>
 
-</table>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+        <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="flex-center">
+                            <h4 class="modal-title">Fee Type</h4>
+                        </div>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body" id="myModalDivBody">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/FeeTypes/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "ClassName", "autoWidth": true },
+                { "data": "TermName", "autoWidth": true },
+                { "data": "StudentType", "autoWidth": true },
+                { "data": "FeeCategory", "autoWidth": true },
+                { "data": "FeeName", "autoWidth": true },
+                { "data": "Amount", "autoWidth": true },
+                { "data": "Description", "autoWidth": true },
+                {
+                    "data": "FeeTypeId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true">Remove</i></a>';
+
+                    }
+                }
+
+            ]
+        });
+
+    });
+    function Edit(feeTypeId) {
+        var url = "/FeeTypes/Save?id=" + feeTypeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(feeTypeId) {
+        var url = "/FeeTypes/Delete?id=" + feeTypeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/FeeTypes/Save?id=0";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>
+

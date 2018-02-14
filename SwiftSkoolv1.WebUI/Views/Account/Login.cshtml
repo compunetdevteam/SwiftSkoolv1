@@ -30,14 +30,14 @@
                     <!--Body-->
                     <form action="@Href("~/Account/Login")" method="post">
                         @Html.AntiForgeryToken()
-                        <div class="md-form">
+                        <div class="form-group">
                             <label for="Email"> <i class="fa fa-envelope prefix"></i> Your email</label>
                             <input type="text" id="Email" name="Email" class="form-control" >
 
                             @*<span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>*@
                         </div>
 
-                        <div class="md-form">
+                        <div class="form-group">
                             <label for="Password"><i class="fa fa-lock prefix"></i> Your password</label>
                             <input type="password" id="Password" name="Password" class="form-control" data-val="true" data-val-Password="The Password field is required." data-val-required="The Password field is required.">
 

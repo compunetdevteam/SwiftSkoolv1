@@ -1,64 +1,56 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.PrincipalComment>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Principal's Remark";
 }
 
+<div class="card">
+    <div class="card-block">
 
-<style>
-    span.field-validation-error {
-        color: red;
-    }
-</style>
+        <div class="form-header  purple darken-4">
+            <h3>
+                Principal's Remark <span>
+                    <a onclick="myFunction()" class="btn btn-primary"> <i class="fa fa-plus left"></i> Add Principals Comment</a>
+                </span>
+            </h3>
+        </div>
+        <table id="Jdatatable" class="table table-responsive table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Minimun Grade</th>
+                    <th>Maximun Grade</th>
+                    <th>Remarks Grade</th>
+                    <th>Actions</th>
 
-<div class="card contact-card card-cascade narrower mb-r">
-<div class="admin-panel info-admin-panel">
-    <!-- Card title -->
-    <div class="view primary-color">
-        <h5>Principal's Remark</h5>
-    </div>
-    <br/>
-    <br/>
+                </tr>
+            </thead>
+        </table>
 
-    <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Principals Comment</a>
-    @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>*@
-    <table id="Jdatatable" class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Class Name</th>
-            <th>Minimun Grade</th>
-            <th>Maximun Grade</th>
-            <th>Remarks Grade</th>  
-            <th>Actions</th>
-           
-        </tr>
-        </thead>
-    </table>
+        <!-- Modal -->
+        <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="flex-center">
+                            <h4 class="modal-title">Principal Remarks</h4>
+                        </div>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body" id="myModalDivBody">
 
-    <!-- Modal -->
-    <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <!--Content-->
-            <div class="modal-content">
-                <!--Header-->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="flex-center">
-                        <h4 class="modal-title">Principal Remarks</h4>
                     </div>
                 </div>
-                <!--Body-->
-                <div class="modal-body" id="myModalDivBody">
-
-                </div>
+                <!--/.Content-->
             </div>
-            <!--/.Content-->
         </div>
+        <!-- /.Modal-->
     </div>
-    <!-- /.Modal-->
-</div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -68,27 +60,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-      
-
-  
-        //debugger;
-        //$("#Jdatatable").DataTable({
-        //    "processing": true, // for show progress bar while loading
-        //    "serverSide": true, // if it is true the preocess is done on server side
-        //    "filter": false, // disables search box
-        //    "orderMulti": false, // disable multiple column loading at once
-        //    "ajax": {
-        //        "url": "/Sessions/GetIndex",
-        //        "type": "POST",
-        //        "datatype": "json"
-        //    },
-        //var oTable = $("#Jdatatable").DataTable({
-        //    // "processing": true, // for show progress bar while loading
-        //    "ajax": {
-        //        "url": "/Subjects/GetIndex",
-        //        "type": "GET",
-        //        "datatype": "json"
-        //    },
+    
         window.oTable = $("#Jdatatable").DataTable({
             "processing": true, // for show progress bar while loading
             "serverSide": true, // if it is true the preocess is done on server side
@@ -109,21 +81,19 @@
                 {
                     "data": "Id",
                     "autoWidth": true,
-                    "render": function(data) {
-                        return '<a href="#" onclick="Edit('+data+')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
+                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i/></a>';
 
                     }
                 }
-          
+
             ]
         });
-      
+
     });
     function Edit(Id) {
         var url = "/PrincipalComments/Save?id=" + Id;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -131,8 +101,6 @@
     };
     function Delete(Id) {
         var url = "/PrincipalComments/Delete?id=" + Id;
-        //$('#actionsList').modal("show");
-        //window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");
@@ -140,8 +108,6 @@
     };
     function myFunction() {
         var url = "/PrincipalComments/Save?id=0";
-        //$('#actionsList').modal("show");
-        // window.alert(url);
         $('#myModalDivBody').load(url,
             function () {
                 $('#actionsList').modal("show");

@@ -33,19 +33,19 @@
                 @Html.HiddenFor(model => model.BehaviouralSkillId)
             }
 
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.SkillName)
                 @Html.EditorFor(model => model.SkillName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SkillName, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                 @Html.LabelFor(model => model.BehaviorSkillCategoryId)
                 @Html.DropDownList("BehaviorSkillCategoryId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BehaviorSkillCategoryId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="md-form">
+            <div class="form-group">
                 @if (Model != null && Model.BehaviouralSkillId > 0)
                 {
                     <input id="btnsubmit" type="submit" value="Update" class="btn btn-info"/>

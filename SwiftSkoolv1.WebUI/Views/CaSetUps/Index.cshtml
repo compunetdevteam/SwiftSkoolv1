@@ -1,18 +1,16 @@
 ﻿@model IEnumerable<SwiftSkoolv1.WebUI.Models.CaSetUp>
 
 
-<style>
-    span.field-validation-error {
-        color: red;
-    }
-</style>
-<div class="card contact-card card-cascade narrower mb-r">
-    <div class="admin-panel info-admin-panel">
-        <div class="view primary-color">
-            <h5>Continuous Assessment Setup</h5>
-        </div>
-        <div class="card">
-            <div class="card-block">
+<div class="card">
+<div class="card-block">
+       
+<div class="form-header  purple darken-4">
+    <h3>
+        Continuous Assessment Setup <span><a href="#" onclick="myFunction()" class="btn btn-primary">Add New SetUp</a></span>
+
+    </h3>
+</div>
+
                 @using (Html.BeginForm("Index", "CaSetUps", FormMethod.Get))
                 {
                     <!-- BEGIN INLINE FORM -->
@@ -26,19 +24,18 @@
                         </div><!--end .col -->
                         <div class="col-md-3">
 
-                            <div class="md-form">
-                                @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "mdb-select"})
+                            <div class="form-group">
+                                @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "form-control"})
                                 <label for="ClassName">Class</label>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="md-form">
-                                @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "mdb-select"})
+                            <div class="form-group">
+                                @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "form-control"})
                                 <label for="TermName">Term Name</label>
                             </div>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Search" />
-                        <span><a href="#" onclick="myFunction()" class="btn btn-primary">Add New SetUp</a></span>
                     </div><!--end .card-body -->
                 }
              
@@ -88,11 +85,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.IsTrue)
                                 </td>
-                                @*<td>
-                                        @Html.ActionLink("Edit", "Edit", new { id=item.CaSetUpId }) |
-                                        @Html.ActionLink("Details", "Details", new { id=item.CaSetUpId }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id=item.CaSetUpId })
-                                    </td>*@
+                               
                             </tr>
                         }
 
@@ -103,8 +96,7 @@
 
             </div>
         </div>
-    </div>
-</div>
+  
 
 
 <!-- Modal -->

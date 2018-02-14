@@ -37,7 +37,7 @@ namespace SwiftSkoolv1.Domain
         SingleChoice, MultiChoice, BlankChoice
     }
 
-   
+
     public enum Religion
     {
         Christianity = 1, Muslim, Others
@@ -67,6 +67,20 @@ namespace SwiftSkoolv1.Domain
     public enum OwershipType
     {
         Government = 1, Private, Christian_Based, Muslim_Based, NGO, Others
+    }
+
+    public enum StudentType
+    {
+        Fresher, Returning
+    }
+
+    public enum FeeCategory
+    {
+        School_Fee
+    }
+    public enum StudentStatus
+    {
+        Fresher = 1, Returning
     }
 
     public enum Qualifications
@@ -135,6 +149,9 @@ namespace SwiftSkoolv1.Domain
         WithoutPositionPrimary, WithPositionPrimary, WithoutPositionSecondary, WithPositionSecondary
     }
 
-
+    public enum ServiceType
+    {
+        School_Fee = 1, Accepatance_Fee, Supplementary_List_Payment, Hostel_Application_Fee, Acommodation_Payment_Fee, Faculty_Fee, Department_Fee
+    }
 
 }

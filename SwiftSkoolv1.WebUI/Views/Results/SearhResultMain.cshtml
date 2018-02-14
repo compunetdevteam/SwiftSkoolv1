@@ -24,18 +24,18 @@
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.Label("StudentId")
                     @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.Label("Term Name")
                     @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
 
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.Label("Session Name")
                     @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
 

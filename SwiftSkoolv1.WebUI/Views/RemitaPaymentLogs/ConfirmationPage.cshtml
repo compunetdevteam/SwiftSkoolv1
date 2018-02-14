@@ -1,0 +1,65 @@
+﻿@model SwiftKampus.ViewModels.ConfirmRrr
+@{
+    ViewBag.Title = "Confirmation Page";
+}
+
+<h2>ConfirmationPage</h2>
+
+
+@using (Html.BeginForm("ConfirmationPage", "RemitaPaymentLogs", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <!-- Section: Edit Account -->
+        <section class="section">
+            <!-- First row -->
+            <div class="row">
+                <!-- Second column -->
+                <div class="col-lg-8">
+                    <!--Card-->
+                    <div class="card">
+                        <div class="card-head style-primary">
+                            <header>
+                                <h5>Confirmation Page</h5>
+                            </header>
+
+                        </div><!--end .card-head -->
+                        <div class="card-body">
+
+
+                            <div class="card-block">
+                               
+                               
+                                        <!--First column-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.rrr)
+                                                @Html.EditorFor(model => model.rrr, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.rrr, "", new { @class = "text-danger" })
+                                            </div>
+
+                                        </div>
+                                       
+                                    </div>
+                                  
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <input type="submit" id="btnsubmit" value="Get Status" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                    <!-- /.Fifth row -->
+                              
+                            </div>
+                            <!--/.Card content-->
+                        </div>
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!-- /.Second column -->
+         
+            <!-- /.First row -->
+        </section>
+        <!-- /.Section: Edit Account -->
+    </div>
+}
+

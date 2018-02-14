@@ -1,0 +1,35 @@
+﻿@model SwiftKampus.Services.RemitaRePostVm
+
+@{
+    ViewBag.Title = "Re-Post School Fee";
+}
+
+
+
+<img src="~/Content/Images/processing.gif" />
+@*<form id="form1" method="POST" action="https://login.remita.net/remita/ecomm/finalize.reg">*@
+<form id="form1" method="POST" action="http://www.remitademo.net/remita/ecomm/finalize.reg">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <hr/>
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        @Html.HiddenFor(model => model.rrr)
+        @Html.HiddenFor(model => model.merchantId)
+        @Html.HiddenFor(model => model.responseurl)
+        @Html.HiddenFor(model => model.hash)
+        @*<input type="submit" name="submit_btn" value="Pay Via Remita">*@
+
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">document.getElementById("form1").submit();</script>
+
+
+

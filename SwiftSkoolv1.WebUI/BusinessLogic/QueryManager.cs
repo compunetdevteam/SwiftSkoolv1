@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using SwiftSkoolv1.Domain;
 using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels.RemitaVm;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -59,7 +60,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public List<Term> TermList()
         {
             return _db.Terms.AsNoTracking().ToList()
-                .Select(x => new Term {TermId = x.TermId, TermName = x.TermName }).ToList();
+                .Select(x => new Term { TermId = x.TermId, TermName = x.TermName }).ToList();
         }
 
         public string GetId()
@@ -108,6 +109,54 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                 return subjectAssigned;
             }
             return subjectregistration;
+        }
+        public int ConvertToNaira(int value)
+        {
+            return value / 100;
+        }
+
+        public string HashRemitaRequest(string merchantId, string serviceTypeId, string orderId, string amount, string responseUrl, string apiKey)
+        {
+            string hash_string = merchantId + serviceTypeId + orderId + amount + responseUrl + apiKey;
+            System.Security.Cryptography.SHA512Managed sha512 = new System.Security.Cryptography.SHA512Managed();
+            Byte[] EncryptedSHA512 = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(hash_string));
+            sha512.Clear();
+            return BitConverter.ToString(EncryptedSHA512).Replace("-", "").ToLower();
+        }
+
+        public string HashRemitedValidate(string orderID, string apiKey, string merchantId)
+        {
+            string hash_string = orderID + apiKey + merchantId;
+            System.Security.Cryptography.SHA512Managed sha512 = new System.Security.Cryptography.SHA512Managed();
+            Byte[] EncryptedSHA512 = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(hash_string));
+            sha512.Clear();
+            return BitConverter.ToString(EncryptedSHA512).Replace("-", "").ToLower();
+        }
+
+        public string HashRemitedRePost(string merchantId, string rrr, string apiKey)
+        {
+            string hash_string = merchantId + rrr + apiKey;
+            System.Security.Cryptography.SHA512Managed sha512 = new System.Security.Cryptography.SHA512Managed();
+            Byte[] EncryptedSHA512 = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(hash_string));
+            sha512.Clear();
+            return BitConverter.ToString(EncryptedSHA512).Replace("-", "").ToLower();
+        }
+
+        public string HashRrrQuery(string rrr, string apiKey, string merchantId)
+        {
+            string hash_string = rrr + apiKey + merchantId;
+            System.Security.Cryptography.SHA512Managed sha512 = new System.Security.Cryptography.SHA512Managed();
+            Byte[] EncryptedSHA512 = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(hash_string));
+            sha512.Clear();
+            return BitConverter.ToString(EncryptedSHA512).Replace("-", "").ToLower();
+        }
+
+        public void UpdateTransactionLog(RemitaPaymentLog log, RemitaResponse result)
+        {
+            log.Rrr = result.Rrr;
+            log.StatusCode = result.Status;
+            log.TransactionMessage = result.Message;
+            _db.Entry(log).State = EntityState.Modified;
         }
 
         public void Dispose()

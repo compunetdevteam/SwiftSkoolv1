@@ -4,99 +4,90 @@
     ViewBag.Title = "Index";
 }
 
-<div class="card contact-card card-cascade narrower mb-r">
-    <div class="admin-panel info-admin-panel">
-        <!-- Card title -->
-        <div class="view primary-color">
-            <h5> Student Subject List</h5>
+<div class="card">
+    <div class="card-block">
+       
+        <div class="form-header  purple darken-4">
+            <h3>
+                Student Subject List
+            </h3>
         </div>
-        <br />
-        <br />
-
+        <div class="row">
+            <div class="col-md-6">
+                <article class="margin-bottom-xxl">
+                    <p class="lead">
+                        Please use the box below to search
+                    </p>
+                </article>
+            </div><!--end .col -->
         @using (Html.BeginForm("Index", "SubjectRegistrations", FormMethod.Get, new { @class = "form-inline" }))
         {
         <!-- BEGIN INLINE FORM -->
-            <div class="row">
+           
                 <div class="col-md-6">
-                    <article class="margin-bottom-xxl">
-                        <p class="lead">
-                            Please use the box below to search
-                        </p>
-                    </article>
-                </div><!--end .col -->
-                <div class="col-md-6">
-                    <form class="form-inline">
-                        <div class="md-form">
-                           
-                            @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "mdb-select" })
-                            @Html.Label("Student Name")
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.Label("Student Name")
+                                @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
+                            </div>
                         </div>
-                        <div class="md-form">
-                            <button type="submit" class="btn btn-raised btn-warning-light ink-reaction"><i class="fa fa-search"></i> Search</button>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search"></i> Search</button>
+                            </div>
                         </div>
-                    </form>
-                </div><!--end .col -->
-            </div>
 
-        <!--end .row -->
-        <!-- END INLINE FORM -->
-        }
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.StudentId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StudentName)
-                </th>
-                @*<th>
-                        @Html.DisplayNameFor(model => model.ClassName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.TermName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SessionName)
-                    </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.Subject.SubjectName)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StudentId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StudentName)
-                    </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.ClassName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TermName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SessionName)
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                    </td>
-                    <td>
-
-                        <span>
-                            <a href="@Url.Action("Edit", new {id = item.Id, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
-                        </span> |
-                        <span>
-                            <a href="@Url.Action("Delete", new {id = item.Id, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
-                        </span>
-                    </td>
-                </tr>
+                    </div>
+                  
+             
+                </div>
             }
+       
 
-        </table>
     </div>
+
+    <!--end .row -->
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StudentId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StudentName)
+                    </th>
+              
+                    <th>
+                        @Html.DisplayNameFor(model => model.Subject.SubjectName)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+             
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                </td>
+                <td>
+
+                    <span>
+                        <a href="@Url.Action("Edit", new {id = item.Id, @class = "btn btn-success" })"><span class="md-mode-edit"></span> Edit</a>
+                    </span> |
+                    <span>
+                        <a href="@Url.Action("Delete", new {id = item.Id, @class = "btn btn-success" })"><span class="md-delete"></span> Delete</a>
+                    </span>
+                </td>
+            </tr>
+}
+
+            </table>
+        </div>
 </div>

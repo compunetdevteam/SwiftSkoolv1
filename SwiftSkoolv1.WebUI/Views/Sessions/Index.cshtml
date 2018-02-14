@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.Session>
 
 <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Session</a>
-
+<br />
 <table id="Jdatatable" class="table table-striped table-hover">
     <thead>
         <tr>
@@ -58,8 +58,8 @@
                     "data": "SessionId",
                     "autoWidth": true,
                     "render": function (data) {
-                        return '<a href="#" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" ></i></a>' +
-                            '<a class="text-danger" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" ><i /></a>';
+                        return '<a href="#" title="Edit Session" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" >Edit</i></a>&nbsp;&nbsp;&nbsp;&nbsp;' +
+                            '<a class="text-danger" title="Delete Session" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >Remove<i/></a>';
                     }
                 }
             ]

@@ -99,8 +99,6 @@ namespace SwiftSkoolv1.WebUI.Models
         public DbSet<CaList> CaLists { get; set; }
 
         public DbSet<School> Schools { get; set; }
-
-        public DbSet<FeeCategory> FeeCategories { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<ResultAvailability> ResultAvailabilities { get; set; }
         public DbSet<TimeTable> TimeTables { get; set; }
@@ -123,6 +121,9 @@ namespace SwiftSkoolv1.WebUI.Models
         public DbSet<JambExamRule> JambExamRules { get; set; }
         public DbSet<JambExamLog> JambExamLogs { get; set; }
         public DbSet<JambSubject> JambSubjects { get; set; }
+        public DbSet<RemitaPaymentLog> RemitaPaymentLogs { get; set; }
+
+        public System.Data.Entity.DbSet<SwiftSkoolv1.Domain.RemitaFeeSetting> RemitaFeeSettings { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

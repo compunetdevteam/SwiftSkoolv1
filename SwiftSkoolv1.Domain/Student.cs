@@ -59,6 +59,7 @@ namespace SwiftSkoolv1.Domain
 
         public bool Active { get; set; }
         public bool IsGraduated { get; set; }
+        public string StudentStatus { get; set; }
         public string ApplicationUserId { get; set; }
         public virtual ICollection<Guardian> Guardian { get; set; }
         public virtual ICollection<FeePayment> FeePayments { get; set; }

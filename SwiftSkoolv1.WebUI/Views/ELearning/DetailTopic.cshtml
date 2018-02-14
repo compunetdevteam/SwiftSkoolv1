@@ -103,6 +103,8 @@
     function AddTopicContent(topicId) {
         var url = "/ELearning/SaveLesssonNote?id=" + topicId;
         $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+
 
     };
     function EditTopic(topicId) {

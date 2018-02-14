@@ -107,7 +107,6 @@
     <Compile Include="ClassRoom\Topic.cs" />
     <Compile Include="ClassRoom\TopicMaterial.cs" />
     <Compile Include="ContinuousAssessment.cs" />
-    <Compile Include="FeeCategory.cs" />
     <Compile Include="FeePayment.cs" />
     <Compile Include="FeeType.cs" />
     <Compile Include="GeneralSchool.cs" />
@@ -125,6 +124,8 @@
     <Compile Include="Objects\Tag.cs" />
     <Compile Include="PopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemitaFeeSetting.cs" />
+    <Compile Include="RemitaPaymentLog.cs" />
     <Compile Include="ReportCardSetting.cs" />
     <Compile Include="ReportSetting.cs" />
     <Compile Include="Result.cs" />

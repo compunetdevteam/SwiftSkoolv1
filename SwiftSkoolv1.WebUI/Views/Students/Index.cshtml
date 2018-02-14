@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Student List";
 }
 
 @if (ViewBag.Message != null)
@@ -15,86 +15,68 @@
 
 <h2>@ViewBag.Gender</h2>
    
-  <div class="container-fluid">
-<!-- First row -->
-<div class="row">
-    <!-- First column -->
-    <div class="col-md-8">
+<div class="card">
+<div class="card-block">
        
-        <div class="row">
-            <div class="col-md-12 mb-1">
-                <!-- Tabs -->
-                <!-- Nav tabs -->
-                <div class="tabs-wrapper">
-                    <ul class="nav classic-tabs tabs-primary primary-color" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link waves-light active" data-toggle="tab" href="#panel83" role="tab">Student List</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Tab panels -->
-                <div class="tab-content card">
-                    <!--Panel 1-->
-                    <div class="tab-pane fade show active" id="panel83" role="tabpanel">
-                        <div class="table-responsive">
-                            <table id="Jdatatable" class="table table-responsive">
-                                <thead>
-                                <tr>
-                                    <th>Student ID</th>
-                                    <th> Full Name</th>
-                                    <th> Gender</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
+    <div class="form-header  purple darken-4">
+        <h3>
+            Student List <span><a href="#" onclick="Excel()" class="btn btn-primary">Excel Upload</a>
+            </span><span><a href="#" onclick="AddNew()" class="btn btn-primary">Add Student</a>
+            </span>
+        </h3>
+    </div>
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-8">
+       
+            <div class="row">
+                <div class="col-md-12 mb-1">
+                    <!-- Tabs -->
+                    <!-- Nav tabs -->
+                    <div class="tabs-wrapper">
+                        <ul class="nav classic-tabs tabs-primary primary-color" role="tablist">
+                            <li class="nav-item">
+                            </li>
+                        </ul>
                     </div>
-                    <!--/.Panel 1-->
+                    <!-- Tab panels -->
+                    <div class="tab-content card">
+                        <!--Panel 1-->
+                        <div class="tab-pane fade show active" id="panel83" role="tabpanel">
+                            <div class="table-responsive">
+                                <table id="Jdatatable" class="table table-responsive">
+                                    <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th> Full Name</th>
+                                        <th> Gender</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <!--/.Panel 1-->
+                    </div>
+                    <!-- /.Tabs -->
                 </div>
-                <!-- /.Tabs -->
             </div>
         </div>
-    </div>
-    <!-- /.First column -->
-    <!-- Second column -->
-    <div class="col-md-4 mb-1">
-        <div class="card contact-card with-padding">
-            <div class="card-body" id="mydetailBody">
+        <!-- /.First column -->
+        <!-- Second column -->
+        <div class="col-md-4 mb-1">
+            <div class="card contact-card with-padding">
+                <div class="card-body" id="mydetailBody">
                
+                </div>
             </div>
         </div>
+        <!-- /.Second column -->
     </div>
-    <!-- /.Second column -->
+    <!-- /.First row -->
 </div>
-<!-- /.First row -->
 </div>
-
-
-    @*<br />
-    <div class="tablecontainer" style="width: 90%; margin: 0 auto">
-        @*<a class="popup" href="/Subjects/Save/0" style="margin-bottom: 20px; margin-top: 20px">Add</a>
-        <table id="Jdatatable" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Student ID</th>
-                    <th> Full Name</th>
-                    <th> Gender</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-        </table>
-    </div>*@
-
-    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large red">
-            <i class="fa fa-pencil"></i>
-        </a>
-
-        <ul>
-            <li><a href="#" onclick="Excel()" class="btn-floating red"><i class="fa fa-file-excel-o"></i>Excel Upload</a></li>
-            <li><a href="#" onclick="AddNew()" class="btn-floating yellow darken-1"><i class="fa fa-user"></i></a></li>
-        </ul>
-    </div>
     <!-- Modal -->
     <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

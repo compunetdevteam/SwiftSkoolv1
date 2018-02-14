@@ -42,21 +42,21 @@
 
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.ClassName)
                     @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
 
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.TermName)
                     @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
 
                 </div>
 
-                <div class="md-form">
+                <div class="form-group">
                     @Html.LabelFor(model => model.SessionName)
                     @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
@@ -82,7 +82,7 @@
 
 
 
-                <div class="md-form">
+                <div class="form-group">
 
                     @if (Model != null && Model.AssignedClassId > 0)
                     {

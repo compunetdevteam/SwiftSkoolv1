@@ -1,7 +1,14 @@
 ﻿@model SwiftSkoolv1.WebUI.ViewModels.StaffViewModel
 
 
-
+<div class="card">
+<div class="card-block">
+       
+<div class="form-header  purple darken-4">
+    <h3>
+        <i class="fa fa-pencil-square-o"></i> Continuous Assessment
+    </h3>
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -67,9 +74,9 @@
                                     <div class="row">
                                         <!--First column-->
                                         <div class="col-md-6">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.Salutation)
-                                                @Html.EnumDropDownListFor(model => model.Salutation, htmlAttributes: new { @class = "mdb-select" })
+                                                @Html.EnumDropDownListFor(model => model.Salutation, htmlAttributes: new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.Salutation, "", new { @class = "text-danger" })
 
                                             </div>
@@ -78,7 +85,8 @@
                                         </div>
                                         <!--Second column-->
                                         <div class="col-md-6">
-                                            <div class="md-form">
+                                            <div class="form-group">
+                                                @Html.Label("Data of Birth")
                                                 @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Date of Birth" } })
                                                 @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
                                             </div>
@@ -88,7 +96,7 @@
                                     <!--First row-->
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.FirstName)
                                                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -97,16 +105,15 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.MiddleName)
-
                                                 @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
 
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.LastName)
                                                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -118,7 +125,7 @@
 
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.PhoneNumber)
                                                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -127,16 +134,15 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.Email)
-
                                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.Designation)
                                                 @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -150,24 +156,24 @@
                                     <div class="row">
                                         <div class="col-md-4">
 
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.Gender)
-                                                @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "mdb-select" })
+                                                @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.StateOfOrigin)
-                                                @Html.EnumDropDownListFor(model => model.StateOfOrigin, htmlAttributes: new { @class = "mdb-select" })
+                                                @Html.EnumDropDownListFor(model => model.StateOfOrigin, htmlAttributes: new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
 
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.MaritalStatus)
-                                                @Html.EnumDropDownListFor(model => model.MaritalStatus, htmlAttributes: new { @class = "mdb-select" })
+                                                @Html.EnumDropDownListFor(model => model.MaritalStatus, htmlAttributes: new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -178,7 +184,7 @@
                                         <!--First column-->
                                         <!--Second column-->
                                         <div class="col-md-6">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.Qualifications)
                                                 @Html.EditorFor(model => model.Qualifications, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.Qualifications, "", new { @class = "text-danger" })
@@ -186,7 +192,7 @@
                                         </div>
                                         <!--Third column-->
                                         <div class="col-md-6">
-                                            <div class="md-form">
+                                            <div class="form-group">
                                                 @Html.LabelFor(model => model.Address)
                                                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -224,6 +230,8 @@
     </div>
    
 }
+    </div>
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
