@@ -1,39 +1,167 @@
 ﻿@model IEnumerable<SwiftSkoolv1.Domain.JambPractice.JambSubject>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Jamb Subject";
 }
 
-<h2>Index</h2>
+@*<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SubjectCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SubjectName)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectName)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubjectCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubjectName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.JambSubjectId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.JambSubjectId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.JambSubjectId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.JambSubjectId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.JambSubjectId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.JambSubjectId })
+            </td>
+        </tr>
+    }
 
-</table>
+    </table>*@
+<div class="card">
+    <div class="card-block">
+
+        <div class="form-header  purple darken-4">
+            <h3>
+                Jamb Subject <span>
+                    <a onclick="myFunction()" class="btn btn-primary"> Jamb Subject</a>
+                </span>
+            </h3>
+        </div>
+        <!-- First row -->
+        <div class="row">
+
+            <!-- Second column -->
+            <div class="col-md-10 offset-md-1 white z-depth-1 py-1 pt-1">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <table id="Jdatatable" class="table table-responsive table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th>Actions</th>
+                                    @*<th>Delete</th>*@
+                                </tr>
+                            </thead>
+                        </table>
+                        <!--/Dropdown primary-->
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.Second column -->
+
+        </div>
+        <!-- /.First row -->
+
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Jamb Subject</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/JambSubjects/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+
+                { "data": "SubjectCode", "autoWidth": true },
+                { "data": "SubjectName", "autoWidth": true },
+
+                {
+                    "data": "JambSubjectId",
+                    "autoWidth": true,
+                    "render": function(data) {
+                        return '<a href="#" title="Edit Jamb Subject" onclick="Edit(' + data +')" ><i class="fa fa-pencil" aria-hidden="true" ></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
+                            '<a class="text-danger" title="Remove Jamb Subject" href="#" onclick="Delete('+data+')" ><i class="fa fa-remove" aria-hidden="true" ><i/>Remove</a>';
+                    }
+                }
+
+            ]
+        });
+
+
+    });
+    function Edit(subjecId) {
+        var url = "/JambSubjects/Save?id=" + subjecId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(subjecId) {
+        var url = "/JambSubjects/Delete?id=" + subjecId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/JambSubjects/Save?id=0";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

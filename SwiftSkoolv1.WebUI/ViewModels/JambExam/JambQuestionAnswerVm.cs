@@ -41,7 +41,6 @@ namespace SwiftSkoolv1.WebUI.ViewModels.JambExam
 
         [Display(Name = "Answer")]
         [Required(ErrorMessage = "Answer is required")]
-        [DataType(DataType.MultilineText)]
         public string Answer { get; set; }
 
         [Display(Name = "Question Hint")]

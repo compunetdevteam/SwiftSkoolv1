@@ -1,0 +1,58 @@
+﻿@model SwiftSkoolv1.Domain.JambPractice.JambExamLog
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JambExamLog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.JambSubject.SubjectCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JambSubject.SubjectCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamTaken)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamTaken)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.JambExamLogId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

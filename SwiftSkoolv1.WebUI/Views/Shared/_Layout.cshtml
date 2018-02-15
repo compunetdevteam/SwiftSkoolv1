@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="~/StartUI/css/lib/bootstrap/bootstrap.min.css">
     <link href="~/StartUI/css/lib/datatables-net/datatables.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/StartUI/css/main.css">
+    <link href="~/StartUI/css/lib/summernote/summernote.css" rel="stylesheet" />
+
     <!-- Toastr style -->
     <link href="~/Content/toastr.min.css" rel="stylesheet">
 </head>
@@ -147,59 +149,71 @@
     <nav class="side-menu">
         @if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
         {
-            <ul class="side-menu-list">
-                <li class="red">
-                    <a href="mail.html">
-                        <i class="font-icon glyphicon glyphicon-send"></i>
-                        <span class="lbl">Dashboard</span>
-                    </a>
-                </li>
-                <li class="grey with-sub">
-                    <span>
-                        <i class="font-icon font-icon-dashboard"></i>
-                        <span class="lbl">School</span>
-                    </span>
-                    <ul>
-                        <li>@Html.ActionLink("View Schools", "Index", "Schools")</li>
-                        <li>@Html.ActionLink("Add School", "Create", "Schools")</li>
-                    </ul>
-                </li>
+        <ul class="side-menu-list">
+            <li class="red">
+                <a href="mail.html">
+                    <i class="font-icon glyphicon glyphicon-send"></i>
+                    <span class="lbl">Dashboard</span>
+                </a>
+            </li>
+            <li class="grey with-sub">
+                <span>
+                    <i class="font-icon font-icon-dashboard"></i>
+                    <span class="lbl">School</span>
+                </span>
+                <ul>
+                    <li>@Html.ActionLink("View Schools", "Index", "Schools")</li>
+                    <li>@Html.ActionLink("Add School", "Create", "Schools")</li>
+                </ul>
+            </li>
 
-                <li class="red">
-                    <a href="@Url.Action("Index", "Sessions")">
-                        <i class="font-icon glyphicon glyphicon-send"></i>
-                        <span class="lbl">Sessions</span>
-                    </a>
-                </li>
+            <li class="red">
+                <a href="@Url.Action("Index", "Sessions")">
+                    <i class="font-icon glyphicon glyphicon-send"></i>
+                    <span class="lbl">Sessions</span>
+                </a>
+            </li>
 
 
-                <li class="pink-red">
-                    <a href="@Url.Action("Index", "Terms")">
-                        <i class="font-icon font-icon-zigzag"></i>
-                        <span class="lbl">Terms</span>
-                    </a>
-                </li>
-                <li class="blue with-sub">
-                    <span>
-                        <i class="font-icon font-icon-user"></i>
-                        <span class="lbl">School Admin</span>
-                    </span>
-                    <ul>
-                        <li>@Html.ActionLink("View Admin", "AdminIndex", "Account")</li>
-                        <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
-                        <li>@Html.ActionLink("View Staff Account", "AdminIndex", "Account")</li>
-                        <li>@Html.ActionLink("Reset Password", "StaffIndex", "Account")</li>
-                    </ul>
-                </li>
+            <li class="pink-red">
+                <a href="@Url.Action("Index", "Terms")">
+                    <i class="font-icon font-icon-zigzag"></i>
+                    <span class="lbl">Terms</span>
+                </a>
+            </li>
+            <li class="blue with-sub">
+                <span>
+                    <i class="font-icon font-icon-user"></i>
+                    <span class="lbl">School Admin</span>
+                </span>
+                <ul>
+                    <li>@Html.ActionLink("View Admin", "AdminIndex", "Account")</li>
+                    <li>@Html.ActionLink("Create Admin", "RegisterAdmin", "Account")</li>
+                    <li>@Html.ActionLink("View Staff Account", "AdminIndex", "Account")</li>
+                    <li>@Html.ActionLink("Reset Password", "StaffIndex", "Account")</li>
+                </ul>
+            </li>
+            <li class="blue with-sub">
+                <span>
+                    <i class="font-icon font-icon-answer"></i>
+                    <span class="lbl">Jamb Cbte</span>
+                </span>
+                <ul>
+                    <li>@Html.ActionLink("Jamb Subjects", "Index", "JambSubjects")</li>
+                    <li>@Html.ActionLink("Jamb Questions", "Create", "JambQuestionAnswers")</li>
+                    <li>@Html.ActionLink("View Exam Rule", "Index", "JambExamRules")</li>
+                    <li>@Html.ActionLink("Add Exam Rule", "Create", "JambExamRules")</li>
+                </ul>
+            </li>
 
-                <li class="red">
-                    <a href="@Url.Action("Index", "SchoolClasses")" class="label-right">
-                        <i class="font-icon font-icon-contacts"></i>
-                        <span class="lbl">School Class</span>
+            <li class="red">
+                <a href="@Url.Action("Index", "SchoolClasses")" class="label-right">
+                    <i class="font-icon font-icon-contacts"></i>
+                    <span class="lbl">School Class</span>
 
-                    </a>
-                </li>
-            </ul>
+                </a>
+            </li>
+        </ul>
         }
         else if (Request.IsAuthenticated && User.IsInRole("Admin"))
         {
@@ -294,7 +308,7 @@
                         <li>@Html.ActionLink("Fee Payment", "Index", "FeePayments")</li>
                         <li>@Html.ActionLink("Remita Settings", "Index", "RemitaFeeSettings")</li>
                         <li>@Html.ActionLink("Update Payment", "Index", "FeePayments")</li>
-                        <li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>
+                        @*<li>@Html.ActionLink("Debtors List", "DebtorsList", "FeePayments")</li>*@
                     </ul>
                 </li>
 
@@ -512,7 +526,15 @@
     <script type="text/javascript" src="~/StartUI/js/lib/match-height/jquery.matchHeight.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Toastr -->
-    <script src="~/Content/toastr.min.js"></script>
+<script src="~/Content/toastr.min.js"></script>
+<script src="~/StartUI/js/lib/summernote/summernote.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('.summernote').summernote();
+    });
+</script>
     <script src="~/StartUI/js/lib/datatables-net/datatables.min.js"></script>
     <script src="~/StartUI/js/app.js"></script>
     @RenderSection("scripts", required: false)

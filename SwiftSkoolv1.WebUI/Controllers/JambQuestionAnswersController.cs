@@ -4,6 +4,7 @@ using SwiftSkoolv1.Domain.JambPractice;
 using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels.JambExam;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -18,7 +19,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ActionResult GetData()
         {
             // dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
-            var data = Db.JambQuestionAnswers.Select(s => new { s.JambSubject.SubjectName, s.Question, s.Option1, s.Option2, s.Option3, s.Option4 }).ToList();
+            var data = Db.JambQuestionAnswers.Select(s => new
+            {
+                s.JambQuestionAnswerId,
+                s.JambSubject.SubjectName,
+                s.ExamYear,
+                s.Question,
+                s.Option1,
+                s.Option2,
+                s.Option3,
+                s.Option4
+            }).ToList();
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
 
         }
@@ -132,8 +143,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: JambQuestionAnswers/Create
         public ActionResult Create()
         {
-            ViewBag.JambSubjectId = new SelectList(Db.Subjects.AsNoTracking(), "JambSubjectId", "SubjectName");
+            ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName");
+            var yearCategory = YearCategory();
+            var myStudentType = from s in yearCategory
+                                select new { ID = s, Name = s.ToString() };
 
+
+            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name");
             return View();
         }
 
@@ -170,7 +186,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             }
 
-            ViewBag.JambSubjectId = new SelectList(Db.Subjects.AsNoTracking(), "JambSubjectId", "SubjectName", model.JambSubjectId);
+            ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName", model.JambSubjectId);
+            var yearCategory = YearCategory();
+            var myStudentType = from s in yearCategory
+                select new { ID = s, Name = s.ToString() };
+
+
+            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name");
             return View(model);
         }
 
@@ -186,8 +208,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.JambSubjectId = new SelectList(Db.Subjects.AsNoTracking(), "JambSubjectId", "SubjectName", questionAnswer.JambSubjectId);
-            var model = new JambQuestionAnswerVm()
+            ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName", questionAnswer.JambSubjectId);
+            var yearCategory = YearCategory();
+            var myStudentType = from s in yearCategory
+                select new { ID = s, Name = s.ToString() };
+
+
+            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name"); var model = new JambQuestionAnswerVm()
             {
                 JambQuestionAnswerId = questionAnswer.JambQuestionAnswerId,
                 Question = questionAnswer.Question,
@@ -233,7 +260,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.JambSubjectId = new SelectList(Db.Subjects.AsNoTracking(), "JambSubjectId", "SubjectName", model.JambSubjectId);
+            ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName", model.JambSubjectId);
+            var yearCategory = YearCategory();
+            var myStudentType = from s in yearCategory
+                select new { ID = s, Name = s.ToString() };
+
+
+            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name");
             return View(model);
         }
 

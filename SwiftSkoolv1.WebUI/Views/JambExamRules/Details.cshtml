@@ -1,0 +1,58 @@
+﻿@model SwiftSkoolv1.Domain.JambPractice.JambExamRule
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JambExamRule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.JambSubject.SubjectCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JambSubject.SubjectCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultDivision)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultDivision)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScorePerQuestion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScorePerQuestion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalQuestion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalQuestion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaximumTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.JambExamRuleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

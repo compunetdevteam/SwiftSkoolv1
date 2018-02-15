@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
 using System.Data.Entity;
@@ -72,6 +73,30 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        public static List<string> YearCategory()
+        {
+            var yearCategory = new List<string>();
+            yearCategory.Add("1999");
+            yearCategory.Add("2000");
+            yearCategory.Add("2001");
+            yearCategory.Add("2002");
+            yearCategory.Add("2003");
+            yearCategory.Add("2004");
+            yearCategory.Add("2005");
+            yearCategory.Add("2006");
+            yearCategory.Add("2007");
+            yearCategory.Add("2008");
+            yearCategory.Add("2009");
+            yearCategory.Add("2010");
+            yearCategory.Add("2011");
+            yearCategory.Add("2013");
+            yearCategory.Add("2014");
+            yearCategory.Add("2015");
+            yearCategory.Add("2016");
+            yearCategory.Add("2017");
+            return yearCategory;
         }
 
     }

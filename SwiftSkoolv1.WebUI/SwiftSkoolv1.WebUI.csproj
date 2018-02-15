@@ -267,6 +267,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomePageSetUpsController.cs" />
     <Compile Include="Controllers\JambExamController.cs" />
+    <Compile Include="Controllers\JambExamLogsController.cs" />
+    <Compile Include="Controllers\JambExamRulesController.cs" />
     <Compile Include="Controllers\JambQuestionAnswersController.cs" />
     <Compile Include="Controllers\JambSubjectsController.cs" />
     <Compile Include="Controllers\LessonNotesController.cs" />
@@ -312,6 +314,14 @@
     <Compile Include="Migrations\201802141555084_Payment.cs" />
     <Compile Include="Migrations\201802141555084_Payment.Designer.cs">
       <DependentUpon>201802141555084_Payment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802151253082_ChangesToJambExamRule.cs" />
+    <Compile Include="Migrations\201802151253082_ChangesToJambExamRule.Designer.cs">
+      <DependentUpon>201802151253082_ChangesToJambExamRule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802151509493_examTYear.cs" />
+    <Compile Include="Migrations\201802151509493_examTYear.Designer.cs">
+      <DependentUpon>201802151509493_examTYear.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1940,6 +1950,17 @@
     <Content Include="Views\RemitaPaymentLogs\ConfirmationPage.cshtml" />
     <Content Include="Views\RemitaPaymentLogs\ConfrimRrrPayment.cshtml" />
     <Content Include="Views\RemitaPaymentLogs\SubmitConfirmationPage.cshtml" />
+    <Content Include="Views\JambSubjects\Save.cshtml" />
+    <Content Include="Views\JambExamRules\Create.cshtml" />
+    <Content Include="Views\JambExamRules\Delete.cshtml" />
+    <Content Include="Views\JambExamRules\Details.cshtml" />
+    <Content Include="Views\JambExamRules\Edit.cshtml" />
+    <Content Include="Views\JambExamRules\Index.cshtml" />
+    <Content Include="Views\JambExamLogs\Create.cshtml" />
+    <Content Include="Views\JambExamLogs\Delete.cshtml" />
+    <Content Include="Views\JambExamLogs\Details.cshtml" />
+    <Content Include="Views\JambExamLogs\Edit.cshtml" />
+    <Content Include="Views\JambExamLogs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1969,6 +1990,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802141555084_Payment.resx">
       <DependentUpon>201802141555084_Payment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802151253082_ChangesToJambExamRule.resx">
+      <DependentUpon>201802151253082_ChangesToJambExamRule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802151509493_examTYear.resx">
+      <DependentUpon>201802151509493_examTYear.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

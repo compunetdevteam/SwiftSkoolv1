@@ -91,6 +91,7 @@ namespace SwiftSkoolv1.Domain
         HND,
         Degree,
         Masters
+
     }
 
 

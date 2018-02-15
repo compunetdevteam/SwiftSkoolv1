@@ -1,0 +1,57 @@
+﻿@model IEnumerable<SwiftSkoolv1.Domain.JambPractice.JambExamRule>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JambSubject.SubjectCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResultDivision)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScorePerQuestion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalQuestion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.JambSubject.SubjectCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResultDivision)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScorePerQuestion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalQuestion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumTime)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.JambExamRuleId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.JambExamRuleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.JambExamRuleId })
+        </td>
+    </tr>
+}
+
+</table>

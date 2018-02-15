@@ -1,5 +1,6 @@
 ﻿using SwiftSkoolv1.Domain.JambPractice;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -9,10 +10,65 @@ namespace SwiftSkoolv1.WebUI.Controllers
     public class JambSubjectsController : BaseController
     {
         // GET: JambSubjects
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await Db.JambSubjects.ToListAsync());
+            return View();
         }
+
+        public async Task<ActionResult> GetIndex()
+        {
+            // dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            var data = await Db.JambSubjects.AsNoTracking().Select(s => new
+            {
+                s.SubjectCode,
+                s.SubjectName,
+                s.JambSubjectId
+            }).ToListAsync();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<PartialViewResult> Save(int id)
+        {
+            var jambSubject = await Db.JambSubjects.FindAsync(id);
+            return PartialView(jambSubject);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(JambSubject model)
+        {
+            bool status = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (model.JambSubjectId > 0)
+                {
+                    var jambSubject = await Db.JambSubjects.FindAsync(model.JambSubjectId);
+                    if (jambSubject != null)
+                    {
+                        jambSubject.JambSubjectId = model.JambSubjectId;
+                        jambSubject.SubjectName = model.SubjectName;
+                        jambSubject.SubjectCode = model.SubjectCode;
+                        Db.Entry(jambSubject).State = EntityState.Modified;
+                        await Db.SaveChangesAsync();
+                        message = $"{model.SubjectName} Updated Successfully...";
+                        return new JsonResult { Data = new { status = true, message = message } };
+                    }
+                }
+                else
+                {
+                    Db.JambSubjects.Add(model);
+                    await Db.SaveChangesAsync();
+                    message = $"{model.SubjectName} Added Successfully.";
+                    return new JsonResult { Data = new { status = true, message = message } };
+                }
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+            //return View(subject);
+        }
+
+
+
 
         // GET: JambSubjects/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -40,7 +96,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "JambSubjectId,SubjectCode,SubjectName")] JambSubject jambSubject)
+        public async Task<ActionResult> Create(JambSubject jambSubject)
         {
             if (ModelState.IsValid)
             {

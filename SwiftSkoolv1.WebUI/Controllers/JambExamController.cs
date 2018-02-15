@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using SwiftSkoolv1.Domain.CBT;
 using SwiftSkoolv1.Domain.JambPractice;
 using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels.JambExam;
@@ -23,11 +22,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 .OrderBy(o => o.QuestionNumber).ToListAsync();
             return View(questionNumber);
         }
-        public PartialViewResult Menu(string studentId, int courseId)
+        public PartialViewResult Menu(string studentId, int jambsubjectId)
         {
             var questionNumber = Db.JambStudentQuestions.AsNoTracking().Where(x => x.StudentId.Equals(studentId)
-                                                                                && x.JambSubjectId.Equals(courseId))
-                .OrderBy(o => o.QuestionNumber);
+                            && x.JambSubjectId.Equals(jambsubjectId)).OrderBy(o => o.QuestionNumber);
 
             return PartialView(questionNumber);
         }
@@ -35,10 +33,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // GET: JambExam
         public ActionResult SelectSubject()
         {
-            ViewBag.SubjectName = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName");
-            //ViewBag.Year
-            //ViewBag.Time
-            //Viewbag.TotalQuestion
+            ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName");
+            var yearCategory = YearCategory();
+            var myStudentType = from s in yearCategory
+                                select new { ID = s, Name = s.ToString() };
+
+
+            ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name");
             Session["Rem_Time"] = null;
             ViewBag.Time = Session["Rem_Time"];
             return View();
@@ -51,65 +52,75 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 string studentId = User.Identity.GetUserId();
 
-
                 var questionExist = await Db.JambStudentQuestions.Where(x => x.StudentId.Equals(studentId)
-                                                                         && x.JambSubjectId.Equals(model.JambSubjectId))
-                    .CountAsync();
-                if (questionExist > 1)
+                                            && x.JambSubjectId.Equals(model.JambSubjectId)
+                                            && x.ExamYear.Equals(model.ExamYear)).ToListAsync();
+
+                if (questionExist.Count >= 1)
                 {
-                    return RedirectToAction("Exam", new
-                    {
-                        questionNo = 1,
-                        subjectId = model.JambSubjectId,
-                        studentId = studentId
-                    });
+                    //return RedirectToAction("Exam", new
+                    //{
+                    //    questionNo = 1,
+                    //    subjectId = model.JambSubjectId,
+                    //    studentId = studentId
+                    //});
+                    Db.JambStudentQuestions.RemoveRange(questionExist);
+                    await Db.SaveChangesAsync();
                 }
 
                 //var r = new Random();
 
                 var myquestion = await Db.JambQuestionAnswers.Where(x => x.JambSubjectId.Equals(model.JambSubjectId)
-                                                                         && x.ExamYear.Equals(
-                                                                             model.ExamYear.ToString()))
+                                                                         && x.ExamYear.Equals(model.ExamYear))
                     .Take(model.TotalQuestion).ToListAsync();
 
 
                 int count = 1;
-                foreach (var question in myquestion)
+                if (myquestion.Count > 0)
                 {
-                    var jambStudentQuestion = new JambStudentQuestion()
+                    foreach (var question in myquestion)
                     {
-                        StudentId = studentId,
-                        JambSubjectId = question.JambSubjectId,
-                        Question = question.Question,
-                        Option1 = question.Option1,
-                        Option2 = question.Option2,
-                        Option3 = question.Option3,
-                        Option4 = question.Option4,
-                        FilledAnswer = String.Empty,
-                        Answer = question.Answer,
-                        QuestionHint = question.QuestionHint,
-                        IsFillInTheGag = question.IsFillInTheGag,
-                        IsMultiChoiceAnswer = question.IsMultiChoiceAnswer,
-                        QuestionNumber = count,
-                        TotalQuestion = model.TotalQuestion,
-                        ExamTime = model.ExamTime
-                    };
-                    Db.JambStudentQuestions.Add(jambStudentQuestion);
-                    count++;
+                        var jambStudentQuestion = new JambStudentQuestion()
+                        {
+                            StudentId = studentId,
+                            JambSubjectId = question.JambSubjectId,
+                            Question = question.Question,
+                            Option1 = question.Option1,
+                            Option2 = question.Option2,
+                            Option3 = question.Option3,
+                            Option4 = question.Option4,
+                            FilledAnswer = String.Empty,
+                            Answer = question.Answer,
+                            QuestionHint = question.QuestionHint,
+                            IsFillInTheGag = question.IsFillInTheGag,
+                            IsMultiChoiceAnswer = question.IsMultiChoiceAnswer,
+                            QuestionNumber = count,
+                            TotalQuestion = model.TotalQuestion,
+                            ExamTime = model.ExamTime,
+                            SchoolId = userSchool
+                        };
+                        Db.JambStudentQuestions.Add(jambStudentQuestion);
+                        count++;
 
+                    }
+                    await Db.SaveChangesAsync();
+                    return RedirectToAction("Exam", new
+                    {
+                        questionNo = 1,
+                        subjectId = model.JambSubjectId,
+                        studentId = studentId,
+
+                    });
                 }
-
-
-                await Db.SaveChangesAsync();
-                return RedirectToAction("Exam", new
-                {
-                    questionNo = 1,
-                    subjectId = model.JambSubjectId,
-                    studentId = studentId,
-
-                });
+                ViewBag.Message = "There is no Question for the Selected Year";
             }
-            ViewBag.SubjectName = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SujectName");
+
+            ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName");
+            var yearCategory = YearCategory();
+            var myStudentType = from s in yearCategory
+                                select new { ID = s, Name = s.ToString() };
+
+            ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name");
 
             return View(model);
         }
@@ -119,7 +130,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             int myno = questionNo;
             var question = Db.JambStudentQuestions.FirstOrDefault(s => s.StudentId.Equals(studentId)
-                                                                   && s.QuestionNumber.Equals(myno));
+                                    && s.QuestionNumber.Equals(myno));
             if (question != null)
             {
                 if (Session["Rem_Time"] == null)
@@ -134,6 +145,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 ViewBag.Course = await Db.JambSubjects.AsNoTracking().Where(x => x.JambSubjectId.Equals(subjectId))
                                         .Select(c => c.SubjectName).FirstOrDefaultAsync();
             }
+            ViewBag.JambSubjectId = question.JambSubjectId;
+            ViewBag.StudentId = question.StudentId;
             return View(question);
         }
 
@@ -161,7 +174,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 questionNo = ++questionId,
                                 subjectId = model.JambSubjectId,
                                 studentId = model.StudentId,
-                                
+
                             });
                     }
                 }
@@ -377,7 +390,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var examRule = await Db.JambExamRules.AsNoTracking().Where(x => x.JambSubjectId.Equals(model.JambSubjectId))
                                     .Select(s => new { scorePerQuestion = s.ScorePerQuestion, totalQuestion = s.TotalQuestion })
                                     .FirstOrDefaultAsync();
-            double sum = examRule.scorePerQuestion * examRule.totalQuestion;
+            double sum = examRule.scorePerQuestion * studentdetails.TotalQuestion;
             double total = scoreCount * examRule.scorePerQuestion;
             var jambExamLog = new JambExamLog()
             {
@@ -403,7 +416,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var examRule = await Db.JambExamRules.AsNoTracking().Where(x => x.JambSubjectId.Equals(studentdetails.JambSubjectId))
                                     .Select(s => new { scorePerQuestion = s.ScorePerQuestion, totalQuestion = s.TotalQuestion })
                                     .FirstOrDefaultAsync();
-            double sum = examRule.scorePerQuestion * examRule.totalQuestion;
+            double sum = examRule.scorePerQuestion * studentdetails.TotalQuestion;
             double total = scoreCount * examRule.scorePerQuestion;
             var examLog = new JambExamLog()
             {
@@ -448,7 +461,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             }
 
-            return RedirectToAction("Index", "ExamLogs", new
+            return RedirectToAction("Index", "JambExamLogs", new
             {
                 studentId = studentId,
                 subjectId = JambSubjectId,

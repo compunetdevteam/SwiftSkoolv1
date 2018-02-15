@@ -8,7 +8,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels.JambExam
         [Required]
         public int ExamTime { get; set; }
         [Required]
-        public int ExamYear { get; set; }
+        public string ExamYear { get; set; }
         [Required]
         public int TotalQuestion { get; set; }
 
