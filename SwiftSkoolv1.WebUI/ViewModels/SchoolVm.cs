@@ -31,7 +31,6 @@ namespace SwiftSkoolv1.WebUI.ViewModels
         [Display(Name = "Country")]
         public string Country { get; set; }
 
-
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
@@ -40,19 +39,21 @@ namespace SwiftSkoolv1.WebUI.ViewModels
 
         public OwershipType OwernshipType { get; set; }
 
-        public DateTime? DateOfEstablishment { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateOfEstablishment { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
         [Display(Name = "Local Government Area")]
         public LGA LocalGovtArea { get; set; }
-
 
         [Display(Name = "State")]
         public State State { get; set; }
 
         [Display(Name = "School Logo")]
         public byte[] Logo { get; set; }
+
         public byte[] SchoolBanner { get; set; }
 
         [Display(Name = "Upload School Logo")]
@@ -112,6 +113,5 @@ namespace SwiftSkoolv1.WebUI.ViewModels
                 }
             }
         }
-
     }
 }

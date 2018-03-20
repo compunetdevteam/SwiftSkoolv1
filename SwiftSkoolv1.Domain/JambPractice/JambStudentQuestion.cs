@@ -26,6 +26,7 @@
         public int TotalQuestion { get; set; }
         public int ExamTime { get; set; }
         public string ExamYear { get; set; }
+        public string ExamType { get; set; }
         public virtual Student Student { get; set; }
         public virtual JambSubject JambSubject { get; set; }
     }

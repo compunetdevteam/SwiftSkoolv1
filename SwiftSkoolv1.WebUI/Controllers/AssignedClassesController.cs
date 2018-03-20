@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using OfficeOpenXml;
 using SwiftSkoolv1.Domain;
+using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,11 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.Services;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class AssignedClassesController : BaseController
     {
-
         public async Task<ActionResult> Index()
         {
             if (User.IsInRole("Teacher"))
@@ -37,16 +36,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             else
             {
                 ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-
             }
             ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
             return View();
         }
 
-
         public ActionResult GetIndex(string ClassName, string TermName)
         {
             #region Server Side filtering
+
             var v = Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool))
                 .Select(s => new { s.AssignedClassId, s.ClassName, s.StudentName, s.StudentId, s.TermName, s.SessionName }).ToList();
 
@@ -57,11 +55,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             return Json(new { data = v }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
+
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
-
-
 
         public async Task<PartialViewResult> Save(int id)
         {
@@ -74,14 +72,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //{
             //    AssignedClassId = assignedClass.AssignedClassId,
 
-
             //};
             return PartialView();
         }
 
-        // POST: Subjects/Save/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Subjects/Save/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Save(AssignedClassesViewModel model)
@@ -117,26 +113,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         string theClass = "";
                         foreach (var item in model.StudentId)
                         {
-                            var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(
-                                x => x.SchoolId.Equals(userSchool)
-                                     && x.TermName.Equals(model.TermName.ToString())
-                                     && x.SessionName.Equals(model.SessionName)
-                                     && x.StudentId.Equals(item));
+                            var countFromDb = await Db.AssignedClasses.AsNoTracking().FirstOrDefaultAsync(
+                                                x => x.SchoolId.Equals(userSchool)
+                                                && x.TermName.Equals(model.TermName.ToString())
+                                                && x.SessionName.Equals(model.SessionName)
+                                                && x.StudentId.Equals(item));
 
-                            if (countFromDb >= 1)
+                            if (countFromDb != null)
                             {
-                                message = "You have already Assigned Class one or more of these student";
+                                var studentFound = await Db.Students.FindAsync(item);
+                                message = $"You have already Assigned ( {countFromDb.ClassName} ) Class to this student ( {studentFound?.FullName} )";
                                 return new JsonResult { Data = new { status = false, message = message } };
                             }
-                            var studentName = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(item))
-                                                .Select(s => s.FullName).FirstOrDefaultAsync();
+                            var student = await Db.Students.AsNoTracking().Where(x => x.StudentId.Equals(item))
+                                                .FirstOrDefaultAsync();
                             var assigClass = new AssignedClass
                             {
                                 StudentId = item,
                                 ClassName = model.ClassName,
                                 TermName = model.TermName,
                                 SessionName = model.SessionName,
-                                StudentName = studentName,
+                                StudentName = student.FirstName,
                                 SchoolId = userSchool
                             };
                             Db.AssignedClasses.Add(assigClass);
@@ -147,14 +144,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         await Db.SaveChangesAsync();
                         return new JsonResult { Data = new { status = true, message = message } };
                     }
-
                 }
-
             }
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
         }
-
 
         public async Task<ActionResult> MyClassMate()
         {
@@ -162,9 +156,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
             var studentId = User.Identity.GetUserId();
             var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                                            && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
-                                                            .Select(s => s.ClassName)
-                                                            .FirstOrDefaultAsync();
+                                    && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                                    .Select(s => s.ClassName).FirstOrDefaultAsync();
             var myClassmate = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term)
                                                     && x.SessionName.Equals(session) && x.SchoolId.Equals(userSchool)
                                                     && x.ClassName.Equals(myClass))
@@ -209,9 +202,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: AssignedClasses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AssignedClasses/Create To protect from overposting attacks, please enable the
+        // specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AssignedClassesViewModel model)
@@ -286,9 +278,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return PartialView(myModel);
         }
 
-        // POST: AssignedClasses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AssignedClasses/Edit/5 To protect from overposting attacks, please enable the
+        // specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(AssignedClassesViewModel assignedClass)
@@ -410,7 +401,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             string termName = workSheet.Cells[row, 3].Value.ToString().Trim();
                             string sessionName = workSheet.Cells[row, 4].Value.ToString().Trim();
 
-
                             var countFromDb = await Db.AssignedClasses.AsNoTracking().CountAsync(x => x.SchoolId.Equals(userSchool)
                                                                                                       && x.TermName.Equals(termName.ToString())
                                                                                                       && x.SessionName.Equals(sessionName)
@@ -434,15 +424,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 SchoolId = userSchool
                             };
                             Db.AssignedClasses.Add(assigClass);
-
-
                         }
                         catch (Exception e)
                         {
                             ViewBag.ErrorMessage = $"Error Saving Record for row {row}{e.Message}";
                             return View("Error3");
                         }
-
                     }
                     try
                     {
@@ -456,13 +443,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         ViewBag.ErrorMessage = $"Student Id in record doesn't exist. {e.Message}";
                         return View("Error3");
                     }
-
                 }
             }
             ViewBag.Error = "File type is Incorrect <br/>";
             return View("AssignClassUpload");
         }
-
 
         protected override void Dispose(bool disposing)
         {

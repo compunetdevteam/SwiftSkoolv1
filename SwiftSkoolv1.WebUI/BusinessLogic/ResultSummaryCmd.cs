@@ -14,6 +14,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         private readonly string _sessionName;
         private readonly string _schoolId;
         private readonly int _subjectId;
+        private readonly string gradeClassName;
 
         public ResultSummaryCmd(string studentId, string sessionName, int subjectCode, string schoolId)
         {
@@ -28,14 +29,16 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                 _className = GetClassName();
                 _subjectId = subjectCode;
                 ClassName = _className;
+                GradeClass = gradeClassName;
+                gradeClassName = GetClassNameForGrade();
                 FirstTermScore = GetFirstTermScore();
-                FirstTermSubjectGrade = _myGradeRemark.Grading(FirstTermScore, _className, _schoolId).ToString();
+                FirstTermSubjectGrade = _myGradeRemark.Grading(FirstTermScore, gradeClassName, _schoolId).ToString();
 
                 SecondTermScore = GetSecondTermScore();
-                SecondTermSubjectGrade = _myGradeRemark.Grading(SecondTermScore, _className, _schoolId).ToString();
+                SecondTermSubjectGrade = _myGradeRemark.Grading(SecondTermScore, gradeClassName, _schoolId).ToString();
 
                 ThirdTermScore = GetThirdTermScore();
-                ThirdTermSubjectGrade = _myGradeRemark.Grading(ThirdTermScore, _className, _schoolId).ToString();
+                ThirdTermSubjectGrade = _myGradeRemark.Grading(ThirdTermScore, gradeClassName, _schoolId).ToString();
 
                 FindSubjectPositionForFirstTerm();
                 FindSubjectPositionForSecondTerm();
@@ -66,6 +69,8 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         public int SecondTermSubjectPosition { get; private set; }
         public string SecondTermSubjectGrade { get; private set; }
 
+        public string GradeClass { get; set; }
+
         public double ThirdTermScore { get; private set; }
         public int ThirdTermSubjectPosition { get; private set; }
         public string ThirdTermSubjectGrade { get; private set; }
@@ -84,7 +89,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
 
         public string SummaryGrading
         {
-            get { return _myGradeRemark.Grading(ClassAverage, ClassName, _schoolId); }
+            get { return _myGradeRemark.Grading(ClassAverage, gradeClassName, _schoolId); }
             private set { }
         }
 
@@ -93,7 +98,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
         {
             get
             {
-                return _myGradeRemark.Remark(ClassAverage, ClassName, _schoolId);
+                return _myGradeRemark.Remark(ClassAverage, gradeClassName, _schoolId);
             }
             private set { }
         }
@@ -168,6 +173,15 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                                     .Select(y => y.ClassName).FirstOrDefault();
             return className;
         }
+
+        private string GetClassNameForGrade()
+        {
+            var className = _db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(_schoolId)
+                                    && x.FullClassName.Equals(_className))
+                                    .Select(y => y.ClassName).FirstOrDefault();
+            return className;
+        }
+
 
 
 

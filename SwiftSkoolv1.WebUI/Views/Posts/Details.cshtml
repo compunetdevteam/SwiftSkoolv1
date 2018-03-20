@@ -1,42 +1,52 @@
-﻿@model SwiftSkoolv1.Domain.Objects.Post
+﻿@using SwiftSkoolv1.Domain.Objects
+@model SwiftSkoolv1.Domain.Objects.Post
 
 @{
     ViewBag.Title = "Details";
+    bool isAdmin = ViewBag.IsAdmin;
+    //var post = new Post
+    //{
+    //    ID = Model.ID,
+    //    Title = Model.Title,
+    //    Body = Model.Body,
+    //    DateTime = Model.DateTime
+    //};
+
 }
 
-<h2>Details</h2>
+<div class="row">
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <div class="col-md-9">
+        <article class="style-default-bright">
+            <div class="card-body">
+                @PostHelper.Render(Model, Html, isAdmin, true)
+            </div>
+        </article>
+    </div>
+    <div class="col-sm-3">
+        <!-- Subscribe to my feed widget -->
+        @*<div class="well text-center">
+                <p class="lead">
+                    Don't want to miss updates? Please click the below button!
+                </p>
+                <button class="btn btn-primary btn-lg" onclick="location.href = '@Url.Action("RSS","Posts")'">Subscribe to my feed</button>
+            </div>*@
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+        <!-- Other widgets -->
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateTime)
-        </dt>
+        @Html.Action("Menu", "Posts")
+        <br/>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateTime)
-        </dd>
+        @Html.Action("TagList", "Posts")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
+        @*<div class="panel panel-default">
+                <div class="panel-heading">
+                    <div id="twitterHeader"><a href="http://www.twitter.com/kunlesymls">@System.Configuration.ConfigurationManager.AppSettings["SchoolName"] on Twitter</a></div>
+                </div>
+                <div id="tweets">
+                </div>
+            </div>*@
+    </div>
 
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

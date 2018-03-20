@@ -132,7 +132,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 return new JsonResult { Data = new { status = true, message = "Admin deleted Successfully" } };
             }
             return new JsonResult { Data = new { status = false, message = "Admin not found" } };
-
         }
 
         [AllowAnonymous]
@@ -140,7 +139,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             return View(await UserManager.Users.ToListAsync());
         }
-
 
         //// GET: /Account/Edit/1
         //public async Task<ActionResult> Edit(string id)
@@ -187,21 +185,16 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //            return HttpNotFound();
         //        }
 
-        //        user.UserName = editUser.Username;
-        //        user.Email = editUser.Email;
+        // user.UserName = editUser.Username; user.Email = editUser.Email;
 
-        //        var userRoles = await UserManager.GetRolesAsync(user.Id);
+        // var userRoles = await UserManager.GetRolesAsync(user.Id);
 
-        //        selectedRole = selectedRole ?? new string[] { };
+        // selectedRole = selectedRole ?? new string[] { };
 
-        //        var result = await UserManager.AddUserToRolesAsync(user.Id, selectedRole.Except(userRoles).ToList<string>());
+        // var result = await UserManager.AddUserToRolesAsync(user.Id, selectedRole.Except(userRoles).ToList<string>());
 
-        //        if (!result.Succeeded)
-        //        {
-        //            ModelState.AddModelError("", result.Errors.First());
-        //            return View();
-        //        }
-        //        result = await UserManager.RemoveUserFromRolesAsync(user.Id, userRoles.Except(selectedRole).ToList<string>());
+        // if (!result.Succeeded) { ModelState.AddModelError("", result.Errors.First()); return
+        // View(); } result = await UserManager.RemoveUserFromRolesAsync(user.Id, userRoles.Except(selectedRole).ToList<string>());
 
         //        if (!result.Succeeded)
         //        {
@@ -214,8 +207,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    return View();
         //}
 
-
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -224,7 +215,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -236,8 +226,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: 
+            // This doesn't count login failures towards account lockout To enable password failures
+            // to trigger account lockout, change to shouldLockout:
             var user = await Db.Users.AsNoTracking().FirstOrDefaultAsync(c => c.Email.ToUpper().Equals(model.Email.ToUpper())
                                                     || c.UserName.ToUpper().Equals(model.Email.ToUpper())
                                                     || c.Id.Equals(model.Email));
@@ -252,18 +242,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToAction("CustomDashborad", new { username = user.UserName });
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
 
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
         }
-
 
         public ActionResult CustomDashborad(string username)
         {
@@ -277,7 +268,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             if (User.IsInRole(RoleName.Student))
             {
-
                 TempData["UserMessage"] = $"Login Successful, Welcome {username}";
                 TempData["Title"] = "Success.";
                 return RedirectToAction("Dashboard", "Students");
@@ -302,10 +292,33 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 TempData["Title"] = "Success.";
                 return RedirectToAction("GeneralDashboard", "Home");
             }
+            if (User.IsInRole("TrialAccount"))
+            {
+                TempData["UserMessage"] = $"Login Successful, Welcome {username}";
+                TempData["Title"] = "Success.";
+                return RedirectToAction("AdminDashBoard", "Home");
+            }
             return RedirectToAction("Index", "Home");
         }
 
-        //
+        public async Task<ActionResult> AddAdminRole(string id, string schoolId)
+        {
+            if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(schoolId))
+            {
+                var user = Db.Users.Find(id);
+                if (user != null)
+                {
+                    user.SchoolId = schoolId;
+                    Db.Entry(user).State = EntityState.Modified;
+                    await Db.SaveChangesAsync();
+                    await this.UserManager.AddToRoleAsync(id, "Admin");
+                    return RedirectToAction("Index", "Schools");
+                }
+            }
+
+            return RedirectToAction("CreateTrialAccount", "Schools", new { message = "School not assigned properly" });
+        }
+
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -318,7 +331,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -330,17 +342,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 return View(model);
             }
 
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
+            // The following code protects for brute force attacks against the two factor codes. If a
+            // user enters incorrect codes for a specified amount of time then the user account will
+            // be locked out for a specified amount of time. You can configure the account lockout
+            // settings in IdentityConfig
             var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid code.");
@@ -357,7 +371,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -369,7 +382,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 model.FirstName = model.FirstName.ToUpper();
                 model.LastName = model.LastName.ToUpper();
                 model.MiddleName = model.MiddleName.ToUpper();
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -396,25 +409,29 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Db.Staffs.Add(staff);
                     await Db.SaveChangesAsync();
 
-                    //Assign Role to user Here 
+                    //Assign Role to user Here
                     await this.UserManager.AddToRoleAsync(user.Id, "Teacher");
 
                     //Disabled to avoid login in Automatically
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    TempData["UserMessage"] = "Staff Has been Successfully Created.";
-                    TempData["Title"] = "Success.";
+                    // For more information on how to enable account confirmation and password reset
+                    // please visit http://go.microsoft.com/fwlink/?LinkID=320771 Send an email with
+                    // this link string code = await
+                    // UserManager.GenerateEmailConfirmationTokenAsync(user.Id); var callbackUrl =
+                    // Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                    // protocol: Request.Url.Scheme); await UserManager.SendEmailAsync(user.Id,
+                    // "Confirm your account", "Please confirm your account by clicking <a href=\"" +
+                    // callbackUrl + "\">here</a>");
+                    ViewBag.Message = $"Staff email ({model.Email}) Has been Successfully Created.";
+
                     return RedirectToAction("Index", "Staffs");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            ViewBag.Message = $" This Email ({model.Email}) is Already registered with another User";
             ViewBag.Name = new SelectList(Db.Roles.AsNoTracking().ToList(), "Name", "Name").ToList();
             return View(model);
         }
@@ -476,7 +493,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                         for (int row = 2; row <= noOfRow; row++)
                         {
-
                             string salutation = workSheet.Cells[row, 1].Value.ToString().Trim();
                             string firstName = workSheet.Cells[row, 2].Value.ToString().Trim();
                             string middleName = workSheet.Cells[row, 3].Value.ToString().Trim();
@@ -530,29 +546,29 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                     return View();
                                 }
 
-                                #endregion
+                                #endregion Creating New staff
 
-                                //Assign Role to user Here 
+                                //Assign Role to user Here
                                 await this.UserManager.AddToRoleAsync(user.Id, "Teacher");
 
                                 recordCount++;
                                 lastrecord =
                                     $"The last Updated record has the Last Name {lastName} and First Name {firstName} with staff phonenumber {phoneNumber}";
-
                             }
                             else
                             {
                                 ViewBag.Message = $"This user has already been Uploaded {firstName} {lastName}";
                                 return View("Error2");
                             }
-                            #endregion
+
+                            #endregion database operation
+
                             await Db.SaveChangesAsync();
                             message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";
                             TempData["UserMessage"] = message;
                             TempData["Title"] = "Success.";
                         }
                         return RedirectToAction("Index", "Staffs");
-
                     }
                 }
                 else
@@ -560,7 +576,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     ViewBag.Error = $"File type is Incorrect <br/>";
                     return View("Index");
                 }
-
             }
         }
 
@@ -585,7 +600,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     string qualification = workSheet.Cells[row, 13].Value.ToString().Trim();
                     string password = workSheet.Cells[row, 14].Value.ToString().Trim();
                     string username = firstName.Trim() + " " + lastName.Trim();
-
                 }
                 catch (Exception e)
                 {
@@ -595,8 +609,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             return "Success";
         }
-
-
 
         [AllowAnonymous]
         public async Task<ActionResult> ActivateStudent()
@@ -632,8 +644,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         ViewBag.Message = ex.Message;
                         return View();
                     }
-
-
                 }
                 await Db.SaveChangesAsync();
                 message = $"The number of student Activated is {students.Count}";
@@ -643,7 +653,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult RegisterStudent()
@@ -652,14 +661,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterStudent(StudentViewModel model)
         {
-
             if (ModelState.IsValid)
             {
                 model.FirstName = model.FirstName.ToUpper();
@@ -679,6 +686,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 if (result.Succeeded)
                 {
                     #region Student
+
                     var student = new Student()
                     {
                         StudentId = model.StudentId,
@@ -701,20 +709,23 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     TempData["UserMessage"] = "Student has been Added Successfully";
                     TempData["Title"] = "Success.";
                     await Db.SaveChangesAsync();
-                    #endregion
 
-                    //Assign Role to user Here 
+                    #endregion Student
+
+                    //Assign Role to user Here
                     await this.UserManager.AddToRoleAsync(user.Id, "Student");
 
                     // To avoid automatic login
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    // For more information on how to enable account confirmation and password reset
+                    // please visit http://go.microsoft.com/fwlink/?LinkID=320771 Send an email with
+                    // this link string code = await
+                    // UserManager.GenerateEmailConfirmationTokenAsync(user.Id); var callbackUrl =
+                    // Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                    // protocol: Request.Url.Scheme); await UserManager.SendEmailAsync(user.Id,
+                    // "Confirm your account", "Please confirm your account by clicking <a href=\"" +
+                    // callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Students", new { message = "Student Created Successfully" });
                 }
@@ -725,8 +736,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
-
-        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -735,7 +744,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -748,18 +756,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
-                    //Assign Role to user Here 
+                    //Assign Role to user Here
                     await this.UserManager.AddToRoleAsync(user.Id, "Student");
 
                     // To avoid automatic login
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // For more information on how to enable account confirmation and password reset
+                    // please visit http://go.microsoft.com/fwlink/?LinkID=320771 Send an email with
+                    // this link string code = await
+                    // UserManager.GenerateEmailConfirmationTokenAsync(user.Id); var callbackUrl =
+                    // Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                    // protocol: Request.Url.Scheme); await UserManager.SendEmailAsync(user.Id,
+                    // "Confirm your account", "Please confirm your account by clicking <a href=\"" +
+                    // callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Dashboard", "Students");
                 }
@@ -770,9 +780,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
+        public ActionResult RedirectRegistration()
+        {
+            return View();
+        }
 
-        // GET: /Account/Register
-        // [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        // GET: /Account/Register [CustomAuthorize(Roles = RoleName.SuperAdmin)]
         [AllowAnonymous]
         public ActionResult RegisterAdmin()
         {
@@ -780,7 +793,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -790,27 +802,83 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, SchoolId = model.SchoolId };
+                try
+                {
+                    var user = new ApplicationUser { UserName = model.Username, Email = model.Email, SchoolId = model.SchoolId };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        //Assign Role to user Here
+                        await this.UserManager.AddToRoleAsync(user.Id, "Admin");
+
+                        // To avoid automatic login
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                        // For more information on how to enable account confirmation and password
+                        // reset please visit http://go.microsoft.com/fwlink/?LinkID=320771 Send an
+                        // email with this link string code = await
+                        // UserManager.GenerateEmailConfirmationTokenAsync(user.Id); var callbackUrl
+                        // = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code =
+                        // code },
+                        // protocol: Request.Url.Scheme); await UserManager.SendEmailAsync(user.Id,
+                        // "Confirm your account", "Please confirm your account by clicking <a
+                        // href=\"" + callbackUrl + "\">here</a>");
+
+                        return new JsonResult { Data = new { status = true, message = "Admin has been created Successfully" } };
+                    }
+                    AddErrors(result);
+                }
+                catch (Exception ex)
+                {
+                    return new JsonResult { Data = new { status = false, message = $"Admin Email is already existing{ex.Message}" } };
+                }
+
+                return new JsonResult { Data = new { status = false, message = "Couldn't Create Admin because Email is already existing" } };
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult RegisterAccountUser()
+        {
+            return View();
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        // [CustomAuthorize(Roles = RoleName.SuperAdmin)]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAccountUser(RegisterAdminVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //Assign Role to user Here 
-                    await this.UserManager.AddToRoleAsync(user.Id, "Admin");
+                    //Assign Role to user Here
+                    await this.UserManager.AddToRoleAsync(user.Id, "TrialAdmin");
 
                     // To avoid automatic login
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // For more information on how to enable account confirmation and password reset
+                    // please visit http://go.microsoft.com/fwlink/?LinkID=320771 Send an email with
+                    // this link string code = await
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id); var callbackUrl =
+                    Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                    protocol: Request.Url.Scheme); await UserManager.SendEmailAsync(user.Id,
+                    "Confirm your account", "Please confirm your account by clicking <a href=\"" +
+                    callbackUrl + "\">here</a>");
 
-                    return new JsonResult { Data = new { status = true, message = "Admin has been created Successfully" } };
+                    return View("RedirectRegistration");
                 }
                 AddErrors(result);
-                return new JsonResult { Data = new { status = true, message = "Couldn't Create Admin because Email is already existing" } };
-
+                ViewBag.Message = "Couldn't Create Account because Email is already existing";
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form
@@ -830,7 +898,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult AdminForgotPassword()
@@ -838,7 +905,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -858,13 +924,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
                 ViewBag.Message = "User Not found";
                 return View(model);
-
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
 
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -872,7 +936,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -891,7 +954,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 //For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 //Send an email with this link
 
-
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
@@ -902,7 +964,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation(string link)
@@ -919,7 +980,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
@@ -927,7 +987,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -953,7 +1012,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
@@ -961,7 +1019,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -972,7 +1029,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -987,7 +1043,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
@@ -1007,7 +1062,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -1024,10 +1078,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
@@ -1037,7 +1094,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
         }
 
-        //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
@@ -1075,7 +1131,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
-        //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1085,7 +1140,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        //
+        [AllowAnonymous]
+        public ActionResult LogOut()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("SchoolExpired", "Home");
+        }
+
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
@@ -1114,6 +1175,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -1170,7 +1232,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
-        #endregion
+
+        #endregion Helpers
 
         public ActionResult Details(string id)
         {
@@ -1193,7 +1256,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(user);
         }
 
-        //
         // POST: /Users/Delete/5
         [AllowAnonymous]
         [HttpPost, ActionName("Delete")]
@@ -1231,7 +1293,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", result.Errors.First());
-
             }
         }
 

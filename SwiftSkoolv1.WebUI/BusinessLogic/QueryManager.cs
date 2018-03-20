@@ -20,7 +20,6 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
             _db = new SwiftSkoolDbContext();
         }
 
-
         public async Task<List<Student>> StudentListAsync(string schoolId)
         {
             return await _db.Students.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId))
@@ -29,10 +28,27 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
             //    .Select(x => new Student { StudentId = x.StudentId, FullName = x.FullName }).ToList();
         }
 
+        public bool CheckIsExpired(string userSchool)
+        {
+            var mySchool = _db.Schools.Find(userSchool);
+            if (mySchool != null && mySchool.IsTrialAccount.Equals(true))
+            {
+                var isExpired = mySchool.SubscriptionEndDate < DateTime.Now;
+                // var isExpired = DbFunctions.TruncateTime(mySchool.SubscriptionEndDate) >= DbFunctions.TruncateTime(DateTime.Today);
+                return isExpired;
+            }
+            else if (mySchool != null && (mySchool.IsEnabled.Equals(false) || mySchool.IsDeleted.Equals(true)))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<List<Class>> ClassListAsync(string schoolId)
         {
             return await _db.Classes.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId)).ToListAsync();
         }
+
         public async Task<List<Staff>> StaffListAsync(string schoolId)
         {
             return await _db.Staffs.AsNoTracking().Where(x => x.SchoolId.Equals(schoolId)).ToListAsync();
@@ -55,8 +71,6 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                      .Select(x => new Session { SessionName = x.SessionName }).ToList();
         }
 
-
-
         public List<Term> TermList()
         {
             return _db.Terms.AsNoTracking().ToList()
@@ -70,11 +84,17 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                  .Select(s => s.SchoolId).FirstOrDefault();
         }
 
+        public string GetUserId()
+        {
+            return HttpContext.Current.User.Identity.GetUserId();
+        }
+
         public string CurrentTerm()
         {
             return _db.Terms.AsNoTracking().Where(x => x.ActiveTerm.Equals(true))
                 .Select(s => s.TermName).FirstOrDefault();
         }
+
         public string CurrentSession()
         {
             return _db.Sessions.AsNoTracking().Where(x => x.ActiveSession.Equals(true))
@@ -89,7 +109,6 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
                             && x.StudentId.Equals(studentId) && x.TermName.Equals(currentTerm) &&
                             x.SessionName.Equals(currentSession))
                             .Select(s => s.ClassName).FirstOrDefault();
-
         }
 
         public List<Subject> GetStudentSubject(string _studentId, string _schoolId, string _className, string _termName)
@@ -110,6 +129,7 @@ namespace SwiftSkoolv1.WebUI.BusinessLogic
             }
             return subjectregistration;
         }
+
         public int ConvertToNaira(int value)
         {
             return value / 100;

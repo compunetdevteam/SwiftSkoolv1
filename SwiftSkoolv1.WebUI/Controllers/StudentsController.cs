@@ -340,6 +340,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             if (id == null)
             {
+
                 id = User.Identity.GetUserId();
             }
             Student student = await Db.Students.FindAsync(id);

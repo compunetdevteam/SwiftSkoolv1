@@ -1,38 +1,30 @@
-﻿
-	@using (Html.BeginForm("SummaryResult", "Results", FormMethod.Get))
-    {
-	    @Html.AntiForgeryToken()
+﻿@using (Html.BeginForm("SummaryResult", "Results", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
 
-	    <div class="form-horizontal">
-				
-			   
-	        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
 
-	        <div class="form-group">
-	            @Html.Label("StudentId", htmlAttributes: new { @class = "control-label col-md-2" })
-	            <div class="col-md-10">
-	                @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
-	            </div>
-	        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-	        <div class="form-group">
-					@Html.Label("Term Name", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						@Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
-					</div>
-				</div>
+        <div class="form-group col-md-6">
+            @Html.Label("StudentId")
+            @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
+        </div>
 
-				<div class="form-group">
-					@Html.Label("Session Name", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						@Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
-					</div>
-				</div>
+        <div class="form-group col-md-6">
+            @Html.Label("Term Name")
+            @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+        </div>
 
-	        <div class="form-group">
-	            <div class="col-md-offset-2 col-md-10">
-	                <input type="submit" value="Search Result" class="btn btn-primary btn-raised" />
-	            </div>
-	        </div>
-	    </div>
-	}
+        <div class="form-group col-md-6">
+            @Html.Label("Session Name")
+            @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search Result" class="btn btn-primary btn-raised" />
+            </div>
+        </div>
+    </div>
+}

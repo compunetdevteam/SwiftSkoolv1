@@ -1,4 +1,4 @@
-﻿@model SwiftKampus.ViewModels.Fee_Management.SchoolFeePaymentVm
+﻿@model SwiftSkoolv1.WebUI.ViewModels.FeePaymentVm
 
 @{
     ViewBag.Title = "Make Payment";
@@ -15,7 +15,7 @@
 </div>
 
         <h2 class="text-danger text-center"> @ViewBag.Message</h2>
-        @using (Html.BeginForm("Create", "SchoolFeePayments", FormMethod.Get))
+        @using (Html.BeginForm("Create", "FeePayments", FormMethod.Get))
         {
             @Html.AntiForgeryToken()
 
@@ -35,18 +35,18 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("Select Semester", htmlAttributes: new {@class = "control-label col-md-2"})
+                    @Html.Label("Select Term", htmlAttributes: new {@class = "control-label col-md-2"})
                     <div class="col-md-6">
-                        @Html.DropDownList("SemesterId", null, htmlAttributes: new {@class = "form-control"})
-                        @Html.ValidationMessageFor(model => model.SemesterId, "", new {@class = "text-danger"})
+                        @Html.DropDownList("TermName", null, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.TermName, "", new {@class = "text-danger"})
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.Label("Select Session", htmlAttributes: new {@class = "control-label col-md-2"})
                     <div class="col-md-6">
-                        @Html.DropDownList("SessionId", null, htmlAttributes: new {@class = "form-control"})
-                        @Html.ValidationMessageFor(model => model.SessionId, "", new {@class = "text-danger"})
+                        @Html.DropDownList("SessionName", null, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.SessionName, "", new {@class = "text-danger"})
                     </div>
                 </div>
 

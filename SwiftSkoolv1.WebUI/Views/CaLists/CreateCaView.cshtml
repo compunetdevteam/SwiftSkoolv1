@@ -1,432 +1,407 @@
-﻿
-
-@model List<SwiftSkoolv1.WebUI.ViewModels.CaListVm>
+﻿@model List<SwiftSkoolv1.WebUI.ViewModels.CaListVm>
 @{
     ViewBag.Title = "Create Ca";
 }
-<br/>
+<br />
 
 <div class="card">
     <div class="card-block">
-       
-            <div class="form-header  purple darken-4">
-                <h3>
-                    <i class="fa fa-pencil-square-o"></i> Continuous Assessment
-                </h3>
-            </div>
-       
-    <form action="" method="post" class="form-inline">
-          
-        <div class="col-md-2">
-            <article class="margin-bottom-xxl">
-                <p class="lead">
-                    Please use the following search for the right Continuous Assessment
-                </p>
-            </article>
-        </div><!--end .col -->
 
-        <div class="col-md-10">
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-pencil-square-o"></i> Continuous Assessment
+            </h3>
+        </div>
 
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.DropDownList("SubjectId", (SelectList) ViewBag.SubjectCode, "", new {@class = "form-control"})
-                        <label>Subject Name</label>
+        <form action="" method="post" class="form-inline">
+
+            <div class="col-md-2">
+                <article class="margin-bottom-xxl">
+                    <p class="lead">
+                        Please use the following search for the right Continuous Assessment
+                    </p>
+                </article>
+            </div><!--end .col -->
+
+            <div class="col-md-10">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Subject Name</label>
+                            @Html.DropDownList("SubjectId", (SelectList)ViewBag.SubjectCode, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Class Name</label>
+                            @Html.DropDownList("ClassName", (SelectList)ViewBag.ClassName, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Term Name</label>
+                            @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>SessionName</label>
+                            @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.DropDownList("ClassName", (SelectList) ViewBag.ClassName, "", new {@class = "form-control"})
-                        <label>ClassName</label>
-                    </div>
-                </div>
-                <div class="col-md-3">
+                <br />
 
-                    <div class="form-group">
-                        @Html.DropDownList("TermName", (SelectList) ViewBag.TermName, "", new {@class = "form-control"})
-                        <label>Term Name</label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.DropDownList("SessionName", (SelectList) ViewBag.SessionName, "", new {@class = "form-control"})
-
-                        @*@Html.DropDownList("SessionName", new SelectList(ViewBag.SessionName), "-select- ", new { @class = "form-control" })*@
-                        <label>SessionName</label>
-                    </div>
-                </div>
-                   
                 <div class="form-group">
-                    <span><input type="submit" value="View CA" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:Index"/></span>&nbsp; &nbsp;
-                    <span><input type="submit" value="Edit CA" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:CreateCaView"/></span>
-                    &nbsp; &nbsp;<span><input type="submit" value="Download CA" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:DownloadCa"/></span>
+                    <span><input type="submit" value="View CA" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:Index" /></span>&nbsp; &nbsp;
+                    <span><input type="submit" value="Edit CA" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:CreateCaView" /></span>
+                    &nbsp; &nbsp;<span><input type="submit" value="Download CA" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:DownloadCa" /></span>
                 </div>
-                  
-            </div>
+            </div><!--end .col -->
+        </form>
+        <h4 class="text-danger">@ViewBag.Message</h4>
+        <br />
 
-        </div><!--end .col -->
-   
-    </form>
-    <h2 class="text-danger">@ViewBag.Message</h2>
-    <br />
-
-    @if (ViewBag.SetUpCount != 0)
-    {
-        if (Model.Select(s => s.CaSetUpCount).FirstOrDefault() > 1)
+        @if (ViewBag.SetUpCount != 0)
         {
-    
-            using (Html.BeginForm("CreateCa", "CaLists", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            if (Model.Select(s => s.CaSetUpCount).FirstOrDefault() > 1)
             {
-                @Html.AntiForgeryToken()
 
-                <table class=" table table-responsive table-condensed table-striped">
-                <tr>
-                    <th>
-                        <strong>Student Name</strong> 
-                    </th>
-                    @{
-                        var item = Model.Where(x => x.CaSetUpCount >= 1).Select(s => s.CaSetUp).FirstOrDefault();
-                    }
-
-                    @foreach (var caitem in item)
-                    {
-                        <th>
-                            <strong>@caitem.CaCaption (@caitem.MaximumScore)</strong>
-                        </th>
-                    }
-     
-
-
-                    <th></th>
-                </tr>
-                @*@foreach (var item in Model.StudentId)*@
-                @for (var i = 0; i < Model.Count; i++)
+                using (Html.BeginForm("CreateCa", "CaLists", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
-                    //{
-                    //    string bind = "num1" + i.ToString();
-                    //    string bind2 = "num2" + i.ToString();
-                    //    string bind3 = "num3" + i.ToString();
-                    //}
-                    @Html.HiddenFor(model => model[i].CaListId)
-                    @Html.HiddenFor(model => model[i].ClassName)
-                    @Html.HiddenFor(model => model[i].TermName)
-                    @Html.HiddenFor(model => model[i].SessionName)
-                    @Html.HiddenFor(model => model[i].SubjectId)
-                    @Html.HiddenFor(model => model[i].StudentId)
-                    @Html.HiddenFor(model => model[i].StudentName)
+                    @Html.AntiForgeryToken()
 
-                    @Html.TextBoxFor(model => model[i].ClassName, new {style = "display:none"})
-                    @Html.TextBoxFor(model => model[i].TermName, new { style = "display:none" })
-                    @Html.TextBoxFor(model => model[i].SessionName, new { style = "display:none" })
-                    @Html.TextBoxFor(model => model[i].CaSetUpCount, new { style = "display:none" })
-                    <tr>
-                    <td>
-                        @Html.DisplayFor(model => model[i].StudentName)
-                    </td>
-                    @if (ViewBag.SetUpCount == 1)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
-                    }
-                    else if (ViewBag.SetUpCount == 2)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
+                    <table class=" table table-responsive table-condensed table-striped">
+                        <tr>
+                            <th>
+                                <strong>Student Name</strong>
+                            </th>
+                            @{
+                                var item = Model.Where(x => x.CaSetUpCount >= 1).Select(s => s.CaSetUp).FirstOrDefault();
+                            }
 
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
+                            @foreach (var caitem in item)
+                            {
+                                <th>
+                                    <strong>@caitem.CaCaption (@caitem.MaximumScore)</strong>
+                                </th>
+                            }
 
-                    }
-                    else if (ViewBag.SetUpCount == 3)
-                    {
-                        <td>
-                            @Html.TextBoxFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                            @*@Html.EditorFor(model => model[i].FirstCa, new {ng_model = "num1"})*@
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                            @*@Html.EditorFor(model => model[i].SecondCa, new {ng_model = "num2"})*@
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                            @*@Html.EditorFor(model => model[i].ExamCa, new { ng_model = "num3" } )*@
-                        </td>
-           
-           
-                    }
-                    else if (ViewBag.SetUpCount == 4)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                            <th></th>
+                        </tr>
+                        @*@foreach (var item in Model.StudentId)*@
+                        @for (var i = 0; i < Model.Count; i++)
+                        {
+                            //{
+                            //    string bind = "num1" + i.ToString();
+                            //    string bind2 = "num2" + i.ToString();
+                            //    string bind3 = "num3" + i.ToString();
+                            //}
+                            @Html.HiddenFor(model => model[i].CaListId)
+                            @Html.HiddenFor(model => model[i].ClassName)
+                            @Html.HiddenFor(model => model[i].TermName)
+                            @Html.HiddenFor(model => model[i].SessionName)
+                            @Html.HiddenFor(model => model[i].SubjectId)
+                            @Html.HiddenFor(model => model[i].StudentId)
+                            @Html.HiddenFor(model => model[i].StudentName)
 
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model[i].ClassName, new { style = "display:none" })
+                            @Html.TextBoxFor(model => model[i].TermName, new { style = "display:none" })
+                            @Html.TextBoxFor(model => model[i].SessionName, new { style = "display:none" })
+                            @Html.TextBoxFor(model => model[i].CaSetUpCount, new { style = "display:none" })
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => model[i].StudentName)
+                                </td>
+                                @if (ViewBag.SetUpCount == 1)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
+                                }
+                                else if (ViewBag.SetUpCount == 2)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
 
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
 
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                }
+                                else if (ViewBag.SetUpCount == 3)
+                                {
+                                    <td>
+                                        @Html.TextBoxFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                        @*@Html.EditorFor(model => model[i].FirstCa, new {ng_model = "num1"})*@
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                        @*@Html.EditorFor(model => model[i].SecondCa, new {ng_model = "num2"})*@
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                        @*@Html.EditorFor(model => model[i].ExamCa, new { ng_model = "num3" } )*@
+                                    </td>
 
+                                }
+                                else if (ViewBag.SetUpCount == 4)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
 
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
+                                }
+                                else if (ViewBag.SetUpCount == 5)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
+                                    </td>
 
+                                    <td>
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                        </div>
+                                    </td>
 
-                    }
-                    else if (ViewBag.SetUpCount == 5)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
-                        </td>
-           
-                        <td>
-                            <div class="form-group">
-                                @Html.EditorFor(model => model[i].ExamCa, new {htmlAttributes = new {@class = "form-control"}})
-                                @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                            </div>
-                        </td>
-               
-                    }
-                    else if (ViewBag.SetUpCount == 6)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
-                        </td>
+                                }
+                                else if (ViewBag.SetUpCount == 6)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
+                                    </td>
 
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
-                    }
-                    else if (ViewBag.SetUpCount == 7)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
-                        </td>
-     
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
-                    }
-                    else if (ViewBag.SetUpCount == 8)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SeventhCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SeventhCa, "", new { @class = "text-danger" })
-                        </td>
-      
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
-                    }
-                    else if (ViewBag.SetUpCount == 9)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SeventhCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SeventhCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].EightCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].EightCa, "", new { @class = "text-danger" })
-                        </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
+                                }
+                                else if (ViewBag.SetUpCount == 7)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
+                                    </td>
 
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
-                    }
-                    else if (ViewBag.SetUpCount == 10)
-                    {
-                        <td>
-                            @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].SeventhCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].SeventhCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].EightCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].EightCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].NinthtCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].NinthtCa, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
-                        </td>
-                    }
-        @*<td>
-            {{bind1 + bind2 + bind3}}
-        </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
+                                }
+                                else if (ViewBag.SetUpCount == 8)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SeventhCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SeventhCa, "", new { @class = "text-danger" })
+                                    </td>
 
-        <td>
-            @Html.EditorFor(model => model[i].Remark)
-        </td>*@
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
+                                }
+                                else if (ViewBag.SetUpCount == 9)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SeventhCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SeventhCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].EightCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].EightCa, "", new { @class = "text-danger" })
+                                    </td>
 
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
+                                }
+                                else if (ViewBag.SetUpCount == 10)
+                                {
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FirstCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FirstCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SecondCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SecondCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ThirdCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ThirdCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ForthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ForthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].FifthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].FifthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SixthCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SixthCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].SeventhCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].SeventhCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].EightCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].EightCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].NinthtCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].NinthtCa, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].ExamCa, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model[i].ExamCa, "", new { @class = "text-danger" })
+                                    </td>
+                                }
+                                @*<td>
+                                        {{bind1 + bind2 + bind3}}
+                                    </td>
 
-        </tr>
+                                    <td>
+                                        @Html.EditorFor(model => model[i].Remark)
+                                    </td>*@
+                            </tr>
 
-                }
+                        }
+                    </table>
 
-                </table>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default"/>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
                     </div>
-                </div>
+                }
             }
         }
-    }
-
-
     </div>
 </div>
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-
-

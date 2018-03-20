@@ -16,6 +16,9 @@
         public string FilledAnswer { get; set; }
         public int QuestionNo { get; set; }
         public int TotalQuestion { get; set; }
+        public string ExamType { get; set; }
+        public string ExamYear { get; set; }
+        public string NextQuestion { get; set; }
 
         public bool IsFillInTheGag { get; set; }
         public bool IsMultiChoiceAnswer { get; set; }

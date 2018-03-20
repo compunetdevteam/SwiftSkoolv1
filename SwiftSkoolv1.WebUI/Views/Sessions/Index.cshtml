@@ -6,7 +6,7 @@
     <thead>
         <tr>
             <th>Session Name</th>
-            @*<th>Active Session</th>*@
+            <th>Active Session</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -53,13 +53,13 @@
             },
             "columns": [
                 { "data": "SessionName", "autoWidth": true },
-                //{ "data": "ActiveSession", "autoWidth": true },
+                { "data": "ActiveSession", "autoWidth": true },
                 { // fifth column (Edit link)
                     "data": "SessionId",
                     "autoWidth": true,
                     "render": function (data) {
                         return '<a href="#" title="Edit Session" onclick="Edit(' + data + ')" ><i class="fa fa-pencil" aria-hidden="true" >Edit</i></a>&nbsp;&nbsp;&nbsp;&nbsp;' +
-                            '<a class="text-danger" title="Delete Session" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >Remove<i/></a>';
+                            '<a class="text-danger" title="Delete Session" href="#" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >Remove<i /></a>';
                     }
                 }
             ]

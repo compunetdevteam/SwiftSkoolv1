@@ -20,12 +20,11 @@
         </div>
         <div class="row">
             <div class="col-md-2">
-
             </div>
             <div class="col-md-7">
 
                 <form id="myform" onsubmit="return false;">
-            
+
                     @Html.AntiForgeryToken()
                     <br />
                     <br />
@@ -50,8 +49,6 @@
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </div>
 
-
-
                     <div class="form-group">
                         @Html.Label("School Name")
                         @Html.DropDownList("SchoolId", null, htmlAttributes: new { @class = "form-control" })
@@ -62,7 +59,6 @@
                         @Html.LabelFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.ConfirmPassword)
@@ -74,21 +70,13 @@
                             <input id="btnsubmit" type="submit" value="Register Admin" class="btn btn-lg btn-info" />
                         </div>
                     </div>
-
-
-
                 </form>
-
             </div>
             <div class="col-md-3">
-
             </div>
-
         </div>
     </div>
 </div>
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -106,11 +94,11 @@
                     if (data.status) {
                         toastr["success"](data.message);
                         $('#myform')[0].reset();
-                      
+
                         getConfirmation();
                     } else {
                         //$('#actionsList').modal("hide");
-                        toastr["error"]("Subject code and Name are required field");
+                        toastr["error"](data.message);
                     }
 
                 }
@@ -129,4 +117,3 @@
         }
     </script>
 }
-

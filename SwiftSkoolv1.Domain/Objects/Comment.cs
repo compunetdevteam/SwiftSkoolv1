@@ -2,7 +2,7 @@
 
 namespace SwiftSkoolv1.Domain.Objects
 {
-    public class Comment
+    public class Comment : GeneralSchool
     {
         public int ID { get; set; }
         public int PostID { get; set; }

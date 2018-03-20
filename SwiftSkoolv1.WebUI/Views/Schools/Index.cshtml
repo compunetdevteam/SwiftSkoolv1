@@ -18,7 +18,7 @@
     <div class="row">
         <!-- First column -->
         <div class="col-md-8">
-       
+
             <div class="row">
                 <div class="col-md-12 mb-1">
                     <!-- Tabs -->
@@ -33,12 +33,14 @@
                             <div class="table-responsive">
                                 <table id="Jdatatable" class="table table-responsive">
                                     <thead>
-                                    <tr>
-                                        <th>School Name</th>
-                                        <th>Address</th>
-                                        <th>School Type</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                        <tr>
+                                            <th>School Name</th>
+                                            <th>Address</th>
+                                            <th>School Type</th>
+                                            <th>Is Enabled</th>
+
+                                            <th>Actions</th>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -53,9 +55,8 @@
         <!-- Second column -->
         <div class="col-md-4 mb-1">
             <div class="card contact-card with-padding">
-                <br/>
+                <br />
                 <div class="card-body" id="mydetailBody">
-
                 </div>
             </div>
         </div>
@@ -79,7 +80,6 @@
             </div>
             <!--Body-->
             <div class="modal-body" id="myModalDivBody">
-
             </div>
         </div>
         <!--/.Content-->
@@ -90,7 +90,6 @@
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        
 
         // var gender = "@ViewBag.Gender";
         window.oTable = $("#Jdatatable").DataTable({
@@ -107,8 +106,10 @@
             },
             "columns": [
                 { "data": "Name", "autoWidth": true },
-                { "data": "Alias", "autoWidth": true },
                 { "data": "Address", "autoWidth": true },
+                { "data": "OwernshipType", "autoWidth": true },
+                { "data": "IsEnabled", "autoWidth": true },
+
                 {
                     "data": "SchoolId",
                     "autoWidth": true,
@@ -117,11 +118,10 @@
                             '<a href="#" title="Edit School Details" onclick="Edit(\'' + data + '\')"><i class="fa fa-pencil" aria-hidden="true">Edit</i></a>';
                     }
                 }
-             
+
             ]
         });
 
-       
     });
     $(window).scroll(function(){
         $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
@@ -131,14 +131,14 @@
         var url = "/Schools/Edit?id=" + schoolId;
         window.open(''+url+'', '_self');
     };
-       
+
     function Detail(schoolId) {
         //window.alert(subjecId);
         var url = "/Schools/PartialDetails?id=" + schoolId;
         $('#mydetailBody').load(url);
-               
+
     };
-   
+
     function AddNew() {
         window.open('@Url.Action("Create", "Schools")', '_self');
     };

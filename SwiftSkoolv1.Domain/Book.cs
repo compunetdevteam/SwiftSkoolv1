@@ -1,17 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace SwiftSkoolv1.Domain
 {
     public class Book : GeneralSchool
     {
         public int BookId { get; set; }
-
-        public int BookCategoryId { get; set; }
-
-        [Key]
-        [Display(Name = "Accession Number")]
-        [Required(ErrorMessage = "Accession No is required")]
-        public string AccessionNo { get; set; }
 
         [Display(Name = "Book Title")]
         [Required(ErrorMessage = "Title is required")]
@@ -21,34 +15,49 @@ namespace SwiftSkoolv1.Domain
         [Required(ErrorMessage = "Author is required")]
         public string Author { get; set; }
 
-        [Display(Name = "Joint Author")]
-        public string JointAuthor { get; set; }
+        [Display(Name = "Book Subject")]
+        [Required(ErrorMessage = "Book Subject is required")]
+        public string SubjectName { get; set; }
+
+        [Display(Name = "Class Name")]
+        public string ClassName { get; set; }
+
+        [Display(Name = "Book Edition")]
+        public string Edition { get; set; }
+
+        public string BookLocation { get; set; }
+
+
+    }
+
+    public class BookVm : GeneralSchool
+    {
+        public int BookId { get; set; }
+
+        [Display(Name = "Book Title")]
+        [Required(ErrorMessage = "Title is required")]
+        public string Title { get; set; }
+
+        [Display(Name = "Book Author")]
+        [Required(ErrorMessage = "Author is required")]
+        public string Author { get; set; }
 
         [Display(Name = "Book Subject")]
         [Required(ErrorMessage = "Book Subject is required")]
-        [StringLength(30)]
-        public string Subject { get; set; }
+        public string SubjectName { get; set; }
 
-        [Display(Name = "Book's ISBN")]
-        [StringLength(35)]
-        [Required(ErrorMessage = "ISBN is required")]
-        public string ISBN { get; set; }
+        [Display(Name = "Class Name")]
+        public string[] ClassName { get; set; }
 
         [Display(Name = "Book Edition")]
-        [Required(ErrorMessage = "Edition is required")]
         public string Edition { get; set; }
 
-        [Display(Name = "Book Publisher")]
-        [Required(ErrorMessage = "Publisher is required")]
-        [StringLength(35)]
-        public string Publisher { get; set; }
+        public string BookLocation { get; set; }
 
-        [Display(Name = "Place of Publish")]
-        [StringLength(35)]
-        public string PlaceOfPublish { get; set; }
+        [Display(Name = "Upload Book")]
+        public HttpPostedFileBase File { get; set; }
 
-        public BookIssue BookIssue { get; set; }
-        public BookCategory BookCategory { get; set; }
+
 
     }
 }

@@ -1,10 +1,15 @@
 ﻿@model SwiftSkoolv1.Domain.Objects.Post
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Add News/Article";
 }
+<div class="card">
+<div class="card-block">
+       
+<div class="form-header  purple darken-4">
+    <h3>Add News/Article</h3>
+</div>
 
-<h2>Create News/Post</h2>
 
 <form action="@Href("~/Posts/CreatePost")" method="post" id="postForm">
     @if (Model.ID != -1)
@@ -13,21 +18,22 @@
     }
     <div class="row">
         <div class="col-md-3">
-            @*@{ DateTime dateTime = Model.DateTime.Year > 2015 ? Model.DateTime : DateTime.Now;}*@
-            <label>Date</label>
-            <input type="date" name="dateTime" value="@Model.DateTime" class="form-control" placeholder="The headline goes here..." /> <br />
-            <label>Title</label>
-            <input type="text" name="title" value="@Model.Title" class="form-control" placeholder="The Title goes here..." />  <br />
+            <label>Title <input type="text" name="title" value="@Model.Title" class="form-control" placeholder="The Title goes here..." /> </label>
+             <br />
             <label>Tags</label>
             <input type="text" name="tag" value="@ViewBag.Tags" class="form-control" placeholder="The Tags goes here..." /> <br />
+            <label>Date</label>
+            <input type="date" name="dateTime" value="@Model.DateTime" class="form-control" placeholder="The headline goes here..." /> <br />
+            <label>Is Published</label> <span> <input type="checkbox" id="IsPublished" name="IsPublished" value="@Model.IsPublished" />
+            </span>
         </div>
     </div>
 
     <label>Body</label>
-    <textarea name="body" id="ckeditor" class="form-control control-12-rows" placeholder="Enter text ...">@Model.Body</textarea>
-    @*<script>
-            CKEDITOR.replace('editor1');
-        </script>*@
+    <textarea name="body" class="summernote control-12-rows" placeholder="Enter text ...">@Model.Body</textarea>
+
     <br />
-    <input type="submit" name="submit" value="Submit" style="width: auto; font-weight: 600;" />
+    <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-lg" style="width: auto; font-weight: 600;" />
 </form>
+</div>
+</div>

@@ -19,6 +19,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ActionResult GetIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -37,7 +38,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var v = Db.Subjects.Where(x => x.SchoolId == userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
 
-
             if (!string.IsNullOrEmpty(search))
             {
                 v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) && (x.SubjectName.Equals(search) || x.SubjectCode.Equals(search)))
@@ -47,7 +47,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
 
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
@@ -73,17 +74,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: Subjects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Subjects/Create To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Subject subject)
         {
-
             if (ModelState.IsValid)
             {
-
                 string message = string.Empty;
                 var mysubject = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) &&
                                                     x.SubjectCode.ToUpper().Trim().Equals(subject.SubjectCode.ToUpper().Trim()));
@@ -124,9 +122,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(subject);
         }
 
-        // POST: Subjects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Subjects/Edit/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Subject subject)
@@ -152,9 +149,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return PartialView(subject);
         }
 
-        // POST: Subjects/Save/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Subjects/Save/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Save(Subject subject)
@@ -172,11 +168,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
                 else
                 {
+                    var mysubject = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool) &&
+                                    x.SubjectCode.ToUpper().Trim().Equals(subject.SubjectCode.ToUpper().Trim()));
+
+                    if (mysubject.Any())
+                    {
+                        message = $"Sorry, Subject with code {subject.SubjectCode} already exist";
+                        return new JsonResult { Data = new { status = false, message = message } };
+                    }
+
                     subject.SubjectName = subject.SubjectName.ToUpper();
                     subject.SchoolId = userSchool;
                     Db.Subjects.Add(subject);
                     message = "Subject Created Successfully...";
-
                 }
                 await Db.SaveChangesAsync();
                 status = true;

@@ -12,5 +12,8 @@ namespace SwiftSkoolv1.WebUI.ViewModels.JambExam
         [Required]
         public int TotalQuestion { get; set; }
 
+        [Required]
+        public string ExamType { get; set; }
+
     }
 }

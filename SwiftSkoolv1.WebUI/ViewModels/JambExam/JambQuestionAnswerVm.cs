@@ -12,6 +12,7 @@ namespace SwiftSkoolv1.WebUI.ViewModels.JambExam
         public int JambSubjectId { get; set; }
 
         public string ExamYear { get; set; }
+        public string ExamType { get; set; }
 
         [Display(Name = "Question")]
         [Required(ErrorMessage = "Question is required")]

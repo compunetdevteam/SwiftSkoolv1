@@ -2,160 +2,133 @@
 @model SwiftSkoolv1.WebUI.ViewModels.StudentDashboardVm
 @{
     ViewBag.Title = "Dashboard";
-}
-
-
-
-<h2>Dashboard</h2>
-
-@{
     var barModel = new List<DataPoint>();
 }
 
 
 
-
 <!-- First row -->
-<div class="row mb-r">
+<div class="row">
     <!-- First column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
+    <div class="col-md-3">
+        <section class="widget widget-simple-sm">
+            <div class="widget-simple-sm-icon">
+                <i class="font-icon font-icon-wp color-black-blue">Teacher</i>
+            </div>
+            <div class="widget-simple-sm-bottom">
+                <a href="#">15 Themes</a>
+            </div>
+        </section>
+            @*<div class="admin-up">
                 <i class="fa fa-money blue"></i>
                 <div class="data">
                     <p>Form Teacher</p>
-                
                 </div>
             </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
-                
+           
                 @if (Model.FormTeacher == null)
                 {
                     <span class="text-xl">No Form Teacher Yet</span>
                     <br/>
-                    @*<span class="opacity-50">Form Teacher</span>*@
+                    @*<span class="opacity-50">Form Teacher</span>
                 }
                 else
                 {
                     <strong class="text-xl">@Model.FormTeacher</strong><br />
                     <span class="opacity-50 text-sm">Form Teacher</span>
-                }
-            </div>
-            <!--/.Card content-->
-
-        </div>
-        <!--/.Card-->
+                }*@
     </div>
 
     <!-- Second column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
-                <i class="fa fa-line-chart blue"></i>
-                <div class="data">
-                    <p>Session/Term</p>
-                    <h3>@Model.Session</h3>
-                    <hr/>
-                    <h3>@Model.Term</h3>
-                </div>
+    <div class="col-md-3">
+       
+        @*<div class="admin-up">
+            <i class="fa fa-line-chart blue"></i>
+            <div class="data">
+                <p>Session/Term</p>
+                <h3>@Model.Session</h3>
+                <hr/>
+                <h3>@Model.Term</h3>
             </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
-               
-                <!--Text-->
-                <p class="card-text">Session and Term</p>
-            </div>
-            <!--/.Card content-->
-
         </div>
-        <!--/.Card-->
+        <p class="card-text">Session and Term</p>*@
+        <section class="widget widget-simple-sm">
+            <div class="widget-simple-sm-icon">
+                <i class="font-icon font-icon-calend color-blue">Session</i>
+            </div>
+            <div class="widget-simple-sm-bottom">
+                <a href="#">Session Name</a>
+            </div>
+        </section> 
     </div>
 
     <!-- Third column -->
-    <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
+    <div class="col-md-3">
+       
 
-            <!--Card Data-->
-            <div class="admin-up">
+            
+        @*<div class="admin-up">
                 <i class="fa fa-pie-chart blue"></i>
                 <div class="data">
                     <p>Female</p>
                     <h3>@Model.FemaleStudents</h3>
                 </div>
             </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
+          
                
-                <!--Text-->
-                <p class="card-text">Female Student</p>
+               
+                <p class="card-text">Female Student</p>*@
+        <section class="widget widget-simple-sm">
+            <div class="widget-simple-sm-icon">
+                <i class="font-icon font-icon-user color-green">Female</i>
             </div>
-            <!--/.Card content-->
-
-        </div>
-        <!--/.Card-->
+            <div class="widget-simple-sm-bottom">
+                <a href="#">@Model.FemaleStudents</a>
+            </div>
+        </section>
+           
     </div>
 
     <!-- Fourth column -->
     <div class="col-md-3 mb-1">
-        <!--Card-->
-        <div class="card card-cascade cascading-admin-card">
-
-            <!--Card Data-->
-            <div class="admin-up">
+      
+        @*<div class="admin-up">
                 <i class="fa fa-bar-chart blue"></i>
                 <div class="data">
                     <p>Male</p>
                     <h3>@Model.MaleStudents</h3>
                 </div>
             </div>
-            <!--/.Card Data-->
-
-            <!--Card content-->
-            <div class="card-block">
-               
-                <!--Text-->
-                <p class="card-text">Male Students</p>
+           
+                <p class="card-text">Male Students</p>*@
+        <section class="widget widget-simple-sm">
+            <div class="widget-simple-sm-icon">
+                <i class="font-icon font-icon-user color-green">Male</i>
             </div>
-            <!--/.Card content-->
-
-        </div>
-        <!--/.Card-->
-    </div>
+            <div class="widget-simple-sm-bottom">
+                <a href="#">@Model.MaleStudents</a>
+            </div>
+        </section>
+           
 </div>
 <!-- /.First row -->
 
+</div>
 
-<!--Section: Notifications-->
-<section class="section section-intro">
 
     <!--Second row-->
-    <div class="row mb-3">
+    <div class="row">
 
         <!--First column-->
-        <div class="col-md-4 mb-1">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-block">
 
-            <!--Card-->
-            <div class="card card-cascade narrower">
-                <div class="admin-panel info-admin-panel">
-                    <!--Card image-->
-                    <div class="view">
-                        <h5>Latest News Post</h5>
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            Latest News
+                        </h3>
                     </div>
-                    <!--/Card image-->
 
                     <!--Card content-->
                     <div class="card-block">
@@ -174,16 +147,17 @@
         <!--/First column-->
 
         <!--Second column-->
-        <div class="col-md-4 mb-1">
+        <div class="col-md-4">
 
-            <!--Card-->
-            <div class="card card-cascade narrower">
-                <div class="admin-panel danger-admin-panel">
-                    <!--Card image-->
-                    <div class="view">
-                        <h5>Subjects</h5>
+           
+            <div class="card">
+                <div class="card-block">
+
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            My Subjects
+                        </h3>
                     </div>
-                    <!--/Card image-->
 
                     <!--Card content-->
                     <div class="card-block">
@@ -200,9 +174,7 @@
                                     <ul>
                                         <li>@subjects</li>
                                     </ul>
-                                   
                                }
-                                
 
                             }
                            
@@ -218,16 +190,16 @@
         <!--/Second column-->
 
         <!--Third column-->
-        <div class="col-md-4 mb-1">
+        <div class="col-md-4">
 
-            <!--Card-->
-            <div class="card card-cascade narrower">
-                <div class="admin-panel success-admin-panel">
-                    <!--Card image-->
-                    <div class="view">
-                        <h5> Fee Analysis</h5>
+            <div class="card">
+                <div class="card-block">
+
+                    <div class="form-header purple darken-4">
+                        <h3>
+                            Fee Analysis
+                        </h3>
                     </div>
-                    <!--/Card image-->
 
                     <!--Card content-->
                     <div class="card-block">
@@ -247,13 +219,8 @@
     </div>
     <!--/Second row-->
 
-</section>
-<!--/Section: Notifications-->
 
-
-
-<!--Panel-->
-<div class="row">
+@*<div class="row">
 <div class="col-md-9">
     <div class="card mb-r">
         <div class="card-header white-text">
@@ -357,7 +324,7 @@
                 @*<div class="col-2">
                     <small>Book Reading</small>
                     <h6>2-4</h6>
-                </div>*@
+                </div>
             </div>
             <div class="row mb-1">
                 <div class="col-2">
@@ -390,465 +357,8 @@
         </div>
     </div>
 </div>
-    </div> 
-<!--/.Panel-->
+    </div>*@ 
 
-
-<!--Third row-->
-@*<div class="row">
-
-    <div class="col-md-12">
-        <!--Card-->
-        <div class="card card-cascade narrower">
-
-            <!--Admin panel-->
-            <div class="admin-panel indigo-admin-panel">
-
-                <!--Second row-->
-                <div class="row m-b-0">
-                    <!--First column-->
-                    <div class="col-md-12">
-
-                        <!--Panel content-->
-                        <div class="card-block">
-                            <div class="table-responsive">
-                                <!--Table-->
-                                <table class="table table-hover mb-0">
-                                    <!--Table head-->
-                                    <thead>
-                                    <tr>
-                                        <th>Days</th>
-                                        <th>8:45 - 10 am</th>
-                                        <th>10-10:30am</th>
-                                        <th>10:30 - 12</th>
-                                        <th>12 - 12:30 </th>
-                                        <th>12:30 - 2pm</th>
-                                        <th>2 - 3:30pm</th>
-                                       
-                                    </tr>
-                                    </thead>
-                                    <!--/Table head-->
-
-                                    <!--Table body-->
-                                    <tbody>
-                                    <tr class="none-top-border">
-                                        <td class="font-weight-bold">Monday</td>
-                                        <td>Maths</td>
-                                        <td>Break</td>
-                                        <td>English</td>
-                                        <td>Break</td>
-                                        <td>Computer</td>
-                                        <td>2 Arts</td>
-                                      
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Tuesday</td>
-                                        <td>English</td>
-                                        <td>Break</td>
-                                        <td>Maths</td>
-                                        <td>Break</td>
-                                        <td>Arts</td>
-                                        <td>Computer</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Wednesday</td>
-                                        <td>Computer</td>
-                                        <td>Break</td>
-                                        <td>English</td>
-                                        <td>Break</td>
-                                        <td>Maths</td>
-                                        <td>2 Arts</td>
-                                      
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Thursday</td>
-                                        <td>Arts</td>
-                                        <td>Break</td>
-                                        <td>Maths</td>
-                                        <td>Break</td>
-                                        <td>Computer</td>
-                                        <td>English</td>
-                                      
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Friday</td>
-                                        <td>Maths</td>
-                                        <td>Break</td>
-                                        <td>English</td>
-                                        <td>Break</td>
-                                        <td>Computer</td>
-                                        <td>2 Arts</td>
-                                    </tr>
-                                    </tbody>
-                                    <!--/Table body-->
-                                </table>
-                                <!--/Table-->
-                            </div>
-                        </div>
-                        <!--/.Panel content-->
-
-                    </div>
-                    <!--/First column-->
-                </div>
-                <!--/Second row-->
-
-            </div>
-            <!--/Admin panel-->
-
-        </div>
-        <!--/.Card-->
-    </div>
-
-</div>*@
-<!--/Third row-->
-
-
-
-
-
-
-
-
-@*<div class="section-body">
-
-    <div class="row">
-
-        <!-- BEGIN ALERT - REVENUE -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-info no-margin">
-                        @if (Model.FormTeacher == null)
-                        {
-                            <span class="text-xl">No Form Teacher Yet</span>
-                            <br/>
-                            <span class="opacity-50">Form Teacher</span>
-                        }
-                        else
-                        {
-                            <strong class="text-xl">@Model.FormTeacher</strong><br />
-                            <span class="opacity-50">Form Teacher</span>
-                        }
-                        
-                        @*<div class="stick-bottom-left-right">
-                            <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - REVENUE -->
-        <!-- BEGIN ALERT - VISITS -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-warning no-margin">
-
-                        <strong class="text-sm">@Model.Session</strong><br/>
-                        <span class="opacity-50">Current Session</span>
-                        <hr/>
-                        <strong class="text-sm">@Model.Term</strong><br />
-                        <span class="opacity-50">Current Term</span>
-                        <div class="stick-bottom-right">
-                            <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - VISITS -->
-        <!-- BEGIN ALERT - BOUNCE RATES -->
-        <div class="col-md-3 col-sm-6">
-            <div class="card">
-                <div class="card-body no-padding">
-                    <div class="alert alert-callout alert-danger no-margin">
-
-                        <strong class="text-xl">@Model.Term</strong><br />
-                        <span class="opacity-50">Current Term</span>
-                        <div class="stick-bottom-left-right">
-                            <div class="progress progress-hairline no-margin">
-                                <div class="progress-bar progress-bar-danger" style="width:43%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END ALERT - BOUNCE RATES -->
-        <!-- BEGIN ALERT - TIME ON SITE -->
-       
-
-
-    <div class="row">
-
-
-    </div><!--end .row -->
-
-    <div>
-     
-        </ div>
-       
-           
-            <!-- BEGIN ALERT - VISITS -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body no-padding">
-                        <div class="alert alert-callout alert-warning no-margin">
-                            <strong class="pull-right text-warning text-lg">@ViewBag.GraduatedStudent % <i class="md md-swap-vert"></i></strong>
-                            <strong class="text-xl">@ViewBag.GraduatedStudent</strong><br />
-                            <span class="opacity-50">GraduatedStudent</span>
-                            <i class="fa fa-female fa-2x pull-right"></i>
-                            <div class="stick-bottom-right">
-                                <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
-                            </div>
-                        </div>
-                    </div><!--end .card-body -->
-                </div><!--end .card -->
-            </div><!--end .col -->
-            <!-- END ALERT - VISITS -->
-            
-        <!-- END ALERT - BOUNCE RATES -->
-        <!-- BEGIN ALERT - TIME ON SITE -->
-       
-
-    </div><!--end .row -->
-   
-
-
-
-    <!-- BEGIN TODOS
-    <div class="col-md-3">
-        <div class="card ">
-            <div class="card-head">
-                <header>News Titles</header>
-                <div class="tools">
-                    <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
-                </div>
-            </div>
-            @Html.Action("Menu", "Posts")
-
-        </div>
-    </div><!--end .col -->
-<!-- END TODOS --><!-- BEGIN REGISTRATION HISTORY -->
-<div class="col-md-3">
-    <div class="card">
-        <div class="card-head">
-            <header>Latest News Post</header>
-            <div class="tools">
-                <a class="btn btn-icon-toggle btn-refresh"><i class="md md-refresh"></i></a>
-                <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
-                <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
-            </div>
-        </div><!--end .card-head -->
-        <div class="card-body no-padding ">
-            @Html.Action("Menu", "Posts")
-        </div>
-        </div><!--end .card -->
-</div><!--end .col -->
-<!-- END REGISTRATION HISTORY -->
-        
-        
-        
-        
-
-<!-- BEGIN ALERT - REVENUE -->
-    <div class="col-md-3 col-sm-6">
-        <div class="card">
-            <div class="card-body no-padding">
-                <div class="alert alert-callout alert-info no-margin">
-                    <strong class="pull-right text-success text-lg"> <i class="md md-trending-up"></i></strong>
-                    <strong class="text-xl">
-
-
-                         logic to check if student has been assigned a class 
-
-                        @if(ViewBag.Class == null) { @ViewBag.NotAssinged}
-                            else{ @ViewBag.Class}
-
-                    </strong><br />
-                    <span class="opacity-50">School Fees</span>
-                    <div class="stick-bottom-left-right">
-                        <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                    </div>
-                </div>
-            </div><!--end .card-body -->
-
-        </div><!--end .card -->
-    </div><!--end .col -->
-    <!-- END ALERT - REVENUE -->
-    <!-- BEGIN REGISTRATION HISTORY -->
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-head">
-                <header>Subject</header>
-
-            </div><!--end .card-head -->
-            <div class="card-body no-padding">
-                <div class="row">
-
-                    <div class="col-md-9 hidden-xs">
-                        <div class="force-padding text-sm text-default-light">
-                            <ul>
-                                
-                                
-                                @foreach (var subjects in Model.Subjects)
-                                {
-                                    if (subjects == null)
-                                    {
-                                        <p>No Subjects Yet</p>
-                                    }
-                                    else
-                                    {
-                                        <li>@subjects</li>
-
-                                    }
-                                   
-
-                                }
-
-                            </ul>
-                        </div>
-                    </div>
-
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END REGISTRATION HISTORY -->
-
-
-</div><!--end .row -->
-        
-        
- school fee analysis
-<div class="row">
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body no-padding">
-                <div class="alert alert-callout alert-info no-margin">
-                    <strong class="pull-right text-success text-lg"> <i class="md md-trending-up"></i></strong>
-                    <strong class="text-xl">
-
-
-                      logic to check if student has been assigned a class 
-
-                       @if(ViewBag.Class == null) { @ViewBag.NotAssinged}
-                            else{ @ViewBag.Class}
-
-                    </strong><br />
-                    <span class="opacity-50">School Fee Analysis</span>
-                    <div class="stick-bottom-left-right">
-                        <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-                    </div>
-                </div>
-            </div><!--end .card-body -->
-
-        </div><!--end .card -->
-    </div>
-    <div class="col-md-3">
-        
-    </div>
-    <div class="col-md-6">
-        
-    </div>
-
- </div>
-        
-@* end of school fee analysis
-        
-
-<!-- BEGIN CALENDAR -->
-        <div class="col-sm-4">
-            <div class="card">
-                <div>
-                    <a href="#" id="btnInit" class="btn btn-secondary">Initialise database!</a>
-                </div>
-                <div class="card-head style-primary">
-                    <header>
-                        <span class="selected-day">&nbsp;</span> &nbsp;<small class="selected-date">&nbsp;</small>
-                    </header>
-                    <div class="tools">
-                        <div class="btn-group">
-                            <a id="calender-prev" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-angle-left"></i></a>
-                            <a id="calender-next" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-angle-right"></i></a>
-                        </div>
-                        <div class="btn-group pull-right">
-                        </div>
-                    </div>
-                    <ul class="nav nav-tabs tabs-text-contrast tabs-accent" data-toggle="tabs">
-                        <li data-mode="month" class="active"><a href="#">Month</a></li>
-                        <li data-mode="agendaWeek"><a href="#">Week</a></li>
-                        <li data-mode="agendaDay"><a href="#">Day</a></li>
-                    </ul>
-                </div><!--end .card-head -->
-                <div class="card-body no-padding">
-                    <div id="calendar"></div>
-                </div><!--end .card-body -->
-            </div><!--end .card -->
-        </div><!--end .col -->
-        <!-- END CALENDAR -->
-        
-<div class="row">
-    <div class="col-md-6">
-    
-        @{
-            //var listofSchool = Model.Count(x => x.SchoolName.Equals(""));
-            var newModel = new DataPoint(Model.FemaleStudents,Model.MaleStudents);
-
-            barModel.Add(newModel);
-        }
-    </div>
-</div>
-        
-
-  
-  
-
-
-<div class="row">
-
-        <!-- BEGIN SITE ACTIVITY -->
-        <div class="col-md-9">
-            <div class="card ">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="card-head">
-                            <header>Site activity</header>
-                        </div><!--end .card-head -->
-                        <div class="card-body height-8">
-                            <div id="flot-visitors-legend" class="flot-legend-horizontal stick-top-right no-y-padding"></div>
-                            <div id="flot-visitors" class="flot height-7" data-title="Activity entry" data-color="#7dd8d2,#0aa89e"></div>
-                        </div><!--end .card-body -->
-                    </div><!--end .card-body -->
-                    <!-- BEGIN SERVER STATUS -->
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-head">
-                                <header class="text-primary">Server status</header>
-                            </div><!--end .card-head -->
-                            <div class="card-body height-4">
-                                <div class="pull-right text-center">
-                                    <em class="text-primary">Temperature</em>
-                                    <br/>
-                                    <div id="serverStatusKnob" class="knob knob-shadow knob-primary knob-body-track size-2">
-                                        <input type="text" class="dial" data-min="0" data-max="100" data-thickness=".09" value="30" data-readOnly=true>
-                                    </div>
-                                </div>
-                            </div><!--end .card-body -->
-                            <div class="card-body height-4 no-padding">
-                                <div class="stick-bottom-left-right">
-                                    <div id="rickshawGraph" class="height-4" data-color1="#0aa89e" data-color2="rgba(79, 89, 89, 0.2)"></div>
-                                </div>
-                            </div><!--end .card-body -->
-                        </div><!--end .card -->
-                    </div><!--end .col -->
-                    <!-- END SERVER STATUS -->
-                </div>
-            </div>
-        </div>
-    </div><!--end .row -->
-    <!-- END CONTENT -->
-</div>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
 

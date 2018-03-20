@@ -77,7 +77,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                         && x.ClassName.Equals(studentClassName)
                                         && x.TermName.Equals(model.TermName))
                                         .OrderBy(o => o.CaOrder).ToListAsync()
-
             };
             ViewBag.SetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
                                                         && x.SchoolId.Equals(userSchool)
@@ -210,7 +209,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                                                    && x.TermName.Equals(model.TermName))
                                 .OrderBy(o => o.CaOrder).ToListAsync(),
 
-
                             CaSetUpCount = await Db.CaSetUps.CountAsync(x => x.IsTrue.Equals(true)
                                                                              && x.SchoolId.Equals(userSchool)
                                                                              && x.TermName.Equals(model.TermName)
@@ -222,15 +220,24 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 return myCalist;
             }
             return null;
-
         }
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "DownloadCa")]
-        public async Task DownloadCa(CaSelectIndexVm model)
+        public async Task<ActionResult> DownloadCa(CaSelectIndexVm model)
         {
             //var facilityList = Db.Communications.AsNoTracking().ToList();
             var myCalist = await GenerateCaList(model);
+            if (myCalist == null)
+            {
+                return RedirectToAction("CreateCaView", "CaLists", new { message = "Sorry, Error generating CA. Please check to be sure Class selected is assigned the selected Subject" });
+            }
+            DownloadExcel(myCalist);
+            return RedirectToAction("CreateCaView", "CaLists", new { message = "CA Generated Successfully" });
+        }
+
+        public void DownloadExcel(List<CaListVm> myCalist)
+        {
             var setUpCount = myCalist.Select(s => s.CaSetUpCount).FirstOrDefault();
             char c1 = 'A';
             ExcelPackage package = new ExcelPackage();
@@ -245,7 +252,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var itemHeader = myCalist.Where(x => x.CaSetUpCount >= 1).Select(s => s.CaSetUp).FirstOrDefault();
 
-
             foreach (var caitem in itemHeader)
             {
                 worksheet.Cells[$"{c1++}1"].Value = $"{caitem.CaCaption}({caitem.MaximumScore})";
@@ -256,12 +262,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             for (var i = 0; i < myCalist.Count; i++)
             {
-
                 worksheet.Cells[$"A{rowStart}"].Value = myCalist[i].CaListId;
                 worksheet.Cells[$"B{rowStart}"].Value = myCalist[i].StudentName;
                 worksheet.Cells[$"C{rowStart}"].Value = myCalist[i].StudentId;
                 worksheet.Cells[$"D{rowStart}"].Value = myCalist[i].SubjectName;
-                worksheet.Cells[$"E{rowStart}"].Value = "First";
+                worksheet.Cells[$"E{rowStart}"].Value = myCalist[i].TermName;
                 worksheet.Cells[$"F{rowStart}"].Value = myCalist[i].SessionName;
 
                 if (setUpCount == 1)
@@ -358,9 +363,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             Response.AddHeader("content-disposition", "attachment: filename=" + $"{info.SubjectName}{info.ClassName}Result.xlsx");
             Response.BinaryWrite(package.GetAsByteArray());
             Response.End();
-
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -415,9 +418,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: CaLists/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: CaLists/Create To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CaList caList)
@@ -447,9 +449,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(caList);
         }
 
-        // POST: CaLists/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: CaLists/Edit/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(CaList caList)
@@ -520,9 +521,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 0, termName, caSetUpCount, maximumScore, firstCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult SecondCaValidation(List<double> SecondCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -554,9 +555,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 1, termName, caSetUpCount, maximumScore, secondCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult ThirdCaValidation(List<double> ThirdCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -588,9 +589,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 2, termName, caSetUpCount, maximumScore, thirdCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult ForthCaValidation(List<double> ForthCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -622,9 +623,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 3, termName, caSetUpCount, maximumScore, forthCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult FifthCaValidation(List<double> FifthCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -656,9 +657,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 4, termName, caSetUpCount, maximumScore, fifthCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult SixthCaValidation(List<double> SixthCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -690,9 +691,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 5, termName, caSetUpCount, maximumScore, sixthCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult SeventhCaValidation(List<double> SeventhCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -724,9 +725,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 6, termName, caSetUpCount, maximumScore, seventhCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult EightCaValidation(List<double> EightCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -758,9 +759,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 7, termName, caSetUpCount, maximumScore, eightCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult NinthtCaValidation(List<double> NinthtCa, List<double> ClassName, List<double> TermName, List<int> CaSetUpCount)
         {
             //bool myValue = ExamCa < 50;
@@ -792,10 +793,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var checkedResult = GetValidation(className, 8, termName, caSetUpCount, maximumScore, ninthtCa);
 
-
             return Json(checkedResult, JsonRequestBehavior.AllowGet);
         }
-
 
         private bool GetValidation(string className, int pointer, string termName, string caSetUpCount, double maximumScore,
             string inputScore)
@@ -867,24 +866,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 maximumScore = setUps[Convert.ToInt16(caSetUpCount) - 1].MaximumScore;
             }
 
-
             if (Convert.ToDouble(examCa) > maximumScore)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
 
-
             // return Json(false, JsonRequestBehavior.AllowGet);
         }
-
 
         [HttpGet]
         public ActionResult UploadResult()
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<ActionResult> UploadResult(HttpPostedFileBase excelfile)
@@ -920,7 +915,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     var noOfRow = workSheet.Dimension.End.Row;
                     //int requiredField = 12;
 
-
                     for (int row = 2; row <= noOfRow; row++)
                     {
                         int caId = Convert.ToInt32(workSheet.Cells[row, 1].Value.ToString().Trim());
@@ -942,15 +936,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                             .Where(x => x.SchoolId.Equals(userSchool) &&
                                             x.SubjectName.ToUpper().Equals(subjectName.ToUpper()))
                                             .Select(s => s.SubjectId).FirstOrDefaultAsync();
-                        var iscCaExist = Db.CaLists.AsNoTracking().Any(x => x.StudentId.Equals(studentId)
-                                                    && x.ClassName.Equals(className) && x.SubjectId.Equals(subjectId)
-                                                    && x.TermName.Equals(termName) && x.SessionName.Equals(sessionName));
-                        if (iscCaExist)
-                        {
-                            ViewBag.ErrorInfo = "Record Already Exist, Please Download and Update again";
-                            ViewBag.ErrorMessage = "You can add the same student record twice, please Update...";
-                            return View("Error1");
-                        }
+                        //var iscCaExist = Db.CaLists.AsNoTracking().Any(x => x.StudentId.Equals(studentId)
+                        //                            && x.ClassName.Equals(className) && x.SubjectId.Equals(subjectId)
+                        //                            && x.TermName.Equals(termName) && x.SessionName.Equals(sessionName));
+                        //if (iscCaExist)
+                        //{
+                        //    ViewBag.ErrorInfo = "Record Already Exist, Please Download and Update again";
+                        //    ViewBag.ErrorMessage = "You can't add the same student record twice, please Update...";
+                        //    return View("Error1");
+                        //}
                         if (caSetup == 2)
                         {
                             //var checkedResult = GetValidation(className, 8, termName, caSetup.ToString(), 0.0, ninthtCa);
@@ -1061,23 +1055,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                 Total = myTotal,
                                 Grading = _myGradeRemark.Grading(myTotal, studentClassName, userSchool),
                                 Remark = _myGradeRemark.Remark(myTotal, studentClassName, userSchool),
-
                                 SchoolId = userSchool,
                             };
                             Db.CaLists.AddOrUpdate(caList);
-
                         }
                         catch (Exception ex)
                         {
-                            ViewBag.ErrorInfo = "The programme code in the excel doesn't exist";
+                            ViewBag.ErrorInfo = "The Subject Name in the excel doesn't exist";
                             ViewBag.ErrorMessage = ex.Message;
                             return View("Error1");
                         }
                     }
                     await Db.SaveChangesAsync();
-
                 }
-                return RedirectToAction("CreateCaView");
+                return RedirectToAction("CreateCaView", new { message = "CA has been uploaded successfully" });
             }
 
             ViewBag.Error = $"File type is Incorrect <br/>";
@@ -1130,6 +1121,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //return View(myCalist);
             return View();
         }
+
         [HttpPost]
         public async Task<ActionResult> DeleteCa(CaSelectIndexVm model)
         {
@@ -1158,7 +1150,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             await Db.SaveChangesAsync();
 
-
             return View(myClasit);
         }
 
@@ -1170,7 +1161,5 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             base.Dispose(disposing);
         }
-
-
     }
 }

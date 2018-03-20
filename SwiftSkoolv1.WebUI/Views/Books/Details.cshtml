@@ -11,14 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.BookId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookId)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
 
@@ -35,27 +27,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.JointAuthor)
+            @Html.DisplayNameFor(model => model.SubjectName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.JointAuthor)
+            @Html.DisplayFor(model => model.SubjectName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Subject)
+            @Html.DisplayNameFor(model => model.ClassName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
+            @Html.DisplayFor(model => model.ClassName)
         </dd>
 
         <dt>
@@ -67,19 +51,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Publisher)
+            @Html.DisplayNameFor(model => model.BookLocation)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Publisher)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PlaceOfPublish)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PlaceOfPublish)
+            @Html.DisplayFor(model => model.BookLocation)
         </dd>
 
         <dt>
@@ -93,6 +69,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AccessionNo }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

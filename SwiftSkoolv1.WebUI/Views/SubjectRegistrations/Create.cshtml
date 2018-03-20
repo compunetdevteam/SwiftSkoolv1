@@ -1,9 +1,9 @@
 ﻿@model SwiftSkoolv1.Domain.SubjectRegistrationVm
 
 @{
-	ViewBag.Title = "Create";
+    ViewBag.Title = "Student Subject Registration";
 }
-<script src="~/Scripts/chosen.jquery.min.js"></script>
+<link href="~/Content/chosen.css" rel="stylesheet" />
 
 <div class="card contact-card card-cascade narrower mb-r">
     <div class="admin-panel info-admin-panel">
@@ -14,14 +14,12 @@
         <br />
         <br />
 
-
         <div class="alert alert-warning">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>This Feature is best Applicable to Senior Secondary School</strong>
         </div>
         <div class="row">
             <div class="col-md-1">
-
             </div>
             <div class="col-md-6">
                 @using (Html.BeginForm())
@@ -29,34 +27,29 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-				
-			   
+
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.StudentId, "StudentId")
+                            @Html.Label("Student Id")
                             @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
                         </div>
 
-
-			
-
                         <div class="form-group">
-                            @Html.LabelFor(model => model.SubjectId, "SubjectId")
+                            @Html.Label("Subject Name")
                             @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
                             @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
-					
                         </div>
 
                         @*<div class="form-group">
-					<div class="editor-label control-label col-md-2">
-						@Html.Label("SubjectName")
-					</div>
-					<div class="col-md-10 editor-field">
-						@Html.ListBox("SubjectName", (MultiSelectList)ViewBag.SubjectCode, new { size = 10, @class = "listbox" })
-					</div>
-				</div>*@
+                                <div class="editor-label control-label col-md-2">
+                                    @Html.Label("SubjectName")
+                                </div>
+                                <div class="col-md-10 editor-field">
+                                    @Html.ListBox("SubjectName", (MultiSelectList)ViewBag.SubjectCode, new { size = 10, @class = "listbox" })
+                                </div>
+                            </div>*@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
@@ -65,10 +58,8 @@
                         </div>
                     </div>
                 }
-
             </div>
             <div class="col-md-5">
-
             </div>
         </div>
         <div>
@@ -77,18 +68,17 @@
     </div>
 </div>
 
-
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 }
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/StartUI/js/lib/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('.chosen-select').chosen();
-		$(function() {
-			$('.listbox').multiselect({
-				includeSelectAllOption: true
-			});
-		});
-	});
+    $(document).ready(function () {
+        $('.chosen-select').chosen();
+        $(function () {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+    });
 </script>

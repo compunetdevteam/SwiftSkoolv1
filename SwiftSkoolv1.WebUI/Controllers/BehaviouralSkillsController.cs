@@ -95,10 +95,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "BehaviouralSkillId,SkillName,BehaviorSkillCategoryId")] BehaviouralSkill behaviouralSkill)
+        public async Task<ActionResult> Create(BehaviouralSkill behaviouralSkill)
         {
             if (ModelState.IsValid)
             {
+                var isBehaviouralExist = await Db.BehaviouralSkills
+                    .Where(x => x.SkillName.ToUpper().Equals(behaviouralSkill.SkillName.ToUpper().Trim()))
+                    .AnyAsync();
+                if (isBehaviouralExist)
+                {
+                    ViewBag.Message = "SkillName already exist";
+                    return View(behaviouralSkill);
+                }
                 Db.BehaviouralSkills.Add(behaviouralSkill);
                 await Db.SaveChangesAsync();
                 TempData["UserMessage"] = "Behavioral created Successfully.";
@@ -169,6 +177,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             string message = string.Empty;
             if (ModelState.IsValid)
             {
+                var isBehaviouralExist = await Db.BehaviouralSkills
+                    .Where(x => x.SkillName.ToUpper().Equals(behaviouralSkill.SkillName.ToUpper().Trim()))
+                    .AnyAsync();
+                if (isBehaviouralExist)
+                {
+                    return new JsonResult { Data = new { status = false, message = "SkillName already Exist" } };
+                }
                 if (behaviouralSkill.BehaviouralSkillId > 0)
                 {
                     behaviouralSkill.SchoolId = userSchool;

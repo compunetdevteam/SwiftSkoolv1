@@ -1,0 +1,54 @@
+﻿@model SwiftSkoolv1.WebUI.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register Account";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+
+}
+
+<div class="container-fluid">
+    <form class="sign-box" action="@Href("~/Account/RegisterAccountUser")" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-header">
+            <h3>
+                <img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left: 38%;" />
+            </h3>
+        </div>
+        <header class="sign-title">Create Trail Account</header>
+        <div class="form-group">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter FirstName" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter LastName" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Email" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Password" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "Confirm Password" } })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-rounded">Sign Up</button>
+        <p class="sign-note">
+            Already have an Account? <a href="@Url.Action("Login","Account")">Login</a>
+        </p>
+    </form>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var i = "@ViewBag.Message";
+        if (i) {
+        toastr.error(i);
+        }
+    </script>
+}

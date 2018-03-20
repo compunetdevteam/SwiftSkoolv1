@@ -10,23 +10,28 @@ using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Mvc;
 
-
 namespace SwiftSkool.Controllers
 {
-
     public class HomeController : BaseController
     {
-
         public async Task<ActionResult> Index()
         {
             ViewBag.PictureList = await Db.HomePageSetUps.AsNoTracking().CountAsync();
             return View(await Db.HomePageSetUps.ToListAsync());
         }
+
+        public ActionResult SchoolExpired()
+        {
+            // ViewBag.PictureList = await Db.HomePageSetUps.AsNoTracking().CountAsync();
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
             return View();
         }
+
         public async Task<ActionResult> GeneralDashboard()
         {
             //get the total number of school that SwiftSkool support
@@ -76,9 +81,7 @@ namespace SwiftSkool.Controllers
             {
                 new DataPoint(boysPercentage, "Male","Male"),
                 new DataPoint(femalePercentage, "Female","Female")
-
             };
-
 
             ViewBag.PiePoints = list;
 
@@ -95,12 +98,12 @@ namespace SwiftSkool.Controllers
 
             return View(dashboardVm);
         }
+
         /*
          method to build chart on admin dashboard
              */
 
-
-        /* 
+        /*
 
          Get the total student in the class and display in the admin view
 
@@ -121,39 +124,31 @@ namespace SwiftSkool.Controllers
         //    var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
         //    string search = Request.Form.GetValues("search[value]").FirstOrDefault();
 
-        //    int pageSize = length != null ? Convert.ToInt32(length) : 0;
-        //    int skip = start != null ? Convert.ToInt32(start) : 0;
-        //    int totalRecords = 0;
+        // int pageSize = length != null ? Convert.ToInt32(length) : 0; int skip = start != null ?
+        // Convert.ToInt32(start) : 0; int totalRecords = 0;
 
-        //    //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-        //    var v = Db.Students.Where(x => x.SchoolId == userSchool && x.Gender == "Male").Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
+        // //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId,
+        // s.SubjectCode, s.SubjectName }).ToList(); var v = Db.Students.Where(x => x.SchoolId ==
+        // userSchool && x.Gender == "Male").Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
 
-        //    //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-        //    //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-        //    //{
-        //    //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-        //    //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-        //    //}
-        //    if (!string.IsNullOrEmpty(search))
-        //    {
-        //        //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-        //        v = Db.Students.Where(x => x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) || x.FullName.Equals(search)))
-        //            .Select(s => new { s.StudentId, s.FullName, s.Gender }).ToList();
-        //    }
-        //    totalRecords = v.Count();
-        //    var data = v.Skip(skip).Take(pageSize).ToList();
+        // //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new {
+        // s.SubjectId, s.SubjectCode, s.SubjectName }).ToList(); //if
+        // (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir))) //{ // //v =
+        // v.OrderBy(sortColumn + " " + sortColumnDir); // v = new List<Subject>(v.OrderBy(x =>
+        // "sortColumn + \" \" + sortColumnDir")); //} if (!string.IsNullOrEmpty(search)) { //v =
+        // v.OrderBy(sortColumn + " " + sortColumnDir); v = Db.Students.Where(x =>
+        // x.SchoolId.Equals(userSchool) && (x.StudentId.Equals(search) ||
+        // x.FullName.Equals(search))) .Select(s => new { s.StudentId, s.FullName, s.Gender
+        // }).ToList(); } totalRecords = v.Count(); var data = v.Skip(skip).Take(pageSize).ToList();
 
-        //    return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-        //    #endregion
+        // return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal =
+        // totalRecords, data = data }, JsonRequestBehavior.AllowGet); #endregion
 
         //    //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         //}
 
-
         public ActionResult CharterColumn()
         {
-
-
             ArrayList xValue = new ArrayList();
             ArrayList yValue = new ArrayList();
 
@@ -199,9 +194,7 @@ namespace SwiftSkool.Controllers
         //        model.File.SaveAs(_path);
         //    }
 
-
-        //    //ViewBag.Message = "File upload failed!!";
-        //    //return View(model);
+        // //ViewBag.Message = "File upload failed!!"; //return View(model);
 
         //    Configuration objConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
         //    AppSettingsSection objAppsettings = (AppSettingsSection)objConfig.GetSection("appSettings");

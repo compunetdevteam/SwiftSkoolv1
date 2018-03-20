@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SwiftSkoolv1.Domain.Objects
 {
-    public class Post
+    public class Post : GeneralSchool
     {
         public Post()
         {
@@ -15,6 +15,7 @@ namespace SwiftSkoolv1.Domain.Objects
         public string Title { get; set; }
         public DateTime DateTime { get; set; }
         public string Body { get; set; }
+        public bool IsPublished { get; set; }
 
 
         public virtual ICollection<Comment> Comments { get; set; }

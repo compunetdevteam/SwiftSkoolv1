@@ -10,6 +10,8 @@ namespace SwiftSkoolv1.Domain.JambPractice
         [Required(ErrorMessage = "Subject Name is required")]
         public int JambSubjectId { get; set; }
 
+        public string ExamType { get; set; }
+
         public string ExamYear { get; set; }
 
         [Display(Name = "Question")]

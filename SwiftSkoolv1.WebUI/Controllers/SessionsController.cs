@@ -10,16 +10,16 @@ namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class SessionsController : BaseController
     {
-
-
         // GET: Sessions
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await Db.Sessions.AsNoTracking().ToListAsync());
+            return View();
         }
+
         public ActionResult GetIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -38,7 +38,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var v = Db.Sessions.AsNoTracking().Select(x => new { x.SessionId, x.SessionName, x.ActiveSession }).ToList();
 
-
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -49,7 +48,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
 
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
+
             // return Json(new { data = await Db.Sessions.AsNoTracking().ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
 
@@ -58,7 +59,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var session = await Db.Sessions.FindAsync(id);
             return PartialView(session);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,21 +72,23 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (yearTwo - yearOne > 1)
             {
                 return new JsonResult { Data = new { status = false, message = "Interval between session can only be one year" } };
-
             }
             if (ModelState.IsValid)
             {
                 if (session.SessionId > 0)
                 {
-                    Db.Entry(session).State = EntityState.Modified;
-                    message = "Session Updated Successfully...";
+                    var sessionEdit = await Db.Sessions.FindAsync(session.SessionId);
+
+                    sessionEdit.SessionName = session.SessionName;
+                    sessionEdit.ActiveSession = session.ActiveSession;
+
+                    Db.Entry(sessionEdit).State = EntityState.Modified;
+                    message = $"Session ({session.SessionName}) Updated Successfully...";
                 }
                 else
                 {
-
                     Db.Sessions.Add(session);
-                    message = "Session Created Successfully...";
-
+                    message = $"Session  ({session.SessionName}) Created Successfully...";
                 }
                 await Db.SaveChangesAsync();
                 status = true;
@@ -94,8 +96,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
         }
-
-
 
         public async Task<ActionResult> Details(int? id)
         {
@@ -117,9 +117,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: Sessions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Sessions/Create To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "SessionId,SessionName,ActiveSession")] Session session)
@@ -151,9 +150,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(session);
         }
 
-        // POST: Sessions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Sessions/Edit/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "SessionId,SessionName,ActiveSession")] Session session)
@@ -203,7 +201,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return PartialView(session);
         }
 
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
@@ -221,7 +218,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return new JsonResult { Data = new { status = status, message = message } };
         }
-
 
         protected override void Dispose(bool disposing)
         {

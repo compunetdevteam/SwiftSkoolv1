@@ -1,113 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using SwiftSkoolv1.Domain;
+using System;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
-using SwiftSkoolv1.Domain;
-using SwiftSkoolv1.WebUI.Models;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class BooksController : BaseController
     {
-        private SwiftSkoolDbContext db = new SwiftSkoolDbContext();
-
         // GET: Books
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Books.ToListAsync());
+            return View();
         }
-
-
 
         public async Task<ActionResult> GetIndex()
         {
-            #region Server Side filtering
-            //Get parameter for sorting from grid table
-            // get Start (paging start index) and length (page size for paging)
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-            //Get Sort columns values when we click on Header Name of column
-            //getting column name
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            //Soring direction(either desending or ascending)
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-            string search = Request.Form.GetValues("search[value]").FirstOrDefault();
-
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
-
-            //var v = Db.Subjects.Where(x => x.SchoolId != userSchool).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            var v = Db.Books.Where(x => x.SchoolId == userSchool).Select(s => new {s.AccessionNo, s.Title, s.Author, s.JointAuthor, s.Subject,
-                                                                                    s.ISBN, s.Edition,s.Publisher, s.PlaceOfPublish }).ToList();
-
-            //var v = Db.Subjects.Where(x => x.SchoolId.Equals(userSchool)).Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToList();
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-            //    v = new List<Subject>(v.OrderBy(x => "sortColumn + \" \" + sortColumnDir"));
-            //}
-            if (!string.IsNullOrEmpty(search))
+            // dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            var data = await Db.Books.AsNoTracking().Select(s => new
             {
-                //v = v.OrderBy(sortColumn + " " + sortColumnDir);
-                v = Db.Books.Where(x => x.SchoolId.Equals(userSchool) && (x.AccessionNo.Equals(search) || x.Title.Equals(search) ||
-                                                                       
-                                                                          x.Author.Equals(search) || x.JointAuthor.Equals(search) || x.Subject.Equals(search) ||
-                                                                          x.ISBN.Equals(search) || x.Edition.Equals(search) || x.Publisher.Equals(search) ||
-                                                                          x.PlaceOfPublish.Equals(search)))
-
-                                                                          .Select(s => new { s.AccessionNo, s.Title, s.Author, s.JointAuthor,
-                                                                              s.Subject, s.ISBN, s.Edition, s.Publisher, s.PlaceOfPublish }).ToList();
-            }
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
-
-            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
+                s.ClassName,
+                s.SubjectName,
+                s.Author,
+                s.Title,
+                s.Edition
+            }).ToListAsync();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 
-
-        // GET: Books/Save/5
         public async Task<PartialViewResult> Save(int id)
         {
             var book = await Db.Books.FindAsync(id);
             return PartialView(book);
         }
 
-        // POST: Subjects/Save/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(Book book)
+        public async Task<ActionResult> Save(BookVm model)
         {
             bool status = false;
             string message = string.Empty;
             if (ModelState.IsValid)
             {
-                if (book.BookId > 0)
+                if (model.BookId > 0)
                 {
-                    book.SchoolId = userSchool;
-                    Db.Entry(book).State = EntityState.Modified;
-                    message = "Books Updated Successfully...";
+                    var book = await Db.Books.FindAsync(model.BookId);
+                    if (book != null)
+                    {
+                        book.Author = model.Author;
+                        book.SubjectName = model.SubjectName;
+                        book.ClassName = model.ClassName[0];
+                        book.Title = model.Title;
+                        book.SchoolId = model.SchoolId;
+                        book.BookLocation = model.BookLocation;
+                        book.Edition = model.Edition;
+                        Db.Entry(book).State = EntityState.Modified;
+                        await Db.SaveChangesAsync();
+                        message = $"{model.Title} Updated Successfully...";
+                        return new JsonResult { Data = new { status = true, message = message } };
+                    }
                 }
                 else
                 {
-                    book.SchoolId = userSchool;
-                    Db.Books.Add(book);
-                    message = "Books Created Successfully...";
-
+                    int count = 0;
+                    foreach (var className in model.ClassName)
+                    {
+                        var newBook = new Book()
+                        {
+                            Author = model.Author,
+                            SubjectName = model.SubjectName,
+                            ClassName = model.ClassName[count],
+                            Title = model.Title,
+                            SchoolId = model.SchoolId,
+                            BookLocation = model.BookLocation,
+                            Edition = model.Edition
+                        };
+                        count = count + 1;
+                        Db.Books.Add(newBook);
+                    }
+                    await Db.SaveChangesAsync();
+                    message = $"{model.Title} Added Successfully.";
+                    return new JsonResult { Data = new { status = true, message = message } };
                 }
-                await Db.SaveChangesAsync();
-                status = true;
             }
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
@@ -115,13 +93,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
         // GET: Books/Details/5
-        public async Task<ActionResult> Details(string id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = await db.Books.FindAsync(id);
+            Book book = await Db.Books.FindAsync(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -130,8 +108,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
         }
 
         // GET: Books/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            ViewBag.SubjectName = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectName", "SubjectName");
+            ViewBag.ClassName = new MultiSelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
             return View();
         }
 
@@ -140,26 +120,114 @@ namespace SwiftSkoolv1.WebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "AccessionNo,BookId,Title,Author,JointAuthor,Subject,ISBN,Edition,Publisher,PlaceOfPublish,SchoolId")] Book book)
+        public async Task<ActionResult> Create(BookVm model)
         {
+            string _FileName = String.Empty;
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+                if (model.File.FileName.ToLower().EndsWith("pdf"))
+                {
 
-            return View(book);
+                    int count = 0;
+                    if (model.File.ContentLength > 0)
+                    {
+                        _FileName = Path.GetFileName(model.File.FileName);
+                        string _path = HostingEnvironment.MapPath("~/UploadedFiles/") + _FileName;
+                        model.BookLocation = _path;
+                        var directory = new DirectoryInfo(HostingEnvironment.MapPath("~/UploadedFiles/"));
+                        if (directory.Exists == false)
+                        {
+                            directory.Create();
+                        }
+                        model.File.SaveAs(_path);
+                    }
+                    foreach (var className in model.ClassName)
+                    {
+                        var newBook = new Book
+                        {
+                            Author = model.Author,
+                            SubjectName = model.SubjectName,
+                            ClassName = className,
+                            Title = model.Title,
+                            SchoolId = model.SchoolId,
+                            BookLocation = model.BookLocation,
+                            Edition = model.Edition
+                        };
+                        count = count + 1;
+                        Db.Books.Add(newBook);
+                    }
+                    //Db.Books.Add(newBook);
+                    await Db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.SubjectName = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectName", "SubjectName", model.SubjectName);
+                ViewBag.ClassName = new MultiSelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName", model.ClassName);
+                ViewBag.Message = "File upload format is not supported, Only PDF files are supported";
+                return View(model);
+            }
+            ViewBag.SubjectName = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectName", "SubjectName", model.SubjectName);
+            ViewBag.ClassName = new MultiSelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName", model.ClassName);
+            return View(model);
         }
 
         // GET: Books/Edit/5
-        public async Task<ActionResult> Edit(string id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = await db.Books.FindAsync(id);
+            Book book = await Db.Books.FindAsync(id);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new BookVm()
+            {
+                Author = book.Author,
+                Edition = book.Edition,
+                Title = book.Title
+            };
+            ViewBag.SubjectName = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectName", "SubjectName", book.SubjectName);
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName", book.ClassName);
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(BookVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                var book = await Db.Books.FindAsync(model.BookId);
+                if (book != null)
+                {
+                    book.Author = model.Author;
+                    book.SubjectName = model.SubjectName;
+                    book.ClassName = model.ClassName[0];
+                    book.Title = model.Title;
+                    book.SchoolId = model.SchoolId;
+                    book.BookLocation = model.BookLocation;
+                    book.Edition = model.Edition;
+                }
+                Db.Entry(book).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.SubjectName = new SelectList(await _query.SubjectListAsync(userSchool), "SubjectName", "SubjectName", model.SubjectName);
+            ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName", model.ClassName[0]);
+            return View(model);
+        }
+
+        // GET: Books/Delete/5
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = await Db.Books.FindAsync(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -167,54 +235,22 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(book);
         }
 
-        // POST: Books/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "AccessionNo,BookId,Title,Author,JointAuthor,Subject,ISBN,Edition,Publisher,PlaceOfPublish,SchoolId")] Book book)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(book).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(book);
-        }
-
-        // GET: Subjects/Delete/5
-        public async Task<PartialViewResult> Delete(int id)
-        {
-            Book book = await Db.Books.FindAsync(id);
-
-            return PartialView(book);
-        }
-
-        // POST: Subjects/Delete/5
+        // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            bool status = false;
-            string message = string.Empty;
-            var book = await Db.Books.FindAsync(id);
-            if (book != null)
-            {
-                Db.Books.Remove(book);
-                await Db.SaveChangesAsync();
-                status = true;
-                message = "Book Deleted Successfully...";
-            }
-
-            return new JsonResult { Data = new { status = status, message = message } };
+            Book book = await Db.Books.FindAsync(id);
+            Db.Books.Remove(book);
+            await Db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }

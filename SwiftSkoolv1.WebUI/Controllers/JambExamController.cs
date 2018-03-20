@@ -22,10 +22,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 .OrderBy(o => o.QuestionNumber).ToListAsync();
             return View(questionNumber);
         }
-        public PartialViewResult Menu(string studentId, int jambsubjectId)
+        public PartialViewResult Menu(string studentId, int jambsubjectId, string examType, string examYear)
         {
             var questionNumber = Db.JambStudentQuestions.AsNoTracking().Where(x => x.StudentId.Equals(studentId)
-                            && x.JambSubjectId.Equals(jambsubjectId)).OrderBy(o => o.QuestionNumber);
+                            && x.JambSubjectId.Equals(jambsubjectId) && x.ExamType.Equals(examType)
+                            && x.ExamYear.Equals(examYear)).OrderBy(o => o.QuestionNumber);
 
             return PartialView(questionNumber);
         }
@@ -38,8 +39,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var myStudentType = from s in yearCategory
                                 select new { ID = s, Name = s.ToString() };
 
+            var examTypeCategory = ExamTypeList();
+            var myExamType = from s in examTypeCategory
+                             select new { ID = s, Name = s.ToString() };
 
+            ViewBag.ExamType = new SelectList(myExamType, "Name", "Name");
             ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name");
+
             Session["Rem_Time"] = null;
             ViewBag.Time = Session["Rem_Time"];
             return View();
@@ -54,25 +60,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                 var questionExist = await Db.JambStudentQuestions.Where(x => x.StudentId.Equals(studentId)
                                             && x.JambSubjectId.Equals(model.JambSubjectId)
-                                            && x.ExamYear.Equals(model.ExamYear)).ToListAsync();
+                                            && x.ExamYear.Equals(model.ExamYear)
+                                            && x.ExamType.Equals(model.ExamType)).ToListAsync();
 
                 if (questionExist.Count >= 1)
                 {
-                    //return RedirectToAction("Exam", new
-                    //{
-                    //    questionNo = 1,
-                    //    subjectId = model.JambSubjectId,
-                    //    studentId = studentId
-                    //});
                     Db.JambStudentQuestions.RemoveRange(questionExist);
                     await Db.SaveChangesAsync();
                 }
 
-                //var r = new Random();
-
                 var myquestion = await Db.JambQuestionAnswers.Where(x => x.JambSubjectId.Equals(model.JambSubjectId)
-                                                                         && x.ExamYear.Equals(model.ExamYear))
-                    .Take(model.TotalQuestion).ToListAsync();
+                                        && x.ExamYear.Equals(model.ExamYear) && x.ExamType.Equals(model.ExamType))
+                                        .Take(model.TotalQuestion).ToListAsync();
 
 
                 int count = 1;
@@ -97,7 +96,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             QuestionNumber = count,
                             TotalQuestion = model.TotalQuestion,
                             ExamTime = model.ExamTime,
-                            SchoolId = userSchool
+                            SchoolId = userSchool,
+                            ExamYear = question.ExamYear,
+                            ExamType = question.ExamType
                         };
                         Db.JambStudentQuestions.Add(jambStudentQuestion);
                         count++;
@@ -109,6 +110,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         questionNo = 1,
                         subjectId = model.JambSubjectId,
                         studentId = studentId,
+                        examType = model.ExamType,
+                        examYear = model.ExamYear
 
                     });
                 }
@@ -120,17 +123,23 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var myStudentType = from s in yearCategory
                                 select new { ID = s, Name = s.ToString() };
 
+            var examTypeCategory = ExamTypeList();
+            var myExamType = from s in examTypeCategory
+                             select new { ID = s, Name = s.ToString() };
+
+            ViewBag.ExamType = new SelectList(myExamType, "Name", "Name");
             ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name");
 
             return View(model);
         }
 
         [HttpGet]
-        public async Task<ActionResult> Exam(int questionNo, int subjectId, string studentId)
+        public async Task<ActionResult> Exam(int questionNo, int subjectId, string studentId, string examType, string examYear)
         {
             int myno = questionNo;
             var question = Db.JambStudentQuestions.FirstOrDefault(s => s.StudentId.Equals(studentId)
-                                    && s.QuestionNumber.Equals(myno));
+                                && s.QuestionNumber.Equals(myno) && s.ExamType.Equals(examType)
+                                && s.ExamYear.Equals(examYear));
             if (question != null)
             {
                 if (Session["Rem_Time"] == null)
@@ -144,9 +153,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 ViewBag.Rem_Time = Session["Rem_Time"];
                 ViewBag.Course = await Db.JambSubjects.AsNoTracking().Where(x => x.JambSubjectId.Equals(subjectId))
                                         .Select(c => c.SubjectName).FirstOrDefaultAsync();
+                ViewBag.JambSubjectId = question.JambSubjectId;
+                ViewBag.StudentId = question.StudentId;
+                ViewBag.ExamYear = question.ExamYear;
+                ViewBag.ExamType = question.ExamType;
+
             }
-            ViewBag.JambSubjectId = question.JambSubjectId;
-            ViewBag.StudentId = question.StudentId;
+            
             return View(question);
         }
 
@@ -159,6 +172,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             var studentId = model.StudentId;
             int questionId = model.QuestionNo;
+            var nextQuestion = 0;
+            if (model.NextQuestion != null)
+            {
+                nextQuestion = Convert.ToInt32(model.NextQuestion);
+            }
+            else
+            {
+                nextQuestion = questionId + 1;
+            }
+
+
             var questionType = CheckQuestionType(model);
             if (questionType != null)
             {
@@ -171,9 +195,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         return RedirectToAction("Exam", "JambExam",
                             new
                             {
-                                questionNo = ++questionId,
+                                questionNo = nextQuestion,
                                 subjectId = model.JambSubjectId,
                                 studentId = model.StudentId,
+                                examType = model.ExamType,
+                                examYear = model.ExamYear
 
                             });
                     }
@@ -213,16 +239,25 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         return RedirectToAction("Exam", "JambExam",
                             new
                             {
-                                questionNo = ++questionId,
+                                questionNo = nextQuestion,
                                 subjectId = model.JambSubjectId,
-                                studentId = model.StudentId
+                                studentId = model.StudentId,
+                                examType = model.ExamType,
+                                examYear = model.ExamYear
                             });
                     }
                 }
             }
 
             ViewBag.SubjectName = new SelectList(Db.JambSubjects, "JambSubjectId", "SubjectName");
-            return RedirectToAction("Exam", new { questionNo = ++questionId, subjectId = model.JambSubjectId, studentId = model.StudentId });
+            return RedirectToAction("Exam", new
+            {
+                questionNo = nextQuestion,
+                subjectId = model.JambSubjectId,
+                studentId = model.StudentId,
+                examType = model.ExamType,
+                examYear = model.ExamYear
+            });
         }
 
 
@@ -235,7 +270,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     string Check1, string Check2, string Check3, string Check4)
         {
             var studentId = model.StudentId;
+            var nextQuestion = 0;
             int questionId = model.QuestionNo;
+
+            if (model.NextQuestion != null)
+            {
+                nextQuestion = Convert.ToInt32(model.NextQuestion);
+            }
+            else
+            {
+                nextQuestion = questionId - 1;
+            }
             var questionType = CheckQuestionType(model);
             if (questionType != null)
             {
@@ -246,9 +291,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         await SaveAnswer(model, studentId, questionId, fiiledAnswer);
                         return RedirectToAction("Exam", "JambExam", new
                         {
-                            questionNo = ++questionId,
+                            questionNo = nextQuestion,
                             subjectId = model.JambSubjectId,
                             studentId = model.StudentId,
+                            examType = model.ExamType,
+                            examYear = model.ExamYear
 
                         });
                     }
@@ -288,16 +335,25 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         return RedirectToAction("Exam", "JambExam",
                             new
                             {
-                                questionNo = --questionId,
+                                questionNo = nextQuestion,
                                 subjectId = model.JambSubjectId,
-                                studentId = model.StudentId
+                                studentId = model.StudentId,
+                                examType = model.ExamType,
+                                examYear = model.ExamYear
                             });
                     }
                 }
             }
 
             ViewBag.SubjectName = new SelectList(Db.JambSubjects, "JambSubjectId", "SubjectName");
-            return RedirectToAction("Exam", new { questionNo = --questionId, subjectId = model.JambSubjectId, studentId = model.StudentId });
+            return RedirectToAction("Exam", new
+            {
+                questionNo = nextQuestion,
+                subjectId = model.JambSubjectId,
+                studentId = model.StudentId,
+                examType = model.ExamType,
+                examYear = model.ExamYear
+            });
         }
 
 
@@ -485,7 +541,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             var question = Db.JambStudentQuestions.FirstOrDefault(s => s.StudentId.Equals(studentId)
                                                                    && s.QuestionNumber.Equals(questionId)
-                                                                   && s.JambSubjectId.Equals(model.JambSubjectId));
+                                                                   && s.JambSubjectId.Equals(model.JambSubjectId)
+                                                                   && s.ExamType.Equals(model.ExamType)
+                                                                   && s.ExamYear.Equals(model.ExamYear));
             if (question.Answer.ToUpper().Equals(answer.ToUpper()))
             {
                 question.IsCorrect = true;

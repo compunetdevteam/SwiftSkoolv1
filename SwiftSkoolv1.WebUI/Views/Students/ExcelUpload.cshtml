@@ -1,31 +1,28 @@
-﻿
-
-
-<div class="card">
-<div class="card-block">
-    <div class="form-header  purple darken-4">
-        <h3>
-            <i class="fa fa-file-excel-o"></i> Excel Upload
-        </h3>
+﻿<div class="card">
+    <div class="card-block">
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-file-excel-o"></i> Excel Upload
+            </h3>
+        </div>
     </div>
 </div>
-</div>
-<br/>
-<br />
 <br />
 
-@using (Html.BeginForm("UpLoadStudent", "Students", FormMethod.Post, new {enctype = "multipart/form-data", id= "theform" }))
+<a class="btn btn-primary" href="~/ExcelTemplate/StudentUploadTemplate.xlsx">Download Template</a>
+<br />
+<br />
+@using (Html.BeginForm("UpLoadStudent", "Students", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
 {
     @Html.Raw(ViewBag.Error)
     <div class="form-group">
-        <input type="file" id="dataFile" name="excelfile"/>
+        <input type="file" id="dataFile" name="excelfile" />
     </div>
 
     <div class="form-group">
-        <input id="btnsubmit" type="submit" value="Upload" class="btn btn-success"/>
+        <input id="btnsubmit" type="submit" value="Upload" class="btn btn-success" />
     </div>
 }
-
 
 <script type="text/javascript">
     $(function () {
@@ -37,4 +34,3 @@
         });
     });
 </script>
-

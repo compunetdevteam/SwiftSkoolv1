@@ -20,6 +20,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ActionResult GetIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -38,7 +39,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var v = Db.Terms.AsNoTracking().ToList();
 
-
             if (!string.IsNullOrEmpty(search))
             {
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
@@ -48,18 +48,17 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
 
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
-
 
         public async Task<PartialViewResult> Save(int id)
         {
             var terms = await Db.Terms.FindAsync(id);
             return PartialView(terms);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,15 +70,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 if (model.TermId > 0)
                 {
-                    model.TermName = model.TermName.ToUpper();
-                    Db.Entry(model).State = EntityState.Modified;
-                    message = "Term Updated Successfully...";
+                    var term = await Db.Terms.FindAsync(model.TermId);
+
+                    term.TermName = model.TermName.ToUpper();
+                    term.ActiveTerm = model.ActiveTerm;
+                    Db.Entry(term).State = EntityState.Modified;
+                    message = $"Term ({model.TermName}) Updated Successfully...";
                 }
                 else
                 {
                     model.TermName = model.TermName.ToUpper();
                     Db.Terms.Add(model);
-                    message = "Term Created Successfully...";
+                    message = $"Term ({model.TermName}) Created Successfully...";
                 }
                 await Db.SaveChangesAsync();
                 return new JsonResult { Data = new { status = true, message = message } };
@@ -109,9 +111,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: Terms/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Terms/Create To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "TermId,TermName,ActiveTerm")] Term term)
@@ -157,9 +158,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(term);
         }
 
-        // POST: Terms/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Terms/Edit/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "TermId,TermName,ActiveTerm")] Term term)
@@ -175,13 +175,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(term);
         }
 
-
         public async Task<PartialViewResult> Delete(int id)
         {
             var term = await Db.Terms.FindAsync(id);
             return PartialView(term);
         }
-
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

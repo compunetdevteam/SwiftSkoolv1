@@ -11,7 +11,7 @@
 
         <div class="form-header  purple darken-4">
             <h3>
-                <i class="fa fa-pencil-square-o"></i> Continuous Assessment
+                <i class="fa fa-pencil-square-o"></i> Edit Student
             </h3>
         </div>
 
@@ -92,7 +92,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             @Html.Label("Admission Date")
-                                                            @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Addmission Date", @readonly = "true" } })
+                                                            @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control"} })
                                                             @Html.ValidationMessageFor(model => model.AdmissionDate, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
@@ -104,7 +104,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             @Html.LabelFor(model => model.LastName)
-                                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control"} })
                                                             @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
 
                                                         </div>
@@ -115,7 +115,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             @Html.LabelFor(model => model.FirstName)
-                                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control"} })
                                                             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
@@ -123,7 +123,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="MiddleName">Other Names </label>
-                                                            @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                                            @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control"} })
                                                             @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>

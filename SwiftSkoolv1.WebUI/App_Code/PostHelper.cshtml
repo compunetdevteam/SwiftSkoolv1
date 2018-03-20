@@ -2,10 +2,11 @@
 @model SwiftSkool.Models.Objects
 using Microsoft.AspNet.Identity;
 
+
 @helper Render(Post post, System.Web.Mvc.HtmlHelper html, bool isAdmin, bool showComments)
 {
 
-   
+    var body = post.Body;
         <div>
             <h2>
                 <a href="@Href("~/Posts/Details/" + post.ID)"> @post.Title </a>
@@ -13,19 +14,15 @@ using Microsoft.AspNet.Identity;
         </div>
         <div>
             <span class="glyphicon glyphicon-time"></span>
-            @post.DateTime.ToString("dd"))
+            @post.DateTime.ToString("D"))
             <span class="glyphicon glyphicon-pencil"> </span>
             <a href="@Href("~/Posts/Details/" + post.ID + "#Comments")">@post.Comments.Count</a>
-            @*<span class="glyphicon glyphicon-pencil"> </span>
-                <a href="@Href("~/Posts/Details/" + post.ID + "#Comments")">@post.Comments.Count</a>*@
         </div>
         <div>
-            <p class="text-justify">
-                <div>@html.Raw(post.Body)</div>
-           
-            <hr>
-            </p>
+            @html.Raw(body)
+            <br/>
             <div class="taglist">
+                <h4>Tags</h4>
                 @foreach (Tag tag in post.Tags)
                 {
                     <span class="tag"> <a href="@Href("~/Posts/Tags/" + tag.Name)">@tag.Name</a></span>
@@ -38,8 +35,8 @@ using Microsoft.AspNet.Identity;
                     string encodedTitle = HttpUtility.UrlEncode(post.Title);
                 }
                 @*<a href="http://reddit.com/submit?url=@encodedUrl&title=@encodedTitle">image or link goes here></a>*@
-                <a href="http://digg.com/submit?url=@encodedUrl&amp;title=@encodedTitle"></a>
-                <a href="http://twitter.com/share" class="twitter-share-button" data-url="@encodedUrl" data-text="@encodedTitle" data-count="none">Tweet</a>
+                @*<a href="http://digg.com/submit?url=@encodedUrl&amp;title=@encodedTitle"></a>*@
+                @*<a href="http://twitter.com/share" class="twitter-share-button" data-url="@encodedUrl" data-text="@encodedTitle" data-count="none">Tweet</a>*@
                 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
             </div>
         </div>
@@ -110,7 +107,7 @@ using Microsoft.AspNet.Identity;
                     
                     <div class="form-group">
                         <label for="comment">Comment</label>
-                        <textarea  class="form-control" name="body" placeholder="Enter Your Comment"></textarea> <br />
+                        <textarea  class="summernote form-control" name="body" placeholder="Enter Your Comment"></textarea> <br />
                      
                     </div>
                     <input type="submit" id="commentSubmit" name="submit" value="Submit" class="btn btn-lg btn-success" />

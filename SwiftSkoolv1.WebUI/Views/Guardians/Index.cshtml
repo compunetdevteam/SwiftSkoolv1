@@ -4,8 +4,13 @@
        
 <div class="form-header  purple darken-4">
     <h3>
-        Parent/Guardian List <span><a href="#" onclick="Excel()" class="btn btn-primary"><i class="fa fa-star"></i>Excel Upload</a></span>
-        <span><a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-user"></i>Add Guardian</a></span>
+        Parent/Guardian List
+        @if (User.IsInRole("Admin"))
+        {
+            <span><a href="#" onclick="Excel()" class="btn btn-primary"><i class="fa fa-star"></i>Excel Upload</a></span>
+            <span><a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-user"></i>Add Guardian</a></span>
+        }
+       
 
     </h3>
   

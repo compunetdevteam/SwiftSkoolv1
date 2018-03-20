@@ -15,7 +15,7 @@ namespace SwiftSkoolv1.Domain
         public string SchoolName { get; set; }
 
         [Display(Name = "Class Level")]
-        [Range(1, 6)]
+        //[Range(1, 6)]
         [Required(ErrorMessage = "Class Level cannot be empty")]
         public int ClassLevel { get; set; }
 

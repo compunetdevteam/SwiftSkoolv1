@@ -165,32 +165,31 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
 
             var myOtherSkills = await Db.Psychomotors.AsNoTracking().Where(s => s.StudentId.Contains(id)
-                                                                                && s.TermName.Contains(termName)
-                                                                                && s.SessionName.Contains(sessionName)
-                                                                                && s.ClassName.Equals(_resultCommand
-                                                                                    ._className))
-                .Select(c => c.Id).FirstOrDefaultAsync();
+                                    && s.TermName.Contains(termName)
+                                    && s.SessionName.Contains(sessionName)
+                                    && s.ClassName.Equals(_resultCommand._className))
+                                    .Select(c => c.Id).FirstOrDefaultAsync();
 
 
             reportModel.BehaviorCategory = await Db.BehaviorSkillCategories.AsNoTracking()
-                .Where(s => s.SchoolId.Equals(userSchool))
-                .Select(x => x.Name).ToListAsync();
+                                    .Where(s => s.SchoolId.Equals(userSchool))
+                                    .Select(x => x.Name).ToListAsync();
             reportModel.AssignBehaviors = await Db.AssignBehaviors.Where(s => s.SchoolId.Equals(userSchool)
-                                                                              && s.StudentId.Contains(id)
-                                                                              && s.TermName.Contains(termName)
-                                                                              && s.SessionName.Contains(sessionName))
+                                                    && s.StudentId.Equals(id)
+                                                    && s.TermName.Equals(termName)
+                                                    && s.SessionName.Equals(sessionName))
                 .ToListAsync();
 
 
             reportModel.AssignBehavior = reportModel.AssignBehaviors.FirstOrDefault();
 
             reportModel.ReportCard = await Db.ReportCards.FirstOrDefaultAsync(x => x.SchoolId.Equals(userSchool)
-                                                                                   && x.TermName.ToUpper().Equals(termName)
-                                                                                   && x.SessionName.Equals(sessionName));
+                                                && x.TermName.ToUpper().Equals(termName)
+                                                && x.SessionName.Equals(sessionName));
 
 
             //ViewBag.Class = 
-            reportModel.PrincipalComment = _gradeRemark.PrincipalRemark(reportModel.Average, _resultCommand._className, userSchool);
+            reportModel.PrincipalComment = _gradeRemark.PrincipalRemark(reportModel.Average, mySchoolClassName, userSchool);
             reportModel.TermName = termName;
             reportModel.SessionName = sessionName;
             reportModel.ClassName = _resultCommand._className;

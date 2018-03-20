@@ -2,35 +2,42 @@
 @model IEnumerable<SwiftSkoolv1.Domain.JambPractice.JambStudentQuestion>
 @{
     ViewBag.Title = "ShowNumbers";
+    var count = Model.Count();
 }
 
 @foreach (var item in Model)
 {
     if (item.SelectedAnswer == null )
     {
+        
         @*@Html.ActionLink(item.QuestionNumber.ToString(), "Exam", new { questionNo = item.QuestionNumber, courseId = item.CourseId, studentid = item.StudentId, examtype = item.ExamTypeId }, 
        new { @class = "btn-success" })*@
-        <a href="#" onclick="Edit(@item.QuestionNumber, @item.JambSubjectId, '@item.StudentId')" class="btn btn-xm btn-danger"> @item.QuestionNumber</a>
+        <a href="#" onclick="Edit(@item.QuestionNumber, @item.JambSubjectId, '@item.StudentId', '@item.ExamType')" class="btn btn-xm btn-danger"> @item.QuestionNumber</a>
     }
     else if (item.SelectedAnswer != null)
     {
         @*@Html.ActionLink(item.QuestionNumber.ToString(), "Exam", new { questionNo = item.QuestionNumber, courseId = item.CourseId, studentid = item.StudentId, examtype = item.ExamTypeId })*@
         @*<a href="@Url.Action("Exam","TakeExam", new{ questionNo = item.QuestionNumber, courseId = item.CourseId, studentid = item.StudentId, examtype = item.ExamTypeId })" class="btn ink-reaction btn-raised btn-primary"> @item.QuestionNumber</a>*@
-        <a href="#" onclick="Edit(@item.QuestionNumber, @item.JambSubjectId, '@item.StudentId')" class="btn btn-xm btn-primary"> @item.QuestionNumber</a>
+        <a href="#" onclick="Edit(@item.QuestionNumber, @item.JambSubjectId, '@item.StudentId','@item.ExamType')" class="btn btn-xm btn-primary"> @item.QuestionNumber</a>
 
     }
 
 }
 <script type="text/javascript">
     //window.alert("11");
-    function Edit(questionNo, courseId, studentId) {
-        var url = "/TakeExam/Exam?questionNo=" + questionNo + "&subjectId=" + courseId + "&studentid=" + studentId;
-        //window.alert(url);
-        //window.oSubmit();
-        //window.open('' + url + '', '_self');
+    function Edit(questionNo, courseId, studentId, examType) {
+        var url = "/TakeExam/Exam?questionNo=" + questionNo + "&subjectId=" + courseId + "&studentid=" + studentId + "&examType=" + examType;
+        var totalQuestion = '@count';
         document.getElementById("NextQuestion").value = questionNo;
+
+        if (questionNo === totalQuestion) {
+            $('#previousButton').trigger('click');
+
+        } else {
+            $('#nextButton').trigger('click');
+ 
+        }
         //window.alert(document.getElementById("NextQuestion").value);
-        $('#nextButton').trigger('click');
         
     };
 

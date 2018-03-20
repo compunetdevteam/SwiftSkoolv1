@@ -17,11 +17,10 @@ namespace SwiftSkoolv1.WebUI.Migrations
 
         protected override void Seed(SwiftSkoolv1.WebUI.Models.SwiftSkoolDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            // This method will be called after migrating to the latest version.
             context.Configuration.AutoDetectChangesEnabled = false;
 
             context.Configuration.ValidateOnSaveEnabled = false;
-
 
             if (!context.Roles.Any(r => r.Name == "Student"))
             {
@@ -36,6 +35,14 @@ namespace SwiftSkoolv1.WebUI.Migrations
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
                 var role = new IdentityRole { Name = "Admin" };
+
+                manager.Create(role);
+            }
+            if (!context.Roles.Any(r => r.Name == "TrialAdmin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "TrialAdmin" };
 
                 manager.Create(role);
             }
@@ -84,17 +91,11 @@ namespace SwiftSkoolv1.WebUI.Migrations
                 manager.AddToRole(user.Id, "SuperAdmin");
             }
 
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
+            // You can use the DbSet<T>.AddOrUpdate() helper extension method to avoid creating
+            // duplicate seed data. E.g.
             //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            // context.People.AddOrUpdate( p => p.FullName, new Person { FullName = "Andrew Peters"
+            // }, new Person { FullName = "Brice Lambson" }, new Person { FullName = "Rowan Miller" } );
         }
     }
 }

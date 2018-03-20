@@ -4,7 +4,6 @@ using SwiftSkoolv1.Domain.JambPractice;
 using SwiftSkoolv1.WebUI.Services;
 using SwiftSkoolv1.WebUI.ViewModels.JambExam;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -24,6 +23,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 s.JambQuestionAnswerId,
                 s.JambSubject.SubjectName,
                 s.ExamYear,
+                s.ExamType,
                 s.Question,
                 s.Option1,
                 s.Option2,
@@ -148,8 +148,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var myStudentType = from s in yearCategory
                                 select new { ID = s, Name = s.ToString() };
 
+            var examTypeCategory = ExamTypeList();
+            var myExamType = from s in examTypeCategory
+                             select new { ID = s, Name = s.ToString() };
 
-            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name");
+            ViewBag.ExamType = new SelectList(myExamType, "Name", "Name");
+            ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name");
             return View();
         }
 
@@ -173,6 +177,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Option4 = model.Option4,
                     Answer = model.Answer,
                     ExamYear = model.ExamYear,
+                    ExamType = model.ExamType,
                     QuestionHint = model.QuestionHint,
                     QuestionType = model.QuestionType,
 
@@ -189,10 +194,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName", model.JambSubjectId);
             var yearCategory = YearCategory();
             var myStudentType = from s in yearCategory
-                select new { ID = s, Name = s.ToString() };
+                                select new { ID = s, Name = s.ToString() };
 
+            var examTypeCategory = ExamTypeList();
+            var myExamType = from s in examTypeCategory
+                             select new { ID = s, Name = s.ToString() };
 
-            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name");
+            ViewBag.ExamType = new SelectList(myExamType, "Name", "Name", model.ExamType);
+            ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name", model.ExamYear);
             return View(model);
         }
 
@@ -211,10 +220,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName", questionAnswer.JambSubjectId);
             var yearCategory = YearCategory();
             var myStudentType = from s in yearCategory
-                select new { ID = s, Name = s.ToString() };
+                                select new { ID = s, Name = s.ToString() };
 
+            var examTypeCategory = ExamTypeList();
+            var myExamType = from s in examTypeCategory
+                             select new { ID = s, Name = s.ToString() };
 
-            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name"); var model = new JambQuestionAnswerVm()
+            ViewBag.ExamType = new SelectList(myExamType, "Name", "Name", questionAnswer.ExamType);
+            ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name", questionAnswer.ExamYear);
+            var model = new JambQuestionAnswerVm()
             {
                 JambQuestionAnswerId = questionAnswer.JambQuestionAnswerId,
                 Question = questionAnswer.Question,
@@ -249,6 +263,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     Option4 = model.Option4,
                     Answer = model.Answer,
                     ExamYear = model.ExamYear,
+                    ExamType = model.ExamType,
                     QuestionHint = model.QuestionHint,
                     QuestionType = model.QuestionType,
 
@@ -263,10 +278,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.JambSubjectId = new SelectList(Db.JambSubjects.AsNoTracking(), "JambSubjectId", "SubjectName", model.JambSubjectId);
             var yearCategory = YearCategory();
             var myStudentType = from s in yearCategory
-                select new { ID = s, Name = s.ToString() };
+                                select new { ID = s, Name = s.ToString() };
 
+            var examTypeCategory = ExamTypeList();
+            var myExamType = from s in examTypeCategory
+                             select new { ID = s, Name = s.ToString() };
 
-            ViewBag.ExamYear = new MultiSelectList(myStudentType, "Name", "Name");
+            ViewBag.ExamType = new SelectList(myExamType, "Name", "Name", model.ExamType);
+            ViewBag.ExamYear = new SelectList(myStudentType, "Name", "Name", model.ExamYear);
             return View(model);
         }
 
@@ -299,9 +318,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult UploadQuestion()
+        public PartialViewResult UploadQuestion()
         {
-            return View();
+            return PartialView();
         }
 
         [AllowAnonymous]
@@ -356,38 +375,42 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     }
                     for (int row = 2; row <= noOfRow; row++)
                     {
-                        QuestionType questionType = 0;
+                        var examType = string.Empty;
 
 
-                        string excelQuestionType = workSheet.Cells[row, 9].Value.ToString().ToUpper().Trim();
+                        string excelExamType = workSheet.Cells[row, 2].Value.ToString().ToUpper().Trim();
                         string subjectCode = workSheet.Cells[row, 1].Value.ToString().Trim();
-                        string examYear = workSheet.Cells[row, 2].Value.ToString().Trim().ToUpper();
+                        string examYear = workSheet.Cells[row, 3].Value.ToString().Trim().ToUpper();
                         var subject = await Db.JambSubjects.AsNoTracking()
-                            .Where(x => x.SubjectName.ToUpper().Equals(subjectCode.ToUpper()))
+                            .Where(x => x.SubjectCode.ToUpper().Equals(subjectCode.ToUpper()))
                             .FirstOrDefaultAsync();
 
                         if (subject == null)
                         {
-                            ViewBag.ErrorInfo = "The Department code or Exam Type in the excel doesn't exist";
+                            ViewBag.ErrorInfo = "The Subject doesn't Exist Exam Type in the excel doesn't exist";
                             ViewBag.ErrorMessage = "Error.";
                             return View("ErrorException");
                         }
-                        if (excelQuestionType.Equals(QuestionType.SingleChoice.ToString()))
+                        if (excelExamType.ToUpper().Trim().Equals("JAMB"))
                         {
-                            questionType = QuestionType.SingleChoice;
+                            examType = "JAMB";
                         }
-                        else if (excelQuestionType.Equals(QuestionType.MultiChoice.ToString()))
+                        else if (excelExamType.ToUpper().Trim().Equals("WAEC"))
                         {
-                            questionType = QuestionType.MultiChoice;
+                            examType = "WAEC";
                         }
-                        else if (excelQuestionType.Equals(QuestionType.BlankChoice.ToString()))
+                        else if (excelExamType.ToUpper().Trim().Equals("NECO"))
                         {
-                            questionType = QuestionType.BlankChoice;
+                            examType = "NECO";
+                        }
+                        else if (excelExamType.ToUpper().Trim().Equals("GCE"))
+                        {
+                            examType = "GCE";
                         }
                         else
                         {
-                            ViewBag.ErrorInfo = "The question type in the excel doesn't exist";
-                            ViewBag.ErrorMessage = "The question type in the excel doesn't exist";
+                            ViewBag.ErrorInfo = "The Exam type in the excel doesn't exist";
+                            ViewBag.ErrorMessage = "The Exam type supported is JAMB, WAEC, NECO, GCE in the excel doesn't exist";
                             return View("ErrorException");
                         }
                         try
@@ -396,21 +419,21 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             var questionAnswer = new JambQuestionAnswer
                             {
                                 JambSubjectId = subject.JambSubjectId,
-                                Question = workSheet.Cells[row, 3].Value.ToString().Trim(),
-                                Option1 = workSheet.Cells[row, 4].Value.ToString().Trim(),
-                                Option2 = workSheet.Cells[row, 5].Value.ToString().Trim(),
-                                Option3 = workSheet.Cells[row, 6].Value.ToString().Trim(),
-                                Option4 = workSheet.Cells[row, 7].Value.ToString().Trim(),
-                                Answer = workSheet.Cells[row, 8].Value.ToString().Trim(),
-                                QuestionType = questionType,
+                                Question = workSheet.Cells[row, 4].Value.ToString().Trim(),
+                                Option1 = workSheet.Cells[row, 5].Value.ToString().Trim(),
+                                Option2 = workSheet.Cells[row, 6].Value.ToString().Trim(),
+                                Option3 = workSheet.Cells[row, 7].Value.ToString().Trim(),
+                                Option4 = workSheet.Cells[row, 8].Value.ToString().Trim(),
+                                Answer = workSheet.Cells[row, 9].Value.ToString().Trim(),
+                                QuestionType = QuestionType.SingleChoice,
                                 ExamYear = examYear,
+                                ExamType = examType,
                                 QuestionHint = workSheet.Cells[row, 10].Value.ToString().Trim(),
 
                             };
                             Db.JambQuestionAnswers.Add(questionAnswer);
-
                             recordCount++;
-                            lastrecord = $"The last Updated record has the Course  {subject.SubjectName} and Question Type is {questionType}";
+                            lastrecord = $"The last Updated record has the Course  {subject.SubjectName} and Exam Type is {examType}";
 
                         }
                         catch (Exception ex)
@@ -419,6 +442,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                             ViewBag.ErrorMessage = ex.Message;
                             return View("ErrorException");
                         }
+
                     }
                     await Db.SaveChangesAsync();
                     message = $"You have successfully Uploaded {recordCount} records...  and {lastrecord}";

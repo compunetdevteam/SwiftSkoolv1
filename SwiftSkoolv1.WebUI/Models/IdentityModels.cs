@@ -123,7 +123,8 @@ namespace SwiftSkoolv1.WebUI.Models
         public DbSet<JambSubject> JambSubjects { get; set; }
         public DbSet<RemitaPaymentLog> RemitaPaymentLogs { get; set; }
 
-        public System.Data.Entity.DbSet<SwiftSkoolv1.Domain.RemitaFeeSetting> RemitaFeeSettings { get; set; }
+        public DbSet<RemitaFeeSetting> RemitaFeeSettings { get; set; }
+        public DbSet<ParentEmailAddress> ParentEmailAddresses { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "Create";
 }
-<link href="~/Content/chosen.css" rel="stylesheet" />
 <script src="~/Scripts/chosen.jquery.min.js"></script>
+
 
 <div class="card">
     <div class="card-block">
@@ -92,17 +92,14 @@
 </div>
 
 
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/chosen.jquery.min.js"></script>
 
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
     $(document).ready(function () {
-        //window.alert("ready");
         $('.chosen-select').chosen();
-        $(function () {
-            $('.listbox').multiselect({
-                includeSelectAllOption: true
-            });
-        });
+        //window.alert("ready");
+
 
         $("#btnsubmit").click(function () {
 

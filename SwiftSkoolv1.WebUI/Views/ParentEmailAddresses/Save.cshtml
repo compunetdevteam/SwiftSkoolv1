@@ -1,0 +1,100 @@
+﻿@model SwiftSkoolv1.Domain.ParentEmailAddress
+<div class="card">
+    <div class="card-block">
+        @if (Model != null && Model.ParentEmailAddressId > 0)
+        {
+            <div class="form-header  purple darken-4">
+                <h3>
+                    <i class="fa fa-pencil-square-o"></i> Update Record
+                </h3>
+            </div>
+        }
+        else
+        {
+            <div class="form-header  purple darken-4">
+                <h3><i class="fa fa-save"></i> Save</h3>
+            </div>
+        }
+
+        <form id="myform" onsubmit="return false;">
+            @Html.AntiForgeryToken()
+
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (Model != null && Model.ParentEmailAddressId > 0)
+                {
+                    @Html.HiddenFor(model => model.ParentEmailAddressId)
+                }
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Student Name")
+                    @Html.EditorFor(model => model.StudentId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Email Address")
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+
+                    @if (Model != null && Model.ParentEmailAddressId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                    }
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/ParentEmailAddresses/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload();//run my_fun() ondomready
+
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+
+</script>
+
+

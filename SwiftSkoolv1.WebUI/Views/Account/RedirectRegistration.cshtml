@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "RedirectRegistration";
+    Layout = "~/Views/Shared/_LayoutError.cshtml";
+
+}
+
+<div class="page-error-box">
+    <h1>Confirm Email</h1>
+    <h1>You have Registered Successfully,</h1>
+    <h3>Kindly Click on the Activation link sent to your Email to complete the registration</h3>
+    <a href="@Url.Action("Login","Account")" class="btn btn-rounded">Login Now</a>
+</div>

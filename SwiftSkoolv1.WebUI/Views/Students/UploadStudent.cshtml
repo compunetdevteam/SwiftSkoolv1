@@ -1,10 +1,10 @@
 ﻿@{
     ViewBag.Title = "UploadFile";
 }
-<a href="~/ExcelTemplate/ResultUploadTemplate.xlsx">~/ExcelTemplate/ResultUploadTemplate.xlsx</a>
 <h2>Upload Student Record</h2>
+<a class="btn btn-primary" href="~/ExcelTemplate/StudentUploadTemplate.xlsx">Download Template</a>
 
-@using (Html.BeginForm("UploadStudent", "Students", FormMethod.Post, new { enctype = "multipart/form-data", id= "theform" }))
+@using (Html.BeginForm("UploadStudent", "Students", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
 {
     @Html.Raw(ViewBag.Error)
     <span>Excel File </span> <input type="file" name="excelfile" />
@@ -12,14 +12,13 @@
     <input id="btnsubmit" type="submit" value="Import" class="btn btn-success" />
 }
 
-
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#theform').submit(function () {
             $("input[type='submit']", this)
-              .val("Uploading Please Wait...")
-              .attr('disabled', 'disabled');
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
             return true;
         });
     });

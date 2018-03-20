@@ -18,7 +18,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
         //    if (search != null)
         //    {
-
         //        page = 1;
         //    }
         //    else
@@ -33,28 +32,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //                                             || s.SessionName.ToUpper().Contains(search.ToUpper())
         //                                             || s.TermName.ToUpper().Contains(search.ToUpper()));
 
-        //    }
-        //    else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(StudentId)
-        //                        || !String.IsNullOrEmpty(TermName))
-        //    {
-        //        assignedList = assignedList.AsNoTracking().Where(s => s.SessionName.Contains(SessionName)
-        //                                            && s.TermName.ToUpper().Contains(TermName.ToUpper())
-        //                                            && s.StudentId.ToUpper().Contains(StudentId.ToUpper()));
-        //    }
-        //    switch (sortOrder)
-        //    {
-        //        case "name_desc":
-        //            assignedList = assignedList.AsNoTracking().OrderByDescending(s => s.StudentId);
-        //            break;
-        //        case "Date":
-        //            assignedList = assignedList.AsNoTracking().OrderBy(s => s.StudentId);
-        //            break;
-        //        default:
-        //            assignedList = assignedList.AsNoTracking().OrderBy(s => s.StudentId);
-        //            break;
-        //    }
-        //    int pageSize = 15;
-        //    int pageNumber = (page ?? 1);
+        // } else if (!String.IsNullOrEmpty(SessionName) || !String.IsNullOrEmpty(StudentId) ||
+        // !String.IsNullOrEmpty(TermName)) { assignedList = assignedList.AsNoTracking().Where(s =>
+        // s.SessionName.Contains(SessionName) && s.TermName.ToUpper().Contains(TermName.ToUpper())
+        // && s.StudentId.ToUpper().Contains(StudentId.ToUpper())); } switch (sortOrder) { case
+        // "name_desc": assignedList = assignedList.AsNoTracking().OrderByDescending(s =>
+        // s.StudentId); break; case "Date": assignedList = assignedList.AsNoTracking().OrderBy(s =>
+        // s.StudentId); break; default: assignedList = assignedList.AsNoTracking().OrderBy(s =>
+        // s.StudentId); break; } int pageSize = 15; int pageNumber = (page ?? 1);
 
         //    ViewBag.BehaviouralSkillId = new MultiSelectList(Db.BehaviouralSkills.AsNoTracking(), "SkillName", "SkillName");
         //    ViewBag.SessionName = new SelectList(Db.Sessions.AsNoTracking(), "SessionName", "SessionName");
@@ -74,6 +59,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ActionResult GetIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -92,7 +78,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var v = Db.AssignBehaviors.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => new
             {
-
                 s.SchoolId,
                 s.AssignBehaviorId,
                 s.StudentId,
@@ -113,10 +98,9 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
 
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
         }
-
-
 
         // GET: AssignBehaviors/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -133,7 +117,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(assignBehavior);
         }
 
-
         // GET: AssignBehaviors/Create
         public ActionResult Create()
         {
@@ -146,57 +129,77 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var classList = Db.AssignSubjectTeachers.Include(i => i.Subject).AsNoTracking()
                                 .Where(x => x.SchoolId.Equals(userSchool) && x.StaffName.Equals(name))
                                 .Select(x => x.ClassName).Distinct().ToList();
-            Db.AssignedClasses.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
 
             ViewBag.StudentId = new SelectList(Db.Students.Where(x => x.SchoolId.Equals(userSchool)).AsNoTracking(), "StudentID", "FullName");
             return View();
         }
 
-        // POST: AssignBehaviors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AssignBehaviors/Create To protect from overposting attacks, please enable the
+        // specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AssignBehaviorVm model)
         {
             if (ModelState.IsValid)
             {
-                //string[] ssizes = model.SkillScore.Split(new[] { ' ', ',', '-' });
-                string[] ssizes = model.SkillScore.Trim().Split(',');
-                if (ssizes.Length != model.BehaviouralSkillId.Length)
+                string[] ssizes = model.SkillScore.Split(new[] { ',' });
+                //string[] ssizes = model.SkillScore.Trim().Split(',');
+                if (ssizes.Length != model.BehaviouralSkillId.Count())
                 {
-                    string lineError = $"The number of Behaviors you entered is {model.BehaviouralSkillId.Length}  and the score Entered is {ssizes.Length}. " +
+                    string lineError = $"The number of Behaviors you entered is {model.BehaviouralSkillId.Count()}  and the score Entered is {ssizes.Length}. " +
                                        $"You should assign the same number of Score to the behavior you selected ";
                     //ViewBag.LineError = lineError;
                     return new JsonResult { Data = new { status = false, message = lineError } };
                 }
-                for (int i = 0; i < model.BehaviouralSkillId.Length; i++)
+                for (int i = 0; i < model.BehaviouralSkillId.Count(); i++)
                 {
                     string my = model.BehaviouralSkillId[i];
-                    var behavioCategory = await Db.BehaviouralSkills.Where(c => c.SkillName.Equals(my))
-                                         .Select(x => x.BehaviorSkillCategoryId).FirstOrDefaultAsync();
-                    AssignBehavior assignBehavior = new AssignBehavior()
+
+                    var checkAssignBehaviour = Db.AssignBehaviors.AsNoTracking().Where(x =>
+                                x.StudentId.Equals(model.StudentId) && x.SchoolId.Equals(userSchool) &&
+                                x.BehaviouralSkillId.ToUpper().Equals(my.ToUpper()) && x.TermName.Equals(model.TermName)
+                                && x.SessionName.Equals(model.SessionName)).FirstOrDefault();
+
+                    if (checkAssignBehaviour != null)
                     {
-                        StudentId = model.StudentId,
-                        SessionName = model.SessionName,
-                        TermName = model.TermName,
-                        TeacherComment = model.TeacherComment,
-                        SkillScore = ssizes[i].Trim(),
-                        BehaviouralSkillId = model.BehaviouralSkillId[i],
-                        BehaviorCategory = behavioCategory,
-                        NoOfAbsence = model.NoOfAbsence,
-                        Date = DateTime.Now,
-                        SchoolId = userSchool
-                    };
-                    Db.AssignBehaviors.Add(assignBehavior);
+                        checkAssignBehaviour.SkillScore = ssizes[i].Trim();
+                        checkAssignBehaviour.NoOfAbsence = model.NoOfAbsence;
+                        checkAssignBehaviour.SessionName = model.SessionName;
+                        checkAssignBehaviour.TermName = model.TermName;
+                        checkAssignBehaviour.TeacherComment = model.TeacherComment;
+
+                        Db.Entry(checkAssignBehaviour).State = EntityState.Modified;
+
+                    }
+                    else
+                    {
+                        var behavioCategory = Db.BehaviouralSkills.AsNoTracking()
+                                   .Where(c => c.SkillName.Equals(my)
+                                   && c.SchoolId.Equals(userSchool)).Select(x => x.BehaviorSkillCategoryId)
+                                   .FirstOrDefault();
+                        var assignBehavior = new AssignBehavior()
+                        {
+                            StudentId = model.StudentId,
+                            SessionName = model.SessionName,
+                            TermName = model.TermName,
+                            TeacherComment = model.TeacherComment,
+                            SkillScore = ssizes[i].Trim(),
+                            BehaviouralSkillId = model.BehaviouralSkillId[i],
+                            BehaviorCategory = behavioCategory,
+                            NoOfAbsence = model.NoOfAbsence,
+                            Date = DateTime.Now,
+                            SchoolId = userSchool
+                        };
+                        Db.AssignBehaviors.Add(assignBehavior);
+
+                    }
+
                 }
-
                 await Db.SaveChangesAsync();
-                return new JsonResult { Data = new { status = true, message = "Behavior Assigned Successfully" } };
 
+                return new JsonResult { Data = new { status = true, message = "Behavior Assigned Successfully" } };
             }
             return new JsonResult { Data = new { status = false, message = "Incomplete Data" } };
-            ;
         }
 
         // GET: AssignBehaviors/Edit/5
@@ -230,16 +233,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(assignBehavior);
         }
 
-        // POST: AssignBehaviors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AssignBehaviors/Edit/5 To protect from overposting attacks, please enable the
+        // specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(AssignBehaviorVm model)
         {
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < model.BehaviouralSkillId.Length; i++)
+                for (int i = 0; i < model.BehaviouralSkillId.Count(); i++)
                 {
                     string my = model.BehaviouralSkillId[i];
                     var behavioCategory = await Db.BehaviouralSkills.Where(c => c.SkillName.Equals(my))
@@ -256,7 +258,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         BehaviorCategory = behavioCategory,
                         NoOfAbsence = model.NoOfAbsence,
                         Date = DateTime.Now
-
                     };
                     Db.Entry(assignBehavior).State = EntityState.Modified;
                 }
@@ -303,7 +304,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return new JsonResult { Data = new { status = status, message = message } };
         }
-
 
         protected override void Dispose(bool disposing)
         {

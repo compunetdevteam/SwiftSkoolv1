@@ -7,25 +7,25 @@
 @using SwiftSkool.Models
 @model SwiftSkoolv1.WebUI.Models.LoginViewModel
 
-
 <div class="container-fluid">
     <form class="sign-box" action="@Href("~/Account/Login")" method="post">
         @Html.AntiForgeryToken()
 
         <div class="form-header">
-            <h3><img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left: 38%;"/>
+            <h3>
+                <img src="~/Content/images/swiftskool2.png" width="100" height="80" style="margin-left: 38%;" />
             </h3>
         </div>
         <header class="sign-title">Sign In</header>
         <div class="form-group">
-            <input type="text" class="form-control" id="Email" name="Email" placeholder="E-Mail or Phone"/>
+            <input type="text" class="form-control" id="Email" name="Email" placeholder="E-Mail or Phone" />
         </div>
         <div class="form-group">
-            <input type="password" id="Password" name="Password" class="form-control" placeholder="Password"/>
+            <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" />
         </div>
         <div class="form-group">
             <div class="checkbox float-left">
-                <input type="checkbox" id="signed-in"/>
+                <input type="checkbox" id="signed-in" />
                 <label for="signed-in">Keep me signed in</label>
             </div>
             <div class="float-right reset">
@@ -33,42 +33,38 @@
             </div>
         </div>
         <button type="submit" class="btn btn-rounded">Sign in</button>
-        <p class="sign-note">New to our portal? <a href="#">Sign up</a>
+        <p class="sign-note">
+            New to our portal, Create a Trial Account? <a href="@Url.Action("RegisterAccountUser","Account")">Sign up</a>
         </p>
-
     </form>
 </div>
-                    @*<form action="@Href("~/Account/Login")" method="post">
-                        @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            <label for="Email"> <i class="fa fa-envelope prefix"></i> Your email</label>
-                            <input type="text" id="Email" name="Email" class="form-control" >
+@*<form action="@Href("~/Account/Login")" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <label for="Email"> <i class="fa fa-envelope prefix"></i> Your email</label>
+                                <input type="text" id="Email" name="Email" class="form-control">
+                            </div>
 
-                        </div>
+                            <div class="form-group">
+                                <label for="Password"><i class="fa fa-lock prefix"></i> Your password</label>
+                                <input type="password" id="Password" name="Password" class="form-control" data-val="true" data-val-Password="The Password field is required." data-val-required="The Password field is required.">
 
-                        <div class="form-group">
-                            <label for="Password"><i class="fa fa-lock prefix"></i> Your password</label>
-                            <input type="password" id="Password" name="Password" class="form-control" data-val="true" data-val-Password="The Password field is required." data-val-required="The Password field is required.">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                            </div>
 
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
-                        </div>
-                      
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-primary" value="Login" />
+                            </div>
+                        </form>
+                    </div>
 
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="Login" />
-                        </div>
-                    </form>
-                </div>
-
-              
-                <div class="modal-footer text-center">
-                    <a href="@Url.Action("ForgotPassword", "Account")">Forgot Password?</a>
+                    <div class="modal-footer text-center">
+                        <a href="@Url.Action("ForgotPassword", "Account")">Forgot Password?</a>
+                    </div>
                 </div>
             </div>
-           
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

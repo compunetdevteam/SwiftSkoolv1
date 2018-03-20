@@ -16,7 +16,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //public async Task<ActionResult> Index(string sortOrder, string currentFilter, string search,
         //                                 string ClassName, string TermName, int? page)
         //{
-
         //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
         //    if (search == null)
         //    {
@@ -29,46 +28,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    ViewBag.CurrentFilter = search;
         //    var assignedList = from s in Db.AssignSubjects select s;
 
-        //    if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-        //    {
-        //        assignedList = assignedList.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool));
-        //    }
-        //    if (!String.IsNullOrEmpty(search))
-        //    {
-        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(search.ToUpper())
-        //                                               || s.Subject.SubjectName.ToUpper().Equals(search.ToUpper()));
+        // if (Request.IsAuthenticated && !User.IsInRole("SuperAdmin")) { assignedList =
+        // assignedList.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)); } if
+        // (!String.IsNullOrEmpty(search)) { assignedList = assignedList.Where(s =>
+        // s.ClassName.ToUpper().Contains(search.ToUpper()) || s.Subject.SubjectName.ToUpper().Equals(search.ToUpper()));
 
+        // } else if (!String.IsNullOrEmpty(ClassName) && !String.IsNullOrEmpty(TermName)) {
+        // assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
+        // && s.TermName.ToUpper().Equals(TermName.ToUpper()));
 
-        //    }
-        //    else if (!String.IsNullOrEmpty(ClassName) && !String.IsNullOrEmpty(TermName))
-        //    {
-        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-        //                            && s.TermName.ToUpper().Equals(TermName.ToUpper()));
+        // } else if (!String.IsNullOrEmpty(ClassName) || !String.IsNullOrEmpty(TermName)) {
+        // assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
+        // || s.TermName.ToUpper().Equals(TermName.ToUpper()));
 
-        //    }
-        //    else if (!String.IsNullOrEmpty(ClassName) || !String.IsNullOrEmpty(TermName))
-        //    {
-        //        assignedList = assignedList.Where(s => s.ClassName.ToUpper().Contains(ClassName.ToUpper())
-        //                                               || s.TermName.ToUpper().Equals(TermName.ToUpper()));
+        // } switch (sortOrder) { case "name_desc": assignedList = assignedList.OrderByDescending(s
+        // => s.Subject.SubjectName); break; case "Date": assignedList = assignedList.OrderBy(s =>
+        // s.Subject.SubjectName); break; default: assignedList = assignedList.OrderBy(s =>
+        // s.ClassName); break; } int pageSize = 17; int pageNumber = (page ?? 1);
 
-        //    }
-        //    switch (sortOrder)
-        //    {
-        //        case "name_desc":
-        //            assignedList = assignedList.OrderByDescending(s => s.Subject.SubjectName);
-        //            break;
-        //        case "Date":
-        //            assignedList = assignedList.OrderBy(s => s.Subject.SubjectName);
-        //            break;
-        //        default:
-        //            assignedList = assignedList.OrderBy(s => s.ClassName);
-        //            break;
-        //    }
-        //    int pageSize = 17;
-        //    int pageNumber = (page ?? 1);
-
-        //    ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool), "FullClassName", "FullClassName");
-        //    ViewBag.TermName = new SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
+        // ViewBag.ClassName = new SelectList(await _query.ClassListAsync(userSchool),
+        // "FullClassName", "FullClassName"); ViewBag.TermName = new
+        // SelectList(Db.Terms.AsNoTracking(), "TermName", "TermName");
 
         //    return View(assignedList.ToPagedList(pageNumber, pageSize));
         //    //return View(await Db.AssignSubjects.ToListAsync());
@@ -83,9 +63,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
         public async Task<ActionResult> GetIndex(string ClassName, string TermName)
         {
-           
             var className = string.Empty;
-
 
             var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool))
                                 .Select(s => new
@@ -121,7 +99,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var data = v.ToList();
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
-
         }
 
         public ActionResult MyAssignedSubject()
@@ -132,6 +109,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public async Task<ActionResult> GetStudentIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -147,10 +125,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
-            var className = string.Empty;
+
             var term = await Db.Terms.Where(x => x.ActiveTerm.Equals(true)).Select(x => x.TermName).FirstOrDefaultAsync();
             var session = await Db.Sessions.Where(x => x.ActiveSession.Equals(true)).Select(x => x.SessionName).FirstOrDefaultAsync();
             var studentId = User.Identity.GetUserId();
+
+            var className = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
+                                     && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
+                                     .Select(s => s.ClassName).FirstOrDefaultAsync();
 
             var v = Db.AssignSubjects.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)
                                     && x.ClassName.Equals(className) && x.TermName.Equals(term))
@@ -161,17 +143,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
                                         s.Subject.SubjectName,
                                         s.TermName
                                     }).ToList();
-            if (Request.IsAuthenticated && User.IsInRole("Student"))
-            {
+            //if (Request.IsAuthenticated && User.IsInRole("Student"))
+            //{
+            //    v = Db.AssignSubjects.AsNoTracking().Where(x => x.ClassName.Equals(className) && x.TermName.Equals(term))
+            //         .Select(s => new
+            //         {
+            //             s.AssignSubjectId,
+            //             s.ClassName,
+            //             s.Subject.SubjectName,
+            //             s.TermName
+            //         }).ToList(); ;
 
-                var myClass = await Db.AssignedClasses.AsNoTracking().Where(x => x.TermName.Equals(term) && x.SessionName.Equals(session)
-                                                                                 && x.StudentId.Equals(studentId) && x.SchoolId.Equals(userSchool))
-                    .Select(s => s.ClassName)
-                    .FirstOrDefaultAsync();
-                className = myClass;
-                v = v.Where(x => x.ClassName.Equals(className) && x.TermName.Equals(term)).ToList();
-
-            }
+            //}
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -183,12 +166,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
 
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
-
-
 
         public async Task<PartialViewResult> Save(int id)
         {
@@ -206,7 +188,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             return PartialView();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -266,7 +247,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             //return View(subject);
         }
 
-
         // GET: AssignSubjects/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -291,9 +271,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: AssignSubjects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AssignSubjects/Create To protect from overposting attacks, please enable the
+        // specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AssignSubjectViewModel model)
@@ -367,9 +346,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(assignSubject);
         }
 
-        // POST: AssignSubjects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AssignSubjects/Edit/5 To protect from overposting attacks, please enable the
+        // specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "AssignSubjectId,ClassName,SubjectName")] AssignSubject assignSubject)
@@ -390,14 +368,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(assignSubject);
         }
 
-
-
         public async Task<PartialViewResult> Delete(int id)
         {
             var assignSubject = await Db.AssignSubjects.FindAsync(id);
             return PartialView(assignSubject);
         }
-
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

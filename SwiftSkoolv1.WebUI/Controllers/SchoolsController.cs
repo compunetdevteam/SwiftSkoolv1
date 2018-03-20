@@ -10,16 +10,40 @@ using System.Web.Mvc;
 namespace SwiftSkoolv1.WebUI.Controllers
 {
     //[CustomAuthorize(Roles = RoleName.SuperAdmin)]
+    [Authorize]
     public class SchoolsController : BaseController
     {
         // GET: Schools
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await Db.Schools.AsNoTracking().ToListAsync());
+            return View();
         }
+
+        public ActionResult SchoolTrialAccount()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> GetTrialAccount()
+        {
+            var data = await Db.Schools.AsNoTracking().Where(x => x.IsTrialAccount.Equals(true))
+                .Select(s => new
+                {
+                    s.SchoolId,
+                    s.Name,
+                    s.Alias,
+                    s.Address,
+                    OwernshipType = s.OwernshipType.ToString(),
+                    s.IsEnabled,
+                    s.IsTrialAccount
+                }).ToListAsync();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> GetIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -36,13 +60,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = await Db.Schools.AsNoTracking().Select(s => new
+            var v = await Db.Schools.AsNoTracking().Where(x => x.IsDeleted.Equals(false)).Select(s => new
             {
                 s.SchoolId,
                 s.Name,
                 s.Alias,
                 s.Address,
-                s.OwernshipType,
+                OwernshipType = s.OwernshipType.ToString(),
+                s.IsEnabled,
+                s.IsTrialAccount
             }).ToListAsync();
             if (User.IsInRole("Admin"))
             {
@@ -54,8 +80,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 //v = v.OrderBy(sortColumn + " " + sortColumnDir);
                 v = v.Where(x => x.Name.Equals(search) || x.Alias.Equals(search)
                                  || x.OwernshipType.Equals(search)).ToList();
-
-
             }
 
             totalRecords = v.Count();
@@ -64,10 +88,27 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data },
                 JsonRequestBehavior.AllowGet);
 
-            #endregion
+            #endregion Server Side filtering
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> EnableSchool(string id)
+        {
+            var school = Db.Schools.Find(id);
+            if (school != null)
+            {
+                school.IsTrialAccount = false;
+                school.IsEnabled = true;
+                Db.Entry(school).State = EntityState.Modified;
+                await Db.SaveChangesAsync();
+                return new JsonResult { Data = new { status = true, message = "School Activated successfully" } };
+            }
+            return new JsonResult { Data = new { status = false, message = "School not Found" } };
+        }
+
         public async Task<PartialViewResult> PartialDetails(string id)
         {
             //var user = await Db.Users.AsNoTracking().Where(c => c.Id.Equals(username)).Select(c => c.Email).FirstOrDefaultAsync();
@@ -91,15 +132,49 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(school);
         }
 
+        public ActionResult CreateTrialAccount(string message)
+        {
+            ViewBag.Message = message;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateTrialAccount(SchoolVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                var school = new School
+                {
+                    SchoolId = model.SchoolId,
+                    Name = model.Name,
+                    Alias = model.Alias,
+                    Address = model.Address,
+                    LocalGovtArea = model.LocalGovtArea.ToString(),
+                    Color = model.Color.ToString(),
+                    OwernshipType = model.OwernshipType.ToString(),
+                    DateOfEstablishment = model.DateOfEstablishment,
+                    Logo = model.Logo,
+                    IsTrialAccount = true,
+                    SubscriptionDate = DateTime.Now,
+                    SchoolBanner = model.SchoolBanner
+                };
+                Db.Schools.Add(school);
+                await Db.SaveChangesAsync();
+                return RedirectToAction("AddAdminRole", "Account", new { id = userId, schoolId = model.SchoolId });
+            }
+            ViewBag.Message = "School Information is not complete";
+            return View(model);
+        }
+
         // GET: Schools/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Schools/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Schools/Create To protect from overposting attacks, please enable the specific properties
+        // you want to bind to, for more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(SchoolVm model)
@@ -122,7 +197,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 Db.Schools.Add(school);
                 await Db.SaveChangesAsync();
                 return RedirectToAction("Index");
-                // return new JsonResult { Data = new { status = true, message = "School Created Successfully" } };
+                // return new JsonResult { Data = new { status = true, message = "School Created
+                // Successfully" } };
             }
 
             return new JsonResult { Data = new { status = false, message = "Check your inputs and try again" } };
@@ -147,7 +223,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 Name = model.Name,
                 Alias = model.Alias,
                 Address = model.Address,
-                DateOfEstablishment = model.DateOfEstablishment,
                 //Color = model.Color.ToString(),
                 Logo = model.Logo,
                 SchoolBanner = model.SchoolBanner
@@ -156,9 +231,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(school);
         }
 
-        // POST: Schools/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Schools/Edit/5 To protect from overposting attacks, please enable the specific properties
+        // you want to bind to, for more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SchoolVm model)
@@ -219,6 +293,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return File(photoBack, "image/png");
         }
+
         [AllowAnonymous]
         public async Task<ActionResult> RenderBanner(string schoolId)
         {

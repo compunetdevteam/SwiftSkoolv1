@@ -1,132 +1,107 @@
 ﻿@model SwiftSkoolv1.Domain.AssignBehaviorVm
 
 @{
-	ViewBag.Title = "Create";
+    ViewBag.Title = "Create";
 }
-<script src="~/Scripts/chosen.jquery.min.js"></script>
+<link href="~/Content/chosen.css" rel="stylesheet" />
 
 <div class="card">
-<div class="card-block">
+    <div class="card-block">
 
-    <div class="form-header  purple darken-4">
-        <h3>
-            <i class="fa fa-save"></i> Assign Behavioral Skill
-        </h3>
-    </div>
+        <div class="form-header  purple darken-4">
+            <h3>
+                <i class="fa fa-save"></i> Assign Behavioral Skill
+            </h3>
+        </div>
 
-    <form id="myform">
-        @Html.AntiForgeryToken()
-	
-        <div class="form-horizontal">
-		
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-		
-            <div class="form-group">
-                @Html.LabelFor(model => model.StudentId)
-                <div class="col-md-6">
+        <form id="myform" onsubmit="return false;">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.StudentId)
                     @Html.DropDownList("StudentId", (SelectList)ViewBag.StudentId, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TermName)
-                <div class="col-md-6">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.TermName)
                     @Html.DropDownList("TermName", (SelectList)ViewBag.TermName, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.SessionName)
-                <div class="col-md-6">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.SessionName)
                     @Html.DropDownList("SessionName", (SelectList)ViewBag.SessionName, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
                 </div>
-            </div>
-		
-            <div class="form-group">
-                @Html.LabelFor(model => model.NoOfAbsence)
-                <div class="col-md-6">
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.NoOfAbsence)
                     @Html.EditorFor(model => model.NoOfAbsence, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.NoOfAbsence, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.BehaviouralSkillId)
-                <div class="col-md-10">
+                <div class="form-group col-md-10">
+                    @Html.LabelFor(model => model.BehaviouralSkillId)
                     @Html.DropDownList("BehaviouralSkillId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
                     @Html.ValidationMessageFor(model => model.BehaviouralSkillId, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 @Html.LabelFor(model => model.SkillScore)
-                <div class="col-md-6">
-                    @Html.EditorFor(model => model.SkillScore, new { htmlAttributes = new { @class = "form-control", @placeholder="A,B,C" } })
-                    @Html.ValidationMessageFor(model => model.SkillScore, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.SkillScore, new { htmlAttributes = new { @class = "form-control", @placeholder = "A,B,C" } })
+                @Html.ValidationMessageFor(model => model.SkillScore, "", new { @class = "text-danger" })
             </div>
-		
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TeacherComment, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-6">
-                    @Html.EditorFor(model => model.TeacherComment, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TeacherComment, "", new { @class = "text-danger" })
-                </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.TeacherComment)
+                @Html.EditorFor(model => model.TeacherComment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TeacherComment, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-6">
-                    <input type="reset" id="btnsubmit" value="Assign Behaviour" class="btn  btn-raised btn-primary" />
+                    <input id="btnsubmit" type="submit" value="Assign Behaviour" class="btn  btn-raised btn-primary" />
                 </div>
             </div>
-        </div>
+  
     </form>
-
-
 </div>
 </div>
 
-
+<div id="wait" style="display:none;width:89px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='~/Content/images/demo_wait.gif' width="84" height="84" /><br>Processing..</div>
 
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 }
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-
 
 <script>
     $(document).ready(function () {
         //window.alert("ready");
         $('.chosen-select').chosen();
-        $(function () {
-            $('.listbox').multiselect({
-                includeSelectAllOption: true
-            });
-        });
-        $("#btnsubmit").click(function () {
-            // window.alert("ready");
 
-            $("#loaderDiv").show();
+        $("#btnsubmit").click(function () {
+
+            $("#wait").css("display", "block");
 
             var data = $("#myform").serialize();
-            debugger
+            //window.alert(data);
             $.ajax({
                 type: "POST",
                 url: "/AssignBehaviors/Create",
                 data: data,
                 success: function (data) {
                     if (data.status) {
-                        $('#actionsList').modal("hide");
-                       
-                        //window.oTable.ajax.reload(); //run my_fun() ondomready
                         toastr["success"](data.message);
-                        $('#myform')[0].reset();
                         window.location.href = "/AssignBehaviors/Index";
+                        $("#wait").css("display", "none");
+
                     } else {
-                        //$('#actionsList').modal("hide");
-                        toastr["error"]("Behavior has not been Assigned");
+                        $("#wait").css("display", "none");
+                        toastr["error"](data.message);
                     }
 
                 }
@@ -134,4 +109,3 @@
         });
     })
 </script>
-

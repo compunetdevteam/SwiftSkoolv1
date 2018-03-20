@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SwiftKampusModel.Payment.SchoolFeePayment>
+﻿@model IEnumerable<SwiftSkoolv1.Domain.FeePayment>
 
 @{
     ViewBag.Title = "Payment History";
@@ -7,10 +7,8 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Payment History</h2>
-
     </div>
     <div class="col-lg-2">
-
     </div>
 </div>
 <br />
@@ -20,10 +18,10 @@
             Fee Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Semester.SemesterName)
+            @Html.DisplayNameFor(model => model.Term)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Session.SessionName)
+            @Html.DisplayNameFor(model => model.Session)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Students.FirstName)
@@ -54,10 +52,10 @@
                 @Html.DisplayFor(modelItem => item.FeeCategory)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Semester.SemesterName)
+                @Html.DisplayFor(modelItem => item.Term)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Session.SessionName)
+                @Html.DisplayFor(modelItem => item.Session)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Students.FirstName)
@@ -80,13 +78,9 @@
             </td>
             <td>
                 @*@Html.ActionLink("Print Receipt", "PrintReceipt", new { id = item.SchoolFeePaymentId })*@
-                <a class="btn btn-sm btn-success" href="@Url.Action("PrintReceipt","SchoolFeePayments", new{ id = item.SchoolFeePaymentId})">Print Receipt</a>
+                <a class="btn btn-sm btn-success" href="@Url.Action("PrintReceipt","FeePayments", new{ id = item.FeePaymentId})">Print Receipt</a>
                 @*<a href="#">Print Receipt</a>*@
             </td>
         </tr>
     }
-
 </table>
- 
-
-

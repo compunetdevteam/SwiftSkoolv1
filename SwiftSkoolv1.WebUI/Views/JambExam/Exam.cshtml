@@ -17,12 +17,11 @@
     <div class="row">
         <div class="col-md-6">
             <p>
-                <h5 class="text-accent-dark"><strong>Course: </strong> @ViewBag.Course</h5>
+                <h5 class="text-accent-dark"> <strong>Exam Type: </strong> @ViewBag.ExamType</h5>
             </p>
             <p>
-                <h5 class="text-accent-dark"> <strong>Exam Type: </strong> Jamb CBTE</h5>
+                <h5 class="text-accent-dark"><strong>Course: </strong> @ViewBag.Course</h5>
             </p>
-
         </div>
 
         <div class="col-md-6">
@@ -43,7 +42,7 @@
                 <h6>Answered Questions are in Green Color while UnAnswered Questions are in Red </h6>
             </p>
 
-            <p>@Html.Action("Menu", "JambExam", new {studentId = ViewBag.StudentId, jambsubjectId = ViewBag.JambSubjectId })</p>
+            <p>@Html.Action("Menu", "JambExam", new {studentId = ViewBag.StudentId, jambsubjectId = ViewBag.JambSubjectId, examType = ViewBag.ExamType, examYear=  ViewBag.ExamYear })</p>
         </div>
     </div>
     @*</div>
@@ -65,9 +64,9 @@
             @Html.HiddenFor(model => model.FilledAnswer)
             @Html.HiddenFor(model => model.IsFillInTheGag)
             @Html.HiddenFor(model => model.IsMultiChoiceAnswer)
-            @*@Html.HiddenFor(model => model.LevelId)*@
-            @*@Html.HiddenFor(model => model.SemesterName)
-                @Html.HiddenFor(model => model.SessionId)*@
+            @Html.HiddenFor(model => model.ExamType)
+           @Html.HiddenFor(model => model.ExamYear)
+            @*@Html.HiddenFor(model => model.SessionId)*@
             <input id="NextQuestion" type="text" value="" style="display:none" name="NextQuestion" />
 
             @*@ViewBag.Check1 = @Html.DisplayFor(modelItem => Model.Check1)*@
@@ -189,17 +188,18 @@
                     <div class="row text-center">
                         <div class="col-sm-3">
                             <p>
-                                @if (Model.JambStudentQuestionId != 1)
-                                {
-                                    <input type="submit" id="previous" value="Previous" class="btn btn-block btn-raised btn-primary" name="action:Previous" />
-                                }
+                                @if (Model.QuestionNumber != 1)
+    {
+                            <input type="submit" id="previous" value="Previous" class="btn btn-block btn-raised btn-primary" name="action:Previous" />
+                            <input style="display:none" id="nextButton" type="submit" value="Next" class="btn btn-block btn-raised btn-primary" name="action:Next" />
+}
                             </p>
                             @*<p><button type="button" class="btn btn-block ink-reaction btn-flat btn-default">Default</button>
                                 </p>*@
                         </div><!--end .col -->
                         <div class="col-sm-3">
                             <p>
-                                @if (Model.JambStudentQuestionId != Model.TotalQuestion)
+                                @if (Model.QuestionNumber != Model.TotalQuestion)
                                 {
                                     <span><input id="nextButton" type="submit" value="Next" class="btn btn-block btn-raised btn-primary" name="action:Next" /></span>
                                 }

@@ -11,8 +11,9 @@
         <div class="form-header  purple darken-4">
             <h3>
                 Jamb Questions <span>
-                    <a href="@Url.Action("Create","JambQuestionAnswers")" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Add Jamb Question</a>
+                    <a href="@Url.Action("Create","JambQuestionAnswers")" class="btn btn-primary btn-lg"> <i class="fa fa-file-excel-o"></i> Add Question</a>
                 </span>
+                <span> <a onclick="myFunction()" class="btn btn-primary btn-lg"> <i class="fa fa-plus left"></i> Upload Questions</a></span>
             </h3>
         </div>
         <div class="tablecontainer" style="width: 90%; margin: 0 auto">
@@ -21,6 +22,7 @@
                     <tr>
                         <th>Subject Code</th>
                         <th>Exam Year</th>
+                        <th>Exam Type</th>
                         <th>Question</th>
                         <th>Option 1</th>
                         <th>Option 2</th>
@@ -32,7 +34,29 @@
             </table>
         </div>
     </div>
+</div><!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Upload Question</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
 </div>
+<!-- /.Modal-->
+
 
 @section Scripts{
     <script>
@@ -47,6 +71,7 @@
                 "columns": [
                     { "data": "SubjectName", "autoWidth": true },
                     { "data": "ExamYear", "autoWidth": true },
+                    { "data": "ExamType", "autoWidth": true },
                     { "data": "Question", "autoWidth": true },
                     { "data": "Option1", "autoWidth": true },
                     { "data": "Option2", "autoWidth": true },
@@ -61,11 +86,14 @@
                     }
                 ]
             });
-           
+
         });
-        function Edit(questionId) {
-            var url = "/JambQuestionAnswers/Edit?id=" + questionId;
-            window.open(''+url+'', '_self');
+        function Upload() {
+            var url = "/JambQuestionAnswers/UploadQuestion";
+            $('#myModalDivBody').load(url,
+                function () {
+                    $('#actionsList').modal("show");
+                });
         };
 
     </script>

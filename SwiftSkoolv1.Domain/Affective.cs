@@ -67,9 +67,9 @@ namespace SwiftSkoolv1.Domain
     {
         public int AssignBehaviorId { get; set; }
         public string BehaviouralSkillId { get; set; }
-        [StringLength(35)]
+        [StringLength(135)]
         public string SkillScore { get; set; }
-        [StringLength(50)]
+        [StringLength(700)]
         public string TeacherComment { get; set; }
         [StringLength(155)]
         public string StudentId { get; set; }
@@ -109,7 +109,7 @@ namespace SwiftSkoolv1.Domain
 
         [Display(Name = "Behavioral Skills")]
         [Required(ErrorMessage = "Behavioral Skills is required")]
-        public string[] BehaviouralSkillId { get; set; }
+        public List<string> BehaviouralSkillId { get; set; }
 
         [Display(Name = "Behavioral Score")]
         [Required(ErrorMessage = "Behavioral Score is required")]

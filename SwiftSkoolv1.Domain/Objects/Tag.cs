@@ -2,7 +2,7 @@
 
 namespace SwiftSkoolv1.Domain.Objects
 {
-    public class Tag
+    public class Tag : GeneralSchool
     {
 
         public Tag()

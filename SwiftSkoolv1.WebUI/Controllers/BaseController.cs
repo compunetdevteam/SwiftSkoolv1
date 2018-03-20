@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using SwiftSkoolv1.WebUI.BusinessLogic;
 using SwiftSkoolv1.WebUI.Models;
+using SwiftSkoolv1.WebUI.ViewModels;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using SwiftSkoolv1.WebUI.ViewModels;
 
 namespace SwiftSkoolv1.WebUI.Controllers
 {
@@ -13,16 +13,20 @@ namespace SwiftSkoolv1.WebUI.Controllers
     {
         public SwiftSkoolDbContext Db;
         public QueryManager _query;
+        private static int myCount = 0;
 
         public string userSchool;
+        public string userId;
+        public bool IsExpired;
 
         public BaseController()
         {
             Db = new SwiftSkoolDbContext();
             _query = new QueryManager();
             userSchool = _query.GetId();
+            userId = _query.GetUserId();
+            IsExpired = _query.CheckIsExpired(userSchool);
         }
-
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
@@ -51,15 +55,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 model.SchoolName = "SwiftSkool";
                 model.SchoolId = "SwiftSkool";
                 model.Color = "";
+                IsExpired = false;
             }
             ViewBag.LayoutViewModel = model;
-
-
-
+            myCount = myCount + 1;
+            bool needToRedirect = myCount > 2;
+            if (IsExpired && needToRedirect)
+            {
+                var url = Url.Action("LogOut", "Account", new { }, protocol: Request.Url.Scheme);
+                filterContext.Result = new RedirectResult(url);
+                return;
+            }
         }
-
-
-
 
         protected override void Dispose(bool disposing)
         {
@@ -99,5 +106,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return yearCategory;
         }
 
+        public static List<string> ExamTypeList()
+        {
+            var examType = new List<string>();
+            examType.Add("JAMB");
+            examType.Add("WAEC");
+            examType.Add("NECO");
+            examType.Add("GCE");
+            return examType;
+        }
     }
 }

@@ -122,6 +122,7 @@
     <Compile Include="Objects\Comment.cs" />
     <Compile Include="Objects\Post.cs" />
     <Compile Include="Objects\Tag.cs" />
+    <Compile Include="ParentEmailAddress.cs" />
     <Compile Include="PopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemitaFeeSetting.cs" />

@@ -54,7 +54,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     {
                         message = "Student Transaction not found";
                     }
-
                 }
                 else
                 {
@@ -121,7 +120,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             #endregion Server Side filtering
         }
 
-
         // GET: FeePayments/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -137,7 +135,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(schoolFeePayment);
         }
 
-
         [HttpGet]
         public ActionResult MakePayment(string message)
         {
@@ -152,16 +149,14 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-
         // GET: FeePayments/Create
         public async Task<ActionResult> Create(FeePaymentVm model)
         {
-
             var studentId = User.Identity.GetUserId();
             var hasPayedList = await Db.FeePayments.AsNoTracking().Where(x => x.StudentId.Equals(studentId) &&
                                         x.Session.Equals(model.SessionName) && x.FeeCategory.Equals(model.FeeCategory))
                                         .FirstOrDefaultAsync();
-            if (hasPayedList.Status.Equals(true))
+            if (hasPayedList != null && hasPayedList.Status.Equals(true))
             {
                 return View("Index");
             }
@@ -201,9 +196,13 @@ namespace SwiftSkoolv1.WebUI.Controllers
             long milliseconds = DateTime.Now.Ticks;
             var url = Url.Action("ConfrimPayment", "FeePayments", new { }, protocol: Request.Url.Scheme);
             var remitaParam = GetServiceType(model.FeeCategory);
+            if (remitaParam == null)
+            {
+                return RedirectToAction("MakePayment",
+                   new { message = "Remita integration has not been configured for this school." });
+            }
 
-
-            if (hasPayedList.Status.Equals(false))
+            if (hasPayedList != null && hasPayedList.Status.Equals(false))
             {
                 remitaParam = GetServiceType(hasPayedList.FeeCategory);
 
@@ -224,8 +223,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     return RedirectToAction("ConfrimPayment", new { orderID = hasPayedList.OrderId });
                 }
             }
-
-
 
             var confirmPaymentVm = new ConfirmPaymentVm
             {
@@ -255,8 +252,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
 
             return View(confirmPaymentVm);
-
-
         }
 
         public RemitaFeeSetting GetServiceType(string feeCategory)
@@ -286,22 +281,19 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return paymentList;
         }
 
-        // POST: FeePayments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: FeePayments/Create To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ConfirmPaymentVm model)
         {
             if (ModelState.IsValid)
             {
-
                 var hasTransaction = await Db.FeePayments.AsNoTracking().Where(x => x.StudentId.Equals(model.StudentId)
                                                 && x.Session.Equals(model.SessionName)
                                                 && x.FeeCategory.Equals(model.FeeCategory))
                                                 .ToListAsync();
                 model.paymenttype = model.RemitaPaymentType.ToString().Replace("_", " ").ToLower();
-
 
                 if (string.IsNullOrEmpty(model.payerEmail))
                 {
@@ -323,8 +315,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     StudentId = model.StudentId,
                     PaidFee = model.TotalAmount,
                     TotalAmount = model.TotalAmount,
-
-
                 };
                 Db.FeePayments.Add(schoolFeePayment);
                 var log = new RemitaPaymentLog
@@ -334,7 +324,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     PaymentDate = DateTime.Now,
                     Amount = model.TotalAmount.ToString(),
                     PaymentName = model.StudentName
-
                 };
                 Db.RemitaPaymentLogs.Add(log);
                 await Db.SaveChangesAsync();
@@ -343,7 +332,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             return View(model);
         }
-
 
         [AllowAnonymous]
         public ActionResult SubmitRemita(ConfirmPaymentVm model)
@@ -377,9 +365,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(model);
         }
 
-
-
-
         [AllowAnonymous]
         public async Task<ActionResult> ConfrimPayment(string RRR, string orderID)
         {
@@ -403,7 +388,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
                 if (schoofeepayment.Status.Equals(true))
                 {
-
                     result.Message = schoofeepayment.PaymentStatus;
                     result.OrderId = schoofeepayment.OrderId;
                     result.Rrr = schoofeepayment.ReferenceNo;
@@ -440,7 +424,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                     _query.UpdateTransactionLog(log, result);
                     await Db.SaveChangesAsync();
                     return RedirectToAction("RetrySchoolFeePayment", new { rrr = result.Rrr });
-
                 }
 
                 return RedirectToAction("ConfrimRrrPayment", "RemitaPaymentLogs", result);
@@ -448,10 +431,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var message = $"There is no payment that has either the RRR {RRR} or" +
                             $" Order Id {orderID} for School fee or Acceptance Fee";
             return RedirectToAction("GetPaymentStatus", "RemitaServices", new { message = message });
-
         }
-
-
 
         private async Task UpdateStudentRecord(string schoofeepayment, string studentId)
         {
@@ -463,7 +443,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 Db.Entry(student).State = EntityState.Modified;
             }
         }
-
 
         //public async Task<ActionResult> PrintReceipt(int id)
         //{
@@ -478,7 +457,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //                                                    && x.Session.Equals(schoolFeePayment.Student.Indegine)
         //                                                    && x.Level.LevelId.Equals(schoolFeePayment.Student.Level.LevelId)).ToListAsync();
 
-        //    schoolFeePayment.SchoolFeePayment = schoolFee;
+        // schoolFeePayment.SchoolFeePayment = schoolFee;
 
         //    //return View(schoolFeePayment);
         //    return new ViewAsPdf(schoolFeePayment);
@@ -492,11 +471,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    var feeCategory = from FeeCategory s in Enum.GetValues(typeof(FeeCategory))
         //                      select new { ID = s, Name = s.ToString() };
 
-        //    ViewBag.FeeCategoryId = new MultiSelectList(feeCategory, "Name", "Name");
+        // ViewBag.FeeCategoryId = new MultiSelectList(feeCategory, "Name", "Name");
 
         //    return View();
         //}
-
 
         //public async Task<ActionResult> SchoolFeeDefaulters()
         //{
@@ -559,34 +537,21 @@ namespace SwiftSkoolv1.WebUI.Controllers
         //    var studentsList = await Db.Students.Include(i => i.Level).Include(i => i.Programme.Department).AsNoTracking()
         //                            .Where(x => x.Active.Equals(true) && x.IsGraduated.Equals(false)).ToListAsync();
 
-        //    var schoolFee = await Db.FeePayments.Include(i => i.Students).Include(i => i.Session)
-        //                            .Include(i => i.Students.Programme.Department).Include(i => i.Students.Level)
-        //                            .AsNoTracking().Where(x => x.FeeCategory.Equals(FeeCategoryId) &&
-        //                            x.Status.Equals(true) && x.SessionId.Equals((int)SessionId)).ToListAsync();
+        // var schoolFee = await Db.FeePayments.Include(i => i.Students).Include(i => i.Session)
+        // .Include(i => i.Students.Programme.Department).Include(i => i.Students.Level)
+        // .AsNoTracking().Where(x => x.FeeCategory.Equals(FeeCategoryId) && x.Status.Equals(true) && x.SessionId.Equals((int)SessionId)).ToListAsync();
 
-        //    if (DepartmentId != null & LevelId != null)
-        //    {
-        //        schoolFee = schoolFee.Where(x => x.Students.Programme.Department.DepartmentId.Equals((int)DepartmentId)
-        //                                         && x.Students.Level.LevelId.Equals((int)LevelId)
-        //                                         && x.SessionId.Equals((int)SessionId)).ToList();
-        //    }
-        //    else if (DepartmentId != null)
-        //    {
-        //        schoolFee = schoolFee.Where(x => x.Students.Programme.Department.DepartmentId.Equals((int)DepartmentId)
-        //        ).ToList();
-        //    }
-        //    else if (LevelId != null)
-        //    {
-        //        schoolFee = schoolFee.Where(x => x.Students.Level.LevelId.Equals((int)LevelId)).ToList();
-        //    }
-        //    foreach (var student in studentsList)
-        //    {
-        //        var defaulter = schoolFee.FirstOrDefault(x => x.StudentId.Equals(student.StudentId));
-        //        if (defaulter == null)
-        //        {
-        //            defaulterList.Add(student);
-        //        }
-        //    }
+        // if (DepartmentId != null & LevelId != null) { schoolFee = schoolFee.Where(x =>
+        // x.Students.Programme.Department.DepartmentId.Equals((int)DepartmentId) &&
+        // x.Students.Level.LevelId.Equals((int)LevelId) &&
+        // x.SessionId.Equals((int)SessionId)).ToList(); } else if (DepartmentId != null) { schoolFee
+        // = schoolFee.Where(x =>
+        // x.Students.Programme.Department.DepartmentId.Equals((int)DepartmentId) ).ToList(); } else
+        // if (LevelId != null) { schoolFee = schoolFee.Where(x =>
+        // x.Students.Level.LevelId.Equals((int)LevelId)).ToList(); } foreach (var student in
+        // studentsList) { var defaulter = schoolFee.FirstOrDefault(x =>
+        // x.StudentId.Equals(student.StudentId)); if (defaulter == null) {
+        // defaulterList.Add(student); } }
 
         //    var data = defaulterList.Select(s => new
         //    {
@@ -608,7 +573,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ExcelPackage package = new ExcelPackage();
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Report");
 
-
             worksheet.Cells[$"{c1++}1"].Value = "Student Id";
             worksheet.Cells[$"{c1++}1"].Value = "Student Name";
             worksheet.Cells[$"{c1++}1"].Value = "OrderId";
@@ -616,7 +580,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             worksheet.Cells[$"{c1++}1"].Value = "Amount";
             worksheet.Cells[$"{c1++}1"].Value = "Status";
             worksheet.Cells[$"{c1++}1"].Value = "Status Message";
-
 
             var sessionId = _query.CurrentSession();
             var feepayments = await Db.FeePayments.AsNoTracking().Where(x => x.Status.Equals(false)
@@ -647,12 +610,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             Response.AddHeader("content-disposition", "attachment: filename=" + $"PreDegreeExamResult.xlsx");
             Response.BinaryWrite(package.GetAsByteArray());
             Response.End();
-
         }
-
-
-
-
 
         protected override void Dispose(bool disposing)
         {

@@ -12,7 +12,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class ClassesController : BaseController
     {
-
         // GET: Classes
         public async Task<ActionResult> Index()
         {
@@ -55,6 +54,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
         public ActionResult GetIndex()
         {
             #region Server Side filtering
+
             //Get parameter for sorting from grid table
             // get Start (paging start index) and length (page size for paging)
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -88,12 +88,11 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
 
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-            #endregion
+
+            #endregion Server Side filtering
 
             //return Json(new { data = await Db.Subjects.AsNoTracking().Select(s => new { s.SubjectId, s.SubjectCode, s.SubjectName }).ToListAsync() }, JsonRequestBehavior.AllowGet);
         }
-
-
 
         public async Task<PartialViewResult> Save(int id)
         {
@@ -102,7 +101,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             return PartialView(classes);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -130,6 +128,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
                 else
                 {
+                    var ifClassExist = Db.Classes.Where(x => x.SchoolId.Equals(userSchool)
+                    && x.FullClassName.Equals(classes.FullClassName)).Any();
+                    if (ifClassExist)
+                    {
+                        return new JsonResult { Data = new { status = false, message = $"Sorry you cant create {classes.FullClassName} twice" } };
+                    }
                     classes.SchoolId = userSchool;
                     classes.ClassName = classes.ClassName.ToUpper();
                     Db.Classes.Add(classes);
@@ -141,7 +145,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return new JsonResult { Data = new { status = status, message = message } };
             //return View(subject);
         }
-
 
         // GET: Classes/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -165,9 +168,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View();
         }
 
-        // POST: Classes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Classes/Create To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Class model)
@@ -220,9 +222,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             return View(@class);
         }
 
-        // POST: Classes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Classes/Edit/5 To protect from overposting attacks, please enable the specific
+        // properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ClassID,Name,ClassType")] Class model)
@@ -245,8 +246,6 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.SchoolName = new SelectList(Db.SchoolClasses, "ClassCode", "ClassCode");
             return View(model);
         }
-
-
 
         public async Task<PartialViewResult> Delete(int id)
         {

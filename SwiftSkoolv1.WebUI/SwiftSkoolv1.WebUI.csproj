@@ -128,6 +128,9 @@
     <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid, Version=9.8.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sendgrid.9.9.0\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -249,7 +252,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BehaviorSkillCategoriesController.cs" />
     <Compile Include="Controllers\BehaviouralSkillsController.cs" />
-    <Compile Include="Controllers\BookIssuesController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CaListsController.cs" />
     <Compile Include="Controllers\CaSetUpsController.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Controllers\LessonNotesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\ParentEmailAddressesController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\PrincipalCommentsController.cs" />
     <Compile Include="Controllers\PsychomotorsController.cs" />
@@ -303,25 +306,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201802140914313_InitialCreate.cs" />
-    <Compile Include="Migrations\201802140914313_InitialCreate.Designer.cs">
-      <DependentUpon>201802140914313_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802141422576_AddTermToFeeType.cs" />
-    <Compile Include="Migrations\201802141422576_AddTermToFeeType.Designer.cs">
-      <DependentUpon>201802141422576_AddTermToFeeType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802141555084_Payment.cs" />
-    <Compile Include="Migrations\201802141555084_Payment.Designer.cs">
-      <DependentUpon>201802141555084_Payment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802151253082_ChangesToJambExamRule.cs" />
-    <Compile Include="Migrations\201802151253082_ChangesToJambExamRule.Designer.cs">
-      <DependentUpon>201802151253082_ChangesToJambExamRule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802151509493_examTYear.cs" />
-    <Compile Include="Migrations\201802151509493_examTYear.Designer.cs">
-      <DependentUpon>201802151509493_examTYear.cs</DependentUpon>
+    <Compile Include="Migrations\201803141935350_behavioural.cs" />
+    <Compile Include="Migrations\201803141935350_behavioural.Designer.cs">
+      <DependentUpon>201803141935350_behavioural.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -562,9 +549,102 @@
     <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\GloriaUI\css\animate.css" />
+    <Content Include="Content\GloriaUI\css\animated-text.css" />
+    <Content Include="Content\GloriaUI\css\bootstrap.min.css" />
+    <Content Include="Content\GloriaUI\css\chosen.min.css" />
+    <Content Include="Content\GloriaUI\css\color-2.css" />
+    <Content Include="Content\GloriaUI\css\color.css" />
+    <Content Include="Content\GloriaUI\css\dashboard.css" />
+    <Content Include="Content\GloriaUI\css\flexslider.css" />
+    <Content Include="Content\GloriaUI\css\font-awesome.min.css" />
+    <Content Include="Content\GloriaUI\css\login-register.css" />
+    <Content Include="Content\GloriaUI\css\owl.carousel.css" />
+    <Content Include="Content\GloriaUI\css\prettyPhoto.css" />
+    <Content Include="Content\GloriaUI\css\responsive.css" />
+    <Content Include="Content\GloriaUI\css\revolution-slider.css" />
+    <Content Include="Content\GloriaUI\css\style.css" />
+    <Content Include="Content\GloriaUI\css\svg-style.css" />
+    <Content Include="Content\GloriaUI\css\swiper.css" />
+    <Content Include="Content\GloriaUI\css\typography-02.css" />
+    <Content Include="Content\GloriaUI\css\typography.css" />
+    <Content Include="Content\GloriaUI\css\widget.css" />
+    <Content Include="Content\GloriaUI\css\ytp-regular-2.html" />
+    <Content Include="Content\GloriaUI\css\ytp-regular.html" />
+    <Content Include="Content\GloriaUI\css\YTPlayer.css" />
+    <Content Include="Content\GloriaUI\extra-images\about-us.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\banner-01.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\banner-02.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\banner-03.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\cgpa.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\courses-01.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\courses-02.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\courses-03.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\courses-search-bg.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\event-grid-06.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\facts-bg.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\facts-bg2.jpg" />
+    <Content Include="Content\GloriaUI\extra-images\search-bg.jpg" />
+    <Content Include="Content\GloriaUI\fonts\revicons90c690c6-5510888.svg" />
+    <Content Include="Content\GloriaUI\images\choose-sprite.png" />
+    <Content Include="Content\GloriaUI\images\chosen-sprite.png" />
+    <Content Include="Content\GloriaUI\images\logo.png" />
+    <Content Include="Content\GloriaUI\images\logo3.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_rounded\btnNext.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_rounded\contentPattern.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_rounded\loader.gif" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_rounded\sprite.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_square\btnNext.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_square\btnPrevious.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_square\loader.gif" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\dark_square\sprite.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\default_thumb.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\loader.gif" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\sprite.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\sprite_next.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\sprite_x.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\default\sprite_y.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\btnNext.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\btnPrevious.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\contentPatternBottom.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\contentPatternLeft.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\contentPatternRight.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\contentPatternTop.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\default_thumbnail.gif" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\loader.gif" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\facebook\sprite.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_rounded\btnNext.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_rounded\btnPrevious.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_rounded\loader.gif" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_rounded\sprite.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_square\btnNext.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_square\btnPrevious.png" />
+    <Content Include="Content\GloriaUI\images\prettyPhoto\light_square\sprite.png" />
+    <Content Include="Content\GloriaUI\images\team-sprite.png" />
+    <Content Include="Content\GloriaUI\js\animated-text.js" />
+    <Content Include="Content\GloriaUI\js\bootstrap.min.js" />
+    <Content Include="Content\GloriaUI\js\chosen.jquery.min.js" />
+    <Content Include="Content\GloriaUI\js\custom.js" />
+    <Content Include="Content\GloriaUI\js\jquery.accordion.js" />
+    <Content Include="Content\GloriaUI\js\jquery.downCount.js" />
+    <Content Include="Content\GloriaUI\js\jquery.flexslider-min.js" />
+    <Content Include="Content\GloriaUI\js\jquery.js" />
+    <Content Include="Content\GloriaUI\js\jquery.mb.YTPlayer.min.js" />
+    <Content Include="Content\GloriaUI\js\jquery.prettyPhoto.js" />
+    <Content Include="Content\GloriaUI\js\jquery.singlePageNav.js" />
+    <Content Include="Content\GloriaUI\js\nicescroll.js" />
+    <Content Include="Content\GloriaUI\js\owl.carousel.js" />
+    <Content Include="Content\GloriaUI\js\pluginse209.js" />
+    <Content Include="Content\GloriaUI\js\revolution.min.js" />
+    <Content Include="Content\GloriaUI\js\swiper.jquery.min.js" />
+    <Content Include="Content\GloriaUI\js\waypoints-min.js" />
+    <Content Include="Content\GloriaUI\js\wow.min.js" />
     <Content Include="Content\images\banner2.jpg" />
     <Content Include="Content\images\comlogo.png" />
     <Content Include="Content\images\compunetLogo.jpg" />
+    <Content Include="Content\images\demo_wait.gif" />
     <Content Include="Content\images\im5.jpg" />
     <Content Include="Content\images\im6.jpg" />
     <Content Include="Content\images\im7.jpg" />
@@ -590,6 +670,61 @@
     <Content Include="Content\MdCss\images\swiftskool2.png" />
     <Content Include="Content\MdCss\mdb.css" />
     <Content Include="Content\MdCss\style.css" />
+    <Content Include="Content\NewUI\css\bootstrap.css" />
+    <Content Include="Content\NewUI\css\font-awesome.css" />
+    <Content Include="Content\NewUI\css\jquery-ui.css" />
+    <Content Include="Content\NewUI\css\simplelightbox.min.css" />
+    <Content Include="Content\NewUI\css\style.css" />
+    <Content Include="Content\NewUI\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\NewUI\images\1.jpg" />
+    <Content Include="Content\NewUI\images\2.jpg" />
+    <Content Include="Content\NewUI\images\3.jpg" />
+    <Content Include="Content\NewUI\images\4.jpg" />
+    <Content Include="Content\NewUI\images\a1.jpg" />
+    <Content Include="Content\NewUI\images\arrow.png" />
+    <Content Include="Content\NewUI\images\bg.jpg" />
+    <Content Include="Content\NewUI\images\bg4.jpg" />
+    <Content Include="Content\NewUI\images\bg5.png" />
+    <Content Include="Content\NewUI\images\bg7.jpg" />
+    <Content Include="Content\NewUI\images\c-arrows.png" />
+    <Content Include="Content\NewUI\images\c1.jpg" />
+    <Content Include="Content\NewUI\images\c2.jpg" />
+    <Content Include="Content\NewUI\images\c3.jpg" />
+    <Content Include="Content\NewUI\images\c5.jpg" />
+    <Content Include="Content\NewUI\images\c7.jpg" />
+    <Content Include="Content\NewUI\images\e1.jpg" />
+    <Content Include="Content\NewUI\images\g1.jpg" />
+    <Content Include="Content\NewUI\images\g2.jpg" />
+    <Content Include="Content\NewUI\images\g3.jpg" />
+    <Content Include="Content\NewUI\images\g4.jpg" />
+    <Content Include="Content\NewUI\images\g5.jpg" />
+    <Content Include="Content\NewUI\images\g6.jpg" />
+    <Content Include="Content\NewUI\images\g7.jpg" />
+    <Content Include="Content\NewUI\images\g8.jpg" />
+    <Content Include="Content\NewUI\images\g9.jpg" />
+    <Content Include="Content\NewUI\images\graduate.png" />
+    <Content Include="Content\NewUI\images\left.png" />
+    <Content Include="Content\NewUI\images\right.png" />
+    <Content Include="Content\NewUI\images\s1.jpg" />
+    <Content Include="Content\NewUI\images\s2.jpg" />
+    <Content Include="Content\NewUI\images\s3.jpg" />
+    <Content Include="Content\NewUI\images\s4.jpg" />
+    <Content Include="Content\NewUI\images\t1.jpg" />
+    <Content Include="Content\NewUI\images\t2.jpg" />
+    <Content Include="Content\NewUI\images\t3.jpg" />
+    <Content Include="Content\NewUI\images\t4.jpg" />
+    <Content Include="Content\NewUI\images\te1.jpg" />
+    <Content Include="Content\NewUI\images\te2.jpg" />
+    <Content Include="Content\NewUI\images\te3.jpg" />
+    <Content Include="Content\NewUI\js\bootstrap.js" />
+    <Content Include="Content\NewUI\js\easing.js" />
+    <Content Include="Content\NewUI\js\jquery-2.1.4.min.js" />
+    <Content Include="Content\NewUI\js\jquery-ui.js" />
+    <Content Include="Content\NewUI\js\jquery.flexisel.js" />
+    <Content Include="Content\NewUI\js\move-top.js" />
+    <Content Include="Content\NewUI\js\numscroller-1.0.js" />
+    <Content Include="Content\NewUI\js\simple-lightbox.js" />
+    <Content Include="Content\NewUI\js\SmoothScroll.min.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -726,6 +861,21 @@
     <Content Include="MyFiles\AVA-0001-017-010-171ST.pdf" />
     <Content Include="MyFiles\AVA-0001-017-012-171ST.pdf" />
     <Content Include="MyFiles\AVA-0001-017-013-171ST.pdf" />
+    <Content Include="ExcelTemplate\CbteQuestionUpload.xlsx" />
+    <Content Include="Content\NewUI\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\NewUI\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\NewUI\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\NewUI\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\NewUI\fonts\FontAwesome.otf" />
+    <Content Include="Content\NewUI\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\NewUI\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\NewUI\images\Thumbs.db" />
+    <Content Include="ExcelTemplate\StudentUploadTemplate.xlsx" />
+    <Content Include="Content\GloriaUI\extra-images\.DS_Store" />
+    <Content Include="Content\GloriaUI\fonts\revicons90c690c6-5510888.eot" />
+    <Content Include="Content\GloriaUI\fonts\revicons90c690c6-5510888.ttf" />
+    <Content Include="Content\GloriaUI\fonts\revicons90c690c6-5510888.woff" />
+    <Content Include="Content\GloriaUI\images\.DS_Store" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkoolJos - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -1306,7 +1456,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Indexold2.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -1462,7 +1612,7 @@
     <Content Include="Views\HomePageSetUps\Index.cshtml" />
     <Content Include="Views\Home\AdminDashboard.cshtml" />
     <Content Include="Views\Home\GeneralDashboard.cshtml" />
-    <Content Include="Views\Home\Index2.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\SchoolSetUp.cshtml" />
     <Content Include="Views\Psychomotors\Create.cshtml" />
     <Content Include="Views\Psychomotors\Delete.cshtml" />
@@ -1585,18 +1735,6 @@
     <Content Include="Views\Results\ViewResult.cshtml" />
     <Content Include="Views\Results\DownloadResult.cshtml" />
     <Content Include="Views\Results\SummaryResult.cshtml" />
-    <Content Include="Views\Books\Create.cshtml" />
-    <Content Include="Views\Books\Delete.cshtml" />
-    <Content Include="Views\Books\Details.cshtml" />
-    <Content Include="Views\Books\Edit.cshtml" />
-    <Content Include="Views\Books\Index.cshtml" />
-    <Content Include="Views\Books\Save.cshtml" />
-    <Content Include="Views\BookIssues\Create.cshtml" />
-    <Content Include="Views\BookIssues\Delete.cshtml" />
-    <Content Include="Views\BookIssues\Details.cshtml" />
-    <Content Include="Views\BookIssues\Edit.cshtml" />
-    <Content Include="Views\BookIssues\Index.cshtml" />
-    <Content Include="Views\BookIssues\Save.cshtml" />
     <Content Include="Views\FeePayments\Save.cshtml" />
     <Content Include="Views\BehaviorSkillCategories\Save.cshtml" />
     <Content Include="Views\BehaviouralSkills\Save.cshtml" />
@@ -1961,9 +2099,31 @@
     <Content Include="Views\JambExamLogs\Details.cshtml" />
     <Content Include="Views\JambExamLogs\Edit.cshtml" />
     <Content Include="Views\JambExamLogs\Index.cshtml" />
+    <Content Include="Views\Books\Create.cshtml" />
+    <Content Include="Views\Books\Delete.cshtml" />
+    <Content Include="Views\Books\Details.cshtml" />
+    <Content Include="Views\Books\Edit.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Books\Save.cshtml" />
+    <Content Include="Views\ParentEmailAddresses\Create.cshtml" />
+    <Content Include="Views\ParentEmailAddresses\Delete.cshtml" />
+    <Content Include="Views\ParentEmailAddresses\Details.cshtml" />
+    <Content Include="Views\ParentEmailAddresses\Edit.cshtml" />
+    <Content Include="Views\ParentEmailAddresses\Index.cshtml" />
+    <Content Include="Views\ParentEmailAddresses\Save.cshtml" />
+    <Content Include="Views\Home\SchoolExpired.cshtml" />
+    <Content Include="Views\Shared\_LayoutError.cshtml" />
+    <Content Include="Views\Schools\SchoolTrialAccount.cshtml" />
+    <Content Include="Views\Schools\CreateTrialAccount.cshtml" />
+    <Content Include="Views\Account\RedirectRegistration.cshtml" />
+    <Content Include="Views\Account\RegisterAccountUser.cshtml" />
+    <Content Include="Views\Home\IndexNew.cshtml" />
+    <Content Include="Views\Home\IndexNewOld.cshtml" />
+    <Content Include="Views\Shared\_LayoutNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
@@ -1982,20 +2142,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201802140914313_InitialCreate.resx">
-      <DependentUpon>201802140914313_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802141422576_AddTermToFeeType.resx">
-      <DependentUpon>201802141422576_AddTermToFeeType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802141555084_Payment.resx">
-      <DependentUpon>201802141555084_Payment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802151253082_ChangesToJambExamRule.resx">
-      <DependentUpon>201802151253082_ChangesToJambExamRule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802151509493_examTYear.resx">
-      <DependentUpon>201802151509493_examTYear.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803141935350_behavioural.resx">
+      <DependentUpon>201803141935350_behavioural.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

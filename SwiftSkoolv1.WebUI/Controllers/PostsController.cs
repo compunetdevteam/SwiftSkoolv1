@@ -1,5 +1,4 @@
 ﻿using SwiftSkoolv1.Domain.Objects;
-using SwiftSkoolv1.WebUI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +6,10 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Web.Mvc;
 
-namespace SwiftSkool.Controllers
+namespace SwiftSkoolv1.WebUI.Controllers
 {
     public class PostsController : BaseController
     {
-        //private SwiftSkoolDbContext Db = new BlogContext();
 
         private const int PostPerPage = 3;
         private const int PostPerFeed = 25;
@@ -20,9 +18,10 @@ namespace SwiftSkool.Controllers
         public ActionResult Index(int? id, string category)
         {
             int pageNumber = id ?? 0;
-            var items = (from post in Db.Posts
-                where post.Title.Contains(category.ToUpper())
-                select post);
+            //var items = from post in Db.Posts
+            //             where post.Title.Contains(category.ToUpper())
+            //             select post;
+            var items = Db.Posts.Where(x => x.SchoolId.Equals(userSchool)).ToList();
 
             //if (!String.IsNullOrEmpty(category))
             //{               
@@ -30,10 +29,10 @@ namespace SwiftSkool.Controllers
             //}
             if (String.IsNullOrEmpty(category))
             {
-                IEnumerable<Post> posts = (from post in Db.Posts
-                        where post.DateTime < DateTime.Now
-                        orderby post.DateTime descending
-                        select post).Skip(pageNumber * PostPerPage)
+                IEnumerable<Post> posts = (from post in items
+                                           where post.DateTime < DateTime.Now
+                                           orderby post.DateTime descending
+                                           select post).Skip(pageNumber * PostPerPage)
                     .Take(PostPerPage + 1);
 
                 ViewBag.IsPreviousLinkVisible = pageNumber > 0;
@@ -50,17 +49,15 @@ namespace SwiftSkool.Controllers
         }
 
         [ValidateInput(false)]
-        public ActionResult Update(int? id, string title, string body, DateTime dateTime, string tag)
+        public ActionResult Update(int? id, string title, string body, DateTime dateTime, string tag, bool? IsPublished)
         {
-            //if (!IsAdmin)
-            //{
-            //    return RedirectToAction("Index");
-            //}
 
             Post post = GetPost(id);
             post.Title = title;
             post.Body = body;
             post.DateTime = dateTime;
+            if (IsPublished != null) post.IsPublished = (bool)IsPublished;
+            post.SchoolId = userSchool;
             post.Tags.Clear();
 
             tag = tag ?? string.Empty;
@@ -81,7 +78,8 @@ namespace SwiftSkool.Controllers
 
         private Tag GetTag(string tagName)
         {
-            return Db.Tags.FirstOrDefault(x => x.Name == tagName) ?? new Tag() { Name = tagName };
+            return Db.Tags.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool))
+                .FirstOrDefault(x => x.Name == tagName) ?? new Tag() { Name = tagName, SchoolId = userSchool };
         }
 
         private Post GetPost(int? id)
@@ -111,9 +109,7 @@ namespace SwiftSkool.Controllers
         {
             if (!String.IsNullOrEmpty(category))
             {
-                //var items = from i in Db.Posts
-                //            where i.Title.Contains(category.ToUpper())
-                //            select i;
+
                 var items = Db.Posts.AsNoTracking().Where(i => i.Title.Contains(category.ToUpper()));
                 return View(items.FirstOrDefault());
             }
@@ -179,9 +175,9 @@ namespace SwiftSkool.Controllers
         {
             IEnumerable<SyndicationItem> posts =
             (from post in Db.Posts
-                where post.DateTime < DateTime.Now
-                orderby post.DateTime descending
-                select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
+             where post.DateTime < DateTime.Now
+             orderby post.DateTime descending
+             select post).Take(PostPerFeed).ToList().Select(x => GetSyndicationItem(x));
 
             SyndicationFeed feed = new SyndicationFeed("HeritageTv", "HeritageTv blog", new Uri("http://localhost:60210/"), posts);
             Rss20FeedFormatter formattedFeed = new Rss20FeedFormatter(feed);
@@ -207,7 +203,7 @@ namespace SwiftSkool.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CreatePost(int? id, string title, string body, DateTime dateTime, string tag)
+        public ActionResult CreatePost(int? id, string title, string body, DateTime dateTime, string tag, bool? IsPublished)
         {
             //    if (!IsAdmin)
             //    {
@@ -218,6 +214,8 @@ namespace SwiftSkool.Controllers
             post.Title = title;
             post.Body = body;
             post.DateTime = dateTime;
+            post.SchoolId = userSchool;
+            if (IsPublished != null) post.IsPublished = (bool)IsPublished;
             post.Tags.Clear();
 
             tag = tag ?? string.Empty;
@@ -238,7 +236,8 @@ namespace SwiftSkool.Controllers
 
         public PartialViewResult Menu()
         {
-            IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
+            IEnumerable<string> categories = Db.Posts.AsNoTracking().Where(s => s.SchoolId.Equals(userSchool))
+                .Select(s => s.Title)
                 .OrderBy(s => s)
                 .Take(5);
             return PartialView(categories);
@@ -246,7 +245,7 @@ namespace SwiftSkool.Controllers
 
         public PartialViewResult LatestNews()
         {
-            IEnumerable<string> categories = Db.Posts.Select(s => s.Title)
+            IEnumerable<string> categories = Db.Posts.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => s.Title)
                 .OrderBy(s => s)
                 .Take(5);
             return PartialView(categories);
@@ -255,7 +254,7 @@ namespace SwiftSkool.Controllers
 
         public PartialViewResult TagList()
         {
-            IEnumerable<string> categories = Db.Tags.Select(s => s.Name);
+            IEnumerable<string> categories = Db.Tags.AsNoTracking().Where(x => x.SchoolId.Equals(userSchool)).Select(s => s.Name);
             return PartialView(categories);
         }
         //public PartialViewResult LIstCategories()
