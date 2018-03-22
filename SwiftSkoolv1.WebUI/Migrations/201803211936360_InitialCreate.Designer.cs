@@ -7,13 +7,13 @@ namespace SwiftSkoolv1.WebUI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class behavioural : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(behavioural));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201803141935350_behavioural"; }
+            get { return "201803211936360_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

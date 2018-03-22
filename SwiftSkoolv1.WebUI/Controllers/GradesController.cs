@@ -205,39 +205,45 @@ namespace SwiftSkoolv1.WebUI.Controllers
                         Db.Entry(grade).State = EntityState.Modified;
                     }
                     message = "Grade Updated Successfully...";
+                    return new JsonResult { Data = new { status = false, message = message } };
+
                 }
                 else
                 {
                     foreach (var className in model.ClassName)
                     {
                         var myGrade = await Db.Grades.CountAsync(x => x.GradeName.Trim().Equals(model.GradeName.Trim())
-                                                        && x.ClassName.Equals(className) && x.SchoolId.Equals(userSchool));
+                                                && x.ClassName.Equals(className) && x.SchoolId.Equals(userSchool));
 
                         if (myGrade >= 1)
                         {
-                            TempData["UserMessage"] = "Grade Already Exist in Database.";
-                            TempData["Title"] = "Error.";
-                            ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
-                            return View(model);
+                            message = $"Grade Name ( {model.GradeName} ) Already Exist in ( {className} ).";
+                            return new JsonResult { Data = new { status = false, message = message } };
+
+                            //TempData["Title"] = "Error.";
+                            //ViewBag.ClassName = new SelectList(Db.SchoolClasses.AsNoTracking(), "ClassCode", "ClassCode");
+                            //return View(model);
+                        }
+                        else
+                        {
+                            var grade = new Grade
+                            {
+                                GradeName = model.GradeName.Trim().ToUpper(),
+                                MinimumValue = model.MinimumValue,
+                                MaximumValue = model.MaximumValue,
+                                //GradePoint = model.GradePoint,
+                                Remark = model.Remark,
+                                SchoolId = userSchool,
+                                ClassName = className
+                            };
+                            Db.Grades.Add(grade);
+                            grade.SchoolId = userSchool;
+                            Db.Grades.Add(grade);
+                            message = "Grade Created Successfully...";
                         }
 
-                        var grade = new Grade
-                        {
-                            GradeName = model.GradeName.Trim().ToUpper(),
-                            MinimumValue = model.MinimumValue,
-                            MaximumValue = model.MaximumValue,
-                            //GradePoint = model.GradePoint,
-                            Remark = model.Remark,
-                            SchoolId = userSchool,
-                            ClassName = className
-                        };
-                        Db.Grades.Add(grade);
-                        grade.SchoolId = userSchool;
-                        Db.Grades.Add(grade);
-                        message = "Grade Created Successfully...";
+
                     }
-
-
                 }
                 await Db.SaveChangesAsync();
                 status = true;
@@ -328,7 +334,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 Db.Grades.Remove(grade);
                 await Db.SaveChangesAsync();
                 status = true;
-                message = "Subject Deleted Successfully...";
+                message = "Grade Deleted Successfully...";
             }
 
             return new JsonResult { Data = new { status = status, message = message } };

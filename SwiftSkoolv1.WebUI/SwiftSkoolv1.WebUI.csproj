@@ -306,9 +306,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803141935350_behavioural.cs" />
-    <Compile Include="Migrations\201803141935350_behavioural.Designer.cs">
-      <DependentUpon>201803141935350_behavioural.cs</DependentUpon>
+    <Compile Include="Migrations\201803211936360_InitialCreate.cs" />
+    <Compile Include="Migrations\201803211936360_InitialCreate.Designer.cs">
+      <DependentUpon>201803211936360_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -876,6 +876,7 @@
     <Content Include="Content\GloriaUI\fonts\revicons90c690c6-5510888.ttf" />
     <Content Include="Content\GloriaUI\fonts\revicons90c690c6-5510888.woff" />
     <Content Include="Content\GloriaUI\images\.DS_Store" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkool - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SwiftSkoolJos - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -2142,8 +2143,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803141935350_behavioural.resx">
-      <DependentUpon>201803141935350_behavioural.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803211936360_InitialCreate.resx">
+      <DependentUpon>201803211936360_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

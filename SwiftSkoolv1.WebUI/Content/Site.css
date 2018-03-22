@@ -196,3 +196,21 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
     cursor: default;
     background-color: white;
 }
+.verticalTableHeader {
+    text-align: center;
+    white-space: nowrap;
+    transform-origin: 50% 50%;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+    .verticalTableHeader:before {
+        content: '';
+        padding-top: 110%; /* takes width as reference, + 10% for faking some extra padding */
+      
+        display: inline-block;
+        vertical-align:middle;
+    }

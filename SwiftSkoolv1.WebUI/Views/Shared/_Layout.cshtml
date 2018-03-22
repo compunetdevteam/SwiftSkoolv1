@@ -153,7 +153,7 @@
         {
             <ul class="side-menu-list">
                 <li class="red">
-                    <a href="mail.html">
+                    <a href="@Url.Action("GeneralDashboard","Home")">
                         <i class="font-icon glyphicon glyphicon-send"></i>
                         <span class="lbl">Dashboard</span>
                     </a>
@@ -164,7 +164,8 @@
                         <span class="lbl">School</span>
                     </span>
                     <ul>
-                        <li>@Html.ActionLink("View Schools", "Index", "Schools")</li>
+                        <li>@Html.ActionLink("Paid Account", "Index", "Schools")</li>
+                        <li>@Html.ActionLink("Trial Account", "SchoolTrialAccount", "Schools")</li>
                         <li>@Html.ActionLink("Add School", "Create", "Schools")</li>
                     </ul>
                 </li>
@@ -175,7 +176,6 @@
                         <span class="lbl">Sessions</span>
                     </a>
                 </li>
-
 
                 <li class="pink-red">
                     <a href="@Url.Action("Index", "Terms")">
@@ -202,7 +202,8 @@
                     </span>
                     <ul>
                         <li>@Html.ActionLink("Jamb Subjects", "Index", "JambSubjects")</li>
-                        <li>@Html.ActionLink("Jamb Questions", "Create", "JambQuestionAnswers")</li>
+                        <li>@Html.ActionLink("View Jamb Questions", "Index", "JambQuestionAnswers")</li>
+                        <li>@Html.ActionLink("Add Jamb Questions", "Create", "JambQuestionAnswers")</li>
                         <li>@Html.ActionLink("View Exam Rule", "Index", "JambExamRules")</li>
                         <li>@Html.ActionLink("Add Exam Rule", "Create", "JambExamRules")</li>
                     </ul>
@@ -212,7 +213,6 @@
                     <a href="@Url.Action("Index", "SchoolClasses")" class="label-right">
                         <i class="font-icon font-icon-contacts"></i>
                         <span class="lbl">School Class</span>
-
                     </a>
                 </li>
             </ul>
@@ -233,7 +233,7 @@
                     </span>
                     <ul>
                         <li>@Html.ActionLink("Add Student", "RegisterStudent", "Account")</li>
-                        <li>@Html.ActionLink("List Students", "Index", "Students")</li>
+                        <li>@Html.ActionLink("View Students", "Index", "Students")</li>
                         <li>@Html.ActionLink("Activate Student", "ActivateStudent", "Account")</li>
                         @*<li>@Html.ActionLink("Excel Upload", "UpLoadStudent", "Account")</li>*@
                     </ul>
@@ -250,7 +250,7 @@
                         <span class="lbl">Manage Class</span>
                     </span>
                     <ul>
-                        <li>@Html.ActionLink("Add/List Classes", "Index", "Classes")</li>
+                        <li>@Html.ActionLink("Add/View Classes", "Index", "Classes")</li>
                         <li>@Html.ActionLink("View Assign Class", "Index", "AssignedClasses")</li>
                         <li>@Html.ActionLink("Assign Class", "Create", "AssignedClasses")</li>
                     </ul>
@@ -261,10 +261,10 @@
                         <span class="lbl">Manage Subject</span>
                     </span>
                     <ul>
-                        <li>@Html.ActionLink("Add/List Subjects", "Index", "Subjects")</li>
+                        <li>@Html.ActionLink("Add/View Subjects", "Index", "Subjects")</li>
                         <li>@Html.ActionLink("View Assigned Subjects", "Index", "AssignSubjects")</li>
                         <li>@Html.ActionLink("Assigned Subjects", "Create", "AssignSubjects")</li>
-                        <li>@Html.ActionLink("Register Student", "Create", "SubjectRegistrations")</li>
+                        <li>@Html.ActionLink("Register Student Subject", "Create", "SubjectRegistrations")</li>
                         <li>@Html.ActionLink("View Student Subject", "Index", "SubjectRegistrations")</li>
                     </ul>
                 </li>
@@ -287,16 +287,15 @@
                     </span>
                     <ul>
                         <li>@Html.ActionLink("E-Learning", "Index", "ELearning")</li>
-
                     </ul>
                 </li>
                 <li class="gold with-sub">
                     <span>
                         <i class="font-icon font-icon-edit"></i>
-                        <span class="lbl">Library</span>
+                        <span class="lbl">E-Library</span>
                     </span>
                     <ul>
-                        <li>@Html.ActionLink("Books", "Create", "FeeTypes")</li>
+                        <li>@Html.ActionLink("Books", "Index", "Books")</li>
                         <li>@Html.ActionLink("Issue Book", "Index", "FeeTypes")</li>
                     </ul>
                 </li>
@@ -363,28 +362,234 @@
                     <ul>
                         <li>@Html.ActionLink("School Details", "Index", "Schools")</li>
                         <li>@Html.ActionLink("Edit School Details", "Edit", "Schools")</li>
-                        <li>@Html.ActionLink("Add/List School Class", "Index", "SchoolClasses")</li>
+                        <li>@Html.ActionLink("Add/View School Class", "Index", "SchoolClasses")</li>
                         <li>@Html.ActionLink("CA Setup", "Index", "CaSetUps")</li>
                         <li>@Html.ActionLink("Grade SetUp", "Index", "Grades")</li>
-                        <li>@Html.ActionLink("Add/List Category", "Index", "BehaviorSkillCategories")</li>
-                        <li>@Html.ActionLink("Add/List Behavioural Skill", "Index", "BehaviouralSkills")</li>
+                        <li>@Html.ActionLink("Report Card Setting", "Index", "ReportCardSettings")</li>
+                        <li>@Html.ActionLink("Report Card Type", "Index", "AssignReportCards")</li>
+                        <li>@Html.ActionLink("Add/View Category", "Index", "BehaviorSkillCategories")</li>
+                        <li>@Html.ActionLink("Add/View Behavioural Skill", "Index", "BehaviouralSkills")</li>
                         <li>@Html.ActionLink("Principal Remark", "Index", "PrincipalComments")</li>
                     </ul>
                 </li>
                 <li class="red">
-
-
-
-
             </ul>
         }
         else if (Request.IsAuthenticated && User.IsInRole("Student"))
         {
+            <ul class="side-menu-list">
+                <li class="pink-red">
+                    <a href="@Url.Action("Dashboard","Students")">
+                        <i class="font-icon font-icon-zigzag"></i>
+                        <span class="lbl">DashBoard</span>
+                    </a>
+                </li>
+                <li class="grey with-sub">
+                    <span>
+                        <i class="font-icon font-icon-dashboard"></i>
+                        <span class="lbl">My Profile</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("View", "Details", "Students")</li>
+                        <li>@Html.ActionLink("Edit", "Edit", "Students")</li>
+                        <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
+                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
+                        <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
+                    </ul>
+                </li>
+                <li class="red">
+                    <a href="@Url.Action("Index", "Guardians")">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">My Guardian</span>
+                    </a>
+                </li>
+                <li class="brown with-sub">
+                    <span>
+                        <i class="font-icon glyphicon glyphicon-tint"></i>
+                        <span class="lbl">Class/Subject</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("My ClassMate", "MyClassMate", "AssignedClasses")</li>
+                        <li>@Html.ActionLink("My Subjects", "MyAssignedSubject", "AssignSubjects")</li>
+                        <li>@Html.ActionLink("My Subjects Teachers", "Index", "Subjects")</li>
+                    </ul>
+                </li>
+                <li class="blue with-sub">
+                    <span>
+                        <i class="font-icon font-icon-cloud-download"></i>
+                        <span class="lbl">E-Learning</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("E-Learning", "StudentsIndex", "ELearning")</li>
+                    </ul>
+                </li>
+                <li class="gold with-sub">
+                    <span>
+                        <i class="font-icon font-icon-edit"></i>
+                        <span class="lbl">E-Library</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Search Books", "Index", "Books")</li>
+                    </ul>
+                </li>
+                <li class="blue with-sub">
+                    <span>
+                        <i class="font-icon font-icon-user"></i>
+                        <span class="lbl">Fee Management</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Make Payment", "MakePayment", "FeePayments")</li>
+                        <li>@Html.ActionLink("Payment Receipt", "Index", "FeePayments")</li>
+                    </ul>
+                </li>
 
+                <li class="green with-sub">
+                    <span>
+                        <i class="font-icon font-icon-widget"></i>
+                        <span class="lbl">Result Management</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Check Result", "StudentSearch", "Results")</li>
+                        <li>@Html.ActionLink("Check Upload Result", "Index", "ResultUploads")</li>
+                    </ul>
+                </li>
+                <li class="grey with-sub">
+                    <span>
+                        <span class="glyphicon glyphicon-duplicate"></span>
+                        <span class="lbl">News/Article</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("View Articles", "Index", "Posts")</li>
+                    </ul>
+                </li>
+
+                <li class="orange-red with-sub">
+                    <span>
+                        <i class="font-icon font-icon-help"></i>
+                        <span class="lbl">Cbte Training</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("School Details", "SelectSubject", "JambExam")</li>
+                    </ul>
+                </li>
+                <li class="red">
+            </ul>
         }
         else if (Request.IsAuthenticated && User.IsInRole("Teacher"))
         {
+            <ul class="side-menu-list">
+                <li class="pink-red">
+                    <a href="@Url.Action("StaffDashboard","Staffs")">
+                        <i class="font-icon font-icon-zigzag"></i>
+                        <span class="lbl">DashBoard</span>
+                    </a>
+                </li>
+                <li class="grey with-sub">
+                    <span>
+                        <i class="font-icon font-icon-dashboard"></i>
+                        <span class="lbl">My Profile</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("View", "Details", "Staffs")</li>
+                        <li>@Html.ActionLink("Edit", "Edit", "Staffs")</li>
+                        <li>@Html.ActionLink("Add Phone Number", "AddPhoneNumber", "Manage")</li>
+                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
+                        <li>@Html.ActionLink("Setting", "Index", "Manage")</li>
+                    </ul>
+                </li>
+                <li class="red">
+                    <a href="@Url.Action("Index", "AssignedClasses")">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">My Students</span>
+                    </a>
+                </li>
+                <li class="purple">
+                    <a href="@Url.Action("TeacherIndex", "AssignSubjectTeachers")">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">My Subjects</span>
+                    </a>
+                </li>
 
+                <li class="blue with-sub">
+                    <span>
+                        <i class="font-icon font-icon-cloud-download"></i>
+                        <span class="lbl">E-Learning</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("E-Learning", "Index", "ELearning")</li>
+                    </ul>
+                </li>
+                <li class="gold with-sub">
+                    <span>
+                        <i class="font-icon font-icon-edit"></i>
+                        <span class="lbl">E-Library</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Books", "Index", "Books")</li>
+                        <li>@Html.ActionLink("Add Book", "Create", "Books")</li>
+                    </ul>
+                </li>
+
+                <li class="green with-sub">
+                    <span>
+                        <i class="font-icon font-icon-widget"></i>
+                        <span class="lbl">Result Management</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add C A", "CreateCaView", "CaLists")</li>
+                        <li>@Html.ActionLink("Upload CA", "UploadResult", "CaLists")</li>
+                        <li>@Html.ActionLink("View Result", "SearhResultMain", "Results")</li>
+                        <li>@Html.ActionLink("View Cummulative", "SearhResult", "Results")</li>
+                        <li>@Html.ActionLink("Add Behavioral", "Create", "AssignBehaviors")</li>
+                        <li>@Html.ActionLink("Behavioral Assesment", "Index", "AssignBehaviors")</li>
+                    </ul>
+                </li>
+                <li class="grey with-sub">
+                    <span>
+                        <span class="glyphicon glyphicon-duplicate"></span>
+                        <span class="lbl">News/Article</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add News", "Create", "Posts")</li>
+                        <li>@Html.ActionLink("View News", "Index", "Posts")</li>
+                    </ul>
+                </li>
+
+                <li class="brown with-sub">
+                    <span>
+                        <span class="font-icon font-icon-chart"></span>
+                        <span class="lbl">SMS</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Send to Numbers", "SendToNumbers", "Sms")</li>
+                        <li>@Html.ActionLink("Send to Class", "SendSMS", "Sms")</li>
+                        <li>@Html.ActionLink("Send to Staff", "SendToStaff", "Sms")</li>
+                        <li>@Html.ActionLink("Send to Parents", "SendToAllStudent", "Sms")</li>
+                    </ul>
+                </li>
+
+                <li class="red">
+            </ul>
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("TrialAdmin"))
+        {
+            <ul class="side-menu-list">
+                <li class="red">
+                    <a href="@Url.Action("AdminDashBoard","Home")">
+                        <i class="font-icon glyphicon glyphicon-send"></i>
+                        <span class="lbl">Dashboard</span>
+                    </a>
+                </li>
+                <li class="grey with-sub">
+                    <span>
+                        <i class="font-icon font-icon-dashboard"></i>
+                        <span class="lbl">School</span>
+                    </span>
+                    <ul>
+                        <li>@Html.ActionLink("Add School", "CreateTrialAccount", "Schools")</li>
+                    </ul>
+                </li>
+            </ul>
         }
         <div class="footer-copyright">
             <div class="container-fluid">
@@ -398,126 +603,126 @@
             @RenderBody()
         </div><!--.container-fluid-->
     </div><!--.page-content-->
-    <div class="control-panel-container">
-        <ul>
-            <li class="tasks">
-                <div class="control-item-header">
-                    <a href="index.html#" class="icon-toggle">
-                        <span class="caret-down fa fa-caret-down"></span>
-                        <span class="icon fa fa-tasks"></span>
-                    </a>
-                    <span class="text">Task list</span>
-                    <div class="actions">
-                        <a href="index.html#">
-                            <span class="fa fa-refresh"></span>
+    @*<div class="control-panel-container">
+            <ul>
+                <li class="tasks">
+                    <div class="control-item-header">
+                        <a href="index.html#" class="icon-toggle">
+                            <span class="caret-down fa fa-caret-down"></span>
+                            <span class="icon fa fa-tasks"></span>
                         </a>
-                        <a href="index.html#">
-                            <span class="fa fa-cog"></span>
-                        </a>
-                        <a href="index.html#">
-                            <span class="fa fa-trash"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="control-item-content">
-                    <div class="control-item-content-text">You don't have pending tasks.</div>
-                </div>
-            </li>
-            <li class="sticky-note">
-                <div class="control-item-header">
-                    <a href="index.html#" class="icon-toggle">
-                        <span class="caret-down fa fa-caret-down"></span>
-                        <span class="icon fa fa-file"></span>
-                    </a>
-                    <span class="text">Sticky Note</span>
-                    <div class="actions">
-                        <a href="index.html#">
-                            <span class="fa fa-refresh"></span>
-                        </a>
-                        <a href="index.html#">
-                            <span class="fa fa-cog"></span>
-                        </a>
-                        <a href="index.html#">
-                            <span class="fa fa-trash"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="control-item-content">
-                    <div class="control-item-content-text">
-                        StartUI – a full featured, premium web application admin dashboard built with Twitter Bootstrap 4, JQuery and CSS
-                    </div>
-                </div>
-            </li>
-            <li class="emails">
-                <div class="control-item-header">
-                    <a href="index.html#" class="icon-toggle">
-                        <span class="caret-down fa fa-caret-down"></span>
-                        <span class="icon fa fa-envelope"></span>
-                    </a>
-                    <span class="text">Recent e-mails</span>
-                    <div class="actions">
-                        <a href="index.html#">
-                            <span class="fa fa-refresh"></span>
-                        </a>
-                        <a href="index.html#">
-                            <span class="fa fa-cog"></span>
-                        </a>
-                        <a href="index.html#">
-                            <span class="fa fa-trash"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="control-item-content">
-                    <section class="control-item-actions">
-                        <a href="index.html#" class="link">My e-mails</a>
-                        <a href="index.html#" class="mark">Mark visible as read</a>
-                    </section>
-                    <ul class="control-item-lists">
-                        <li>
+                        <span class="text">Task list</span>
+                        <div class="actions">
                             <a href="index.html#">
-                                <h6>Welcome to the Community!</h6>
-                                <div>Hi, welcome to the my app...</div>
-                                <div>
-                                    Message text
-                                </div>
+                                <span class="fa fa-refresh"></span>
                             </a>
-                            <a href="index.html#" class="reply-all">Reply all</a>
-                        </li>
-                        <li>
                             <a href="index.html#">
-                                <h6>Welcome to the Community!</h6>
-                                <div>Hi, welcome to the my app...</div>
-                                <div>
-                                    Message text
-                                </div>
+                                <span class="fa fa-cog"></span>
                             </a>
-                            <a href="index.html#" class="reply-all">Reply all</a>
-                        </li>
-                        <li>
                             <a href="index.html#">
-                                <h6>Welcome to the Community!</h6>
-                                <div>Hi, welcome to the my app...</div>
-                                <div>
-                                    Message text
-                                </div>
+                                <span class="fa fa-trash"></span>
                             </a>
-                            <a href="index.html#" class="reply-all">Reply all</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="add">
-                <div class="control-item-header">
-                    <a href="index.html#" class="icon-toggle no-caret">
-                        <span class="icon fa fa-plus"></span>
-                    </a>
-                </div>
-            </li>
-        </ul>
-        <a class="control-panel-toggle">
-            <span class="fa fa-angle-double-left"></span>
-        </a>
-    </div>
+                        </div>
+                    </div>
+                    <div class="control-item-content">
+                        <div class="control-item-content-text">You don't have pending tasks.</div>
+                    </div>
+                </li>
+                <li class="sticky-note">
+                    <div class="control-item-header">
+                        <a href="index.html#" class="icon-toggle">
+                            <span class="caret-down fa fa-caret-down"></span>
+                            <span class="icon fa fa-file"></span>
+                        </a>
+                        <span class="text">Sticky Note</span>
+                        <div class="actions">
+                            <a href="index.html#">
+                                <span class="fa fa-refresh"></span>
+                            </a>
+                            <a href="index.html#">
+                                <span class="fa fa-cog"></span>
+                            </a>
+                            <a href="index.html#">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="control-item-content">
+                        <div class="control-item-content-text">
+                            StartUI – a full featured, premium web application admin dashboard built with Twitter Bootstrap 4, JQuery and CSS
+                        </div>
+                    </div>
+                </li>
+                <li class="emails">
+                    <div class="control-item-header">
+                        <a href="index.html#" class="icon-toggle">
+                            <span class="caret-down fa fa-caret-down"></span>
+                            <span class="icon fa fa-envelope"></span>
+                        </a>
+                        <span class="text">Recent e-mails</span>
+                        <div class="actions">
+                            <a href="index.html#">
+                                <span class="fa fa-refresh"></span>
+                            </a>
+                            <a href="index.html#">
+                                <span class="fa fa-cog"></span>
+                            </a>
+                            <a href="index.html#">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="control-item-content">
+                        <section class="control-item-actions">
+                            <a href="index.html#" class="link">My e-mails</a>
+                            <a href="index.html#" class="mark">Mark visible as read</a>
+                        </section>
+                        <ul class="control-item-lists">
+                            <li>
+                                <a href="index.html#">
+                                    <h6>Welcome to the Community!</h6>
+                                    <div>Hi, welcome to the my app...</div>
+                                    <div>
+                                        Message text
+                                    </div>
+                                </a>
+                                <a href="index.html#" class="reply-all">Reply all</a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <h6>Welcome to the Community!</h6>
+                                    <div>Hi, welcome to the my app...</div>
+                                    <div>
+                                        Message text
+                                    </div>
+                                </a>
+                                <a href="index.html#" class="reply-all">Reply all</a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <h6>Welcome to the Community!</h6>
+                                    <div>Hi, welcome to the my app...</div>
+                                    <div>
+                                        Message text
+                                    </div>
+                                </a>
+                                <a href="index.html#" class="reply-all">Reply all</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="add">
+                    <div class="control-item-header">
+                        <a href="index.html#" class="icon-toggle no-caret">
+                            <span class="icon fa fa-plus"></span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <a class="control-panel-toggle">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>*@
     <script src="~/StartUI/js/lib/jquery/jquery-3.2.1.min.js"></script>
     <script src="~/StartUI/js/lib/popper/popper.min.js"></script>
     <script src="~/StartUI/js/lib/tether/tether.min.js"></script>
@@ -536,6 +741,23 @@
         $(document).ready(function () {
 
             $('.summernote').summernote();
+            toastr.options = {
+                "closeButton": true, // true/false
+                "debug": false, // true/false
+                "newestOnTop": false, // true/false
+                "progressBar": true, // true/false
+                "positionClass": "toast-top-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+                "preventDuplicates": false, //true/false
+                "onclick": null,
+                "showDuration": "5000", // in milliseconds
+                "hideDuration": "1000", // in milliseconds
+                "timeOut": "10000", // in milliseconds
+                "extendedTimeOut": "1000", // in milliseconds
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
         });
     </script>
     <script src="~/StartUI/js/lib/datatables-net/datatables.min.js"></script>

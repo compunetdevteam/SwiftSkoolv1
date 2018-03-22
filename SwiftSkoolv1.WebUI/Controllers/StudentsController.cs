@@ -401,8 +401,15 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 }
                 await Db.SaveChangesAsync();
                 var message = "Student has been Updated Successfully";
+                if (Request.IsAuthenticated && User.IsInRole("Student"))
+                {
+                    return RedirectToAction("Details");
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { message = message });
+                }
 
-                return RedirectToAction("Index", new { message = message });
             }
 
             var role = await Db.Roles.AsNoTracking().SingleOrDefaultAsync(m => m.Name == "Guardian");
