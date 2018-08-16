@@ -113,13 +113,34 @@
                 {
                     "data": "SchoolId",
                     "autoWidth": true,
-                    "render": function(data) {
+                    "render": function (data) {
                         return '<a href="#" title="School Basic Details" onclick="Detail(\'' + data + '\')"><i class="fa fa-info-circle" aria-hidden="true">Details</i></a>&nbsp;&nbsp;&nbsp;&nbsp;' +
                             '<a href="#" title="Edit School Details" onclick="Edit(\'' + data + '\')"><i class="fa fa-pencil" aria-hidden="true">Edit</i></a>';
                     }
                 }
+                ],
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel', title: 'SchoolList' },
+                    { extend: 'pdf', title: 'SchoolList' },
 
-            ]
+                    {
+                        extend: 'print',
+                        customize: function (win) {
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
+
+            
         });
 
     });

@@ -48,7 +48,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            DirectoryInfo dirInfo = new DirectoryInfo(HostingEnvironment.MapPath("~/MyFiles"));
+            DirectoryInfo dirInfo = new DirectoryInfo(HostingEnvironment.MapPath("~/UploadedFiles"));
             var fullPath = dirInfo.GetFiles().FirstOrDefault(x => x.Name.Contains(resultUpload.FilePath));
             string CurrentFileName = dirInfo.FullName + @"\" + fullPath;
             string contentType = string.Empty;
@@ -63,7 +63,7 @@ namespace SwiftSkoolv1.WebUI.Controllers
                 contentType = "application/docx";
             }
             return File(CurrentFileName, contentType, CurrentFileName);
-            return View(resultUpload);
+            //return View(resultUpload);
         }
 
         // GET: ResultUploads/Create

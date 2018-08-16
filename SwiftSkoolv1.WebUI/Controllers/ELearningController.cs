@@ -23,6 +23,18 @@ namespace SwiftSkoolv1.WebUI.Controllers
             ViewBag.Message = message;
             return View();
         }
+        
+        [AllowAnonymous]
+        public ActionResult Ebook()
+        {
+            return View();
+        }
+
+        //public ActionResult Index(string message)
+        //{
+        //    ViewBag.Message = message;
+        //    return View();
+        //}
 
         public ActionResult StudentsIndex(string message)
         {

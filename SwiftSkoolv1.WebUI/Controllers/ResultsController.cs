@@ -62,8 +62,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
 
             var reportModel = await GenerateTermReport(id, termName, sessionName);
 
-            var cardSetting = await Db.AssignReportCards.AsNoTracking().Where(x => x.ClassName.Equals(reportModel.ClassName))
-                                    .Select(s => s.ReportCardType).FirstOrDefaultAsync();
+            var cardSetting = await Db.AssignReportCards.Include(i => i.Class).AsNoTracking()
+                                    .Where(x => x.Class.ClassName.Equals(reportModel.SchoolClassName)
+                                    && x.SchoolId.Equals(userSchool)).Select(s => s.ReportCardType)
+                                    .FirstOrDefaultAsync();
             if (cardSetting.ToString().Equals(ReportCardType.WithPositionPrimary.ToString()))
             {
                 return new ViewAsPdf("WithPositionPrimary", reportModel);
@@ -79,6 +81,10 @@ namespace SwiftSkoolv1.WebUI.Controllers
             if (cardSetting.ToString().Equals(ReportCardType.WithoutPositionSecondary.ToString()))
             {
                 return new ViewAsPdf("WithoutPositionSecondary", reportModel);
+            }
+            if (cardSetting.ToString().Equals(ReportCardType.BigFont.ToString()))
+            {
+                return new ViewAsPdf("BigFont", reportModel);
             }
 
             return new ViewAsPdf("DownloadResult", reportModel);
@@ -101,6 +107,12 @@ namespace SwiftSkoolv1.WebUI.Controllers
         {
             return new ViewAsPdf("WithPositionSecondary", reportModel);
         }
+
+        public ActionResult BigFont(ReportCardVm reportModel)
+        {
+            return new ViewAsPdf("BigFont", reportModel);
+        }
+
 
 
         #endregion
@@ -203,7 +215,8 @@ namespace SwiftSkoolv1.WebUI.Controllers
             var myAggregateList = new List<AggregateList>();
 
             var classMate = Db.AssignedClasses.AsNoTracking().Where(x => x.ClassName.Equals(_resultCommand._className)
-                                    && x.SchoolId.Equals(userSchool))
+                                    && x.SchoolId.Equals(userSchool) && x.TermName.Equals(termName)
+                                    && x.SessionName.Equals(sessionName))
                                 .Select(s => s.StudentId).ToList();
             foreach (var student in classMate)
             {

@@ -535,5 +535,22 @@ namespace SwiftSkoolv1.WebUI.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        public async Task<ActionResult> DeleteCa()
+        {
+            var caList = await Db.CaLists.Where(x => x.SchoolId.Equals(userSchool)
+                                && x.ClassName.Equals("CR1 A") && x.TermName.ToUpper().Equals("SECOND")
+                                && x.SessionName.Equals("2017-2018")).ToListAsync();
+            var caCount = caList.Count();
+
+
+            Db.CaLists.RemoveRange(caList);
+            await Db.SaveChangesAsync();
+
+            ViewBag.Message = $"{caCount} CA has been deleted successfully.";
+            return View();
+
+        }
     }
 }

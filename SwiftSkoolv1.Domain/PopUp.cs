@@ -147,7 +147,7 @@ namespace SwiftSkoolv1.Domain
 
     public enum ReportCardType
     {
-        WithoutPositionPrimary, WithPositionPrimary, WithoutPositionSecondary, WithPositionSecondary
+        WithoutPositionPrimary, WithPositionPrimary, WithoutPositionSecondary, WithPositionSecondary, BigFont
     }
 
     public enum ServiceType

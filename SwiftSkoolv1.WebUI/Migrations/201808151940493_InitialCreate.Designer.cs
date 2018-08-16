@@ -13,7 +13,7 @@ namespace SwiftSkoolv1.WebUI.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201803211936360_InitialCreate"; }
+            get { return "201808151940493_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source
